@@ -12,10 +12,15 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
 
 /**
  *
@@ -25,15 +30,72 @@ public class Main extends javax.swing.JFrame {
 
     public TaiKhoan tk;
     private List<JButton> listItem;
+
     public Main() {
         initComponents();
         setLocationRelativeTo(null);
-        
-     
-       
-        
+        addActionListeners(Arrays.asList(btnBieuDo, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhanQuyen, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat));
+
+    }
+
+    public Main(TaiKhoan tk) {
+        this.tk = tk;
+        initComponents();
+        setLocationRelativeTo(null);
+        addActionListeners(Arrays.asList(btnBieuDo, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhanQuyen, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat));
     }
     
+    
+    
+    private void changeButtonColor(ActionEvent e) {
+
+        JButton sourceButton = (JButton) e.getSource();
+        Component[] components = sourceButton.getParent().getComponents();
+
+        // Đặt tất cả nút về màu mặc định
+        for (Component component : components) {
+            if (component instanceof JButton) {
+                component.setBackground(Color.WHITE);
+            }
+        }
+
+        // Đổi màu nút được chọn
+        sourceButton.setBackground(new Color(195, 240, 235));
+    }
+
+    private void addActionListeners(List<JButton> buttons) {
+        for (JButton button : buttons) {
+            button.addActionListener(this::changeButtonColor);
+        }
+    }
+
+    private void checkRole(String role) {
+        if (role.equals("nvbh")) {
+            btnPhieuNhap.setEnabled(false);
+            btnNhaCungCap.setEnabled(false);
+            btnThuoc.setEnabled(false);
+            btnNhanVien.setEnabled(false);
+            btnPhanQuyen.setEnabled(false);
+            btnTaiKhoan.setEnabled(false);
+        }
+
+        if (role.equals("nvsp")) {
+            btnHoaDon.setEnabled(false);
+            btnKhachHang.setEnabled(false);
+            btnNhanVien.setEnabled(false);
+            btnPhanQuyen.setEnabled(false);
+            btnTaiKhoan.setEnabled(false);
+        }
+
+        if (role.equals("nvql")) {
+            btnHoaDon.setEnabled(false);
+            btnKhachHang.setEnabled(false);
+            btnPhieuNhap.setEnabled(false);
+            btnNhaCungCap.setEnabled(false);
+            btnThuoc.setEnabled(false);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,7 +117,7 @@ public class Main extends javax.swing.JFrame {
         roundPanel3 = new Swing.RoundPanel();
         roundPanel7 = new Swing.RoundPanel();
         roundPanel6 = new Swing.RoundPanel();
-        jButton1 = new javax.swing.JButton();
+        btnDangXuat = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         roundPanel8 = new Swing.RoundPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -75,7 +137,7 @@ public class Main extends javax.swing.JFrame {
         btnNhanVien = new javax.swing.JButton();
         btnTaiKhoan = new javax.swing.JButton();
         btnPhanQuyen = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -147,11 +209,11 @@ public class Main extends javax.swing.JFrame {
         roundPanel6.setBackground(new java.awt.Color(204, 204, 204));
         roundPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setIcon(new FlatSVGIcon("./icon/logout.svg"));
-        jButton1.setText("ĐĂNG XUẤT");
-        jButton1.setBorderPainted(false);
-        roundPanel6.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 170, 30));
+        btnDangXuat.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDangXuat.setIcon(new FlatSVGIcon("./icon/logout.svg"));
+        btnDangXuat.setText("ĐĂNG XUẤT");
+        btnDangXuat.setBorderPainted(false);
+        roundPanel6.add(btnDangXuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 170, 30));
 
         roundPanel7.add(roundPanel6, java.awt.BorderLayout.CENTER);
         roundPanel7.add(jSeparator1, java.awt.BorderLayout.PAGE_START);
@@ -346,20 +408,20 @@ public class Main extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.LINE_START);
 
-        jPanel3.setBackground(new java.awt.Color(0, 51, 51));
+        mainPanel.setBackground(new java.awt.Color(0, 51, 51));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 829, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 624, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jPanel3, java.awt.BorderLayout.CENTER);
+        jPanel1.add(mainPanel, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -375,11 +437,10 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBieuDo;
+    private javax.swing.JButton btnDangXuat;
     private javax.swing.JButton btnHoaDon;
     private javax.swing.JButton btnKhachHang;
     private javax.swing.JButton btnNhaCungCap;
@@ -388,14 +449,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btnPhieuNhap;
     private javax.swing.JButton btnTaiKhoan;
     private javax.swing.JButton btnThuoc;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -403,6 +462,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel lblAvatar;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblRole;
+    private javax.swing.JPanel mainPanel;
     private Swing.RoundPanel roundPanel1;
     private Swing.RoundPanel roundPanel2;
     private Swing.RoundPanel roundPanel3;
