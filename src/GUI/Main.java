@@ -63,11 +63,15 @@ public class Main extends javax.swing.JFrame {
         btnBieuDo = new javax.swing.JButton();
         btnHoaDon = new javax.swing.JButton();
         btnKhachHang = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
+        jLabel2 = new javax.swing.JLabel();
         btnThuoc = new javax.swing.JButton();
         btnPhieuNhap = new javax.swing.JButton();
         btnNhaCungCap = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
+        jLabel4 = new javax.swing.JLabel();
         btnNhanVien = new javax.swing.JButton();
         btnTaiKhoan = new javax.swing.JButton();
         btnPhanQuyen = new javax.swing.JButton();
@@ -201,14 +205,24 @@ public class Main extends javax.swing.JFrame {
         btnKhachHang.setPreferredSize(new java.awt.Dimension(200, 42));
         roundPanel9.add(btnKhachHang);
 
+        jLabel1.setMaximumSize(new java.awt.Dimension(200, 3));
+        jLabel1.setMinimumSize(new java.awt.Dimension(200, 3));
+        jLabel1.setPreferredSize(new java.awt.Dimension(200, 3));
+        roundPanel9.add(jLabel1);
+
         jSeparator2.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator2.setForeground(new java.awt.Color(153, 153, 153));
         jSeparator2.setAlignmentX(0.0F);
         jSeparator2.setAlignmentY(0.0F);
-        jSeparator2.setMaximumSize(new java.awt.Dimension(200, 10));
-        jSeparator2.setMinimumSize(new java.awt.Dimension(200, 10));
-        jSeparator2.setPreferredSize(new java.awt.Dimension(200, 10));
+        jSeparator2.setMaximumSize(new java.awt.Dimension(200, 3));
+        jSeparator2.setMinimumSize(new java.awt.Dimension(200, 3));
+        jSeparator2.setPreferredSize(new java.awt.Dimension(200, 3));
         roundPanel9.add(jSeparator2);
+
+        jLabel2.setMaximumSize(new java.awt.Dimension(200, 3));
+        jLabel2.setMinimumSize(new java.awt.Dimension(200, 3));
+        jLabel2.setPreferredSize(new java.awt.Dimension(200, 3));
+        roundPanel9.add(jLabel2);
 
         btnThuoc.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThuoc.setText("Thuốc");
@@ -237,14 +251,25 @@ public class Main extends javax.swing.JFrame {
         btnNhaCungCap.setPreferredSize(new java.awt.Dimension(200, 42));
         roundPanel9.add(btnNhaCungCap);
 
+        jLabel3.setMaximumSize(new java.awt.Dimension(200, 3));
+        jLabel3.setMinimumSize(new java.awt.Dimension(200, 3));
+        jLabel3.setPreferredSize(new java.awt.Dimension(200, 3));
+        roundPanel9.add(jLabel3);
+
+        jSeparator3.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
         jSeparator3.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator3.setForeground(new java.awt.Color(153, 153, 153));
         jSeparator3.setAlignmentX(0.0F);
         jSeparator3.setAlignmentY(0.0F);
-        jSeparator3.setMaximumSize(new java.awt.Dimension(200, 10));
-        jSeparator3.setMinimumSize(new java.awt.Dimension(200, 10));
-        jSeparator3.setPreferredSize(new java.awt.Dimension(200, 10));
+        jSeparator3.setMaximumSize(new java.awt.Dimension(200, 3));
+        jSeparator3.setMinimumSize(new java.awt.Dimension(200, 3));
+        jSeparator3.setPreferredSize(new java.awt.Dimension(200, 3));
         roundPanel9.add(jSeparator3);
+
+        jLabel4.setMaximumSize(new java.awt.Dimension(200, 3));
+        jLabel4.setMinimumSize(new java.awt.Dimension(200, 3));
+        jLabel4.setPreferredSize(new java.awt.Dimension(200, 3));
+        roundPanel9.add(jLabel4);
 
         btnNhanVien.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnNhanVien.setText("Nhân Viên");
@@ -364,6 +389,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btnTaiKhoan;
     private javax.swing.JButton btnThuoc;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
