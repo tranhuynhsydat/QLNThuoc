@@ -24,7 +24,7 @@ public class Login extends javax.swing.JFrame {
         loginLayout();
         setLocationRelativeTo(null);
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -51,27 +51,27 @@ public class Login extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-         
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             initFlatlaf();
 //            new Login().setVisible(true);
-            
-              new Main().setVisible(true);
-                     
+
+            new Main().setVisible(true);
+
         });
     }
-    
+
     private static void initFlatlaf() {
         FlatLaf.registerCustomDefaultsSource("Style");
         FlatIntelliJLaf.setup();
-        
+
     }
-    
+
     private void loginLayout() {
         txtUser.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("./icon/username.svg"));
         txtPassword.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("./icon/password.svg"));
-        
+
     }
 
     /**
@@ -199,8 +199,6 @@ public class Login extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLog;

@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
@@ -30,11 +32,13 @@ public class Main extends javax.swing.JFrame {
 
     public TaiKhoan tk;
     private List<JButton> listItem;
+    private ResourceBundle messages;
 
     public Main() {
         initComponents();
         setLocationRelativeTo(null);
-        addActionListeners(Arrays.asList(btnBieuDo, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhanQuyen, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat));
+        loadLanguage("vi");
+        addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhanQuyen, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat));
 
     }
 
@@ -42,11 +46,9 @@ public class Main extends javax.swing.JFrame {
         this.tk = tk;
         initComponents();
         setLocationRelativeTo(null);
-        addActionListeners(Arrays.asList(btnBieuDo, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhanQuyen, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat));
+        addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhanQuyen, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat));
     }
-    
-    
-    
+
     private void changeButtonColor(ActionEvent e) {
 
         JButton sourceButton = (JButton) e.getSource();
@@ -96,6 +98,26 @@ public class Main extends javax.swing.JFrame {
         }
     }
 
+    private void loadLanguage(String language) {
+        Locale locale = new Locale(language);
+        String baseName = "Style." + (language.equals("vi") ? "VN" : "EN");
+        messages = ResourceBundle.getBundle(baseName, locale);
+        updateLanguage();
+    }
+
+    private void updateLanguage() {
+        btnThongKe.setText(messages.getString("btnThongKe"));
+        btnHoaDon.setText(messages.getString("btnHoaDon"));
+        btnKhachHang.setText(messages.getString("btnKhachHang"));
+        btnNhaCungCap.setText(messages.getString("btnNhaCungCap"));
+        btnNhanVien.setText(messages.getString("btnNhanVien"));
+        btnPhanQuyen.setText(messages.getString("btnPhanQuyen"));
+        btnPhieuNhap.setText(messages.getString("btnPhieuNhap"));
+        btnTaiKhoan.setText(messages.getString("btnTaiKhoan"));
+        btnThuoc.setText(messages.getString("btnThuoc"));
+        btnDangXuat.setText(messages.getString("btnDangXuat"));
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -122,7 +144,7 @@ public class Main extends javax.swing.JFrame {
         roundPanel8 = new Swing.RoundPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         roundPanel9 = new Swing.RoundPanel();
-        btnBieuDo = new javax.swing.JButton();
+        btnThongKe = new javax.swing.JButton();
         btnHoaDon = new javax.swing.JButton();
         btnKhachHang = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -137,6 +159,10 @@ public class Main extends javax.swing.JFrame {
         btnNhanVien = new javax.swing.JButton();
         btnTaiKhoan = new javax.swing.JButton();
         btnPhanQuyen = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        label1 = new java.awt.Label();
+        jComboBox1 = new javax.swing.JComboBox<>();
         mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -239,15 +265,15 @@ public class Main extends javax.swing.JFrame {
         roundPanel9.setAlignmentY(0.0F);
         roundPanel9.setLayout(new javax.swing.BoxLayout(roundPanel9, javax.swing.BoxLayout.Y_AXIS));
 
-        btnBieuDo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnBieuDo.setText("Biểu Đồ");
-        btnBieuDo.setAlignmentY(0.0F);
-        btnBieuDo.setBorderPainted(false);
-        btnBieuDo.setHideActionText(true);
-        btnBieuDo.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnBieuDo.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnBieuDo.setPreferredSize(new java.awt.Dimension(200, 42));
-        roundPanel9.add(btnBieuDo);
+        btnThongKe.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThongKe.setText("Thống Kê");
+        btnThongKe.setAlignmentY(0.0F);
+        btnThongKe.setBorderPainted(false);
+        btnThongKe.setHideActionText(true);
+        btnThongKe.setMaximumSize(new java.awt.Dimension(200, 42));
+        btnThongKe.setMinimumSize(new java.awt.Dimension(200, 42));
+        btnThongKe.setPreferredSize(new java.awt.Dimension(200, 42));
+        roundPanel9.add(btnThongKe);
 
         btnHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnHoaDon.setText("Hoá Đơn");
@@ -359,6 +385,40 @@ public class Main extends javax.swing.JFrame {
         btnPhanQuyen.setPreferredSize(new java.awt.Dimension(200, 42));
         roundPanel9.add(btnPhanQuyen);
 
+        jLabel5.setAlignmentY(0.0F);
+        jLabel5.setMaximumSize(new java.awt.Dimension(200, 50));
+        jLabel5.setMinimumSize(new java.awt.Dimension(200, 50));
+        jLabel5.setPreferredSize(new java.awt.Dimension(200, 40));
+        roundPanel9.add(jLabel5);
+
+        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel3.setAlignmentX(0.0F);
+        jPanel3.setAlignmentY(0.0F);
+        jPanel3.setMaximumSize(new java.awt.Dimension(200, 25));
+        jPanel3.setMinimumSize(new java.awt.Dimension(200, 25));
+        jPanel3.setPreferredSize(new java.awt.Dimension(200, 25));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        label1.setAlignment(java.awt.Label.CENTER);
+        label1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        label1.setFont(new java.awt.Font("Dialog", 3, 12)); // NOI18N
+        label1.setName(""); // NOI18N
+        label1.setPreferredSize(new java.awt.Dimension(100, 20));
+        label1.setText("Select language:");
+        jPanel3.add(label1, java.awt.BorderLayout.LINE_START);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vietnamese", "English" }));
+        jComboBox1.setMinimumSize(new java.awt.Dimension(75, 22));
+        jComboBox1.setPreferredSize(new java.awt.Dimension(75, 22));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jComboBox1, java.awt.BorderLayout.CENTER);
+
+        roundPanel9.add(jPanel3);
+
         jScrollPane1.setViewportView(roundPanel9);
 
         javax.swing.GroupLayout roundPanel8Layout = new javax.swing.GroupLayout(roundPanel8);
@@ -437,9 +497,16 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        String selectedLanguage = (String) jComboBox1.getSelectedItem();
+        if ("Vietnamese".equals(selectedLanguage)) {
+            loadLanguage("vi");
+        } else {
+            loadLanguage("en");
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBieuDo;
     private javax.swing.JButton btnDangXuat;
     private javax.swing.JButton btnHoaDon;
     private javax.swing.JButton btnKhachHang;
@@ -448,17 +515,22 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btnPhanQuyen;
     private javax.swing.JButton btnPhieuNhap;
     private javax.swing.JButton btnTaiKhoan;
+    private javax.swing.JButton btnThongKe;
     private javax.swing.JButton btnThuoc;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private java.awt.Label label1;
     private javax.swing.JLabel lblAvatar;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblRole;
