@@ -5,6 +5,8 @@
 package GUI;
 
 import Entity.TaiKhoan;
+import Swing.RoundedMenuItem;
+import Swing.RoundedPopupMenu;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
@@ -21,6 +23,7 @@ import java.util.ResourceBundle;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
+import javax.swing.JSeparator;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 
@@ -31,22 +34,94 @@ import javax.swing.event.ChangeEvent;
 public class Main extends javax.swing.JFrame {
 
     public TaiKhoan tk;
-    private List<JButton> listItem;
     private ResourceBundle messages;
+    private RoundedPopupMenu popupMenuThuoc;
+    private RoundedPopupMenu popupMenuNCC;
+    private RoundedPopupMenu popupMenuKhachHang;
+    private RoundedPopupMenu popupMenuNhanVien;
+    private RoundedPopupMenu popupMenuTaiKhoan;
 
     public Main() {
         initComponents();
         setLocationRelativeTo(null);
         loadLanguage("vi");
-        addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhanQuyen, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat));
+        addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat, btnPhieuDoiTra));
+        
+// Menu thuốc
+        popupMenuThuoc = new RoundedPopupMenu();
+        RoundedMenuItem itemThuoc1 = new RoundedMenuItem("Cập nhật");
+        popupMenuThuoc.add(itemThuoc1);
+        popupMenuThuoc.add(new JSeparator());
+                
+        RoundedMenuItem itemThuoc2 = new RoundedMenuItem("Tìm kiếm");
+        popupMenuThuoc.add(itemThuoc2);
+        popupMenuThuoc.add(new JSeparator());
+        
+        RoundedMenuItem itemThuoc3 = new RoundedMenuItem("Thông tin");
+        popupMenuThuoc.add(itemThuoc3);
+        btnThuoc.addActionListener(e -> popupMenuThuoc.show(btnThuoc, btnThuoc.getWidth(), 2));
 
+// Menu nhà cung cấp
+        popupMenuNCC = new RoundedPopupMenu();
+        RoundedMenuItem itemNCC1 = new RoundedMenuItem("Cập nhật");
+        popupMenuNCC.add(itemNCC1);
+        popupMenuNCC.add(new JSeparator());
+                
+        RoundedMenuItem itemNCC2 = new RoundedMenuItem("Tìm kiếm");
+        popupMenuNCC.add(itemNCC2);
+        popupMenuNCC.add(new JSeparator());
+        
+        RoundedMenuItem itemNCC3 = new RoundedMenuItem("Thông tin");
+        popupMenuNCC.add(itemNCC3);
+        btnNhaCungCap.addActionListener(e -> popupMenuNCC.show(btnNhaCungCap, btnNhaCungCap.getWidth(), 2));
+// Menu khách hàng
+        popupMenuKhachHang = new RoundedPopupMenu();
+        RoundedMenuItem itemKH1 = new RoundedMenuItem("Cập nhật");
+        popupMenuKhachHang.add(itemKH1);
+        popupMenuKhachHang.add(new JSeparator());
+
+        RoundedMenuItem itemKH2 = new RoundedMenuItem("Tìm kiếm");
+        popupMenuKhachHang.add(itemKH2);
+        popupMenuKhachHang.add(new JSeparator());
+
+        RoundedMenuItem itemKH3 = new RoundedMenuItem("Thông tin");
+        popupMenuKhachHang.add(itemKH3);
+        btnKhachHang.addActionListener(e -> popupMenuKhachHang.show(btnKhachHang, btnKhachHang.getWidth(), 2));
+
+// Menu nhân viên
+        popupMenuNhanVien = new RoundedPopupMenu();
+        RoundedMenuItem itemNV1 = new RoundedMenuItem("Cập nhật");
+        popupMenuNhanVien.add(itemNV1);
+        popupMenuNhanVien.add(new JSeparator());
+
+        RoundedMenuItem itemNV2 = new RoundedMenuItem("Tìm kiếm");
+        popupMenuNhanVien.add(itemNV2);
+        popupMenuNhanVien.add(new JSeparator());
+
+        RoundedMenuItem itemNV3 = new RoundedMenuItem("Thông tin");
+        popupMenuNhanVien.add(itemNV3);
+        btnNhanVien.addActionListener(e -> popupMenuNhanVien.show(btnNhanVien, btnNhanVien.getWidth(), 2));
+
+// Menu tài khoản
+        popupMenuTaiKhoan = new RoundedPopupMenu();
+        RoundedMenuItem itemTK1 = new RoundedMenuItem("Cập nhật");
+        popupMenuTaiKhoan.add(itemTK1);
+        popupMenuTaiKhoan.add(new JSeparator());
+
+        RoundedMenuItem itemTK2 = new RoundedMenuItem("Tìm kiếm");
+        popupMenuTaiKhoan.add(itemTK2);
+        popupMenuTaiKhoan.add(new JSeparator());
+
+        RoundedMenuItem itemTK3 = new RoundedMenuItem("Thông tin");
+        popupMenuTaiKhoan.add(itemTK3);
+        btnTaiKhoan.addActionListener(e -> popupMenuTaiKhoan.show(btnTaiKhoan, btnTaiKhoan.getWidth(), 2));
     }
-
+    
     public Main(TaiKhoan tk) {
         this.tk = tk;
         initComponents();
         setLocationRelativeTo(null);
-        addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhanQuyen, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat));
+        addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat));
     }
 
     private void changeButtonColor(ActionEvent e) {
@@ -77,7 +152,6 @@ public class Main extends javax.swing.JFrame {
             btnNhaCungCap.setEnabled(false);
             btnThuoc.setEnabled(false);
             btnNhanVien.setEnabled(false);
-            btnPhanQuyen.setEnabled(false);
             btnTaiKhoan.setEnabled(false);
         }
 
@@ -85,7 +159,6 @@ public class Main extends javax.swing.JFrame {
             btnHoaDon.setEnabled(false);
             btnKhachHang.setEnabled(false);
             btnNhanVien.setEnabled(false);
-            btnPhanQuyen.setEnabled(false);
             btnTaiKhoan.setEnabled(false);
         }
 
@@ -111,7 +184,6 @@ public class Main extends javax.swing.JFrame {
         btnKhachHang.setText(messages.getString("btnKhachHang"));
         btnNhaCungCap.setText(messages.getString("btnNhaCungCap"));
         btnNhanVien.setText(messages.getString("btnNhanVien"));
-        btnPhanQuyen.setText(messages.getString("btnPhanQuyen"));
         btnPhieuNhap.setText(messages.getString("btnPhieuNhap"));
         btnTaiKhoan.setText(messages.getString("btnTaiKhoan"));
         btnThuoc.setText(messages.getString("btnThuoc"));
@@ -127,6 +199,8 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        roundedPopupMenu1 = new Swing.RoundedPopupMenu();
+        roundedPopupMenu2 = new Swing.RoundedPopupMenu();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         roundPanel1 = new Swing.RoundPanel();
@@ -144,21 +218,21 @@ public class Main extends javax.swing.JFrame {
         roundPanel8 = new Swing.RoundPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         roundPanel9 = new Swing.RoundPanel();
-        btnThongKe = new javax.swing.JButton();
-        btnHoaDon = new javax.swing.JButton();
-        btnKhachHang = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
         btnThuoc = new javax.swing.JButton();
         btnPhieuNhap = new javax.swing.JButton();
         btnNhaCungCap = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
+        btnHoaDon = new javax.swing.JButton();
+        btnPhieuDoiTra = new javax.swing.JButton();
+        btnKhachHang = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         btnNhanVien = new javax.swing.JButton();
         btnTaiKhoan = new javax.swing.JButton();
-        btnPhanQuyen = new javax.swing.JButton();
+        btnThongKe = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         label1 = new java.awt.Label();
@@ -252,65 +326,20 @@ public class Main extends javax.swing.JFrame {
         jScrollPane1.setBorder(null);
         jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setAlignmentX(0.0F);
+        jScrollPane1.setAlignmentY(0.0F);
         jScrollPane1.setBorder(new javax.swing.border.EmptyBorder(5, 5, 5, 5) {
             @Override
             public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.drawRoundRect(x, y, width - 1, height - 1, 15, 15); 
+                g2.drawRoundRect(x, y, width - 1, height - 1, 15, 15);
             }
         });
 
         roundPanel9.setBackground(new java.awt.Color(204, 204, 204));
         roundPanel9.setAlignmentY(0.0F);
         roundPanel9.setLayout(new javax.swing.BoxLayout(roundPanel9, javax.swing.BoxLayout.Y_AXIS));
-
-        btnThongKe.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThongKe.setText("Thống Kê");
-        btnThongKe.setAlignmentY(0.0F);
-        btnThongKe.setBorderPainted(false);
-        btnThongKe.setHideActionText(true);
-        btnThongKe.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnThongKe.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnThongKe.setPreferredSize(new java.awt.Dimension(200, 42));
-        roundPanel9.add(btnThongKe);
-
-        btnHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnHoaDon.setText("Hoá Đơn");
-        btnHoaDon.setAlignmentY(0.0F);
-        btnHoaDon.setBorderPainted(false);
-        btnHoaDon.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnHoaDon.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnHoaDon.setPreferredSize(new java.awt.Dimension(200, 42));
-        roundPanel9.add(btnHoaDon);
-
-        btnKhachHang.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnKhachHang.setText("Khách Hàng");
-        btnKhachHang.setAlignmentY(0.0F);
-        btnKhachHang.setBorderPainted(false);
-        btnKhachHang.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnKhachHang.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnKhachHang.setPreferredSize(new java.awt.Dimension(200, 42));
-        roundPanel9.add(btnKhachHang);
-
-        jLabel1.setMaximumSize(new java.awt.Dimension(200, 3));
-        jLabel1.setMinimumSize(new java.awt.Dimension(200, 3));
-        jLabel1.setPreferredSize(new java.awt.Dimension(200, 3));
-        roundPanel9.add(jLabel1);
-
-        jSeparator2.setBackground(new java.awt.Color(0, 0, 0));
-        jSeparator2.setForeground(new java.awt.Color(153, 153, 153));
-        jSeparator2.setAlignmentX(0.0F);
-        jSeparator2.setAlignmentY(0.0F);
-        jSeparator2.setMaximumSize(new java.awt.Dimension(200, 3));
-        jSeparator2.setMinimumSize(new java.awt.Dimension(200, 3));
-        jSeparator2.setPreferredSize(new java.awt.Dimension(200, 3));
-        roundPanel9.add(jSeparator2);
-
-        jLabel2.setMaximumSize(new java.awt.Dimension(200, 3));
-        jLabel2.setMinimumSize(new java.awt.Dimension(200, 3));
-        jLabel2.setPreferredSize(new java.awt.Dimension(200, 3));
-        roundPanel9.add(jLabel2);
 
         btnThuoc.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThuoc.setText("Thuốc");
@@ -319,6 +348,11 @@ public class Main extends javax.swing.JFrame {
         btnThuoc.setMaximumSize(new java.awt.Dimension(200, 42));
         btnThuoc.setMinimumSize(new java.awt.Dimension(200, 42));
         btnThuoc.setPreferredSize(new java.awt.Dimension(200, 42));
+        btnThuoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThuocActionPerformed(evt);
+            }
+        });
         roundPanel9.add(btnThuoc);
 
         btnPhieuNhap.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -339,10 +373,61 @@ public class Main extends javax.swing.JFrame {
         btnNhaCungCap.setPreferredSize(new java.awt.Dimension(200, 42));
         roundPanel9.add(btnNhaCungCap);
 
+        jLabel1.setMaximumSize(new java.awt.Dimension(200, 3));
+        jLabel1.setMinimumSize(new java.awt.Dimension(200, 3));
+        jLabel1.setPreferredSize(new java.awt.Dimension(200, 3));
+        roundPanel9.add(jLabel1);
+
+        jSeparator2.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator2.setForeground(new java.awt.Color(153, 153, 153));
+        jSeparator2.setAlignmentX(0.0F);
+        jSeparator2.setAlignmentY(0.0F);
+        jSeparator2.setMaximumSize(new java.awt.Dimension(200, 3));
+        jSeparator2.setMinimumSize(new java.awt.Dimension(200, 3));
+        jSeparator2.setPreferredSize(new java.awt.Dimension(200, 3));
+        roundPanel9.add(jSeparator2);
+
         jLabel3.setMaximumSize(new java.awt.Dimension(200, 3));
         jLabel3.setMinimumSize(new java.awt.Dimension(200, 3));
         jLabel3.setPreferredSize(new java.awt.Dimension(200, 3));
         roundPanel9.add(jLabel3);
+
+        btnHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnHoaDon.setText("Hoá Đơn");
+        btnHoaDon.setAlignmentY(0.0F);
+        btnHoaDon.setBorderPainted(false);
+        btnHoaDon.setMaximumSize(new java.awt.Dimension(200, 42));
+        btnHoaDon.setMinimumSize(new java.awt.Dimension(200, 42));
+        btnHoaDon.setPreferredSize(new java.awt.Dimension(200, 42));
+        btnHoaDon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHoaDonActionPerformed(evt);
+            }
+        });
+        roundPanel9.add(btnHoaDon);
+
+        btnPhieuDoiTra.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnPhieuDoiTra.setText("Phiếu đổi trả");
+        btnPhieuDoiTra.setAlignmentY(0.0F);
+        btnPhieuDoiTra.setBorderPainted(false);
+        btnPhieuDoiTra.setMaximumSize(new java.awt.Dimension(200, 42));
+        btnPhieuDoiTra.setMinimumSize(new java.awt.Dimension(200, 42));
+        btnPhieuDoiTra.setPreferredSize(new java.awt.Dimension(200, 42));
+        roundPanel9.add(btnPhieuDoiTra);
+
+        btnKhachHang.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnKhachHang.setText("Khách Hàng");
+        btnKhachHang.setAlignmentY(0.0F);
+        btnKhachHang.setBorderPainted(false);
+        btnKhachHang.setMaximumSize(new java.awt.Dimension(200, 42));
+        btnKhachHang.setMinimumSize(new java.awt.Dimension(200, 42));
+        btnKhachHang.setPreferredSize(new java.awt.Dimension(200, 42));
+        roundPanel9.add(btnKhachHang);
+
+        jLabel2.setMaximumSize(new java.awt.Dimension(200, 3));
+        jLabel2.setMinimumSize(new java.awt.Dimension(200, 3));
+        jLabel2.setPreferredSize(new java.awt.Dimension(200, 3));
+        roundPanel9.add(jLabel2);
 
         jSeparator3.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
         jSeparator3.setBackground(new java.awt.Color(0, 0, 0));
@@ -376,14 +461,15 @@ public class Main extends javax.swing.JFrame {
         btnTaiKhoan.setPreferredSize(new java.awt.Dimension(200, 42));
         roundPanel9.add(btnTaiKhoan);
 
-        btnPhanQuyen.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnPhanQuyen.setText("Phân Quyền");
-        btnPhanQuyen.setAlignmentY(0.0F);
-        btnPhanQuyen.setBorderPainted(false);
-        btnPhanQuyen.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnPhanQuyen.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnPhanQuyen.setPreferredSize(new java.awt.Dimension(200, 42));
-        roundPanel9.add(btnPhanQuyen);
+        btnThongKe.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThongKe.setText("Thống Kê");
+        btnThongKe.setAlignmentY(0.0F);
+        btnThongKe.setBorderPainted(false);
+        btnThongKe.setHideActionText(true);
+        btnThongKe.setMaximumSize(new java.awt.Dimension(200, 42));
+        btnThongKe.setMinimumSize(new java.awt.Dimension(200, 42));
+        btnThongKe.setPreferredSize(new java.awt.Dimension(200, 42));
+        roundPanel9.add(btnThongKe);
 
         jLabel5.setAlignmentY(0.0F);
         jLabel5.setMaximumSize(new java.awt.Dimension(200, 50));
@@ -506,13 +592,21 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private void btnThuocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThuocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThuocActionPerformed
+
+    private void btnHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoaDonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnHoaDonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDangXuat;
     private javax.swing.JButton btnHoaDon;
     private javax.swing.JButton btnKhachHang;
     private javax.swing.JButton btnNhaCungCap;
     private javax.swing.JButton btnNhanVien;
-    private javax.swing.JButton btnPhanQuyen;
+    private javax.swing.JButton btnPhieuDoiTra;
     private javax.swing.JButton btnPhieuNhap;
     private javax.swing.JButton btnTaiKhoan;
     private javax.swing.JButton btnThongKe;
@@ -544,5 +638,7 @@ public class Main extends javax.swing.JFrame {
     private Swing.RoundPanel roundPanel7;
     private Swing.RoundPanel roundPanel8;
     private Swing.RoundPanel roundPanel9;
+    private Swing.RoundedPopupMenu roundedPopupMenu1;
+    private Swing.RoundedPopupMenu roundedPopupMenu2;
     // End of variables declaration//GEN-END:variables
 }
