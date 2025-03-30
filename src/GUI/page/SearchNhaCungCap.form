@@ -95,7 +95,7 @@
                   <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="btnDetailNCC" pref="38" max="32767" attributes="0"/>
+                      <Component id="btnDetailNCC" max="32767" attributes="0"/>
                       <Component id="btnSearchNCC" alignment="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -174,7 +174,6 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
-            <Property name="actionCommand" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnDetailNCC">

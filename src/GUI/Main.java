@@ -5,27 +5,25 @@
 package GUI;
 
 import Entity.TaiKhoan;
+import GUI.page.NhaCungCapCapNhat;
+import GUI.page.NhanVienCapNhat;
 import Swing.RoundedMenuItem;
 import Swing.RoundedPopupMenu;
-import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
-import javax.swing.UIManager;
-import javax.swing.event.ChangeEvent;
 
 /**
  *
@@ -46,7 +44,7 @@ public class Main extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         loadLanguage("vi");
         addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat, btnPhieuDoiTra));
-        
+        jScrollPane1.getVerticalScrollBar().setPreferredSize(new java.awt.Dimension(3, 0));
 // Menu thuốc
         popupMenuThuoc = new RoundedPopupMenu();
         RoundedMenuItem itemThuoc1 = new RoundedMenuItem("Cập nhật");
@@ -60,6 +58,7 @@ public class Main extends javax.swing.JFrame {
         RoundedMenuItem itemThuoc3 = new RoundedMenuItem("Thông tin");
         popupMenuThuoc.add(itemThuoc3);
         btnThuoc.addActionListener(e -> popupMenuThuoc.show(btnThuoc, btnThuoc.getWidth(), 2));
+        setFontForMenuItems(new RoundedMenuItem[]{itemThuoc1, itemThuoc2, itemThuoc3});
 
 // Menu nhà cung cấp
         popupMenuNCC = new RoundedPopupMenu();
@@ -74,6 +73,8 @@ public class Main extends javax.swing.JFrame {
         RoundedMenuItem itemNCC3 = new RoundedMenuItem("Thông tin");
         popupMenuNCC.add(itemNCC3);
         btnNhaCungCap.addActionListener(e -> popupMenuNCC.show(btnNhaCungCap, btnNhaCungCap.getWidth(), 2));
+        setFontForMenuItems(new RoundedMenuItem[]{itemNCC1, itemNCC2, itemNCC3});
+
 // Menu khách hàng
         popupMenuKhachHang = new RoundedPopupMenu();
         RoundedMenuItem itemKH1 = new RoundedMenuItem("Cập nhật");
@@ -87,6 +88,7 @@ public class Main extends javax.swing.JFrame {
         RoundedMenuItem itemKH3 = new RoundedMenuItem("Thông tin");
         popupMenuKhachHang.add(itemKH3);
         btnKhachHang.addActionListener(e -> popupMenuKhachHang.show(btnKhachHang, btnKhachHang.getWidth(), 2));
+        setFontForMenuItems(new RoundedMenuItem[]{itemKH1, itemKH2, itemKH3});
 
 // Menu nhân viên
         popupMenuNhanVien = new RoundedPopupMenu();
@@ -101,6 +103,7 @@ public class Main extends javax.swing.JFrame {
         RoundedMenuItem itemNV3 = new RoundedMenuItem("Thông tin");
         popupMenuNhanVien.add(itemNV3);
         btnNhanVien.addActionListener(e -> popupMenuNhanVien.show(btnNhanVien, btnNhanVien.getWidth(), 2));
+        setFontForMenuItems(new RoundedMenuItem[]{itemNV1, itemNV2, itemNV3});
 
 // Menu tài khoản
         popupMenuTaiKhoan = new RoundedPopupMenu();
@@ -115,7 +118,28 @@ public class Main extends javax.swing.JFrame {
         RoundedMenuItem itemTK3 = new RoundedMenuItem("Thông tin");
         popupMenuTaiKhoan.add(itemTK3);
         btnTaiKhoan.addActionListener(e -> popupMenuTaiKhoan.show(btnTaiKhoan, btnTaiKhoan.getWidth(), 2));
+        setFontForMenuItems(new RoundedMenuItem[]{itemTK1, itemTK2, itemTK3});
+        
+        
+        NhanVienCapNhat nv = new NhanVienCapNhat();
+
+    // Đặt layout cho mainPanel
+    mainPanel.setLayout(new java.awt.BorderLayout());
+
+    // Thêm NhaCungCapCapNhat vào mainPanel
+    mainPanel.add(nv, java.awt.BorderLayout.CENTER);
+
+    // Cập nhật lại giao diện
+    mainPanel.revalidate();
+    mainPanel.repaint();
     }
+    
+    private void setFontForMenuItems(RoundedMenuItem[] items) {
+    Font font = new Font("Segoe UI", Font.BOLD, 12); // Thiết lập font ở đây
+    for (RoundedMenuItem item : items) {
+        item.setFont(font);
+    }
+}
     
     public Main(TaiKhoan tk) {
         this.tk = tk;
@@ -137,7 +161,7 @@ public class Main extends javax.swing.JFrame {
         }
 
         // Đổi màu nút được chọn
-        sourceButton.setBackground(new Color(195, 240, 235));
+        sourceButton.setBackground(new Color(0, 155, 118));
     }
 
     private void addActionListeners(List<JButton> buttons) {
@@ -148,26 +172,18 @@ public class Main extends javax.swing.JFrame {
 
     private void checkRole(String role) {
         if (role.equals("nvbh")) {
-            btnPhieuNhap.setEnabled(false);
-            btnNhaCungCap.setEnabled(false);
-            btnThuoc.setEnabled(false);
-            btnNhanVien.setEnabled(false);
-            btnTaiKhoan.setEnabled(false);
-        }
-
-        if (role.equals("nvsp")) {
-            btnHoaDon.setEnabled(false);
-            btnKhachHang.setEnabled(false);
             btnNhanVien.setEnabled(false);
             btnTaiKhoan.setEnabled(false);
         }
 
         if (role.equals("nvql")) {
-            btnHoaDon.setEnabled(false);
-            btnKhachHang.setEnabled(false);
+            btnThongKe.setEnabled(false);
             btnPhieuNhap.setEnabled(false);
             btnNhaCungCap.setEnabled(false);
             btnThuoc.setEnabled(false);
+            btnHoaDon.setEnabled(false);
+            btnPhieuDoiTra.setEnabled(false);
+            btnKhachHang.setEnabled(false);
         }
     }
 
@@ -218,9 +234,10 @@ public class Main extends javax.swing.JFrame {
         roundPanel8 = new Swing.RoundPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         roundPanel9 = new Swing.RoundPanel();
-        btnThuoc = new javax.swing.JButton();
+        btnThongKe = new javax.swing.JButton();
         btnPhieuNhap = new javax.swing.JButton();
         btnNhaCungCap = new javax.swing.JButton();
+        btnThuoc = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
@@ -232,7 +249,6 @@ public class Main extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         btnNhanVien = new javax.swing.JButton();
         btnTaiKhoan = new javax.swing.JButton();
-        btnThongKe = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         label1 = new java.awt.Label();
@@ -245,10 +261,10 @@ public class Main extends javax.swing.JFrame {
         jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel2.setBackground(new java.awt.Color(81, 219, 185));
         jPanel2.setPreferredSize(new java.awt.Dimension(230, 454));
 
-        roundPanel1.setBackground(new java.awt.Color(153, 255, 153));
+        roundPanel1.setBackground(new java.awt.Color(81, 219, 185));
         roundPanel1.setAlignmentX(0.0F);
         roundPanel1.setAlignmentY(0.0F);
 
@@ -313,7 +329,10 @@ public class Main extends javax.swing.JFrame {
         btnDangXuat.setIcon(new FlatSVGIcon("./icon/logout.svg"));
         btnDangXuat.setText("ĐĂNG XUẤT");
         btnDangXuat.setBorderPainted(false);
-        roundPanel6.add(btnDangXuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 170, 30));
+        btnDangXuat.setMaximumSize(new java.awt.Dimension(208, 42));
+        btnDangXuat.setMinimumSize(new java.awt.Dimension(208, 42));
+        btnDangXuat.setPreferredSize(new java.awt.Dimension(208, 42));
+        roundPanel6.add(btnDangXuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 200, 30));
 
         roundPanel7.add(roundPanel6, java.awt.BorderLayout.CENTER);
         roundPanel7.add(jSeparator1, java.awt.BorderLayout.PAGE_START);
@@ -341,37 +360,47 @@ public class Main extends javax.swing.JFrame {
         roundPanel9.setAlignmentY(0.0F);
         roundPanel9.setLayout(new javax.swing.BoxLayout(roundPanel9, javax.swing.BoxLayout.Y_AXIS));
 
-        btnThuoc.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThuoc.setText("Thuốc");
-        btnThuoc.setAlignmentY(0.0F);
-        btnThuoc.setBorderPainted(false);
-        btnThuoc.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnThuoc.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnThuoc.setPreferredSize(new java.awt.Dimension(200, 42));
-        btnThuoc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThuocActionPerformed(evt);
-            }
-        });
-        roundPanel9.add(btnThuoc);
+        btnThongKe.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThongKe.setText("Thống Kê");
+        btnThongKe.setAlignmentY(0.0F);
+        btnThongKe.setBorderPainted(false);
+        btnThongKe.setHideActionText(true);
+        btnThongKe.setMaximumSize(new java.awt.Dimension(208, 42));
+        btnThongKe.setMinimumSize(new java.awt.Dimension(208, 42));
+        btnThongKe.setPreferredSize(new java.awt.Dimension(208, 42));
+        roundPanel9.add(btnThongKe);
 
         btnPhieuNhap.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnPhieuNhap.setText("Phiếu Nhập");
         btnPhieuNhap.setAlignmentY(0.0F);
         btnPhieuNhap.setBorderPainted(false);
-        btnPhieuNhap.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnPhieuNhap.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnPhieuNhap.setPreferredSize(new java.awt.Dimension(200, 42));
+        btnPhieuNhap.setMaximumSize(new java.awt.Dimension(208, 42));
+        btnPhieuNhap.setMinimumSize(new java.awt.Dimension(208, 42));
+        btnPhieuNhap.setPreferredSize(new java.awt.Dimension(208, 42));
         roundPanel9.add(btnPhieuNhap);
 
         btnNhaCungCap.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnNhaCungCap.setText("Nhà Cung Cấp");
         btnNhaCungCap.setAlignmentY(0.0F);
         btnNhaCungCap.setBorderPainted(false);
-        btnNhaCungCap.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnNhaCungCap.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnNhaCungCap.setPreferredSize(new java.awt.Dimension(200, 42));
+        btnNhaCungCap.setMaximumSize(new java.awt.Dimension(208, 42));
+        btnNhaCungCap.setMinimumSize(new java.awt.Dimension(208, 42));
+        btnNhaCungCap.setPreferredSize(new java.awt.Dimension(208, 42));
         roundPanel9.add(btnNhaCungCap);
+
+        btnThuoc.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThuoc.setText("Thuốc");
+        btnThuoc.setAlignmentY(0.0F);
+        btnThuoc.setBorderPainted(false);
+        btnThuoc.setMaximumSize(new java.awt.Dimension(208, 42));
+        btnThuoc.setMinimumSize(new java.awt.Dimension(208, 42));
+        btnThuoc.setPreferredSize(new java.awt.Dimension(208, 42));
+        btnThuoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThuocActionPerformed(evt);
+            }
+        });
+        roundPanel9.add(btnThuoc);
 
         jLabel1.setMaximumSize(new java.awt.Dimension(200, 3));
         jLabel1.setMinimumSize(new java.awt.Dimension(200, 3));
@@ -396,9 +425,9 @@ public class Main extends javax.swing.JFrame {
         btnHoaDon.setText("Hoá Đơn");
         btnHoaDon.setAlignmentY(0.0F);
         btnHoaDon.setBorderPainted(false);
-        btnHoaDon.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnHoaDon.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnHoaDon.setPreferredSize(new java.awt.Dimension(200, 42));
+        btnHoaDon.setMaximumSize(new java.awt.Dimension(208, 42));
+        btnHoaDon.setMinimumSize(new java.awt.Dimension(208, 42));
+        btnHoaDon.setPreferredSize(new java.awt.Dimension(208, 42));
         btnHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHoaDonActionPerformed(evt);
@@ -410,18 +439,18 @@ public class Main extends javax.swing.JFrame {
         btnPhieuDoiTra.setText("Phiếu đổi trả");
         btnPhieuDoiTra.setAlignmentY(0.0F);
         btnPhieuDoiTra.setBorderPainted(false);
-        btnPhieuDoiTra.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnPhieuDoiTra.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnPhieuDoiTra.setPreferredSize(new java.awt.Dimension(200, 42));
+        btnPhieuDoiTra.setMaximumSize(new java.awt.Dimension(208, 42));
+        btnPhieuDoiTra.setMinimumSize(new java.awt.Dimension(208, 42));
+        btnPhieuDoiTra.setPreferredSize(new java.awt.Dimension(208, 42));
         roundPanel9.add(btnPhieuDoiTra);
 
         btnKhachHang.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnKhachHang.setText("Khách Hàng");
         btnKhachHang.setAlignmentY(0.0F);
         btnKhachHang.setBorderPainted(false);
-        btnKhachHang.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnKhachHang.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnKhachHang.setPreferredSize(new java.awt.Dimension(200, 42));
+        btnKhachHang.setMaximumSize(new java.awt.Dimension(208, 42));
+        btnKhachHang.setMinimumSize(new java.awt.Dimension(208, 42));
+        btnKhachHang.setPreferredSize(new java.awt.Dimension(208, 42));
         roundPanel9.add(btnKhachHang);
 
         jLabel2.setMaximumSize(new java.awt.Dimension(200, 3));
@@ -447,29 +476,19 @@ public class Main extends javax.swing.JFrame {
         btnNhanVien.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnNhanVien.setText("Nhân Viên");
         btnNhanVien.setBorderPainted(false);
-        btnNhanVien.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnNhanVien.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnNhanVien.setPreferredSize(new java.awt.Dimension(200, 42));
+        btnNhanVien.setMaximumSize(new java.awt.Dimension(208, 42));
+        btnNhanVien.setMinimumSize(new java.awt.Dimension(208, 42));
+        btnNhanVien.setPreferredSize(new java.awt.Dimension(208, 42));
         roundPanel9.add(btnNhanVien);
 
         btnTaiKhoan.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnTaiKhoan.setText("Tài Khoản");
         btnTaiKhoan.setAlignmentY(0.0F);
         btnTaiKhoan.setBorderPainted(false);
-        btnTaiKhoan.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnTaiKhoan.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnTaiKhoan.setPreferredSize(new java.awt.Dimension(200, 42));
+        btnTaiKhoan.setMaximumSize(new java.awt.Dimension(208, 42));
+        btnTaiKhoan.setMinimumSize(new java.awt.Dimension(208, 42));
+        btnTaiKhoan.setPreferredSize(new java.awt.Dimension(208, 42));
         roundPanel9.add(btnTaiKhoan);
-
-        btnThongKe.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThongKe.setText("Thống Kê");
-        btnThongKe.setAlignmentY(0.0F);
-        btnThongKe.setBorderPainted(false);
-        btnThongKe.setHideActionText(true);
-        btnThongKe.setMaximumSize(new java.awt.Dimension(200, 42));
-        btnThongKe.setMinimumSize(new java.awt.Dimension(200, 42));
-        btnThongKe.setPreferredSize(new java.awt.Dimension(200, 42));
-        roundPanel9.add(btnThongKe);
 
         jLabel5.setAlignmentY(0.0F);
         jLabel5.setMaximumSize(new java.awt.Dimension(200, 50));
@@ -487,7 +506,7 @@ public class Main extends javax.swing.JFrame {
 
         label1.setAlignment(java.awt.Label.CENTER);
         label1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        label1.setFont(new java.awt.Font("Dialog", 3, 12)); // NOI18N
+        label1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         label1.setName(""); // NOI18N
         label1.setPreferredSize(new java.awt.Dimension(100, 20));
         label1.setText("Select language:");

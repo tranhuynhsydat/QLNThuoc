@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RoundedPopupMenu extends JPopupMenu {
-    private int arcWidth = 10;
-    private int arcHeight = 10;
+    private final int arcWidth = 10;
+    private final int arcHeight = 10;
 
     public RoundedPopupMenu() {
         setOpaque(false);

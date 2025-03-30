@@ -241,7 +241,6 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
-                <Property name="actionCommand" type="java.lang.String" value="S&#x1eed;a"/>
               </Properties>
             </Component>
           </SubComponents>

@@ -2,7 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI;
+package GUI.page;
+
+import java.awt.Color;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -15,6 +18,7 @@ public class NhaCungCapCapNhat extends javax.swing.JPanel {
      */
     public NhaCungCapCapNhat() {
         initComponents();
+        setBorder(BorderFactory.createLineBorder(Color.RED, 2));
     }
 
     /**
@@ -26,21 +30,15 @@ public class NhaCungCapCapNhat extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel7 = new javax.swing.JLabel();
         NhaCungCapCapNhat = new javax.swing.JPanel();
         panel1 = new java.awt.Panel();
-        jLabel7 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnSearchNCC = new javax.swing.JButton();
         btnDetailNCC = new javax.swing.JButton();
         btnDetailNCC1 = new javax.swing.JButton();
-
-        setBackground(new java.awt.Color(81, 219, 185));
-
-        NhaCungCapCapNhat.setBackground(new java.awt.Color(234, 234, 234));
-
-        panel1.setBackground(new java.awt.Color(0, 120, 92));
 
         jLabel7.setBackground(new java.awt.Color(0, 120, 92));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -49,21 +47,26 @@ public class NhaCungCapCapNhat extends javax.swing.JPanel {
         jLabel7.setText("Danh sách nhà cung cấp");
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        setBackground(new java.awt.Color(81, 219, 185));
+        setMaximumSize(new java.awt.Dimension(829, 600));
+        setMinimumSize(new java.awt.Dimension(829, 600));
+        setPreferredSize(new java.awt.Dimension(829, 600));
+
+        NhaCungCapCapNhat.setBackground(new java.awt.Color(234, 234, 234));
+        NhaCungCapCapNhat.setMinimumSize(new java.awt.Dimension(829, 600));
+        NhaCungCapCapNhat.setPreferredSize(new java.awt.Dimension(829, 600));
+
+        panel1.setBackground(new java.awt.Color(0, 120, 92));
+
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 73, Short.MAX_VALUE)
         );
 
         jPanel4.setBackground(new java.awt.Color(217, 217, 217));
@@ -92,7 +95,7 @@ public class NhaCungCapCapNhat extends javax.swing.JPanel {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
         );
 
         btnSearchNCC.setBackground(new java.awt.Color(0, 120, 92));
@@ -165,7 +168,7 @@ public class NhaCungCapCapNhat extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(9, Short.MAX_VALUE)
                 .addComponent(NhaCungCapCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
         );
