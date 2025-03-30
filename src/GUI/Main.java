@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JSeparator;
 
 /**
@@ -45,6 +46,7 @@ public class Main extends javax.swing.JFrame {
         loadLanguage("vi");
         addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat, btnPhieuDoiTra));
         jScrollPane1.getVerticalScrollBar().setPreferredSize(new java.awt.Dimension(3, 0));
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 // Menu thuốc
         popupMenuThuoc = new RoundedPopupMenu();
         RoundedMenuItem itemThuoc1 = new RoundedMenuItem("Cập nhật");
