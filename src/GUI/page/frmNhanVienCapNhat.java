@@ -8,12 +8,12 @@ package GUI.page;
  *
  * @author roxan
  */
-public class NhanVienCapNhat extends javax.swing.JPanel {
+public class frmNhanVienCapNhat extends javax.swing.JPanel {
 
     /**
      * Creates new form NewJPanel
      */
-    public NhanVienCapNhat() {
+    public frmNhanVienCapNhat() {
         initComponents();
     }
 

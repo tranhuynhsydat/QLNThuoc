@@ -11,14 +11,13 @@ import javax.swing.BorderFactory;
  *
  * @author Admin
  */
-public class NhaCungCapCapNhat extends javax.swing.JPanel {
+public class frmNhaCungCapCapNhat extends javax.swing.JPanel {
 
     /**
      * Creates new form NhaCungCapCapNhat
      */
-    public NhaCungCapCapNhat() {
+    public frmNhaCungCapCapNhat() {
         initComponents();
-        setBorder(BorderFactory.createLineBorder(Color.RED, 2));
     }
 
     /**
@@ -55,7 +54,7 @@ public class NhaCungCapCapNhat extends javax.swing.JPanel {
 
         tablePanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBackground(new java.awt.Color(81, 219, 185));
+        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
         jPanel1.setMinimumSize(new java.awt.Dimension(829, 50));
         jPanel1.setName(""); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(829, 50));
@@ -127,6 +126,11 @@ public class NhaCungCapCapNhat extends javax.swing.JPanel {
         btnXoaNCC.setMaximumSize(new java.awt.Dimension(85, 35));
         btnXoaNCC.setMinimumSize(new java.awt.Dimension(85, 35));
         btnXoaNCC.setPreferredSize(new java.awt.Dimension(85, 35));
+        btnXoaNCC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaNCCActionPerformed(evt);
+            }
+        });
         btnPanel.add(btnXoaNCC);
 
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
@@ -135,6 +139,10 @@ public class NhaCungCapCapNhat extends javax.swing.JPanel {
     private void btnThemNCCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemNCCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnThemNCCActionPerformed
+
+    private void btnXoaNCCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaNCCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnXoaNCCActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

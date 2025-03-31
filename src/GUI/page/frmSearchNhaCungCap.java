@@ -8,12 +8,12 @@ package GUI.page;
  *
  * @author Admin
  */
-public class SearchNhaCungCap extends javax.swing.JPanel {
+public class frmSearchNhaCungCap extends javax.swing.JPanel {
 
     /**
      * Creates new form SearchNhaCungCap
      */
-    public SearchNhaCungCap() {
+    public frmSearchNhaCungCap() {
         initComponents();
     }
 
@@ -47,7 +47,7 @@ public class SearchNhaCungCap extends javax.swing.JPanel {
         setRequestFocusEnabled(false);
         setVerifyInputWhenFocusTarget(false);
 
-        jPanel2.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel2.setBackground(new java.awt.Color(0, 120, 92));
         jPanel2.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
@@ -62,7 +62,7 @@ public class SearchNhaCungCap extends javax.swing.JPanel {
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel3.setForeground(new java.awt.Color(0, 120, 92));
         jLabel3.setText("Tên NCC:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -72,7 +72,7 @@ public class SearchNhaCungCap extends javax.swing.JPanel {
         jPanel3.add(jLabel3, gridBagConstraints);
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(0, 153, 153));
+        jTextField1.setForeground(new java.awt.Color(0, 120, 92));
         jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -85,7 +85,7 @@ public class SearchNhaCungCap extends javax.swing.JPanel {
         jPanel3.add(jTextField1, gridBagConstraints);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel4.setForeground(new java.awt.Color(0, 120, 92));
         jLabel4.setText("Địa chỉ:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -95,7 +95,7 @@ public class SearchNhaCungCap extends javax.swing.JPanel {
         jPanel3.add(jLabel4, gridBagConstraints);
 
         jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(0, 153, 153));
+        jTextField2.setForeground(new java.awt.Color(0, 120, 92));
         jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -107,7 +107,7 @@ public class SearchNhaCungCap extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(18, 12, 18, 36);
         jPanel3.add(jTextField2, gridBagConstraints);
 
-        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(0, 120, 92));
         jPanel1.setMinimumSize(new java.awt.Dimension(230, 50));
         jPanel1.setName(""); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(829, 50));
@@ -164,7 +164,7 @@ public class SearchNhaCungCap extends javax.swing.JPanel {
         flowLayout1.setAlignOnBaseline(true);
         btnPanel.setLayout(flowLayout1);
 
-        btnTimKiemNCC.setBackground(new java.awt.Color(0, 153, 153));
+        btnTimKiemNCC.setBackground(new java.awt.Color(0, 120, 92));
         btnTimKiemNCC.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnTimKiemNCC.setForeground(new java.awt.Color(255, 255, 255));
         btnTimKiemNCC.setText("Tìm kiếm");
@@ -178,7 +178,7 @@ public class SearchNhaCungCap extends javax.swing.JPanel {
         });
         btnPanel.add(btnTimKiemNCC);
 
-        btnXoaNCC.setBackground(new java.awt.Color(0, 153, 153));
+        btnXoaNCC.setBackground(new java.awt.Color(0, 120, 92));
         btnXoaNCC.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnXoaNCC.setForeground(new java.awt.Color(255, 255, 255));
         btnXoaNCC.setText("Xoá");
