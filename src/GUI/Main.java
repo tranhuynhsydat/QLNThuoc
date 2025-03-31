@@ -5,8 +5,8 @@
 package GUI;
 
 import Entity.TaiKhoan;
-import GUI.page.NhaCungCapCapNhat;
-import GUI.page.NhanVienCapNhat;
+import GUI.page.frmNhaCungCapCapNhat;
+import GUI.page.frmNhanVienCapNhat;
 import Swing.RoundedMenuItem;
 import Swing.RoundedPopupMenu;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
@@ -122,18 +122,20 @@ public class Main extends javax.swing.JFrame {
         btnTaiKhoan.addActionListener(e -> popupMenuTaiKhoan.show(btnTaiKhoan, btnTaiKhoan.getWidth(), 2));
         setFontForMenuItems(new RoundedMenuItem[]{itemTK1, itemTK2, itemTK3});
         
-        
-        NhanVienCapNhat nv = new NhanVienCapNhat();
+        itemNCC1.addActionListener(e -> {
+            frmNhaCungCapCapNhat ncc = new frmNhaCungCapCapNhat();
 
     // Đặt layout cho mainPanel
     mainPanel.setLayout(new java.awt.BorderLayout());
 
     // Thêm NhaCungCapCapNhat vào mainPanel
-    mainPanel.add(nv, java.awt.BorderLayout.CENTER);
+    mainPanel.add(ncc, java.awt.BorderLayout.CENTER);
 
     // Cập nhật lại giao diện
     mainPanel.revalidate();
     mainPanel.repaint();
+        });
+        
     }
     
     private void setFontForMenuItems(RoundedMenuItem[] items) {
