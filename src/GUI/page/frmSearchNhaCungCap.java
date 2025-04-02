@@ -25,7 +25,6 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -179,7 +178,7 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Danh sách nhân viên");
+        jLabel2.setText("Danh sách nhà cung cấp");
         jLabel2.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel1.add(jLabel2, java.awt.BorderLayout.LINE_START);
 
