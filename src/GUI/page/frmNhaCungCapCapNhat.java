@@ -4,8 +4,12 @@
  */
 package GUI.page;
 
+import GUI.form.formSuaNCC;
+import GUI.form.formThemNCC;
 import java.awt.Color;
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -18,8 +22,22 @@ public class frmNhaCungCapCapNhat extends javax.swing.JPanel {
      */
     public frmNhaCungCapCapNhat() {
         initComponents();
+        btnThem.addActionListener(evt -> openFormThemNCC());
+        btnSua.addActionListener(evt -> openFormSuaNCC());
     }
+private void openFormThemNCC() {
+    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    formThemNCC dialog = new formThemNCC(parentFrame, true);
+    dialog.setLocationRelativeTo(this); 
+    dialog.setVisible(true); 
+}
 
+private void openFormSuaNCC() {
+    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    formSuaNCC dialog = new formSuaNCC(parentFrame, true);
+    dialog.setLocationRelativeTo(this); 
+    dialog.setVisible(true); 
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

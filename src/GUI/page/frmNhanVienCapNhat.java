@@ -4,7 +4,8 @@
  */
 package GUI.page;
 
-import GUI.form.ThemNCC;
+import GUI.form.formThemNCC;
+import GUI.form.formSuaNV;
 import GUI.form.formThemNV;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -21,13 +22,21 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
     public frmNhanVienCapNhat() {
         initComponents();
         btnThem.addActionListener(evt -> openFormThemNV());
+        btnSua.addActionListener(evt -> openFormSuaNV());
     }
     
 private void openFormThemNV() {
     JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
     formThemNV dialog = new formThemNV(parentFrame, true);
-    dialog.setLocationRelativeTo(this); // Đặt dialog ở giữa
-    dialog.setVisible(true); // Hiển thị dialog
+    dialog.setLocationRelativeTo(this); 
+    dialog.setVisible(true); 
+}
+
+private void openFormSuaNV() {
+    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    formSuaNV dialog = new formSuaNV(parentFrame, true);
+    dialog.setLocationRelativeTo(this); 
+    dialog.setVisible(true); 
 }
 
     /**

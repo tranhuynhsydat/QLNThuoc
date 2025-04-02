@@ -30,14 +30,14 @@ public class formThemNV extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         roundPanel1 = new Swing.RoundPanel();
         topRoundedPanel1 = new Swing.TopRoundedPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblThemNV = new javax.swing.JLabel();
         bottomRoundedPanel1 = new Swing.BottomRoundedPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtHoTen = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -47,7 +47,7 @@ public class formThemNV extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtSDT = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -62,7 +62,7 @@ public class formThemNV extends javax.swing.JDialog {
         jPanel18 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
+        txtCCCD = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -70,8 +70,8 @@ public class formThemNV extends javax.swing.JDialog {
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         bottomRoundedPanel2 = new Swing.BottomRoundedPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnHuy = new javax.swing.JButton();
+        btnThem = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 0, 0));
@@ -84,14 +84,14 @@ public class formThemNV extends javax.swing.JDialog {
         topRoundedPanel1.setPreferredSize(new java.awt.Dimension(569, 75));
         topRoundedPanel1.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Thêm nhân viên");
-        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel1.setMaximumSize(new java.awt.Dimension(190, 32));
-        jLabel1.setMinimumSize(new java.awt.Dimension(190, 32));
-        jLabel1.setPreferredSize(new java.awt.Dimension(190, 32));
-        topRoundedPanel1.add(jLabel1, java.awt.BorderLayout.CENTER);
+        lblThemNV.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblThemNV.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblThemNV.setText("Thêm nhân viên");
+        lblThemNV.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblThemNV.setMaximumSize(new java.awt.Dimension(190, 32));
+        lblThemNV.setMinimumSize(new java.awt.Dimension(190, 32));
+        lblThemNV.setPreferredSize(new java.awt.Dimension(190, 32));
+        topRoundedPanel1.add(lblThemNV, java.awt.BorderLayout.CENTER);
 
         roundPanel1.add(topRoundedPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -118,8 +118,8 @@ public class formThemNV extends javax.swing.JDialog {
 
         jPanel11.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel11.add(jTextField1);
+        txtHoTen.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel11.add(txtHoTen);
 
         jPanel3.add(jPanel11, java.awt.BorderLayout.CENTER);
 
@@ -159,13 +159,13 @@ public class formThemNV extends javax.swing.JDialog {
         jLabel6.setText("SĐT:");
         jPanel13.add(jLabel6);
 
-        jTextField2.setPreferredSize(new java.awt.Dimension(185, 22));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtSDT.setPreferredSize(new java.awt.Dimension(185, 22));
+        txtSDT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtSDTActionPerformed(evt);
             }
         });
-        jPanel13.add(jTextField2);
+        jPanel13.add(txtSDT);
 
         jPanel5.add(jPanel13, java.awt.BorderLayout.CENTER);
 
@@ -226,8 +226,8 @@ public class formThemNV extends javax.swing.JDialog {
 
         jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jTextField3.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel19.add(jTextField3);
+        txtCCCD.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel19.add(txtCCCD);
 
         jPanel8.add(jPanel19, java.awt.BorderLayout.CENTER);
 
@@ -263,24 +263,24 @@ public class formThemNV extends javax.swing.JDialog {
         bottomRoundedPanel2.setPreferredSize(new java.awt.Dimension(567, 80));
         bottomRoundedPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 150, 25));
 
-        jButton1.setBackground(new java.awt.Color(255, 103, 102));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Huỷ");
-        jButton1.setPreferredSize(new java.awt.Dimension(90, 35));
-        bottomRoundedPanel2.add(jButton1);
+        btnHuy.setBackground(new java.awt.Color(255, 103, 102));
+        btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnHuy.setForeground(new java.awt.Color(255, 255, 255));
+        btnHuy.setText("Huỷ");
+        btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
+        bottomRoundedPanel2.add(btnHuy);
 
-        jButton2.setBackground(new java.awt.Color(15, 204, 102));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Thêm");
-        jButton2.setPreferredSize(new java.awt.Dimension(90, 35));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnThem.setBackground(new java.awt.Color(15, 204, 102));
+        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThem.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem.setText("Thêm");
+        btnThem.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnThemActionPerformed(evt);
             }
         });
-        bottomRoundedPanel2.add(jButton2);
+        bottomRoundedPanel2.add(btnThem);
 
         bottomRoundedPanel1.add(bottomRoundedPanel2, java.awt.BorderLayout.PAGE_END);
 
@@ -312,13 +312,13 @@ public class formThemNV extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtSDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSDTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtSDTActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnThemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -346,6 +346,9 @@ public class formThemNV extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(formThemNV.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -365,11 +368,10 @@ public class formThemNV extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Swing.BottomRoundedPanel bottomRoundedPanel1;
     private Swing.BottomRoundedPanel bottomRoundedPanel2;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnHuy;
+    private javax.swing.JButton btnThem;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -403,10 +405,11 @@ public class formThemNV extends javax.swing.JDialog {
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel lblThemNV;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
+    private javax.swing.JTextField txtCCCD;
+    private javax.swing.JTextField txtHoTen;
+    private javax.swing.JTextField txtSDT;
     // End of variables declaration//GEN-END:variables
 }
