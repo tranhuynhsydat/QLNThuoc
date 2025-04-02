@@ -4,6 +4,11 @@
  */
 package GUI.page;
 
+import GUI.form.ThemNCC;
+import GUI.form.formThemNV;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author roxan
@@ -15,7 +20,15 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
      */
     public frmNhanVienCapNhat() {
         initComponents();
+        btnThem.addActionListener(evt -> openFormThemNV());
     }
+    
+private void openFormThemNV() {
+    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    formThemNV dialog = new formThemNV(parentFrame, true);
+    dialog.setLocationRelativeTo(this); // Đặt dialog ở giữa
+    dialog.setVisible(true); // Hiển thị dialog
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,9 +45,9 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnPanel = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnThem = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(829, 624));
         setPreferredSize(new java.awt.Dimension(829, 624));
@@ -84,53 +97,53 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
         flowLayout1.setAlignOnBaseline(true);
         btnPanel.setLayout(flowLayout1);
 
-        jButton1.setBackground(new java.awt.Color(0, 153, 153));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Thêm");
-        jButton1.setMaximumSize(new java.awt.Dimension(85, 35));
-        jButton1.setMinimumSize(new java.awt.Dimension(85, 35));
-        jButton1.setPreferredSize(new java.awt.Dimension(85, 35));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnThem.setBackground(new java.awt.Color(0, 153, 153));
+        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThem.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem.setText("Thêm");
+        btnThem.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnThem.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnThem.setPreferredSize(new java.awt.Dimension(85, 35));
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnThemActionPerformed(evt);
             }
         });
-        btnPanel.add(jButton1);
+        btnPanel.add(btnThem);
 
-        jButton2.setBackground(new java.awt.Color(0, 153, 153));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Sửa");
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setMaximumSize(new java.awt.Dimension(85, 35));
-        jButton2.setMinimumSize(new java.awt.Dimension(85, 35));
-        jButton2.setPreferredSize(new java.awt.Dimension(85, 35));
-        btnPanel.add(jButton2);
+        btnSua.setBackground(new java.awt.Color(0, 153, 153));
+        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSua.setForeground(new java.awt.Color(255, 255, 255));
+        btnSua.setText("Sửa");
+        btnSua.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSua.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnSua.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnSua.setPreferredSize(new java.awt.Dimension(85, 35));
+        btnPanel.add(btnSua);
 
-        jButton3.setBackground(new java.awt.Color(0, 153, 153));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Xoá");
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setMaximumSize(new java.awt.Dimension(85, 35));
-        jButton3.setMinimumSize(new java.awt.Dimension(85, 35));
-        jButton3.setPreferredSize(new java.awt.Dimension(85, 35));
-        btnPanel.add(jButton3);
+        btnXoa.setBackground(new java.awt.Color(0, 153, 153));
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnXoa.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoa.setText("Xoá");
+        btnXoa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnXoa.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnXoa.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnXoa.setPreferredSize(new java.awt.Dimension(85, 35));
+        btnPanel.add(btnXoa);
 
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnThemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnPanel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

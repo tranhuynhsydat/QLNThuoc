@@ -56,11 +56,9 @@ public class Main extends javax.swing.JFrame {
         RoundedMenuItem itemThuoc2 = new RoundedMenuItem("Tìm kiếm");
         popupMenuThuoc.add(itemThuoc2);
         popupMenuThuoc.add(new JSeparator());
-        
-        RoundedMenuItem itemThuoc3 = new RoundedMenuItem("Thông tin");
-        popupMenuThuoc.add(itemThuoc3);
+
         btnThuoc.addActionListener(e -> popupMenuThuoc.show(btnThuoc, btnThuoc.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemThuoc1, itemThuoc2, itemThuoc3});
+        setFontForMenuItems(new RoundedMenuItem[]{itemThuoc1, itemThuoc2});
 
 // Menu nhà cung cấp
         popupMenuNCC = new RoundedPopupMenu();
@@ -72,10 +70,8 @@ public class Main extends javax.swing.JFrame {
         popupMenuNCC.add(itemNCC2);
         popupMenuNCC.add(new JSeparator());
         
-        RoundedMenuItem itemNCC3 = new RoundedMenuItem("Thông tin");
-        popupMenuNCC.add(itemNCC3);
         btnNhaCungCap.addActionListener(e -> popupMenuNCC.show(btnNhaCungCap, btnNhaCungCap.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemNCC1, itemNCC2, itemNCC3});
+        setFontForMenuItems(new RoundedMenuItem[]{itemNCC1, itemNCC2});
 
 // Menu khách hàng
         popupMenuKhachHang = new RoundedPopupMenu();
@@ -87,10 +83,8 @@ public class Main extends javax.swing.JFrame {
         popupMenuKhachHang.add(itemKH2);
         popupMenuKhachHang.add(new JSeparator());
 
-        RoundedMenuItem itemKH3 = new RoundedMenuItem("Thông tin");
-        popupMenuKhachHang.add(itemKH3);
         btnKhachHang.addActionListener(e -> popupMenuKhachHang.show(btnKhachHang, btnKhachHang.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemKH1, itemKH2, itemKH3});
+        setFontForMenuItems(new RoundedMenuItem[]{itemKH1, itemKH2});
 
 // Menu nhân viên
         popupMenuNhanVien = new RoundedPopupMenu();
@@ -102,10 +96,8 @@ public class Main extends javax.swing.JFrame {
         popupMenuNhanVien.add(itemNV2);
         popupMenuNhanVien.add(new JSeparator());
 
-        RoundedMenuItem itemNV3 = new RoundedMenuItem("Thông tin");
-        popupMenuNhanVien.add(itemNV3);
         btnNhanVien.addActionListener(e -> popupMenuNhanVien.show(btnNhanVien, btnNhanVien.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemNV1, itemNV2, itemNV3});
+        setFontForMenuItems(new RoundedMenuItem[]{itemNV1, itemNV2});
 
 // Menu tài khoản
         popupMenuTaiKhoan = new RoundedPopupMenu();
@@ -117,13 +109,11 @@ public class Main extends javax.swing.JFrame {
         popupMenuTaiKhoan.add(itemTK2);
         popupMenuTaiKhoan.add(new JSeparator());
 
-        RoundedMenuItem itemTK3 = new RoundedMenuItem("Thông tin");
-        popupMenuTaiKhoan.add(itemTK3);
         btnTaiKhoan.addActionListener(e -> popupMenuTaiKhoan.show(btnTaiKhoan, btnTaiKhoan.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemTK1, itemTK2, itemTK3});
+        setFontForMenuItems(new RoundedMenuItem[]{itemTK1, itemTK2});
         
-        itemNCC1.addActionListener(e -> {
-            frmNhaCungCapCapNhat ncc = new frmNhaCungCapCapNhat();
+        itemNV1.addActionListener(e -> {
+            frmNhanVienCapNhat ncc = new frmNhanVienCapNhat();
 
     // Đặt layout cho mainPanel
     mainPanel.setLayout(new java.awt.BorderLayout());
@@ -208,6 +198,7 @@ public class Main extends javax.swing.JFrame {
         btnTaiKhoan.setText(messages.getString("btnTaiKhoan"));
         btnThuoc.setText(messages.getString("btnThuoc"));
         btnDangXuat.setText(messages.getString("btnDangXuat"));
+        btnPhieuDoiTra.setText(messages.getString("btnPhieuDoiTra"));
     }
 
     /**
