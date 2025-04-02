@@ -52,12 +52,12 @@ public class formThemNV extends javax.swing.JDialog {
         jPanel14 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
-        choice1 = new java.awt.Choice();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jPanel7 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
-        choice2 = new java.awt.Choice();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jPanel8 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -185,9 +185,7 @@ public class formThemNV extends javax.swing.JDialog {
         jPanel6.add(jPanel14, java.awt.BorderLayout.LINE_START);
 
         jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
-
-        choice1.setPreferredSize(new java.awt.Dimension(78, 20));
-        jPanel15.add(choice1);
+        jPanel15.add(jDateChooser1);
 
         jPanel6.add(jPanel15, java.awt.BorderLayout.CENTER);
 
@@ -207,9 +205,7 @@ public class formThemNV extends javax.swing.JDialog {
         jPanel7.add(jPanel16, java.awt.BorderLayout.LINE_START);
 
         jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
-
-        choice2.setPreferredSize(new java.awt.Dimension(78, 20));
-        jPanel17.add(choice2);
+        jPanel17.add(jDateChooser2);
 
         jPanel7.add(jPanel17, java.awt.BorderLayout.CENTER);
 
@@ -369,10 +365,10 @@ public class formThemNV extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Swing.BottomRoundedPanel bottomRoundedPanel1;
     private Swing.BottomRoundedPanel bottomRoundedPanel2;
-    private java.awt.Choice choice1;
-    private java.awt.Choice choice2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

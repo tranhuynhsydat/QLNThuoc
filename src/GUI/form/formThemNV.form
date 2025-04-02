@@ -346,12 +346,7 @@
                             <Property name="verticalGap" type="int" value="17"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="java.awt.Choice" name="choice1">
-                              <Properties>
-                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[78, 20]"/>
-                                </Property>
-                              </Properties>
+                            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
                             </Component>
                           </SubComponents>
                         </Container>
@@ -408,12 +403,7 @@
                             <Property name="verticalGap" type="int" value="17"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="java.awt.Choice" name="choice2">
-                              <Properties>
-                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[78, 20]"/>
-                                </Property>
-                              </Properties>
+                            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
                             </Component>
                           </SubComponents>
                         </Container>
