@@ -26,19 +26,111 @@ public class frmKhachHangCapNhat extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        tablePanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        btnPanel = new javax.swing.JPanel();
+        btnThem = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
+
+        setLayout(new java.awt.BorderLayout());
+
+        tablePanel.setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel1.setMinimumSize(new java.awt.Dimension(829, 50));
+        jPanel1.setName(""); // NOI18N
+        jPanel1.setPreferredSize(new java.awt.Dimension(829, 50));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jLabel2.setBackground(new java.awt.Color(0, 153, 153));
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Thông tin khách hàng");
+        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(jLabel2, java.awt.BorderLayout.CENTER);
+
+        tablePanel.add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Mã KH", "Tên KH", "Giới tính", "SĐT ", "Tuổi"
+            }
+        ));
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.setShowHorizontalLines(true);
+        jScrollPane1.setViewportView(jTable1);
+
+        tablePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        add(tablePanel, java.awt.BorderLayout.CENTER);
+
+        btnPanel.setBackground(new java.awt.Color(222, 222, 222));
+        btnPanel.setPreferredSize(new java.awt.Dimension(829, 50));
+        java.awt.FlowLayout flowLayout2 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 8);
+        flowLayout2.setAlignOnBaseline(true);
+        btnPanel.setLayout(flowLayout2);
+
+        btnThem.setBackground(new java.awt.Color(0, 153, 153));
+        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThem.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem.setText("Thêm");
+        btnThem.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnThem.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnThem.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
+        btnPanel.add(btnThem);
+
+        btnSua.setBackground(new java.awt.Color(0, 153, 153));
+        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSua.setForeground(new java.awt.Color(255, 255, 255));
+        btnSua.setText("Sửa");
+        btnSua.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSua.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnSua.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnSua.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnPanel.add(btnSua);
+
+        btnXoa.setBackground(new java.awt.Color(0, 153, 153));
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnXoa.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoa.setText("Xoá");
+        btnXoa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnXoa.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnXoa.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnXoa.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnPanel.add(btnXoa);
+
+        add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel btnPanel;
+    private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnXoa;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JPanel tablePanel;
     // End of variables declaration//GEN-END:variables
 }

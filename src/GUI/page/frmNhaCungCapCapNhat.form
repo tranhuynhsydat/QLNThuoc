@@ -173,7 +173,7 @@
         </Constraint>
       </Constraints>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="btnThemNCC">
+        <Component class="javax.swing.JButton" name="btnThem">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="99" green="99" red="0" type="rgb"/>
@@ -192,14 +192,14 @@
               <Dimension value="[85, 35]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[85, 35]"/>
+              <Dimension value="[105, 35]"/>
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemNCCActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnSuaNCC">
+        <Component class="javax.swing.JButton" name="btnSua">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="99" green="99" red="0" type="rgb"/>
@@ -219,11 +219,11 @@
               <Dimension value="[85, 35]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[85, 35]"/>
+              <Dimension value="[105, 35]"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnXoaNCC">
+        <Component class="javax.swing.JButton" name="btnXoa">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="99" green="99" red="0" type="rgb"/>
@@ -243,18 +243,15 @@
               <Dimension value="[85, 35]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[85, 35]"/>
+              <Dimension value="[105, 35]"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaNCCActionPerformed"/>
-          </Events>
         </Component>
       </SubComponents>
       <LayoutCode>
         <CodeStatement>
-          <CodeExpression id="1_flowLayout3">
-            <CodeVariable name="flowLayout3" type="4096" declaredType="java.awt.FlowLayout"/>
+          <CodeExpression id="1_flowLayout1">
+            <CodeVariable name="flowLayout1" type="4096" declaredType="java.awt.FlowLayout"/>
             <ExpressionOrigin>
               <ExpressionProvider type="CodeConstructor">
                 <CodeConstructor class="java.awt.FlowLayout" parameterTypes="int, int, int"/>
@@ -279,7 +276,7 @@
             </ExpressionOrigin>
           </CodeExpression>
           <StatementProvider type="CodeExpression">
-            <CodeExpression id="1_flowLayout3"/>
+            <CodeExpression id="1_flowLayout1"/>
           </StatementProvider>
           <Parameters>
             <CodeExpression id="2"/>
@@ -288,7 +285,7 @@
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="1_flowLayout3"/>
+          <CodeExpression id="1_flowLayout1"/>
           <StatementProvider type="CodeMethod">
             <CodeMethod name="setAlignOnBaseline" class="java.awt.FlowLayout" parameterTypes="boolean"/>
           </StatementProvider>
@@ -313,7 +310,7 @@
             <CodeMethod name="setLayout" class="java.awt.Container" parameterTypes="java.awt.LayoutManager"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="1_flowLayout3"/>
+            <CodeExpression id="1_flowLayout1"/>
           </Parameters>
         </CodeStatement>
         <CodeStatement>
@@ -322,11 +319,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="7_btnThemNCC">
-              <CodeVariable name="btnThemNCC" type="8194" declaredType="javax.swing.JButton"/>
+            <CodeExpression id="7_btnThem">
+              <CodeVariable name="btnThem" type="8194" declaredType="javax.swing.JButton"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="btnThemNCC"/>
+                  <ComponentRef name="btnThem"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -338,11 +335,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="8_btnSuaNCC">
-              <CodeVariable name="btnSuaNCC" type="8194" declaredType="javax.swing.JButton"/>
+            <CodeExpression id="8_btnSua">
+              <CodeVariable name="btnSua" type="8194" declaredType="javax.swing.JButton"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="btnSuaNCC"/>
+                  <ComponentRef name="btnSua"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -354,11 +351,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="9_btnXoaNCC">
-              <CodeVariable name="btnXoaNCC" type="8194" declaredType="javax.swing.JButton"/>
+            <CodeExpression id="9_btnXoa">
+              <CodeVariable name="btnXoa" type="8194" declaredType="javax.swing.JButton"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="btnXoaNCC"/>
+                  <ComponentRef name="btnXoa"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>

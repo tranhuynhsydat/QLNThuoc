@@ -36,9 +36,9 @@ public class frmNhaCungCapCapNhat extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnPanel = new javax.swing.JPanel();
-        btnThemNCC = new javax.swing.JButton();
-        btnSuaNCC = new javax.swing.JButton();
-        btnXoaNCC = new javax.swing.JButton();
+        btnThem = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
 
         jLabel7.setBackground(new java.awt.Color(0, 120, 92));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -90,66 +90,57 @@ public class frmNhaCungCapCapNhat extends javax.swing.JPanel {
 
         btnPanel.setBackground(new java.awt.Color(222, 222, 222));
         btnPanel.setPreferredSize(new java.awt.Dimension(829, 50));
-        java.awt.FlowLayout flowLayout3 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 8);
-        flowLayout3.setAlignOnBaseline(true);
-        btnPanel.setLayout(flowLayout3);
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 8);
+        flowLayout1.setAlignOnBaseline(true);
+        btnPanel.setLayout(flowLayout1);
 
-        btnThemNCC.setBackground(new java.awt.Color(0, 153, 153));
-        btnThemNCC.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThemNCC.setForeground(new java.awt.Color(255, 255, 255));
-        btnThemNCC.setText("Thêm");
-        btnThemNCC.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnThemNCC.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnThemNCC.setPreferredSize(new java.awt.Dimension(85, 35));
-        btnThemNCC.addActionListener(new java.awt.event.ActionListener() {
+        btnThem.setBackground(new java.awt.Color(0, 153, 153));
+        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThem.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem.setText("Thêm");
+        btnThem.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnThem.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnThem.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemNCCActionPerformed(evt);
+                btnThemActionPerformed(evt);
             }
         });
-        btnPanel.add(btnThemNCC);
+        btnPanel.add(btnThem);
 
-        btnSuaNCC.setBackground(new java.awt.Color(0, 153, 153));
-        btnSuaNCC.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnSuaNCC.setForeground(new java.awt.Color(255, 255, 255));
-        btnSuaNCC.setText("Sửa");
-        btnSuaNCC.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSuaNCC.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnSuaNCC.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnSuaNCC.setPreferredSize(new java.awt.Dimension(85, 35));
-        btnPanel.add(btnSuaNCC);
+        btnSua.setBackground(new java.awt.Color(0, 153, 153));
+        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSua.setForeground(new java.awt.Color(255, 255, 255));
+        btnSua.setText("Sửa");
+        btnSua.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSua.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnSua.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnSua.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnPanel.add(btnSua);
 
-        btnXoaNCC.setBackground(new java.awt.Color(0, 153, 153));
-        btnXoaNCC.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnXoaNCC.setForeground(new java.awt.Color(255, 255, 255));
-        btnXoaNCC.setText("Xoá");
-        btnXoaNCC.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnXoaNCC.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnXoaNCC.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnXoaNCC.setPreferredSize(new java.awt.Dimension(85, 35));
-        btnXoaNCC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoaNCCActionPerformed(evt);
-            }
-        });
-        btnPanel.add(btnXoaNCC);
+        btnXoa.setBackground(new java.awt.Color(0, 153, 153));
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnXoa.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoa.setText("Xoá");
+        btnXoa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnXoa.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnXoa.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnXoa.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnPanel.add(btnXoa);
 
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThemNCCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemNCCActionPerformed
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnThemNCCActionPerformed
-
-    private void btnXoaNCCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaNCCActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnXoaNCCActionPerformed
+    }//GEN-LAST:event_btnThemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnPanel;
-    private javax.swing.JButton btnSuaNCC;
-    private javax.swing.JButton btnThemNCC;
-    private javax.swing.JButton btnXoaNCC;
+    private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;

@@ -55,7 +55,7 @@ private void openFormThemNV() {
 
         tablePanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBackground(new java.awt.Color(69, 142, 168));
+        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
         jPanel1.setMinimumSize(new java.awt.Dimension(829, 50));
         jPanel1.setName(""); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(829, 50));
@@ -103,7 +103,7 @@ private void openFormThemNV() {
         btnThem.setText("Thêm");
         btnThem.setMaximumSize(new java.awt.Dimension(85, 35));
         btnThem.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnThem.setPreferredSize(new java.awt.Dimension(85, 35));
+        btnThem.setPreferredSize(new java.awt.Dimension(105, 35));
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
@@ -118,7 +118,7 @@ private void openFormThemNV() {
         btnSua.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSua.setMaximumSize(new java.awt.Dimension(85, 35));
         btnSua.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnSua.setPreferredSize(new java.awt.Dimension(85, 35));
+        btnSua.setPreferredSize(new java.awt.Dimension(105, 35));
         btnPanel.add(btnSua);
 
         btnXoa.setBackground(new java.awt.Color(0, 153, 153));
@@ -128,7 +128,7 @@ private void openFormThemNV() {
         btnXoa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnXoa.setMaximumSize(new java.awt.Dimension(85, 35));
         btnXoa.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnXoa.setPreferredSize(new java.awt.Dimension(85, 35));
+        btnXoa.setPreferredSize(new java.awt.Dimension(105, 35));
         btnPanel.add(btnXoa);
 
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
