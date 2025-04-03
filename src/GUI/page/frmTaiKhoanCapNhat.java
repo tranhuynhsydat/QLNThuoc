@@ -4,38 +4,43 @@
  */
 package GUI.page;
 
-import GUI.form.formSuaKH;
-import GUI.form.formThemKH;
+import GUI.form.formThemNCC;
+import GUI.form.formSuaNV;
+import GUI.form.formSuaTK;
+import GUI.form.formThemNV;
+import GUI.form.formThemTK;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
  *
- * @author Admin
+ * @author roxan
  */
-public class frmKhachHangCapNhat extends javax.swing.JPanel {
+public class frmTaiKhoanCapNhat extends javax.swing.JPanel {
 
     /**
-     * Creates new form frmKhachHangCapNhat
+     * Creates new form NewJPanel
      */
-    public frmKhachHangCapNhat() {
+    public frmTaiKhoanCapNhat() {
         initComponents();
-        btnThem.addActionListener(evt -> openFormThemKH());
-        btnSua.addActionListener(evt -> openFormSuaKH());
+        btnThem.addActionListener(evt -> openFormThemTK());
+        btnSua.addActionListener(evt -> openFormSuaTK());
     }
-private void openFormThemKH() {
+    
+private void openFormThemTK() {
     JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-    formThemKH dialog = new formThemKH(parentFrame, true);
+    formThemTK dialog = new formThemTK(parentFrame, true);
     dialog.setLocationRelativeTo(this); 
     dialog.setVisible(true); 
 }
 
-private void openFormSuaKH() {
+private void openFormSuaTK() {
     JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-    formSuaKH dialog = new formSuaKH(parentFrame, true);
+    formSuaTK dialog = new formSuaTK(parentFrame, true);
     dialog.setLocationRelativeTo(this); 
     dialog.setVisible(true); 
 }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,6 +60,8 @@ private void openFormSuaKH() {
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
 
+        setMinimumSize(new java.awt.Dimension(829, 624));
+        setPreferredSize(new java.awt.Dimension(829, 624));
         setLayout(new java.awt.BorderLayout());
 
         tablePanel.setLayout(new java.awt.BorderLayout());
@@ -65,11 +72,11 @@ private void openFormSuaKH() {
         jPanel1.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jLabel2.setBackground(new java.awt.Color(0, 153, 153));
+        jLabel2.setBackground(new java.awt.Color(69, 142, 168));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Thông tin khách hàng");
+        jLabel2.setText("Thông tin tài khoản");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(jLabel2, java.awt.BorderLayout.CENTER);
 
@@ -77,12 +84,13 @@ private void openFormSuaKH() {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {"01", "TK-000", "admin", "Đinh Ngọc Dĩ Hào", "Quản lý"},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã KH", "Tên KH", "Giới tính", "SĐT ", "Tuổi"
+                "STT", "Mã tài khoản", "Tên tài khoản", "Tên nhân viên", "chức vụ"
             }
         ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -95,9 +103,9 @@ private void openFormSuaKH() {
 
         btnPanel.setBackground(new java.awt.Color(222, 222, 222));
         btnPanel.setPreferredSize(new java.awt.Dimension(829, 50));
-        java.awt.FlowLayout flowLayout2 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 8);
-        flowLayout2.setAlignOnBaseline(true);
-        btnPanel.setLayout(flowLayout2);
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 8);
+        flowLayout1.setAlignOnBaseline(true);
+        btnPanel.setLayout(flowLayout1);
 
         btnThem.setBackground(new java.awt.Color(0, 153, 153));
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N

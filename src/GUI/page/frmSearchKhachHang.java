@@ -11,7 +11,7 @@ package GUI.page;
 public class frmSearchKhachHang extends javax.swing.JPanel {
 
     /**
-     * Creates new form frmSearchKhachHang
+     * Creates new form frmSearchNhanVien
      */
     public frmSearchKhachHang() {
         initComponents();
@@ -26,19 +26,402 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel33 = new javax.swing.JPanel();
+        jPanel34 = new javax.swing.JPanel();
+        jPanel35 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jPanel17 = new javax.swing.JPanel();
+        jPanel18 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jPanel19 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel20 = new javax.swing.JPanel();
+        jTextField4 = new javax.swing.JTextField();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel21 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel22 = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel24 = new javax.swing.JPanel();
+        txtHoTen2 = new javax.swing.JTextField();
+        jPanel12 = new javax.swing.JPanel();
+        jPanel25 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel26 = new javax.swing.JPanel();
+        txtHoTen4 = new javax.swing.JTextField();
+        jPanel13 = new javax.swing.JPanel();
+        jPanel27 = new javax.swing.JPanel();
+        jPanel28 = new javax.swing.JPanel();
+        jPanel14 = new javax.swing.JPanel();
+        jPanel29 = new javax.swing.JPanel();
+        jPanel30 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel31 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel32 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel6 = new javax.swing.JPanel();
+        btnThem = new javax.swing.JButton();
+        btnThem1 = new javax.swing.JButton();
+
+        setMinimumSize(new java.awt.Dimension(829, 624));
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setBackground(new java.awt.Color(255, 102, 102));
+        jPanel1.setMinimumSize(new java.awt.Dimension(829, 312));
+        jPanel1.setPreferredSize(new java.awt.Dimension(829, 350));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel3.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel3.setMinimumSize(new java.awt.Dimension(829, 50));
+        jPanel3.setPreferredSize(new java.awt.Dimension(829, 50));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Nhập thông tin tìm kiếm");
+        jPanel3.add(jLabel1, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_START);
+
+        jPanel4.setMinimumSize(new java.awt.Dimension(829, 300));
+        jPanel4.setPreferredSize(new java.awt.Dimension(829, 300));
+        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel33.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel33.setLayout(new java.awt.BorderLayout());
+
+        jPanel34.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel34.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel34.setLayout(new java.awt.BorderLayout());
+        jPanel33.add(jPanel34, java.awt.BorderLayout.LINE_START);
+
+        jPanel35.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel35.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+        jPanel33.add(jPanel35, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel33);
+
+        jPanel8.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel8.setLayout(new java.awt.BorderLayout());
+
+        jPanel17.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel17.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel17.setLayout(new java.awt.BorderLayout());
+        jPanel8.add(jPanel17, java.awt.BorderLayout.LINE_START);
+
+        jPanel18.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel18.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel18.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 10));
+        jPanel8.add(jPanel18, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel8);
+
+        jPanel9.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel9.setLayout(new java.awt.BorderLayout());
+
+        jPanel19.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel19.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel19.setLayout(new java.awt.BorderLayout());
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Họ tên:");
+        jLabel3.setAlignmentX(20.0F);
+        jLabel3.setAlignmentY(20.0F);
+        jPanel19.add(jLabel3, java.awt.BorderLayout.CENTER);
+
+        jPanel9.add(jPanel19, java.awt.BorderLayout.LINE_START);
+
+        jPanel20.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel20.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        jTextField4.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel20.add(jTextField4);
+
+        jPanel9.add(jPanel20, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel9);
+
+        jPanel10.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel10.setLayout(new java.awt.BorderLayout());
+
+        jPanel21.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel21.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel21.setLayout(new java.awt.BorderLayout());
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Giới tính:");
+        jPanel21.add(jLabel4, java.awt.BorderLayout.CENTER);
+
+        jPanel10.add(jPanel21, java.awt.BorderLayout.LINE_START);
+
+        jPanel22.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel22.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel22.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 3));
+
+        jRadioButton1.setText("Nam");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+        jPanel15.add(jRadioButton1);
+
+        jRadioButton2.setText("Nữ");
+        jPanel15.add(jRadioButton2);
+        jPanel15.add(jLabel9);
+
+        jLabel5.setText("       ");
+        jPanel15.add(jLabel5);
+
+        jPanel22.add(jPanel15);
+
+        jPanel10.add(jPanel22, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel10);
+
+        jPanel11.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel11.setLayout(new java.awt.BorderLayout());
+
+        jPanel23.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel23.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel23.setLayout(new java.awt.BorderLayout());
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("SĐT:");
+        jPanel23.add(jLabel7, java.awt.BorderLayout.CENTER);
+
+        jPanel11.add(jPanel23, java.awt.BorderLayout.LINE_START);
+
+        jPanel24.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel24.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel24.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        txtHoTen2.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel24.add(txtHoTen2);
+
+        jPanel11.add(jPanel24, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel11);
+
+        jPanel12.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel12.setLayout(new java.awt.BorderLayout());
+
+        jPanel25.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel25.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel25.setLayout(new java.awt.BorderLayout());
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel8.setText("Tuổi:");
+        jPanel25.add(jLabel8, java.awt.BorderLayout.CENTER);
+
+        jPanel12.add(jPanel25, java.awt.BorderLayout.LINE_START);
+
+        jPanel26.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel26.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel26.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 10));
+
+        txtHoTen4.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel26.add(txtHoTen4);
+
+        jPanel12.add(jPanel26, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel12);
+
+        jPanel13.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel13.setLayout(new java.awt.BorderLayout());
+
+        jPanel27.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel27.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel27.setLayout(new java.awt.BorderLayout(5, 10));
+        jPanel13.add(jPanel27, java.awt.BorderLayout.LINE_START);
+
+        jPanel28.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel28.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel28.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+        jPanel13.add(jPanel28, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel13);
+
+        jPanel14.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel14.setLayout(new java.awt.BorderLayout());
+
+        jPanel29.setMaximumSize(new java.awt.Dimension(170, 38));
+        jPanel29.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel29.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel29.setLayout(new java.awt.BorderLayout());
+        jPanel14.add(jPanel29, java.awt.BorderLayout.LINE_START);
+
+        jPanel30.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel30.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel14.add(jPanel30, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel14);
+
+        jPanel1.add(jPanel4, java.awt.BorderLayout.CENTER);
+
+        add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 153));
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jPanel5.setPreferredSize(new java.awt.Dimension(829, 220));
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
+        jPanel31.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel31.setPreferredSize(new java.awt.Dimension(829, 50));
+        jPanel31.setLayout(new java.awt.BorderLayout());
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Danh sách khách hàng");
+        jPanel31.add(jLabel2, java.awt.BorderLayout.CENTER);
+
+        jPanel5.add(jPanel31, java.awt.BorderLayout.PAGE_START);
+
+        jPanel32.setLayout(new java.awt.BorderLayout());
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Mã KH", "Tên KH", "Giới tính", "SĐT ", "Tuổi"
+            }
+        ));
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.setShowHorizontalLines(true);
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel32.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jPanel5.add(jPanel32, java.awt.BorderLayout.CENTER);
+
+        jPanel2.add(jPanel5, java.awt.BorderLayout.PAGE_START);
+
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 10));
+
+        btnThem.setBackground(new java.awt.Color(0, 153, 153));
+        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThem.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem.setText("Tìm kiếm");
+        btnThem.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnThem.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnThem.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btnThem);
+
+        btnThem1.setBackground(new java.awt.Color(0, 153, 153));
+        btnThem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThem1.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem1.setText("Chi tiết");
+        btnThem1.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnThem1.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnThem1.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnThem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThem1ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btnThem1);
+
+        jPanel2.add(jPanel6, java.awt.BorderLayout.CENTER);
+
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnThem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThem1ActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnThem1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
+    private javax.swing.JPanel jPanel29;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel30;
+    private javax.swing.JPanel jPanel31;
+    private javax.swing.JPanel jPanel32;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField txtHoTen2;
+    private javax.swing.JTextField txtHoTen4;
     // End of variables declaration//GEN-END:variables
 }

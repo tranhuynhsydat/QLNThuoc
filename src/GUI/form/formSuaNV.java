@@ -273,7 +273,7 @@ public class formSuaNV extends javax.swing.JDialog {
         btnThem.setBackground(new java.awt.Color(15, 204, 102));
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThem.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem.setText("Thêm");
+        btnThem.setText("Sửa");
         btnThem.setPreferredSize(new java.awt.Dimension(90, 35));
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

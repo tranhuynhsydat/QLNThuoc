@@ -8,12 +8,12 @@ package GUI.page;
  *
  * @author Admin
  */
-public class frmSearchNhanVien extends javax.swing.JPanel {
+public class frmSearchTaiKhoan extends javax.swing.JPanel {
 
     /**
      * Creates new form frmSearchNhanVien
      */
-    public frmSearchNhanVien() {
+    public frmSearchTaiKhoan() {
         initComponents();
     }
 
@@ -32,30 +32,25 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
         jPanel34 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
         jPanel35 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
         jPanel9 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jTextField4 = new javax.swing.JTextField();
         jPanel10 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jPanel22 = new javax.swing.JPanel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jTextField5 = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel24 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel12 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -64,9 +59,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jRadioButton4 = new javax.swing.JRadioButton();
         jPanel13 = new javax.swing.JPanel();
         jPanel27 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
         jPanel28 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
         jPanel14 = new javax.swing.JPanel();
         jPanel29 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
@@ -112,24 +105,11 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel34.setMinimumSize(new java.awt.Dimension(300, 38));
         jPanel34.setPreferredSize(new java.awt.Dimension(300, 38));
         jPanel34.setLayout(new java.awt.BorderLayout());
-
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel11.setText("Họ tên:");
-        jLabel11.setMaximumSize(new java.awt.Dimension(170, 38));
-        jLabel11.setMinimumSize(new java.awt.Dimension(170, 38));
-        jLabel11.setPreferredSize(new java.awt.Dimension(170, 38));
-        jPanel34.add(jLabel11, java.awt.BorderLayout.CENTER);
-
         jPanel33.add(jPanel34, java.awt.BorderLayout.LINE_START);
 
         jPanel35.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel35.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
-
-        jTextField3.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel35.add(jTextField3);
-
         jPanel33.add(jPanel35, java.awt.BorderLayout.CENTER);
 
         jPanel4.add(jPanel33);
@@ -140,32 +120,11 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel17.setMinimumSize(new java.awt.Dimension(300, 38));
         jPanel17.setPreferredSize(new java.awt.Dimension(300, 38));
         jPanel17.setLayout(new java.awt.BorderLayout());
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Giới tính:");
-        jLabel4.setMaximumSize(new java.awt.Dimension(170, 38));
-        jLabel4.setMinimumSize(new java.awt.Dimension(170, 38));
-        jLabel4.setPreferredSize(new java.awt.Dimension(170, 38));
-        jPanel17.add(jLabel4, java.awt.BorderLayout.CENTER);
-
         jPanel8.add(jPanel17, java.awt.BorderLayout.LINE_START);
 
         jPanel18.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel18.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel18.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 10));
-
-        jRadioButton1.setText("Nam");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
-        jPanel18.add(jRadioButton1);
-
-        jRadioButton2.setText("Nữ");
-        jPanel18.add(jRadioButton2);
-
         jPanel8.add(jPanel18, java.awt.BorderLayout.CENTER);
 
         jPanel4.add(jPanel8);
@@ -179,7 +138,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("Ngày sinh:");
+        jLabel5.setText("Mã tài khoản:");
         jLabel5.setMaximumSize(new java.awt.Dimension(170, 38));
         jLabel5.setMinimumSize(new java.awt.Dimension(170, 38));
         jLabel5.setPreferredSize(new java.awt.Dimension(170, 38));
@@ -191,8 +150,8 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel20.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jDateChooser1.setPreferredSize(new java.awt.Dimension(88, 30));
-        jPanel20.add(jDateChooser1);
+        jTextField4.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel20.add(jTextField4);
 
         jPanel9.add(jPanel20, java.awt.BorderLayout.CENTER);
 
@@ -207,7 +166,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("Ngày vào làm:");
+        jLabel6.setText("Tên tài khoản:");
         jLabel6.setMaximumSize(new java.awt.Dimension(170, 38));
         jLabel6.setMinimumSize(new java.awt.Dimension(170, 38));
         jLabel6.setPreferredSize(new java.awt.Dimension(170, 38));
@@ -219,8 +178,8 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel22.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel22.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jDateChooser2.setPreferredSize(new java.awt.Dimension(88, 30));
-        jPanel22.add(jDateChooser2);
+        jTextField5.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel22.add(jTextField5);
 
         jPanel10.add(jPanel22, java.awt.BorderLayout.CENTER);
 
@@ -235,7 +194,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("CCCD:");
+        jLabel7.setText("Tên nhân viên:");
         jLabel7.setMaximumSize(new java.awt.Dimension(170, 38));
         jLabel7.setMinimumSize(new java.awt.Dimension(170, 38));
         jLabel7.setPreferredSize(new java.awt.Dimension(170, 38));
@@ -247,8 +206,9 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel24.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel24.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel24.add(jTextField1);
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đinh Ngọc Dĩ Hào", "Trần Huỳnh Sỹ Đạt", "Phan Nhật Đăng" }));
+        jComboBox1.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel24.add(jComboBox1);
 
         jPanel11.add(jPanel24, java.awt.BorderLayout.CENTER);
 
@@ -291,25 +251,11 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel27.setMinimumSize(new java.awt.Dimension(300, 38));
         jPanel27.setPreferredSize(new java.awt.Dimension(300, 38));
         jPanel27.setLayout(new java.awt.BorderLayout(5, 10));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("SĐT:");
-        jLabel9.setMaximumSize(new java.awt.Dimension(170, 38));
-        jLabel9.setMinimumSize(new java.awt.Dimension(170, 38));
-        jLabel9.setPreferredSize(new java.awt.Dimension(180, 38));
-        jPanel27.add(jLabel9, java.awt.BorderLayout.CENTER);
-
         jPanel13.add(jPanel27, java.awt.BorderLayout.LINE_START);
 
         jPanel28.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel28.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel28.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
-
-        jTextField2.setMinimumSize(new java.awt.Dimension(350, 22));
-        jTextField2.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel28.add(jTextField2);
-
         jPanel13.add(jPanel28, java.awt.BorderLayout.CENTER);
 
         jPanel4.add(jPanel13);
@@ -346,7 +292,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Danh sách nhân viên");
+        jLabel2.setText("Danh sách tài khoản");
         jPanel31.add(jLabel2, java.awt.BorderLayout.CENTER);
 
         jPanel5.add(jPanel31, java.awt.BorderLayout.PAGE_START);
@@ -355,14 +301,13 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"01", "111", "Đinh Ngọc Dĩ Hào", "012345678", "nam", "1/1/1000", "1/1/2000", "Quản lý"},
-                {"02", "112", "Đinh Ngọc Dĩ Hà", "012345679", "nữ", "1/1/1000", "1/1/2000", "Quản lý"},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {"01", "TK-000", "admin", "Đinh Ngọc Dĩ Hào", "Quản lý"},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã NV", "Tên NV", "SĐT", "Giới tính", "Ngày sinh", "Ngày vào làm", "Chức vụ"
+                "STT", "Mã tài khoản", "Tên tài khoản", "Tên nhân viên", "chức vụ"
             }
         ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -410,10 +355,6 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
-
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnThemActionPerformed
@@ -426,17 +367,13 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnThem1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -469,14 +406,11 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,12 +8,12 @@ package GUI.form;
  *
  * @author Admin
  */
-public class formSuaKH extends javax.swing.JDialog {
+public class formSuaTK extends javax.swing.JDialog {
 
     /**
      * Creates new form formThemNV
      */
-    public formSuaKH(java.awt.Frame parent, boolean modal) {
+    public formSuaTK(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -30,7 +30,7 @@ public class formSuaKH extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         roundPanel1 = new Swing.RoundPanel();
         topRoundedPanel1 = new Swing.TopRoundedPanel();
-        lblThemKH = new javax.swing.JLabel();
+        lblThemTk = new javax.swing.JLabel();
         bottomRoundedPanel1 = new Swing.BottomRoundedPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -38,29 +38,24 @@ public class formSuaKH extends javax.swing.JDialog {
         jPanel11 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        txtHoTen1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
-        jPanel13 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
-        txtHoTen2 = new javax.swing.JTextField();
-        txtHoTen3 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
-        txtHoTen4 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel9 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
@@ -79,14 +74,14 @@ public class formSuaKH extends javax.swing.JDialog {
         topRoundedPanel1.setPreferredSize(new java.awt.Dimension(569, 75));
         topRoundedPanel1.setLayout(new java.awt.BorderLayout());
 
-        lblThemKH.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblThemKH.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblThemKH.setText("Sửa thông tin khách hàng");
-        lblThemKH.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        lblThemKH.setMaximumSize(new java.awt.Dimension(190, 32));
-        lblThemKH.setMinimumSize(new java.awt.Dimension(190, 32));
-        lblThemKH.setPreferredSize(new java.awt.Dimension(190, 32));
-        topRoundedPanel1.add(lblThemKH, java.awt.BorderLayout.CENTER);
+        lblThemTk.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblThemTk.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblThemTk.setText("Sửa tài khoản");
+        lblThemTk.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblThemTk.setMaximumSize(new java.awt.Dimension(190, 32));
+        lblThemTk.setMinimumSize(new java.awt.Dimension(190, 32));
+        lblThemTk.setPreferredSize(new java.awt.Dimension(190, 32));
+        topRoundedPanel1.add(lblThemTk, java.awt.BorderLayout.CENTER);
 
         roundPanel1.add(topRoundedPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -99,7 +94,7 @@ public class formSuaKH extends javax.swing.JDialog {
         jPanel3.setPreferredSize(new java.awt.Dimension(622, 50));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jPanel10.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel10.setPreferredSize(new java.awt.Dimension(180, 50));
         jPanel10.setLayout(new java.awt.BorderLayout());
         jPanel3.add(jPanel10, java.awt.BorderLayout.LINE_START);
 
@@ -111,60 +106,42 @@ public class formSuaKH extends javax.swing.JDialog {
         jPanel5.setPreferredSize(new java.awt.Dimension(622, 50));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jPanel12.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel12.setPreferredSize(new java.awt.Dimension(180, 50));
         jPanel12.setLayout(new java.awt.BorderLayout());
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Họ tên:");
-        jLabel2.setAlignmentX(20.0F);
-        jLabel2.setAlignmentY(20.0F);
-        jPanel12.add(jLabel2, java.awt.BorderLayout.CENTER);
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setText("Tài khoản:");
+        jPanel12.add(jLabel1, java.awt.BorderLayout.CENTER);
 
         jPanel5.add(jPanel12, java.awt.BorderLayout.LINE_START);
 
-        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
+        jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        txtHoTen1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel4.add(txtHoTen1);
+        jTextField1.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel13.add(jTextField1);
 
-        jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);
+        jPanel5.add(jPanel13, java.awt.BorderLayout.CENTER);
 
         jPanel2.add(jPanel5);
 
         jPanel6.setPreferredSize(new java.awt.Dimension(622, 50));
         jPanel6.setLayout(new java.awt.BorderLayout());
 
-        jPanel14.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel14.setPreferredSize(new java.awt.Dimension(180, 50));
         jPanel14.setLayout(new java.awt.BorderLayout());
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("Giới tính:");
-        jPanel14.add(jLabel3, java.awt.BorderLayout.CENTER);
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("Mật khẩu mới:");
+        jPanel14.add(jLabel11, java.awt.BorderLayout.CENTER);
 
         jPanel6.add(jPanel14, java.awt.BorderLayout.LINE_START);
 
-        jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+        jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
-
-        jRadioButton1.setText("Nam");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
-        jPanel13.add(jRadioButton1);
-
-        jRadioButton2.setText("Nữ");
-        jPanel13.add(jRadioButton2);
-        jPanel13.add(jLabel4);
-
-        jLabel5.setText("       ");
-        jPanel13.add(jLabel5);
-
-        jPanel15.add(jPanel13);
+        jTextField2.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel15.add(jTextField2);
 
         jPanel6.add(jPanel15, java.awt.BorderLayout.CENTER);
 
@@ -173,23 +150,20 @@ public class formSuaKH extends javax.swing.JDialog {
         jPanel7.setPreferredSize(new java.awt.Dimension(622, 50));
         jPanel7.setLayout(new java.awt.BorderLayout());
 
-        jPanel16.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel16.setPreferredSize(new java.awt.Dimension(180, 50));
         jPanel16.setLayout(new java.awt.BorderLayout());
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("SĐT:");
-        jPanel16.add(jLabel7, java.awt.BorderLayout.CENTER);
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel12.setText("Nhập lại mật khẩu mới:");
+        jPanel16.add(jLabel12, java.awt.BorderLayout.CENTER);
 
         jPanel7.add(jPanel16, java.awt.BorderLayout.LINE_START);
 
         jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        txtHoTen2.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel17.add(txtHoTen2);
-
-        txtHoTen3.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel17.add(txtHoTen3);
+        jTextField3.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel17.add(jTextField3);
 
         jPanel7.add(jPanel17, java.awt.BorderLayout.CENTER);
 
@@ -198,20 +172,21 @@ public class formSuaKH extends javax.swing.JDialog {
         jPanel8.setPreferredSize(new java.awt.Dimension(622, 50));
         jPanel8.setLayout(new java.awt.BorderLayout());
 
-        jPanel18.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel18.setPreferredSize(new java.awt.Dimension(180, 50));
         jPanel18.setLayout(new java.awt.BorderLayout());
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel8.setText("Tuổi:");
-        jPanel18.add(jLabel8, java.awt.BorderLayout.CENTER);
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel13.setText("Nhân viên:");
+        jPanel18.add(jLabel13, java.awt.BorderLayout.CENTER);
 
         jPanel8.add(jPanel18, java.awt.BorderLayout.LINE_START);
 
         jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        txtHoTen4.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel19.add(txtHoTen4);
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đinh Ngọc Dĩ Hào", "Trần Huỳnh Sỹ Đạt", "Phan Nhật Đăng" }));
+        jComboBox1.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel19.add(jComboBox1);
 
         jPanel8.add(jPanel19, java.awt.BorderLayout.CENTER);
 
@@ -220,7 +195,7 @@ public class formSuaKH extends javax.swing.JDialog {
         jPanel9.setPreferredSize(new java.awt.Dimension(622, 50));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
-        jPanel20.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel20.setPreferredSize(new java.awt.Dimension(180, 50));
         jPanel20.setLayout(new java.awt.BorderLayout());
         jPanel9.add(jPanel20, java.awt.BorderLayout.LINE_START);
 
@@ -279,10 +254,6 @@ public class formSuaKH extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
-
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnThemActionPerformed
@@ -304,13 +275,13 @@ public class formSuaKH extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(formSuaKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formSuaTK.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(formSuaKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formSuaTK.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(formSuaKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formSuaTK.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(formSuaKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formSuaTK.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -332,7 +303,7 @@ public class formSuaKH extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                formSuaKH dialog = new formSuaKH(new javax.swing.JFrame(), true);
+                formSuaTK dialog = new formSuaTK(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -349,12 +320,11 @@ public class formSuaKH extends javax.swing.JDialog {
     private Swing.BottomRoundedPanel bottomRoundedPanel2;
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnThem;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -370,20 +340,16 @@ public class formSuaKH extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JLabel lblThemKH;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel lblThemTk;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
-    private javax.swing.JTextField txtHoTen1;
-    private javax.swing.JTextField txtHoTen2;
-    private javax.swing.JTextField txtHoTen3;
-    private javax.swing.JTextField txtHoTen4;
     // End of variables declaration//GEN-END:variables
 }

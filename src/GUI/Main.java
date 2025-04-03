@@ -9,7 +9,10 @@ import GUI.page.frmNhaCungCapCapNhat;
 import GUI.page.frmSearchNhaCungCap;
 import GUI.page.frmNhanVienCapNhat;
 import GUI.page.frmKhachHangCapNhat;
+import GUI.page.frmSearchKhachHang;
 import GUI.page.frmSearchNhanVien;
+import GUI.page.frmSearchTaiKhoan;
+import GUI.page.frmTaiKhoanCapNhat;
 import GUI.page.frmThuocCapNhat;
 import Swing.RoundedMenuItem;
 import Swing.RoundedPopupMenu;
@@ -116,6 +119,7 @@ public class Main extends javax.swing.JFrame {
         btnTaiKhoan.addActionListener(e -> popupMenuTaiKhoan.show(btnTaiKhoan, btnTaiKhoan.getWidth(), 2));
         setFontForMenuItems(new RoundedMenuItem[]{itemTK1, itemTK2});
 
+//sự kiện cập nhật nhân viên
         itemNV1.addActionListener(e -> {
             frmNhanVienCapNhat nv = new frmNhanVienCapNhat();
             // Xóa tất cả các phần cũ 
@@ -130,7 +134,7 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-        
+//sự kiện tìm kiếm nhân viên
         itemNV2.addActionListener(e -> {
             frmSearchNhanVien nv = new frmSearchNhanVien();
             // Xóa tất cả các phần cũ 
@@ -145,7 +149,7 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện tìm kiếm nhân viên
+//sự kiện tìm kiếm nhà cung cấp
         itemNCC1.addActionListener(e -> {
             frmNhaCungCapCapNhat ncc = new frmNhaCungCapCapNhat();
             // Xóa tất cả các phần cũ 
@@ -160,20 +164,22 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
+//Sự kiện tìm kiếm nhà cung cấp
         itemNCC2.addActionListener(e -> {
-            frmSearchNhaCungCap sncc = new frmSearchNhaCungCap();
+            frmSearchNhaCungCap ncc = new frmSearchNhaCungCap();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
 
             // Thêm NhaCungCapCapNhat vào mainPanel
-            mainPanel.add(sncc, java.awt.BorderLayout.CENTER);
+            mainPanel.add(ncc, java.awt.BorderLayout.CENTER);
 
             // Cập nhật lại giao diện
             mainPanel.revalidate();
             mainPanel.repaint();
         });
+//sự kiện cập nhật khách hàng
         itemKH1.addActionListener(e -> {
             frmKhachHangCapNhat kh = new frmKhachHangCapNhat();
             // Xóa tất cả các phần cũ 
@@ -188,6 +194,22 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
+//sự kiện tìm kiếm khách hàng
+        itemKH2.addActionListener(e -> {
+            frmSearchKhachHang kh = new frmSearchKhachHang();
+            // Xóa tất cả các phần cũ 
+            mainPanel.removeAll();
+            // Đặt layout cho mainPanel
+            mainPanel.setLayout(new java.awt.BorderLayout());
+
+            // Thêm NhaCungCapCapNhat vào mainPanel
+            mainPanel.add(kh, java.awt.BorderLayout.CENTER);
+
+            // Cập nhật lại giao diện
+            mainPanel.revalidate();
+            mainPanel.repaint();
+        });
+//sự kiện cập nhật thuốc
         itemThuoc1.addActionListener(e -> {
             frmThuocCapNhat thuoc = new frmThuocCapNhat();
             // Xóa tất cả các phần cũ 
@@ -197,6 +219,36 @@ public class Main extends javax.swing.JFrame {
 
             // Thêm NhaCungCapCapNhat vào mainPanel
             mainPanel.add(thuoc, java.awt.BorderLayout.CENTER);
+
+            // Cập nhật lại giao diện
+            mainPanel.revalidate();
+            mainPanel.repaint();
+        });
+//sự kiện cập nhật tài khoản
+        itemTK1.addActionListener(e -> {
+            frmTaiKhoanCapNhat tk = new frmTaiKhoanCapNhat();
+            // Xóa tất cả các phần cũ 
+            mainPanel.removeAll();
+            // Đặt layout cho mainPanel
+            mainPanel.setLayout(new java.awt.BorderLayout());
+
+            // Thêm NhaCungCapCapNhat vào mainPanel
+            mainPanel.add(tk, java.awt.BorderLayout.CENTER);
+
+            // Cập nhật lại giao diện
+            mainPanel.revalidate();
+            mainPanel.repaint();
+        });
+//sự kiện tìm kiếm tài khoản
+        itemTK2.addActionListener(e -> {
+            frmSearchTaiKhoan tk = new frmSearchTaiKhoan();
+            // Xóa tất cả các phần cũ 
+            mainPanel.removeAll();
+            // Đặt layout cho mainPanel
+            mainPanel.setLayout(new java.awt.BorderLayout());
+
+            // Thêm NhaCungCapCapNhat vào mainPanel
+            mainPanel.add(tk, java.awt.BorderLayout.CENTER);
 
             // Cập nhật lại giao diện
             mainPanel.revalidate();
