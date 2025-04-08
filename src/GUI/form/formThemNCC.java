@@ -30,131 +30,137 @@ public class formThemNCC extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         roundPanel1 = new Swing.RoundPanel();
         topRoundedPanel1 = new Swing.TopRoundedPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblThemNCC = new javax.swing.JLabel();
         bottomRoundedPanel1 = new Swing.BottomRoundedPanel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        txtHoTen1 = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        jPanel20 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        jPanel21 = new javax.swing.JPanel();
-        jTextField4 = new javax.swing.JTextField();
+        txtHoTen3 = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        txtHoTen2 = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
-        jPanel18 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jPanel19 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
         bottomRoundedPanel2 = new Swing.BottomRoundedPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnHuy = new javax.swing.JButton();
+        btnThem = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(81, 219, 185));
-        setPreferredSize(new java.awt.Dimension(412, 400));
+        setPreferredSize(new java.awt.Dimension(634, 500));
 
         jPanel1.setBackground(new java.awt.Color(81, 219, 185));
-        jPanel1.setPreferredSize(new java.awt.Dimension(606, 400));
+        jPanel1.setPreferredSize(new java.awt.Dimension(606, 350));
 
         roundPanel1.setBackground(new java.awt.Color(0, 120, 92));
-        roundPanel1.setPreferredSize(new java.awt.Dimension(569, 400));
         roundPanel1.setLayout(new java.awt.BorderLayout());
 
         topRoundedPanel1.setPreferredSize(new java.awt.Dimension(569, 75));
         topRoundedPanel1.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setLabelFor(jButton2);
-        jLabel1.setText("Thêm nhà cung cấp");
-        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel1.setMaximumSize(new java.awt.Dimension(190, 32));
-        jLabel1.setMinimumSize(new java.awt.Dimension(190, 32));
-        jLabel1.setPreferredSize(new java.awt.Dimension(190, 32));
-        topRoundedPanel1.add(jLabel1, java.awt.BorderLayout.CENTER);
+        lblThemNCC.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblThemNCC.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblThemNCC.setText("Thêm nhà cung cấp");
+        lblThemNCC.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblThemNCC.setMaximumSize(new java.awt.Dimension(190, 32));
+        lblThemNCC.setMinimumSize(new java.awt.Dimension(190, 32));
+        lblThemNCC.setPreferredSize(new java.awt.Dimension(190, 32));
+        topRoundedPanel1.add(lblThemNCC, java.awt.BorderLayout.CENTER);
 
         roundPanel1.add(topRoundedPanel1, java.awt.BorderLayout.PAGE_START);
 
-        bottomRoundedPanel1.setPreferredSize(new java.awt.Dimension(569, 260));
+        bottomRoundedPanel1.setPreferredSize(new java.awt.Dimension(569, 325));
         bottomRoundedPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jPanel2.setPreferredSize(new java.awt.Dimension(567, 200));
+        jPanel2.setPreferredSize(new java.awt.Dimension(567, 350));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(622, 50));
-        jPanel3.setLayout(new java.awt.BorderLayout());
+        jPanel11.setPreferredSize(new java.awt.Dimension(567, 320));
+        jPanel11.setLayout(new java.awt.BorderLayout());
+        jPanel2.add(jPanel11);
 
-        jPanel10.setPreferredSize(new java.awt.Dimension(150, 50));
-        jPanel10.setLayout(new java.awt.BorderLayout());
+        jPanel5.setPreferredSize(new java.awt.Dimension(567, 160));
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
+        jPanel12.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel12.setLayout(new java.awt.BorderLayout());
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Tên nhà cung cấp:");
         jLabel2.setAlignmentX(20.0F);
         jLabel2.setAlignmentY(20.0F);
-        jLabel2.setFocusCycleRoot(true);
-        jLabel2.setFocusable(false);
-        jPanel10.add(jLabel2, java.awt.BorderLayout.CENTER);
+        jPanel12.add(jLabel2, java.awt.BorderLayout.CENTER);
 
-        jPanel3.add(jPanel10, java.awt.BorderLayout.LINE_START);
+        jPanel5.add(jPanel12, java.awt.BorderLayout.LINE_START);
 
-        jPanel11.setPreferredSize(new java.awt.Dimension(360, 50));
-        jPanel11.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30);
+        flowLayout1.setAlignOnBaseline(true);
+        jPanel4.setLayout(flowLayout1);
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel11.add(jTextField1);
+        txtHoTen1.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel4.add(txtHoTen1);
 
-        jPanel3.add(jPanel11, java.awt.BorderLayout.CENTER);
+        jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);
 
-        jPanel2.add(jPanel3);
+        jPanel2.add(jPanel5);
 
-        jPanel9.setPreferredSize(new java.awt.Dimension(622, 50));
-        jPanel9.setLayout(new java.awt.BorderLayout());
+        jPanel6.setPreferredSize(new java.awt.Dimension(567, 160));
+        jPanel6.setLayout(new java.awt.BorderLayout());
 
-        jPanel20.setPreferredSize(new java.awt.Dimension(150, 50));
-        jPanel20.setLayout(new java.awt.BorderLayout());
+        jPanel14.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel14.setLayout(new java.awt.BorderLayout());
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel10.setText("Địa chỉ:");
-        jPanel20.add(jLabel10, java.awt.BorderLayout.CENTER);
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Địa chỉ:");
+        jPanel14.add(jLabel3, java.awt.BorderLayout.CENTER);
 
-        jPanel9.add(jPanel20, java.awt.BorderLayout.LINE_START);
+        jPanel6.add(jPanel14, java.awt.BorderLayout.LINE_START);
 
-        jPanel21.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
+        jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30));
 
-        jTextField4.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel21.add(jTextField4);
+        txtHoTen3.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel9.add(txtHoTen3);
 
-        jPanel9.add(jPanel21, java.awt.BorderLayout.CENTER);
+        jPanel6.add(jPanel9, java.awt.BorderLayout.CENTER);
 
-        jPanel2.add(jPanel9);
+        jPanel2.add(jPanel6);
 
-        jPanel8.setPreferredSize(new java.awt.Dimension(622, 50));
+        jPanel7.setPreferredSize(new java.awt.Dimension(567, 160));
+        jPanel7.setLayout(new java.awt.BorderLayout());
+
+        jPanel16.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel16.setLayout(new java.awt.BorderLayout());
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("SĐT:");
+        jPanel16.add(jLabel7, java.awt.BorderLayout.CENTER);
+
+        jPanel7.add(jPanel16, java.awt.BorderLayout.LINE_START);
+
+        jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30));
+
+        txtHoTen2.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel17.add(txtHoTen2);
+
+        jPanel7.add(jPanel17, java.awt.BorderLayout.CENTER);
+
+        jPanel2.add(jPanel7);
+
+        jPanel8.setPreferredSize(new java.awt.Dimension(567, 320));
         jPanel8.setLayout(new java.awt.BorderLayout());
-
-        jPanel18.setPreferredSize(new java.awt.Dimension(150, 50));
-        jPanel18.setLayout(new java.awt.BorderLayout());
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("SĐT:");
-        jPanel18.add(jLabel9, java.awt.BorderLayout.CENTER);
-
-        jPanel8.add(jPanel18, java.awt.BorderLayout.LINE_START);
-
-        jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
-
-        jTextField3.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel19.add(jTextField3);
-
-        jPanel8.add(jPanel19, java.awt.BorderLayout.CENTER);
-
         jPanel2.add(jPanel8);
 
         bottomRoundedPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -162,24 +168,24 @@ public class formThemNCC extends javax.swing.JDialog {
         bottomRoundedPanel2.setPreferredSize(new java.awt.Dimension(567, 80));
         bottomRoundedPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 150, 25));
 
-        jButton1.setBackground(new java.awt.Color(255, 103, 102));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Huỷ");
-        jButton1.setPreferredSize(new java.awt.Dimension(90, 35));
-        bottomRoundedPanel2.add(jButton1);
+        btnHuy.setBackground(new java.awt.Color(255, 103, 102));
+        btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnHuy.setForeground(new java.awt.Color(255, 255, 255));
+        btnHuy.setText("Huỷ");
+        btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
+        bottomRoundedPanel2.add(btnHuy);
 
-        jButton2.setBackground(new java.awt.Color(15, 204, 102));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Thêm");
-        jButton2.setPreferredSize(new java.awt.Dimension(90, 35));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnThem.setBackground(new java.awt.Color(15, 204, 102));
+        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThem.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem.setText("Thêm");
+        btnThem.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnThemActionPerformed(evt);
             }
         });
-        bottomRoundedPanel2.add(jButton2);
+        bottomRoundedPanel2.add(btnThem);
 
         bottomRoundedPanel1.add(bottomRoundedPanel2, java.awt.BorderLayout.PAGE_END);
 
@@ -198,7 +204,7 @@ public class formThemNCC extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -207,9 +213,9 @@ public class formThemNCC extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnThemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -257,27 +263,29 @@ public class formThemNCC extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Swing.BottomRoundedPanel bottomRoundedPanel1;
     private Swing.BottomRoundedPanel bottomRoundedPanel2;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
+    private javax.swing.JButton btnHuy;
+    private javax.swing.JButton btnThem;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JLabel lblThemNCC;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
+    private javax.swing.JTextField txtHoTen1;
+    private javax.swing.JTextField txtHoTen2;
+    private javax.swing.JTextField txtHoTen3;
     // End of variables declaration//GEN-END:variables
 }
