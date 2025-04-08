@@ -68,8 +68,8 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel28 = new javax.swing.JPanel();
         jTextField2 = new javax.swing.JTextField();
         jPanel14 = new javax.swing.JPanel();
-        jPanel29 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
+        jPanel29 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel31 = new javax.swing.JPanel();
@@ -317,14 +317,15 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel14.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel14.setLayout(new java.awt.BorderLayout());
 
+        jPanel30.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel30.setPreferredSize(new java.awt.Dimension(669, 38));
+
         jPanel29.setMaximumSize(new java.awt.Dimension(170, 38));
         jPanel29.setMinimumSize(new java.awt.Dimension(300, 38));
         jPanel29.setPreferredSize(new java.awt.Dimension(300, 38));
         jPanel29.setLayout(new java.awt.BorderLayout());
-        jPanel14.add(jPanel29, java.awt.BorderLayout.LINE_START);
+        jPanel30.add(jPanel29);
 
-        jPanel30.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel30.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel14.add(jPanel30, java.awt.BorderLayout.CENTER);
 
         jPanel4.add(jPanel14);
@@ -351,6 +352,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
 
         jPanel5.add(jPanel31, java.awt.BorderLayout.PAGE_START);
 
+        jPanel32.setMinimumSize(new java.awt.Dimension(452, 402));
         jPanel32.setLayout(new java.awt.BorderLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(

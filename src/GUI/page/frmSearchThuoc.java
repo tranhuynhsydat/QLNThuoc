@@ -26,19 +26,535 @@ public class frmSearchThuoc extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel33 = new javax.swing.JPanel();
+        jPanel34 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel35 = new javax.swing.JPanel();
+        jTextField3 = new javax.swing.JTextField();
+        jPanel8 = new javax.swing.JPanel();
+        jPanel17 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel18 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jPanel11 = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel24 = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
+        jPanel14 = new javax.swing.JPanel();
+        jPanel29 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel30 = new javax.swing.JPanel();
+        jTextField4 = new javax.swing.JTextField();
+        jPanel9 = new javax.swing.JPanel();
+        jPanel19 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel20 = new javax.swing.JPanel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jPanel15 = new javax.swing.JPanel();
+        jPanel36 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jPanel37 = new javax.swing.JPanel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jPanel16 = new javax.swing.JPanel();
+        jPanel38 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jPanel39 = new javax.swing.JPanel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jPanel21 = new javax.swing.JPanel();
+        jPanel40 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jPanel41 = new javax.swing.JPanel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jPanel13 = new javax.swing.JPanel();
+        jPanel27 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel28 = new javax.swing.JPanel();
+        jTextField2 = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel42 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel43 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        btnPanel = new javax.swing.JPanel();
+        btnTimKiem = new javax.swing.JButton();
+        btnChiTiet = new javax.swing.JButton();
+
+        setPreferredSize(new java.awt.Dimension(829, 624));
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setBackground(new java.awt.Color(255, 102, 102));
+        jPanel1.setMinimumSize(new java.awt.Dimension(829, 312));
+        jPanel1.setPreferredSize(new java.awt.Dimension(829, 400));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel3.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel3.setMinimumSize(new java.awt.Dimension(829, 50));
+        jPanel3.setPreferredSize(new java.awt.Dimension(829, 50));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Nhập thông tin tìm kiếm");
+        jPanel3.add(jLabel1, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_START);
+
+        jPanel4.setToolTipText("");
+        jPanel4.setMinimumSize(new java.awt.Dimension(829, 300));
+        jPanel4.setPreferredSize(new java.awt.Dimension(829, 300));
+        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel33.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel33.setLayout(new java.awt.BorderLayout());
+
+        jPanel34.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel34.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel34.setLayout(new java.awt.BorderLayout());
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("Tên thuốc:");
+        jLabel11.setMaximumSize(new java.awt.Dimension(170, 38));
+        jLabel11.setMinimumSize(new java.awt.Dimension(170, 38));
+        jLabel11.setPreferredSize(new java.awt.Dimension(170, 38));
+        jPanel34.add(jLabel11, java.awt.BorderLayout.CENTER);
+
+        jPanel33.add(jPanel34, java.awt.BorderLayout.LINE_START);
+
+        jPanel35.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel35.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        jTextField3.setPreferredSize(new java.awt.Dimension(350, 30));
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+        jPanel35.add(jTextField3);
+
+        jPanel33.add(jPanel35, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel33);
+
+        jPanel8.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel8.setLayout(new java.awt.BorderLayout());
+
+        jPanel17.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel17.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel17.setLayout(new java.awt.BorderLayout());
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Thành phần thuốc:");
+        jLabel4.setMaximumSize(new java.awt.Dimension(170, 38));
+        jLabel4.setMinimumSize(new java.awt.Dimension(170, 38));
+        jLabel4.setOpaque(true);
+        jLabel4.setPreferredSize(new java.awt.Dimension(170, 38));
+        jPanel17.add(jLabel4, java.awt.BorderLayout.CENTER);
+
+        jPanel8.add(jPanel17, java.awt.BorderLayout.LINE_START);
+
+        jPanel18.setMinimumSize(new java.awt.Dimension(669, 232));
+        jPanel18.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel18.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 10));
+
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(349, 232));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setMinimumSize(new java.awt.Dimension(16, 16));
+        jTextArea1.setPreferredSize(new java.awt.Dimension(349, 32));
+        jScrollPane2.setViewportView(jTextArea1);
+
+        jPanel18.add(jScrollPane2);
+
+        jPanel8.add(jPanel18, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel8);
+
+        jPanel11.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel11.setLayout(new java.awt.BorderLayout());
+
+        jPanel23.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel23.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel23.setLayout(new java.awt.BorderLayout());
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Giá nhập:");
+        jLabel7.setMaximumSize(new java.awt.Dimension(170, 38));
+        jLabel7.setMinimumSize(new java.awt.Dimension(170, 38));
+        jLabel7.setPreferredSize(new java.awt.Dimension(170, 38));
+        jPanel23.add(jLabel7, java.awt.BorderLayout.CENTER);
+
+        jPanel11.add(jPanel23, java.awt.BorderLayout.LINE_START);
+
+        jPanel24.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel24.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel24.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        jTextField1.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel24.add(jTextField1);
+
+        jPanel11.add(jPanel24, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel11);
+
+        jPanel14.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel14.setLayout(new java.awt.BorderLayout());
+
+        jPanel29.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel29.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel29.setLayout(new java.awt.BorderLayout());
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel10.setText("Giá bán:");
+        jLabel10.setToolTipText("");
+        jLabel10.setMaximumSize(new java.awt.Dimension(170, 38));
+        jLabel10.setMinimumSize(new java.awt.Dimension(170, 38));
+        jLabel10.setPreferredSize(new java.awt.Dimension(170, 38));
+        jPanel29.add(jLabel10, java.awt.BorderLayout.CENTER);
+
+        jPanel14.add(jPanel29, java.awt.BorderLayout.LINE_START);
+
+        jPanel30.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel30.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel30.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        jTextField4.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel30.add(jTextField4);
+
+        jPanel14.add(jPanel30, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel14);
+
+        jPanel9.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel9.setLayout(new java.awt.BorderLayout());
+
+        jPanel19.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel19.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel19.setLayout(new java.awt.BorderLayout());
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("HSD:");
+        jLabel5.setMaximumSize(new java.awt.Dimension(170, 38));
+        jLabel5.setMinimumSize(new java.awt.Dimension(170, 38));
+        jLabel5.setPreferredSize(new java.awt.Dimension(170, 38));
+        jPanel19.add(jLabel5, java.awt.BorderLayout.CENTER);
+
+        jPanel9.add(jPanel19, java.awt.BorderLayout.LINE_START);
+
+        jPanel20.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel20.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        jDateChooser1.setPreferredSize(new java.awt.Dimension(88, 30));
+        jPanel20.add(jDateChooser1);
+
+        jPanel9.add(jPanel20, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel9);
+
+        jPanel15.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel15.setLayout(new java.awt.BorderLayout());
+
+        jPanel36.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel36.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel36.setLayout(new java.awt.BorderLayout());
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel12.setText("Danh mục:");
+        jLabel12.setMaximumSize(new java.awt.Dimension(170, 38));
+        jLabel12.setMinimumSize(new java.awt.Dimension(170, 38));
+        jLabel12.setPreferredSize(new java.awt.Dimension(170, 38));
+        jPanel36.add(jLabel12, java.awt.BorderLayout.CENTER);
+
+        jPanel15.add(jPanel36, java.awt.BorderLayout.LINE_START);
+
+        jPanel37.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel37.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel37.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        jComboBox1.setPreferredSize(new java.awt.Dimension(350, 22));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        jPanel37.add(jComboBox1);
+
+        jPanel15.add(jPanel37, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel15);
+
+        jPanel16.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel16.setLayout(new java.awt.BorderLayout());
+
+        jPanel38.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel38.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel38.setLayout(new java.awt.BorderLayout());
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel13.setText("Đơn vị tính:");
+        jLabel13.setMaximumSize(new java.awt.Dimension(170, 38));
+        jLabel13.setMinimumSize(new java.awt.Dimension(170, 38));
+        jLabel13.setPreferredSize(new java.awt.Dimension(170, 38));
+        jPanel38.add(jLabel13, java.awt.BorderLayout.CENTER);
+
+        jPanel16.add(jPanel38, java.awt.BorderLayout.LINE_START);
+
+        jPanel39.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel39.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel39.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        jComboBox2.setPreferredSize(new java.awt.Dimension(350, 22));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+        jPanel39.add(jComboBox2);
+
+        jPanel16.add(jPanel39, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel16);
+
+        jPanel21.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel21.setLayout(new java.awt.BorderLayout());
+
+        jPanel40.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel40.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel40.setLayout(new java.awt.BorderLayout());
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel14.setText("Xuất xứ:");
+        jLabel14.setMaximumSize(new java.awt.Dimension(170, 38));
+        jLabel14.setMinimumSize(new java.awt.Dimension(170, 38));
+        jLabel14.setPreferredSize(new java.awt.Dimension(170, 38));
+        jPanel40.add(jLabel14, java.awt.BorderLayout.CENTER);
+
+        jPanel21.add(jPanel40, java.awt.BorderLayout.LINE_START);
+
+        jPanel41.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel41.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel41.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        jComboBox3.setPreferredSize(new java.awt.Dimension(350, 22));
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
+        jPanel41.add(jComboBox3);
+
+        jPanel21.add(jPanel41, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel21);
+
+        jPanel13.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel13.setLayout(new java.awt.BorderLayout());
+
+        jPanel27.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel27.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel27.setLayout(new java.awt.BorderLayout(5, 10));
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel9.setText("Số lượng:");
+        jLabel9.setMaximumSize(new java.awt.Dimension(170, 38));
+        jLabel9.setMinimumSize(new java.awt.Dimension(170, 38));
+        jLabel9.setPreferredSize(new java.awt.Dimension(180, 38));
+        jPanel27.add(jLabel9, java.awt.BorderLayout.CENTER);
+
+        jPanel13.add(jPanel27, java.awt.BorderLayout.LINE_START);
+
+        jPanel28.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel28.setPreferredSize(new java.awt.Dimension(680, 38));
+        jPanel28.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        jTextField2.setMinimumSize(new java.awt.Dimension(350, 22));
+        jTextField2.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel28.add(jTextField2);
+
+        jPanel13.add(jPanel28, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel13);
+
+        jPanel1.add(jPanel4, java.awt.BorderLayout.CENTER);
+
+        add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 153));
+        jPanel2.setPreferredSize(new java.awt.Dimension(829, 174));
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jPanel42.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel42.setPreferredSize(new java.awt.Dimension(829, 50));
+        jPanel42.setLayout(new java.awt.BorderLayout());
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Danh sách thuốc");
+        jPanel42.add(jLabel3, java.awt.BorderLayout.CENTER);
+
+        jPanel2.add(jPanel42, java.awt.BorderLayout.PAGE_START);
+
+        jPanel43.setMinimumSize(new java.awt.Dimension(452, 125));
+        jPanel43.setPreferredSize(new java.awt.Dimension(452, 125));
+        jPanel43.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane3.setMinimumSize(new java.awt.Dimension(452, 402));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Mã thuốc", "Tên thuốc", "Thành phần", "Giá nhập", "Giá bán", "HSD", "Danh mục", "Đơn vị tính", "Xuất xứ", "Số lượng", "Ảnh"
+            }
+        ));
+        jTable2.setMinimumSize(new java.awt.Dimension(624, 175));
+        jTable2.setPreferredSize(new java.awt.Dimension(624, 175));
+        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable2.setShowHorizontalLines(true);
+        jScrollPane3.setViewportView(jTable2);
+
+        jPanel43.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+
+        jPanel2.add(jPanel43, java.awt.BorderLayout.CENTER);
+
+        add(jPanel2, java.awt.BorderLayout.CENTER);
+
+        btnPanel.setBackground(new java.awt.Color(222, 222, 222));
+        btnPanel.setPreferredSize(new java.awt.Dimension(829, 50));
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 8);
+        flowLayout1.setAlignOnBaseline(true);
+        btnPanel.setLayout(flowLayout1);
+
+        btnTimKiem.setBackground(new java.awt.Color(0, 153, 153));
+        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnTimKiem.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnTimKiem.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnTimKiem.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
+            }
+        });
+        btnPanel.add(btnTimKiem);
+
+        btnChiTiet.setBackground(new java.awt.Color(0, 153, 153));
+        btnChiTiet.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChiTiet.setForeground(new java.awt.Color(255, 255, 255));
+        btnChiTiet.setText("Chi tiết");
+        btnChiTiet.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnChiTiet.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnChiTiet.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnChiTiet.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnPanel.add(btnChiTiet);
+
+        add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTimKiemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChiTiet;
+    private javax.swing.JPanel btnPanel;
+    private javax.swing.JButton btnTimKiem;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
+    private javax.swing.JPanel jPanel29;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel30;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel38;
+    private javax.swing.JPanel jPanel39;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel40;
+    private javax.swing.JPanel jPanel41;
+    private javax.swing.JPanel jPanel42;
+    private javax.swing.JPanel jPanel43;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }

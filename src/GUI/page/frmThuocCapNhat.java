@@ -4,6 +4,11 @@
  */
 package GUI.page;
 
+import GUI.form.formSuaThuoc;
+import GUI.form.formThemThuoc;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author Admin
@@ -15,7 +20,23 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
      */
     public frmThuocCapNhat() {
         initComponents();
+        btnThem.addActionListener(evt -> openFormThemThuoc());
+        btnSua.addActionListener(evt -> openFormSuaThuoc());
     }
+    
+private void openFormThemThuoc() {
+    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    formThemThuoc dialog = new formThemThuoc(parentFrame, true);
+    dialog.setLocationRelativeTo(this); 
+    dialog.setVisible(true); 
+}
+
+private void openFormSuaThuoc() {
+    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    formSuaThuoc dialog = new formSuaThuoc(parentFrame, true);
+    dialog.setLocationRelativeTo(this); 
+    dialog.setVisible(true); 
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
