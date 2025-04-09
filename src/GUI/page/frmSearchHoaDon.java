@@ -80,35 +80,27 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
 
         label2.setAlignment(java.awt.Label.CENTER);
         label2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        label2.setMinimumSize(null);
         label2.setText("Mã hóa đơn:");
 
-        textField1.setMinimumSize(null);
         textField1.setText("textField1");
 
-        textField2.setMinimumSize(null);
         textField2.setText("textField1");
 
         label3.setAlignment(java.awt.Label.CENTER);
         label3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         label3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        label3.setMinimumSize(null);
         label3.setText("Tên khách hàng:");
 
         label4.setAlignment(java.awt.Label.CENTER);
         label4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        label4.setMinimumSize(null);
         label4.setText("Tên nhân viên:");
 
-        textField3.setMinimumSize(null);
         textField3.setText("textField1");
 
         label5.setAlignment(java.awt.Label.CENTER);
         label5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        label5.setMinimumSize(null);
         label5.setText("Số điện thoại:");
 
-        textField4.setMinimumSize(null);
         textField4.setText("textField1");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
