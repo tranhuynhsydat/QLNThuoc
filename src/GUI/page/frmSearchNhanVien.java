@@ -344,6 +344,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         jPanel31.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel31.setMinimumSize(new java.awt.Dimension(829, 50));
         jPanel31.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel31.setLayout(new java.awt.BorderLayout());
 
@@ -358,6 +359,8 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel32.setMinimumSize(new java.awt.Dimension(452, 402));
         jPanel32.setLayout(new java.awt.BorderLayout());
 
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(452, 402));
+
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"01", "111", "Đinh Ngọc Dĩ Hào", "012345678", "nam", "1/1/1000", "1/1/2000", "Quản lý"},
@@ -370,6 +373,8 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
                 "STT", "Mã NV", "Tên NV", "SĐT", "Giới tính", "Ngày sinh", "Ngày vào làm", "Chức vụ"
             }
         ));
+        jTable1.setMinimumSize(new java.awt.Dimension(452, 402));
+        jTable1.setPreferredSize(new java.awt.Dimension(452, 402));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable1);
