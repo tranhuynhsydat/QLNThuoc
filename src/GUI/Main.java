@@ -10,6 +10,8 @@ import GUI.page.frmNhaCungCapCapNhat;
 import GUI.page.frmSearchNhaCungCap;
 import GUI.page.frmNhanVienCapNhat;
 import GUI.page.frmKhachHangCapNhat;
+import GUI.page.frmPhieuNhapCapNhat;
+import GUI.page.frmSearchPhieuNhap;
 import GUI.page.frmSearchKhachHang;
 import GUI.page.frmSearchNhanVien;
 import GUI.page.frmSearchTaiKhoan;
@@ -49,6 +51,7 @@ public class Main extends javax.swing.JFrame {
     private RoundedPopupMenu popupMenuNhanVien;
     private RoundedPopupMenu popupMenuTaiKhoan;
     private RoundedPopupMenu popupMenuHoaDon;
+    private RoundedPopupMenu popupMenuPhieuNhap;
 
     public Main() {
         initComponents();
@@ -81,7 +84,18 @@ public class Main extends javax.swing.JFrame {
 
         btnHoaDon.addActionListener(e -> popupMenuHoaDon.show(btnHoaDon, btnHoaDon.getWidth(), 2));
         setFontForMenuItems(new RoundedMenuItem[]{itemHoaDon1, itemHoaDon2});
+// Menu phiếu nhập
+        popupMenuPhieuNhap = new RoundedPopupMenu();
+        RoundedMenuItem itemPhieuNhap1 = new RoundedMenuItem("Lập phiếu nhập");
+        popupMenuPhieuNhap.add(itemPhieuNhap1);
+        popupMenuPhieuNhap.add(new JSeparator());
 
+        RoundedMenuItem itemPhieuNhap2 = new RoundedMenuItem("Tìm kiếm");
+        popupMenuPhieuNhap.add(itemPhieuNhap2);
+        popupMenuPhieuNhap.add(new JSeparator());
+
+        btnPhieuNhap.addActionListener(e -> popupMenuPhieuNhap.show(btnPhieuNhap, btnPhieuNhap.getWidth(), 2));
+        setFontForMenuItems(new RoundedMenuItem[]{itemHoaDon1, itemHoaDon2});
 // Menu nhà cung cấp
         popupMenuNCC = new RoundedPopupMenu();
         RoundedMenuItem itemNCC1 = new RoundedMenuItem("Cập nhật");
@@ -249,6 +263,36 @@ public class Main extends javax.swing.JFrame {
 
             // Thêm NhaCungCapCapNhat vào mainPanel
             mainPanel.add(thuoc2, java.awt.BorderLayout.CENTER);
+
+            // Cập nhật lại giao diện
+            mainPanel.revalidate();
+            mainPanel.repaint();
+        });
+//sự kiện cập nhật phiếu nhập
+        itemPhieuNhap1.addActionListener(e -> {
+            frmPhieuNhapCapNhat pn1 = new frmPhieuNhapCapNhat();
+            // Xóa tất cả các phần cũ 
+            mainPanel.removeAll();
+            // Đặt layout cho mainPanel
+            mainPanel.setLayout(new java.awt.BorderLayout());
+
+            // Thêm NhaCungCapCapNhat vào mainPanel
+            mainPanel.add(pn1, java.awt.BorderLayout.CENTER);
+
+            // Cập nhật lại giao diện
+            mainPanel.revalidate();
+            mainPanel.repaint();
+        });
+//sự kiện tìm kiếm phiếu nhập
+        itemPhieuNhap2.addActionListener(e -> {
+            frmSearchPhieuNhap pn2 = new frmSearchPhieuNhap();
+            // Xóa tất cả các phần cũ 
+            mainPanel.removeAll();
+            // Đặt layout cho mainPanel
+            mainPanel.setLayout(new java.awt.BorderLayout());
+
+            // Thêm NhaCungCapCapNhat vào mainPanel
+            mainPanel.add(pn2, java.awt.BorderLayout.CENTER);
 
             // Cập nhật lại giao diện
             mainPanel.revalidate();
