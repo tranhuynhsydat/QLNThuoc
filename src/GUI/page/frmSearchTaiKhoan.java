@@ -26,6 +26,9 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel6 = new javax.swing.JPanel();
+        btnThem = new javax.swing.JButton();
+        btnThem1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -70,16 +73,45 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jPanel32 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jPanel6 = new javax.swing.JPanel();
-        btnThem = new javax.swing.JButton();
-        btnThem1 = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(829, 624));
         setPreferredSize(new java.awt.Dimension(829, 624));
         setLayout(new java.awt.BorderLayout());
 
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 10));
+
+        btnThem.setBackground(new java.awt.Color(0, 153, 153));
+        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThem.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem.setText("Tìm kiếm");
+        btnThem.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnThem.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnThem.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btnThem);
+
+        btnThem1.setBackground(new java.awt.Color(0, 153, 153));
+        btnThem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThem1.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem1.setText("Chi tiết");
+        btnThem1.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnThem1.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnThem1.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnThem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThem1ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btnThem1);
+
+        add(jPanel6, java.awt.BorderLayout.SOUTH);
+
         jPanel1.setBackground(new java.awt.Color(255, 102, 102));
-        jPanel1.setMinimumSize(new java.awt.Dimension(829, 312));
+        jPanel1.setMinimumSize(new java.awt.Dimension(829, 350));
         jPanel1.setPreferredSize(new java.awt.Dimension(829, 350));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -278,15 +310,19 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
 
         jPanel1.add(jPanel4, java.awt.BorderLayout.CENTER);
 
-        add(jPanel1, java.awt.BorderLayout.PAGE_START);
+        add(jPanel1, java.awt.BorderLayout.NORTH);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 153));
+        jPanel2.setMinimumSize(new java.awt.Dimension(829, 264));
+        jPanel2.setPreferredSize(new java.awt.Dimension(829, 264));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jPanel5.setPreferredSize(new java.awt.Dimension(829, 220));
+        jPanel5.setMinimumSize(new java.awt.Dimension(829, 264));
+        jPanel5.setPreferredSize(new java.awt.Dimension(829, 264));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         jPanel31.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel31.setMinimumSize(new java.awt.Dimension(829, 50));
         jPanel31.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel31.setLayout(new java.awt.BorderLayout());
 
@@ -296,13 +332,26 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jLabel2.setText("Danh sách tài khoản");
         jPanel31.add(jLabel2, java.awt.BorderLayout.CENTER);
 
-        jPanel5.add(jPanel31, java.awt.BorderLayout.PAGE_START);
+        jPanel5.add(jPanel31, java.awt.BorderLayout.NORTH);
 
+        jPanel32.setMinimumSize(new java.awt.Dimension(829, 200));
+        jPanel32.setPreferredSize(new java.awt.Dimension(829, 200));
         jPanel32.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(829, 200));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(829, 200));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"01", "TK-000", "admin", "Đinh Ngọc Dĩ Hào", "Quản lý"},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null}
@@ -311,6 +360,8 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
                 "STT", "Mã tài khoản", "Tên tài khoản", "Tên nhân viên", "chức vụ"
             }
         ));
+        jTable1.setMinimumSize(new java.awt.Dimension(829, 200));
+        jTable1.setPreferredSize(new java.awt.Dimension(829, 200));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable1);
@@ -320,38 +371,6 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jPanel5.add(jPanel32, java.awt.BorderLayout.CENTER);
 
         jPanel2.add(jPanel5, java.awt.BorderLayout.PAGE_START);
-
-        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 10));
-
-        btnThem.setBackground(new java.awt.Color(0, 153, 153));
-        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem.setText("Tìm kiếm");
-        btnThem.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnThem.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnThem.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
-            }
-        });
-        jPanel6.add(btnThem);
-
-        btnThem1.setBackground(new java.awt.Color(0, 153, 153));
-        btnThem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem1.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem1.setText("Chi tiết");
-        btnThem1.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnThem1.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnThem1.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnThem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThem1ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(btnThem1);
-
-        jPanel2.add(jPanel6, java.awt.BorderLayout.CENTER);
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
