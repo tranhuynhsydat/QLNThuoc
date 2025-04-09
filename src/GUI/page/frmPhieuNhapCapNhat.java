@@ -82,6 +82,26 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jPanel34 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel36 = new javax.swing.JPanel();
+        jPanel45 = new javax.swing.JPanel();
+        jPanel49 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel50 = new javax.swing.JPanel();
+        jTextField2 = new javax.swing.JTextField();
+        jPanel46 = new javax.swing.JPanel();
+        jPanel51 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel52 = new javax.swing.JPanel();
+        cboTenNCC = new javax.swing.JComboBox<>();
+        jPanel47 = new javax.swing.JPanel();
+        jPanel53 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jPanel54 = new javax.swing.JPanel();
+        txtSDTNCC = new javax.swing.JTextField();
+        jPanel48 = new javax.swing.JPanel();
+        jPanel55 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jPanel56 = new javax.swing.JPanel();
+        txtTenNV = new javax.swing.JTextField();
         jPanel35 = new javax.swing.JPanel();
         jPanel37 = new javax.swing.JPanel();
         jPanel39 = new javax.swing.JPanel();
@@ -451,7 +471,6 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 103, 102));
         jButton2.setText("Xóa");
-        jButton2.setActionCommand("Xóa");
         jPanel33.add(jButton2);
 
         jPanel6.add(jPanel33, java.awt.BorderLayout.PAGE_END);
@@ -475,17 +494,108 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jPanel7.add(jPanel34, java.awt.BorderLayout.PAGE_START);
 
         jPanel36.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
+        jPanel36.setLayout(new javax.swing.BoxLayout(jPanel36, javax.swing.BoxLayout.Y_AXIS));
 
-        javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
-        jPanel36.setLayout(jPanel36Layout);
-        jPanel36Layout.setHorizontalGroup(
-            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel36Layout.setVerticalGroup(
-            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        jPanel45.setLayout(new java.awt.BorderLayout());
+
+        jPanel49.setName(""); // NOI18N
+        jPanel49.setPreferredSize(new java.awt.Dimension(200, 30));
+        jPanel49.setLayout(new java.awt.BorderLayout());
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Mã phiếu nhập:");
+        jPanel49.add(jLabel10, java.awt.BorderLayout.CENTER);
+
+        jPanel45.add(jPanel49, java.awt.BorderLayout.LINE_START);
+
+        jPanel50.setMinimumSize(new java.awt.Dimension(300, 50));
+        jPanel50.setPreferredSize(new java.awt.Dimension(300, 50));
+        jPanel50.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 20));
+
+        jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
+        jTextField2.setPreferredSize(new java.awt.Dimension(250, 22));
+        jPanel50.add(jTextField2);
+
+        jPanel45.add(jPanel50, java.awt.BorderLayout.CENTER);
+
+        jPanel36.add(jPanel45);
+
+        jPanel46.setLayout(new java.awt.BorderLayout());
+
+        jPanel51.setName(""); // NOI18N
+        jPanel51.setPreferredSize(new java.awt.Dimension(200, 30));
+        jPanel51.setLayout(new java.awt.BorderLayout());
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Tên nhà cung cấp:");
+        jPanel51.add(jLabel11, java.awt.BorderLayout.CENTER);
+
+        jPanel46.add(jPanel51, java.awt.BorderLayout.LINE_START);
+
+        jPanel52.setMinimumSize(new java.awt.Dimension(300, 50));
+        jPanel52.setPreferredSize(new java.awt.Dimension(300, 50));
+        jPanel52.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 20));
+
+        cboTenNCC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTenNCC.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
+        cboTenNCC.setPreferredSize(new java.awt.Dimension(250, 22));
+        jPanel52.add(cboTenNCC);
+
+        jPanel46.add(jPanel52, java.awt.BorderLayout.CENTER);
+
+        jPanel36.add(jPanel46);
+
+        jPanel47.setLayout(new java.awt.BorderLayout());
+
+        jPanel53.setName(""); // NOI18N
+        jPanel53.setPreferredSize(new java.awt.Dimension(200, 30));
+        jPanel53.setLayout(new java.awt.BorderLayout());
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("SĐT:");
+        jPanel53.add(jLabel12, java.awt.BorderLayout.CENTER);
+
+        jPanel47.add(jPanel53, java.awt.BorderLayout.LINE_START);
+
+        jPanel54.setMinimumSize(new java.awt.Dimension(300, 50));
+        jPanel54.setPreferredSize(new java.awt.Dimension(300, 50));
+        jPanel54.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 20));
+
+        txtSDTNCC.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
+        txtSDTNCC.setPreferredSize(new java.awt.Dimension(250, 22));
+        jPanel54.add(txtSDTNCC);
+
+        jPanel47.add(jPanel54, java.awt.BorderLayout.CENTER);
+
+        jPanel36.add(jPanel47);
+
+        jPanel48.setLayout(new java.awt.BorderLayout());
+
+        jPanel55.setName(""); // NOI18N
+        jPanel55.setPreferredSize(new java.awt.Dimension(200, 30));
+        jPanel55.setLayout(new java.awt.BorderLayout());
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Tên nhân viên:");
+        jPanel55.add(jLabel13, java.awt.BorderLayout.CENTER);
+
+        jPanel48.add(jPanel55, java.awt.BorderLayout.LINE_START);
+
+        jPanel56.setMinimumSize(new java.awt.Dimension(300, 50));
+        jPanel56.setPreferredSize(new java.awt.Dimension(300, 50));
+        jPanel56.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 20));
+
+        txtTenNV.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
+        txtTenNV.setPreferredSize(new java.awt.Dimension(250, 22));
+        jPanel56.add(txtTenNV);
+
+        jPanel48.add(jPanel56, java.awt.BorderLayout.CENTER);
+
+        jPanel36.add(jPanel48);
 
         jPanel7.add(jPanel36, java.awt.BorderLayout.CENTER);
 
@@ -503,9 +613,14 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jPanel41.setPreferredSize(new java.awt.Dimension(300, 50));
         jPanel41.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 20));
 
-        cboThanhToan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboThanhToan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chuyển khoản", "Tiền mặt" }));
         cboThanhToan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
         cboThanhToan.setPreferredSize(new java.awt.Dimension(250, 22));
+        cboThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboThanhToanActionPerformed(evt);
+            }
+        });
         jPanel41.add(cboThanhToan);
 
         jPanel39.add(jPanel41, java.awt.BorderLayout.CENTER);
@@ -583,9 +698,14 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         add(jPanel2);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cboThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboThanhToanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboThanhToanActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPanhThuoc;
+    private javax.swing.JComboBox<String> cboTenNCC;
     private javax.swing.JComboBox<String> cboThanhToan;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -593,6 +713,10 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -640,7 +764,19 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel42;
     private javax.swing.JPanel jPanel43;
     private javax.swing.JPanel jPanel44;
+    private javax.swing.JPanel jPanel45;
+    private javax.swing.JPanel jPanel46;
+    private javax.swing.JPanel jPanel47;
+    private javax.swing.JPanel jPanel48;
+    private javax.swing.JPanel jPanel49;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel50;
+    private javax.swing.JPanel jPanel51;
+    private javax.swing.JPanel jPanel52;
+    private javax.swing.JPanel jPanel53;
+    private javax.swing.JPanel jPanel54;
+    private javax.swing.JPanel jPanel55;
+    private javax.swing.JPanel jPanel56;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -651,8 +787,11 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField txtDonGia;
     private javax.swing.JTextField txtMaThuoc;
+    private javax.swing.JTextField txtSDTNCC;
+    private javax.swing.JTextField txtTenNV;
     private javax.swing.JTextField txtTenThuoc;
     private javax.swing.JTextArea txtThanhPhan;
     private javax.swing.JTextField txtTongHoaDon;
