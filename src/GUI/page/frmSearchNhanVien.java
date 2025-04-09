@@ -81,7 +81,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         btnThem = new javax.swing.JButton();
         btnThem1 = new javax.swing.JButton();
 
-        setMinimumSize(new java.awt.Dimension(829, 624));
+        setMinimumSize(new java.awt.Dimension(829, 839));
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 102, 102));
