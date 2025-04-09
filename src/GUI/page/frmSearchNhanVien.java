@@ -85,7 +85,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 102, 102));
-        jPanel1.setMinimumSize(new java.awt.Dimension(829, 312));
+        jPanel1.setMinimumSize(new java.awt.Dimension(829, 350));
         jPanel1.setPreferredSize(new java.awt.Dimension(829, 350));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -298,7 +298,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jLabel9.setMaximumSize(new java.awt.Dimension(170, 38));
         jLabel9.setMinimumSize(new java.awt.Dimension(170, 38));
         jLabel9.setPreferredSize(new java.awt.Dimension(180, 38));
-        jPanel27.add(jLabel9, java.awt.BorderLayout.CENTER);
+        jPanel27.add(jLabel9, java.awt.BorderLayout.PAGE_START);
 
         jPanel13.add(jPanel27, java.awt.BorderLayout.LINE_START);
 
@@ -335,8 +335,11 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 153));
+        jPanel2.setMinimumSize(new java.awt.Dimension(470, 489));
+        jPanel2.setPreferredSize(new java.awt.Dimension(470, 489));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
+        jPanel5.setMinimumSize(new java.awt.Dimension(829, 220));
         jPanel5.setPreferredSize(new java.awt.Dimension(829, 220));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
@@ -377,6 +380,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
 
         jPanel2.add(jPanel5, java.awt.BorderLayout.PAGE_START);
 
+        jPanel6.setMinimumSize(new java.awt.Dimension(510, 55));
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 10));
 
         btnThem.setBackground(new java.awt.Color(0, 153, 153));

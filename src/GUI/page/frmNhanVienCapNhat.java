@@ -62,6 +62,7 @@ private void openFormSuaNV() {
         setPreferredSize(new java.awt.Dimension(829, 624));
         setLayout(new java.awt.BorderLayout());
 
+        tablePanel.setMinimumSize(new java.awt.Dimension(829, 452));
         tablePanel.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
@@ -101,7 +102,7 @@ private void openFormSuaNV() {
         add(tablePanel, java.awt.BorderLayout.CENTER);
 
         btnPanel.setBackground(new java.awt.Color(222, 222, 222));
-        btnPanel.setPreferredSize(new java.awt.Dimension(829, 50));
+        btnPanel.setPreferredSize(new java.awt.Dimension(655, 51));
         java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 8);
         flowLayout1.setAlignOnBaseline(true);
         btnPanel.setLayout(flowLayout1);
