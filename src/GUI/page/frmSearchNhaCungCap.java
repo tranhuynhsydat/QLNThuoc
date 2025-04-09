@@ -60,6 +60,7 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         btnTimKiem = new javax.swing.JButton();
         btnChiTiet = new javax.swing.JButton();
 
+        setMinimumSize(new java.awt.Dimension(829, 624));
         setPreferredSize(new java.awt.Dimension(829, 624));
         setRequestFocusEnabled(false);
         setVerifyInputWhenFocusTarget(false);

@@ -75,6 +75,7 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         btnThem1 = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(829, 624));
+        setPreferredSize(new java.awt.Dimension(829, 624));
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 102, 102));

@@ -70,18 +70,18 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel14 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
         jPanel29 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel31 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel32 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jPanel6 = new javax.swing.JPanel();
-        btnThem = new javax.swing.JButton();
-        btnThem1 = new javax.swing.JButton();
+        btnPanel = new javax.swing.JPanel();
+        btnTimKiem = new javax.swing.JButton();
+        btnChiTiet = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(829, 839));
+        setPreferredSize(new java.awt.Dimension(829, 624));
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 102, 102));
@@ -334,17 +334,11 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 153));
-        jPanel2.setMinimumSize(new java.awt.Dimension(470, 489));
-        jPanel2.setPreferredSize(new java.awt.Dimension(470, 489));
-        jPanel2.setLayout(new java.awt.BorderLayout());
-
-        jPanel5.setMinimumSize(new java.awt.Dimension(829, 220));
-        jPanel5.setPreferredSize(new java.awt.Dimension(829, 220));
+        jPanel5.setMinimumSize(new java.awt.Dimension(829, 224));
+        jPanel5.setPreferredSize(new java.awt.Dimension(829, 214));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         jPanel31.setBackground(new java.awt.Color(0, 153, 153));
-        jPanel31.setMinimumSize(new java.awt.Dimension(829, 50));
         jPanel31.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel31.setLayout(new java.awt.BorderLayout());
 
@@ -352,29 +346,30 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Danh sách nhân viên");
+        jLabel2.setToolTipText("");
         jPanel31.add(jLabel2, java.awt.BorderLayout.CENTER);
 
         jPanel5.add(jPanel31, java.awt.BorderLayout.PAGE_START);
 
-        jPanel32.setMinimumSize(new java.awt.Dimension(452, 402));
+        jPanel32.setMinimumSize(new java.awt.Dimension(824, 174));
+        jPanel32.setPreferredSize(new java.awt.Dimension(824, 174));
         jPanel32.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(452, 402));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(824, 174));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(824, 174));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"01", "111", "Đinh Ngọc Dĩ Hào", "012345678", "nam", "1/1/1000", "1/1/2000", "Quản lý"},
-                {"02", "112", "Đinh Ngọc Dĩ Hà", "012345679", "nữ", "1/1/1000", "1/1/2000", "Quản lý"},
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã NV", "Tên NV", "SĐT", "Giới tính", "Ngày sinh", "Ngày vào làm", "Chức vụ"
+                "STT", "Mã NV", "Tên NV", "SĐT ", "Giới tính", "Ngày sinh", "Ngày vào làm", "Chức vụ"
             }
         ));
-        jTable1.setMinimumSize(new java.awt.Dimension(452, 402));
-        jTable1.setPreferredSize(new java.awt.Dimension(452, 402));
+        jTable1.setMinimumSize(new java.awt.Dimension(824, 174));
+        jTable1.setPreferredSize(new java.awt.Dimension(824, 174));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable1);
@@ -383,60 +378,54 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
 
         jPanel5.add(jPanel32, java.awt.BorderLayout.CENTER);
 
-        jPanel2.add(jPanel5, java.awt.BorderLayout.PAGE_START);
+        add(jPanel5, java.awt.BorderLayout.CENTER);
 
-        jPanel6.setMinimumSize(new java.awt.Dimension(510, 55));
-        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 10));
+        btnPanel.setBackground(new java.awt.Color(222, 222, 222));
+        btnPanel.setPreferredSize(new java.awt.Dimension(829, 50));
+        java.awt.FlowLayout flowLayout3 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 8);
+        flowLayout3.setAlignOnBaseline(true);
+        btnPanel.setLayout(flowLayout3);
 
-        btnThem.setBackground(new java.awt.Color(0, 153, 153));
-        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem.setText("Tìm kiếm");
-        btnThem.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnThem.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnThem.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
+        btnTimKiem.setBackground(new java.awt.Color(0, 153, 153));
+        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnTimKiem.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnTimKiem.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnTimKiem.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
+                btnTimKiemActionPerformed(evt);
             }
         });
-        jPanel6.add(btnThem);
+        btnPanel.add(btnTimKiem);
 
-        btnThem1.setBackground(new java.awt.Color(0, 153, 153));
-        btnThem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem1.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem1.setText("Chi tiết");
-        btnThem1.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnThem1.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnThem1.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnThem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThem1ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(btnThem1);
+        btnChiTiet.setBackground(new java.awt.Color(0, 153, 153));
+        btnChiTiet.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChiTiet.setForeground(new java.awt.Color(255, 255, 255));
+        btnChiTiet.setText("Chi tiết");
+        btnChiTiet.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnChiTiet.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnChiTiet.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnChiTiet.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnPanel.add(btnChiTiet);
 
-        jPanel2.add(jPanel6, java.awt.BorderLayout.CENTER);
-
-        add(jPanel2, java.awt.BorderLayout.CENTER);
+        add(btnPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnThemActionPerformed
-
-    private void btnThem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnThem1ActionPerformed
+    }//GEN-LAST:event_btnTimKiemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnThem1;
+    private javax.swing.JButton btnChiTiet;
+    private javax.swing.JPanel btnPanel;
+    private javax.swing.JButton btnTimKiem;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
@@ -457,7 +446,6 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
@@ -477,7 +465,6 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JRadioButton jRadioButton1;

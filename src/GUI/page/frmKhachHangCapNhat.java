@@ -55,6 +55,8 @@ private void openFormSuaKH() {
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
 
+        setMinimumSize(new java.awt.Dimension(829, 624));
+        setPreferredSize(new java.awt.Dimension(829, 624));
         setLayout(new java.awt.BorderLayout());
 
         tablePanel.setLayout(new java.awt.BorderLayout());
