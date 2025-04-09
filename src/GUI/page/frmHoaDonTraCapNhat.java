@@ -8,12 +8,12 @@ package GUI.page;
  *
  * @author ADMIN
  */
-public class frmHoaDonCapNhat extends javax.swing.JPanel {
+public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
 
     /**
      * Creates new form frmHoaDonCapNhat
      */
-    public frmHoaDonCapNhat() {
+    public frmHoaDonTraCapNhat() {
         initComponents();
     }
 
@@ -245,8 +245,8 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox3)
-                    .addComponent(textField9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(textField9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBox3))
                 .addContainerGap())
         );
 
@@ -324,7 +324,7 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Chi tiết hóa đơn");
+        jLabel3.setText("Chi tiết hóa đơn trả");
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jScrollPane2.setPreferredSize(new java.awt.Dimension(328, 0));
@@ -406,7 +406,7 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 120, 92));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Hóa đơn");
+        jLabel4.setText("Hóa đơn trả");
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
