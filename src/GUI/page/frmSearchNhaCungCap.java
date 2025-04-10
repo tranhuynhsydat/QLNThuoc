@@ -69,7 +69,7 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         jPanel5.setPreferredSize(new java.awt.Dimension(829, 262));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jPanel6.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel6.setBackground(new java.awt.Color(0, 120, 92));
         jPanel6.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel6.setLayout(new java.awt.BorderLayout());
 
@@ -201,7 +201,7 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         jPanel4.setPreferredSize(new java.awt.Dimension(829, 312));
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(0, 120, 92));
         jPanel1.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -237,7 +237,7 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         flowLayout2.setAlignOnBaseline(true);
         btnPanel.setLayout(flowLayout2);
 
-        btnTimKiem.setBackground(new java.awt.Color(0, 153, 153));
+        btnTimKiem.setBackground(new java.awt.Color(0, 120, 92));
         btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnTimKiem.setForeground(new java.awt.Color(255, 255, 255));
         btnTimKiem.setText("Tìm kiếm");
@@ -251,7 +251,7 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         });
         btnPanel.add(btnTimKiem);
 
-        btnChiTiet.setBackground(new java.awt.Color(0, 153, 153));
+        btnChiTiet.setBackground(new java.awt.Color(0, 120, 92));
         btnChiTiet.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnChiTiet.setForeground(new java.awt.Color(255, 255, 255));
         btnChiTiet.setText("Chi tiết");

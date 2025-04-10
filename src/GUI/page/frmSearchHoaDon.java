@@ -62,7 +62,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel2.setMaximumSize(new java.awt.Dimension(829, 350));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jPanel3.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel3.setBackground(new java.awt.Color(0, 120, 92));
         jPanel3.setMinimumSize(new java.awt.Dimension(829, 50));
         jPanel3.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel3.setLayout(new java.awt.BorderLayout());
@@ -156,7 +156,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel6.setPreferredSize(new java.awt.Dimension(829, 220));
         jPanel6.setLayout(new java.awt.BorderLayout());
 
-        jPanel31.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel31.setBackground(new java.awt.Color(0, 120, 92));
         jPanel31.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel31.setLayout(new java.awt.BorderLayout());
 
@@ -193,7 +193,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
 
         jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 10));
 
-        btnThem.setBackground(new java.awt.Color(0, 153, 153));
+        btnThem.setBackground(new java.awt.Color(0, 120, 92));
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThem.setForeground(new java.awt.Color(255, 255, 255));
         btnThem.setText("Tìm kiếm");
@@ -207,7 +207,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         });
         jPanel7.add(btnThem);
 
-        btnThem1.setBackground(new java.awt.Color(0, 153, 153));
+        btnThem1.setBackground(new java.awt.Color(0, 120, 92));
         btnThem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThem1.setForeground(new java.awt.Color(255, 255, 255));
         btnThem1.setText("Chi tiết");

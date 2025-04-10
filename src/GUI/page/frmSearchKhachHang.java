@@ -74,7 +74,7 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
         jPanel1.setPreferredSize(new java.awt.Dimension(829, 220));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanel3.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel3.setBackground(new java.awt.Color(0, 120, 92));
         jPanel3.setMinimumSize(new java.awt.Dimension(829, 50));
         jPanel3.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel3.setLayout(new java.awt.BorderLayout());
@@ -220,7 +220,7 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
         jPanel5.setPreferredSize(new java.awt.Dimension(829, 525));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jPanel31.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel31.setBackground(new java.awt.Color(0, 120, 92));
         jPanel31.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel31.setLayout(new java.awt.BorderLayout());
 
@@ -262,7 +262,7 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
         flowLayout1.setAlignOnBaseline(true);
         btnPanel.setLayout(flowLayout1);
 
-        btnTimKiem.setBackground(new java.awt.Color(0, 153, 153));
+        btnTimKiem.setBackground(new java.awt.Color(0, 120, 92));
         btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnTimKiem.setForeground(new java.awt.Color(255, 255, 255));
         btnTimKiem.setText("Tìm kiếm");
@@ -276,7 +276,7 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
         });
         btnPanel.add(btnTimKiem);
 
-        btnChiTiet.setBackground(new java.awt.Color(0, 153, 153));
+        btnChiTiet.setBackground(new java.awt.Color(0, 120, 92));
         btnChiTiet.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnChiTiet.setForeground(new java.awt.Color(255, 255, 255));
         btnChiTiet.setText("Chi tiết");

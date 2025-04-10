@@ -61,7 +61,7 @@ private void openFormSuaKH() {
 
         tablePanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(0, 120, 92));
         jPanel1.setMinimumSize(new java.awt.Dimension(829, 50));
         jPanel1.setName(""); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(829, 50));
@@ -101,7 +101,7 @@ private void openFormSuaKH() {
         flowLayout2.setAlignOnBaseline(true);
         btnPanel.setLayout(flowLayout2);
 
-        btnThem.setBackground(new java.awt.Color(0, 153, 153));
+        btnThem.setBackground(new java.awt.Color(0, 120, 92));
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThem.setForeground(new java.awt.Color(255, 255, 255));
         btnThem.setText("Thêm");
@@ -115,7 +115,7 @@ private void openFormSuaKH() {
         });
         btnPanel.add(btnThem);
 
-        btnSua.setBackground(new java.awt.Color(0, 153, 153));
+        btnSua.setBackground(new java.awt.Color(0, 120, 92));
         btnSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSua.setForeground(new java.awt.Color(255, 255, 255));
         btnSua.setText("Sửa");
@@ -125,7 +125,7 @@ private void openFormSuaKH() {
         btnSua.setPreferredSize(new java.awt.Dimension(105, 35));
         btnPanel.add(btnSua);
 
-        btnXoa.setBackground(new java.awt.Color(0, 153, 153));
+        btnXoa.setBackground(new java.awt.Color(0, 120, 92));
         btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnXoa.setForeground(new java.awt.Color(255, 255, 255));
         btnXoa.setText("Xoá");
