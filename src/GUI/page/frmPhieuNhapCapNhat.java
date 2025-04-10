@@ -119,6 +119,8 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(81, 219, 185));
+        setMaximumSize(new java.awt.Dimension(829, 624));
+        setMinimumSize(new java.awt.Dimension(829, 624));
         setPreferredSize(new java.awt.Dimension(829, 624));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS));
 

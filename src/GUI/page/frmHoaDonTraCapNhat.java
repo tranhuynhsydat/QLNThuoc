@@ -136,6 +136,7 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(204, 204, 204));
         setMaximumSize(new java.awt.Dimension(829, 624));
+        setMinimumSize(new java.awt.Dimension(829, 624));
         setPreferredSize(new java.awt.Dimension(829, 624));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS));
 
