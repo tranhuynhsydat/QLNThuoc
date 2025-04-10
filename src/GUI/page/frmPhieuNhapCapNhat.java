@@ -96,7 +96,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jPanel53 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jPanel54 = new javax.swing.JPanel();
-        txtSDTNCC = new javax.swing.JTextField();
+        dateNgayNhap = new com.toedter.calendar.JDateChooser();
         jPanel48 = new javax.swing.JPanel();
         jPanel55 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
@@ -555,7 +555,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("SĐT:");
+        jLabel12.setText("Thời gian lập:");
         jPanel53.add(jLabel12, java.awt.BorderLayout.CENTER);
 
         jPanel47.add(jPanel53, java.awt.BorderLayout.LINE_START);
@@ -564,9 +564,10 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jPanel54.setPreferredSize(new java.awt.Dimension(300, 50));
         jPanel54.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 20));
 
-        txtSDTNCC.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
-        txtSDTNCC.setPreferredSize(new java.awt.Dimension(250, 22));
-        jPanel54.add(txtSDTNCC);
+        dateNgayNhap.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
+        dateNgayNhap.setMinimumSize(new java.awt.Dimension(182, 22));
+        dateNgayNhap.setPreferredSize(new java.awt.Dimension(150, 30));
+        jPanel54.add(dateNgayNhap);
 
         jPanel47.add(jPanel54, java.awt.BorderLayout.CENTER);
 
@@ -600,18 +601,17 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jPanel7.add(jPanel36, java.awt.BorderLayout.CENTER);
 
         jPanel35.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
-        jPanel35.setPreferredSize(new java.awt.Dimension(660, 202));
+        jPanel35.setPreferredSize(new java.awt.Dimension(660, 152));
         jPanel35.setLayout(new javax.swing.BoxLayout(jPanel35, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel37.setPreferredSize(new java.awt.Dimension(658, 152));
         jPanel37.setLayout(new java.awt.BorderLayout());
 
-        jPanel39.setPreferredSize(new java.awt.Dimension(658, 66));
+        jPanel39.setPreferredSize(new java.awt.Dimension(658, 41));
         jPanel39.setLayout(new java.awt.BorderLayout());
 
         jPanel41.setMinimumSize(new java.awt.Dimension(300, 50));
         jPanel41.setPreferredSize(new java.awt.Dimension(300, 50));
-        jPanel41.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 20));
+        jPanel41.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 10));
 
         cboThanhToan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chuyển khoản", "Tiền mặt" }));
         cboThanhToan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
@@ -638,12 +638,12 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
 
         jPanel37.add(jPanel39, java.awt.BorderLayout.PAGE_START);
 
-        jPanel40.setPreferredSize(new java.awt.Dimension(658, 66));
+        jPanel40.setPreferredSize(new java.awt.Dimension(658, 41));
         jPanel40.setLayout(new java.awt.BorderLayout());
 
         jPanel43.setMinimumSize(new java.awt.Dimension(300, 50));
         jPanel43.setPreferredSize(new java.awt.Dimension(300, 50));
-        jPanel43.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 25));
+        jPanel43.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 10));
 
         txtTongHoaDon.setForeground(new java.awt.Color(255, 103, 102));
         txtTongHoaDon.setHorizontalAlignment(javax.swing.JTextField.LEFT);
@@ -707,6 +707,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
     private javax.swing.JPanel JPanhThuoc;
     private javax.swing.JComboBox<String> cboTenNCC;
     private javax.swing.JComboBox<String> cboThanhToan;
+    private com.toedter.calendar.JDateChooser dateNgayNhap;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -790,7 +791,6 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField txtDonGia;
     private javax.swing.JTextField txtMaThuoc;
-    private javax.swing.JTextField txtSDTNCC;
     private javax.swing.JTextField txtTenNV;
     private javax.swing.JTextField txtTenThuoc;
     private javax.swing.JTextArea txtThanhPhan;
