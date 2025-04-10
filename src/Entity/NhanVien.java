@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author roxan
  */
-class NhanVien {
+public class NhanVien {
     private String id;
     private String hoTen;
     private String sdt;
