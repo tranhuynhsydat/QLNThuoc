@@ -64,9 +64,11 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jPanel28 = new javax.swing.JPanel();
+        jTextField4 = new javax.swing.JTextField();
         jPanel29 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
-        jPanel28 = new javax.swing.JPanel();
+        jPanel58 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -105,6 +107,11 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
         jLabel16 = new javax.swing.JLabel();
         jPanel65 = new javax.swing.JPanel();
         txtTenKH3 = new javax.swing.JTextField();
+        jPanel59 = new javax.swing.JPanel();
+        jPanel66 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jPanel67 = new javax.swing.JPanel();
+        txtTenNV1 = new javax.swing.JTextField();
         jPanel51 = new javax.swing.JPanel();
         jPanel53 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
@@ -376,7 +383,8 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
         jPanel4.setPreferredSize(new java.awt.Dimension(420, 50));
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel30.setPreferredSize(new java.awt.Dimension(150, 69));
+        jPanel30.setPreferredSize(new java.awt.Dimension(90, 69));
+        jPanel30.setRequestFocusEnabled(false);
         jPanel30.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -386,7 +394,26 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
 
         jPanel4.add(jPanel30);
 
-        jPanel29.setPreferredSize(new java.awt.Dimension(150, 69));
+        jPanel28.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel28.setPreferredSize(new java.awt.Dimension(100, 69));
+        jPanel28.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 10));
+
+        jTextField4.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        jTextField4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField4.setText("Tìm kiếm...");
+        jTextField4.setActionCommand("<Not Set>");
+        jTextField4.setMinimumSize(new java.awt.Dimension(140, 32));
+        jTextField4.setPreferredSize(new java.awt.Dimension(140, 32));
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+        jPanel28.add(jTextField4);
+
+        jPanel4.add(jPanel28);
+
+        jPanel29.setPreferredSize(new java.awt.Dimension(70, 69));
         jPanel29.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 10));
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
@@ -397,17 +424,21 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
 
         jPanel4.add(jPanel29);
 
-        jPanel28.setPreferredSize(new java.awt.Dimension(30, 69));
-        jPanel28.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 10));
+        jPanel58.setPreferredSize(new java.awt.Dimension(80, 100));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jButton1.setForeground(new java.awt.Color(0, 120, 92));
         jButton1.setText("Thêm");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
         jButton1.setPreferredSize(new java.awt.Dimension(130, 32));
-        jPanel28.add(jButton1);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel58.add(jButton1);
 
-        jPanel4.add(jPanel28);
+        jPanel4.add(jPanel58);
 
         jPanel1.add(jPanel4);
 
@@ -618,6 +649,31 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
 
         jPanel36.add(jPanel63);
 
+        jPanel59.setLayout(new java.awt.BorderLayout());
+
+        jPanel66.setName(""); // NOI18N
+        jPanel66.setPreferredSize(new java.awt.Dimension(200, 30));
+        jPanel66.setLayout(new java.awt.BorderLayout());
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("SĐT:");
+        jPanel66.add(jLabel14, java.awt.BorderLayout.CENTER);
+
+        jPanel59.add(jPanel66, java.awt.BorderLayout.LINE_START);
+
+        jPanel67.setMinimumSize(new java.awt.Dimension(300, 50));
+        jPanel67.setPreferredSize(new java.awt.Dimension(300, 50));
+        jPanel67.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 20));
+
+        txtTenNV1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
+        txtTenNV1.setPreferredSize(new java.awt.Dimension(250, 22));
+        jPanel67.add(txtTenNV1);
+
+        jPanel59.add(jPanel67, java.awt.BorderLayout.CENTER);
+
+        jPanel36.add(jPanel59);
+
         jPanel51.setPreferredSize(new java.awt.Dimension(500, 30));
         jPanel51.setLayout(new java.awt.BorderLayout());
 
@@ -756,14 +812,16 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Hủy bỏ");
-        jButton3.setPreferredSize(new java.awt.Dimension(175, 43));
+        jButton3.setMaximumSize(new java.awt.Dimension(130, 30));
+        jButton3.setMinimumSize(new java.awt.Dimension(130, 30));
+        jButton3.setPreferredSize(new java.awt.Dimension(130, 30));
         jPanel38.add(jButton3);
 
         jButton4.setBackground(new java.awt.Color(15, 204, 102));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setLabel("Thanh toán");
-        jButton4.setPreferredSize(new java.awt.Dimension(175, 43));
+        jButton4.setPreferredSize(new java.awt.Dimension(130, 30));
         jPanel38.add(jButton4);
 
         jPanel35.add(jPanel38);
@@ -779,6 +837,14 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_cboThanhToanActionPerformed
 
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPanhThuoc;
@@ -793,6 +859,7 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
@@ -855,6 +922,8 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel53;
     private javax.swing.JPanel jPanel54;
     private javax.swing.JPanel jPanel57;
+    private javax.swing.JPanel jPanel58;
+    private javax.swing.JPanel jPanel59;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel60;
     private javax.swing.JPanel jPanel61;
@@ -862,6 +931,8 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel63;
     private javax.swing.JPanel jPanel64;
     private javax.swing.JPanel jPanel65;
+    private javax.swing.JPanel jPanel66;
+    private javax.swing.JPanel jPanel67;
     private javax.swing.JPanel jPanel69;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel70;
@@ -878,11 +949,13 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private java.awt.Label label1;
     private javax.swing.JTextField txtDonGia;
     private javax.swing.JTextField txtMaThuoc;
     private javax.swing.JTextField txtTenKH3;
     private javax.swing.JTextField txtTenNV;
+    private javax.swing.JTextField txtTenNV1;
     private javax.swing.JTextField txtTenThuoc;
     private javax.swing.JTextArea txtThanhPhan;
     private javax.swing.JTextField txtTongHoaDon;
