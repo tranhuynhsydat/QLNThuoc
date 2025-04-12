@@ -19,6 +19,8 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 //import gui.dialog.CreateNhaCungCapDialog;
 import java.awt.Image;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -121,6 +123,9 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jPanel25 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         txtSdtNcc = new javax.swing.JTextField();
+        jPanel45 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        txtThoiGian = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel26 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
@@ -517,7 +522,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 8));
 
         jPanel23.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel23.setPreferredSize(new java.awt.Dimension(440, 140));
+        jPanel23.setPreferredSize(new java.awt.Dimension(440, 190));
         jPanel23.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
@@ -583,6 +588,21 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jPanel25.add(txtSdtNcc);
 
         jPanel23.add(jPanel25);
+
+        jPanel45.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel45.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jLabel11.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jLabel11.setText("Thời gian");
+        jLabel11.setPreferredSize(new java.awt.Dimension(120, 40));
+        jPanel45.add(jLabel11);
+
+        txtThoiGian.setEditable(false);
+        txtThoiGian.setFocusable(false);
+        txtThoiGian.setPreferredSize(new java.awt.Dimension(200, 40));
+        jPanel45.add(txtThoiGian);
+
+        jPanel23.add(jPanel45);
 
         jPanel6.add(jPanel23);
 
@@ -679,7 +699,11 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
 
         add(billPanel);
     }// </editor-fold>//GEN-END:initComponents
-
+    private void setThoiGianThuc() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        txtThoiGian.setText(now.format(formatter));
+    }
     private void cboxNhaCungCapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxNhaCungCapActionPerformed
 //        String idNCC = listNCC.get(cboxNhaCungCap.getSelectedIndex()).getId();
 //        NhaCungCap ncc = new NhaCungCapController().selectById(idNCC);
@@ -737,6 +761,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -785,6 +810,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel42;
     private javax.swing.JPanel jPanel43;
     private javax.swing.JPanel jPanel44;
+    private javax.swing.JPanel jPanel45;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -803,6 +829,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
     private javax.swing.JTextField txtSdtNcc;
     private javax.swing.JTextField txtTenThuoc;
     private javax.swing.JTextArea txtThanhPhan;
+    private javax.swing.JTextField txtThoiGian;
     private javax.swing.JTextField txtTong;
     // End of variables declaration//GEN-END:variables
 }

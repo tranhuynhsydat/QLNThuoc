@@ -19,6 +19,8 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 //import gui.dialog.CreateNhaCungCapDialog;
 import java.awt.Image;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -125,6 +127,9 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         txtHoTenKH = new javax.swing.JTextField();
         cboxGioiTinhKH = new javax.swing.JComboBox<>();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        txtThoiGian = new javax.swing.JTextField();
         jSeparator4 = new javax.swing.JSeparator();
         jPanel39 = new javax.swing.JPanel();
         jPanel40 = new javax.swing.JPanel();
@@ -528,7 +533,7 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
         jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 8));
 
         jPanel36.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel36.setPreferredSize(new java.awt.Dimension(440, 140));
+        jPanel36.setPreferredSize(new java.awt.Dimension(440, 190));
         jPanel36.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
@@ -604,6 +609,22 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
         cboxGioiTinhKH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
         cboxGioiTinhKH.setPreferredSize(new java.awt.Dimension(90, 40));
         jPanel36.add(cboxGioiTinhKH);
+
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jLabel19.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jLabel19.setText("Thời gian");
+        jLabel19.setPreferredSize(new java.awt.Dimension(120, 40));
+        jPanel8.add(jLabel19);
+
+        txtThoiGian.setEditable(false);
+        txtThoiGian.setFont(new java.awt.Font("Roboto Mono", 1, 14)); // NOI18N
+        txtThoiGian.setFocusable(false);
+        txtThoiGian.setPreferredSize(new java.awt.Dimension(200, 40));
+        jPanel8.add(txtThoiGian);
+
+        jPanel36.add(jPanel8);
 
         jPanel35.add(jPanel36);
 
@@ -713,7 +734,11 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
 
         add(billPanel);
     }// </editor-fold>//GEN-END:initComponents
-
+    private void setThoiGianThuc() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        txtThoiGian.setText(now.format(formatter));
+    }
     private void btnSearchKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchKHActionPerformed
         //        KhachHang kh = new KhachHangController().selectBySdt(txtSdtKH.getText());
         //
@@ -751,16 +776,16 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTienKhachDuaKeyReleased
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-        //        if (MessageDialog.confirm(this, "Xác nhận hủy hóa đơn?", "Hủy hóa đơn")) {
-            //            for (ChiTietHoaDon cthd : listCTHD) {
-                //                Thuoc thuocCTHD = cthd.getThuoc();
-                //                Thuoc thuoc = listThuoc.get(listThuoc.indexOf(thuocCTHD));
-                //                int updatedSoLuongTon = thuoc.getSoLuongTon() + cthd.getSoLuong();
-                //                THUOC_CON.updateSoLuongTon(thuoc, updatedSoLuongTon);
-                //            }
-            //
-            //            main.setPanel(new HoaDonPage(main));
-            //        }
+//                if (MessageDialog.confirm(this, "Xác nhận hủy hóa đơn?", "Hủy hóa đơn")) {
+//                        for (ChiTietHoaDon cthd : listCTHD) {
+//                                Thuoc thuocCTHD = cthd.getThuoc();
+//                                Thuoc thuoc = listThuoc.get(listThuoc.indexOf(thuocCTHD));
+//                                int updatedSoLuongTon = thuoc.getSoLuongTon() + cthd.getSoLuong();
+//                                THUOC_CON.updateSoLuongTon(thuoc, updatedSoLuongTon);
+//                            }
+//            
+//                        main.setPanel(new HoaDonPage(main));
+//                    }
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
@@ -804,6 +829,7 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -850,6 +876,7 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel56;
     private javax.swing.JPanel jPanel57;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
@@ -866,6 +893,7 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
     private javax.swing.JTextField txtSdtKH;
     private javax.swing.JTextField txtTenThuoc;
     private javax.swing.JTextArea txtThanhPhan;
+    private javax.swing.JTextField txtThoiGian;
     private javax.swing.JTextField txtTienKhachDua;
     private javax.swing.JTextField txtTienThua;
     private javax.swing.JTextField txtTong;
