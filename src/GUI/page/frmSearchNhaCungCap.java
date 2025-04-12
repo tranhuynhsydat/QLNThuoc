@@ -87,7 +87,7 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         jPanel9.setLayout(new java.awt.BorderLayout());
 
         jPanel19.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel19.setPreferredSize(new java.awt.Dimension(700, 38));
+        jPanel19.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel19.setLayout(new java.awt.BorderLayout());
         jPanel9.add(jPanel19, java.awt.BorderLayout.LINE_START);
 
@@ -102,7 +102,7 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         jPanel12.setLayout(new java.awt.BorderLayout());
 
         jPanel22.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel22.setPreferredSize(new java.awt.Dimension(700, 38));
+        jPanel22.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel22.setLayout(new java.awt.BorderLayout());
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -129,7 +129,7 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         jPanel13.setLayout(new java.awt.BorderLayout());
 
         jPanel24.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel24.setPreferredSize(new java.awt.Dimension(700, 38));
+        jPanel24.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel24.setLayout(new java.awt.BorderLayout());
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -156,7 +156,7 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         jPanel14.setLayout(new java.awt.BorderLayout());
 
         jPanel26.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel26.setPreferredSize(new java.awt.Dimension(700, 38));
+        jPanel26.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel26.setLayout(new java.awt.BorderLayout());
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -183,7 +183,7 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         jPanel15.setLayout(new java.awt.BorderLayout());
 
         jPanel28.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel28.setPreferredSize(new java.awt.Dimension(700, 38));
+        jPanel28.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel28.setLayout(new java.awt.BorderLayout());
         jPanel15.add(jPanel28, java.awt.BorderLayout.LINE_START);
 
