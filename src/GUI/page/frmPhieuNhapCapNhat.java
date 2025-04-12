@@ -500,7 +500,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 120, 92), 1, true));
         jPanel5.setMinimumSize(new java.awt.Dimension(100, 60));
-        jPanel5.setPreferredSize(new java.awt.Dimension(500, 40));
+        jPanel5.setPreferredSize(new java.awt.Dimension(400, 40));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         jLabel2.setFont(new java.awt.Font("Roboto Medium", 1, 24)); // NOI18N
@@ -513,6 +513,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
+        jPanel6.setPreferredSize(new java.awt.Dimension(400, 332));
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 8));
 
         jPanel23.setBackground(new java.awt.Color(255, 255, 255));
@@ -638,6 +639,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
         jPanel8.setForeground(new java.awt.Color(0, 120, 92));
+        jPanel8.setPreferredSize(new java.awt.Dimension(424, 52));
 
         btnHuy.setBackground(new java.awt.Color(255, 102, 102));
         btnHuy.setFont(new java.awt.Font("Roboto Mono Medium", 0, 16)); // NOI18N
