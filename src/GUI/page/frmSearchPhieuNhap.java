@@ -29,28 +29,28 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
-        jPanel15 = new javax.swing.JPanel();
-        jPanel28 = new javax.swing.JPanel();
-        jPanel29 = new javax.swing.JPanel();
-        jPanel14 = new javax.swing.JPanel();
-        jPanel26 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jPanel27 = new javax.swing.JPanel();
-        cboNCC = new javax.swing.JComboBox<>();
-        jPanel16 = new javax.swing.JPanel();
-        jPanel24 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jPanel25 = new javax.swing.JPanel();
-        cboNV = new javax.swing.JComboBox<>();
-        jPanel17 = new javax.swing.JPanel();
-        jPanel22 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jPanel23 = new javax.swing.JPanel();
-        dateNgayMua = new com.toedter.calendar.JDateChooser();
-        jPanel18 = new javax.swing.JPanel();
-        jPanel19 = new javax.swing.JPanel();
-        jPanel20 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        jPanel21 = new javax.swing.JPanel();
+        jPanel30 = new javax.swing.JPanel();
+        jPanel31 = new javax.swing.JPanel();
+        jPanel32 = new javax.swing.JPanel();
+        jPanel35 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel36 = new javax.swing.JPanel();
+        cboNCC1 = new javax.swing.JComboBox<>();
+        jPanel37 = new javax.swing.JPanel();
+        jPanel38 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel39 = new javax.swing.JPanel();
+        cboNV1 = new javax.swing.JComboBox<>();
+        jPanel40 = new javax.swing.JPanel();
+        jPanel41 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel42 = new javax.swing.JPanel();
+        dateNgayMua1 = new com.toedter.calendar.JDateChooser();
+        jPanel43 = new javax.swing.JPanel();
+        jPanel44 = new javax.swing.JPanel();
+        jPanel45 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         btnThem2 = new javax.swing.JButton();
         btnThem3 = new javax.swing.JButton();
@@ -58,8 +58,8 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
         jPanel33 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel34 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
 
         setPreferredSize(new java.awt.Dimension(829, 624));
         setLayout(new java.awt.BorderLayout());
@@ -82,124 +82,124 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
 
         jPanel8.add(jPanel9, java.awt.BorderLayout.PAGE_START);
 
-        jPanel10.setMinimumSize(new java.awt.Dimension(829, 300));
-        jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.Y_AXIS));
+        jPanel11.setMinimumSize(new java.awt.Dimension(829, 300));
+        jPanel11.setLayout(new javax.swing.BoxLayout(jPanel11, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel15.setMinimumSize(new java.awt.Dimension(829, 38));
-        jPanel15.setLayout(new java.awt.BorderLayout());
+        jPanel21.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel21.setLayout(new java.awt.BorderLayout());
 
-        jPanel28.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel28.setPreferredSize(new java.awt.Dimension(500, 38));
-        jPanel28.setLayout(new java.awt.BorderLayout());
-        jPanel15.add(jPanel28, java.awt.BorderLayout.LINE_START);
+        jPanel30.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel30.setPreferredSize(new java.awt.Dimension(500, 38));
+        jPanel30.setLayout(new java.awt.BorderLayout());
+        jPanel21.add(jPanel30, java.awt.BorderLayout.LINE_START);
 
-        jPanel29.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel29.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel29.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
-        jPanel15.add(jPanel29, java.awt.BorderLayout.CENTER);
+        jPanel31.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel31.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel31.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+        jPanel21.add(jPanel31, java.awt.BorderLayout.CENTER);
 
-        jPanel10.add(jPanel15);
+        jPanel11.add(jPanel21);
 
-        jPanel14.setMinimumSize(new java.awt.Dimension(829, 38));
-        jPanel14.setLayout(new java.awt.BorderLayout());
+        jPanel32.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel32.setLayout(new java.awt.BorderLayout());
 
-        jPanel26.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel26.setPreferredSize(new java.awt.Dimension(500, 38));
-        jPanel26.setLayout(new java.awt.BorderLayout());
+        jPanel35.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel35.setPreferredSize(new java.awt.Dimension(500, 38));
+        jPanel35.setLayout(new java.awt.BorderLayout());
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel8.setText("Tên nhà cung cấp");
-        jLabel8.setAlignmentX(20.0F);
-        jLabel8.setAlignmentY(20.0F);
-        jPanel26.add(jLabel8, java.awt.BorderLayout.CENTER);
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel9.setText("Tên nhà cung cấp");
+        jLabel9.setAlignmentX(20.0F);
+        jLabel9.setAlignmentY(20.0F);
+        jPanel35.add(jLabel9, java.awt.BorderLayout.CENTER);
 
-        jPanel14.add(jPanel26, java.awt.BorderLayout.LINE_START);
+        jPanel32.add(jPanel35, java.awt.BorderLayout.LINE_START);
 
-        jPanel27.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel27.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel27.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+        jPanel36.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel36.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel36.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        cboNCC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboNCC.setPreferredSize(new java.awt.Dimension(350, 32));
-        jPanel27.add(cboNCC);
+        cboNCC1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboNCC1.setPreferredSize(new java.awt.Dimension(350, 32));
+        jPanel36.add(cboNCC1);
 
-        jPanel14.add(jPanel27, java.awt.BorderLayout.CENTER);
+        jPanel32.add(jPanel36, java.awt.BorderLayout.CENTER);
 
-        jPanel10.add(jPanel14);
+        jPanel11.add(jPanel32);
 
-        jPanel16.setMinimumSize(new java.awt.Dimension(829, 38));
-        jPanel16.setLayout(new java.awt.BorderLayout());
+        jPanel37.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel37.setLayout(new java.awt.BorderLayout());
 
-        jPanel24.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel24.setPreferredSize(new java.awt.Dimension(500, 38));
-        jPanel24.setLayout(new java.awt.BorderLayout());
+        jPanel38.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel38.setPreferredSize(new java.awt.Dimension(500, 38));
+        jPanel38.setLayout(new java.awt.BorderLayout());
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("Tên nhân viên:");
-        jLabel5.setAlignmentX(20.0F);
-        jLabel5.setAlignmentY(20.0F);
-        jPanel24.add(jLabel5, java.awt.BorderLayout.CENTER);
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Tên nhân viên:");
+        jLabel7.setAlignmentX(20.0F);
+        jLabel7.setAlignmentY(20.0F);
+        jPanel38.add(jLabel7, java.awt.BorderLayout.CENTER);
 
-        jPanel16.add(jPanel24, java.awt.BorderLayout.LINE_START);
+        jPanel37.add(jPanel38, java.awt.BorderLayout.LINE_START);
 
-        jPanel25.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel25.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel25.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+        jPanel39.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel39.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel39.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        cboNV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboNV.setPreferredSize(new java.awt.Dimension(350, 32));
-        jPanel25.add(cboNV);
+        cboNV1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboNV1.setPreferredSize(new java.awt.Dimension(350, 32));
+        jPanel39.add(cboNV1);
 
-        jPanel16.add(jPanel25, java.awt.BorderLayout.CENTER);
+        jPanel37.add(jPanel39, java.awt.BorderLayout.CENTER);
 
-        jPanel10.add(jPanel16);
+        jPanel11.add(jPanel37);
 
-        jPanel17.setMinimumSize(new java.awt.Dimension(829, 38));
-        jPanel17.setLayout(new java.awt.BorderLayout());
+        jPanel40.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel40.setLayout(new java.awt.BorderLayout());
 
-        jPanel22.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel22.setPreferredSize(new java.awt.Dimension(500, 38));
-        jPanel22.setLayout(new java.awt.BorderLayout());
+        jPanel41.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel41.setPreferredSize(new java.awt.Dimension(500, 38));
+        jPanel41.setLayout(new java.awt.BorderLayout());
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("Ngày nhập:");
-        jLabel6.setAlignmentX(20.0F);
-        jLabel6.setAlignmentY(20.0F);
-        jPanel22.add(jLabel6, java.awt.BorderLayout.CENTER);
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel10.setText("Ngày nhập:");
+        jLabel10.setAlignmentX(20.0F);
+        jLabel10.setAlignmentY(20.0F);
+        jPanel41.add(jLabel10, java.awt.BorderLayout.CENTER);
 
-        jPanel17.add(jPanel22, java.awt.BorderLayout.LINE_START);
+        jPanel40.add(jPanel41, java.awt.BorderLayout.LINE_START);
 
-        jPanel23.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel23.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel23.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+        jPanel42.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel42.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel42.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        dateNgayMua.setMinimumSize(new java.awt.Dimension(182, 22));
-        dateNgayMua.setPreferredSize(new java.awt.Dimension(150, 30));
-        jPanel23.add(dateNgayMua);
+        dateNgayMua1.setMinimumSize(new java.awt.Dimension(182, 22));
+        dateNgayMua1.setPreferredSize(new java.awt.Dimension(150, 30));
+        jPanel42.add(dateNgayMua1);
 
-        jPanel17.add(jPanel23, java.awt.BorderLayout.CENTER);
+        jPanel40.add(jPanel42, java.awt.BorderLayout.CENTER);
 
-        jPanel10.add(jPanel17);
+        jPanel11.add(jPanel40);
 
-        jPanel18.setMinimumSize(new java.awt.Dimension(829, 38));
-        jPanel18.setLayout(new java.awt.BorderLayout());
+        jPanel43.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel43.setLayout(new java.awt.BorderLayout());
 
-        jPanel19.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel19.setPreferredSize(new java.awt.Dimension(500, 38));
-        jPanel19.setLayout(new java.awt.BorderLayout());
-        jPanel18.add(jPanel19, java.awt.BorderLayout.LINE_START);
+        jPanel44.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel44.setPreferredSize(new java.awt.Dimension(500, 38));
+        jPanel44.setLayout(new java.awt.BorderLayout());
+        jPanel43.add(jPanel44, java.awt.BorderLayout.LINE_START);
 
-        jPanel20.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel20.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
-        jPanel18.add(jPanel20, java.awt.BorderLayout.CENTER);
+        jPanel45.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel45.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel45.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+        jPanel43.add(jPanel45, java.awt.BorderLayout.CENTER);
 
-        jPanel10.add(jPanel18);
+        jPanel11.add(jPanel43);
 
-        jPanel8.add(jPanel10, java.awt.BorderLayout.CENTER);
+        jPanel8.add(jPanel11, java.awt.BorderLayout.CENTER);
 
         add(jPanel8, java.awt.BorderLayout.PAGE_START);
 
@@ -253,7 +253,7 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
 
         jPanel34.setLayout(new java.awt.BorderLayout());
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -264,11 +264,11 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
                 "STT", "Mã phiếu nhập", "Tên nhà cung cấp", "SĐT", "Tên nhân viên", "Ngày nhập", "Tổng hóa đơn"
             }
         ));
-        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable2.setShowHorizontalLines(true);
-        jScrollPane2.setViewportView(jTable2);
+        jTable3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable3.setShowHorizontalLines(true);
+        jScrollPane3.setViewportView(jTable3);
 
-        jPanel34.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        jPanel34.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
         jPanel12.add(jPanel34, java.awt.BorderLayout.CENTER);
 
@@ -287,37 +287,37 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThem2;
     private javax.swing.JButton btnThem3;
-    private javax.swing.JComboBox<String> cboNCC;
-    private javax.swing.JComboBox<String> cboNV;
-    private com.toedter.calendar.JDateChooser dateNgayMua;
+    private javax.swing.JComboBox<String> cboNCC1;
+    private javax.swing.JComboBox<String> cboNV1;
+    private com.toedter.calendar.JDateChooser dateNgayMua1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel10;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel19;
-    private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel23;
-    private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel25;
-    private javax.swing.JPanel jPanel26;
-    private javax.swing.JPanel jPanel27;
-    private javax.swing.JPanel jPanel28;
-    private javax.swing.JPanel jPanel29;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel30;
+    private javax.swing.JPanel jPanel31;
+    private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel38;
+    private javax.swing.JPanel jPanel39;
+    private javax.swing.JPanel jPanel40;
+    private javax.swing.JPanel jPanel41;
+    private javax.swing.JPanel jPanel42;
+    private javax.swing.JPanel jPanel43;
+    private javax.swing.JPanel jPanel44;
+    private javax.swing.JPanel jPanel45;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
 }
