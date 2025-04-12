@@ -3,6 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package GUI.page;
+import GUI.form.formThemNCC;
+import GUI.form.formThongTinNCC;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -15,8 +19,15 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
      */
     public frmSearchNhaCungCap() {
         initComponents();
+//        btnTimKiem.addActionListener(evt -> openFormThemNCC());
+        btnChiTiet.addActionListener(evt -> openFormThongTinNCC());
     }
-
+private void openFormThongTinNCC() {
+    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    formThongTinNCC dialog = new formThongTinNCC(parentFrame, true);
+    dialog.setLocationRelativeTo(this); 
+    dialog.setVisible(true); 
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -304,4 +315,8 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     // End of variables declaration//GEN-END:variables
+
+    private void formThongTinNCC() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
