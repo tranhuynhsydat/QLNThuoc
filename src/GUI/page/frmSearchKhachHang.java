@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package GUI.page;
-
+import GUI.form.fromThongTinKH;
+import GUI.form.formThongTinNCC;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 /**
  *
  * @author Admin
@@ -15,8 +18,14 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
      */
     public frmSearchKhachHang() {
         initComponents();
+        btnChiTiet.addActionListener(evt -> openFormThongTinKH());
     }
-
+private void openFormThongTinKH() {
+    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    fromThongTinKH dialog = new fromThongTinKH(parentFrame, true);
+    dialog.setLocationRelativeTo(this); 
+    dialog.setVisible(true); 
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
