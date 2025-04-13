@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import Entity.NhanVien;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,20 +23,19 @@ public class NhanVienDAO {
 
     public static String TaoMaNhanVien() {
         String prefix = "NV-";
-        int maxNumber = 0;
+        Set<Integer> existingNumbers = new HashSet<>();  // Lưu trữ các mã nhân viên đã có
 
+        // Lấy tất cả các mã nhân viên hiện có trong cơ sở dữ liệu
         try (Connection conn = DatabaseConnection.getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT maNV FROM NhanVien WHERE maNV LIKE 'NV-%'")) {
 
             while (rs.next()) {
                 String ma = rs.getString("maNV");
                 if (ma != null && ma.startsWith(prefix)) {
                     try {
-                        int num = Integer.parseInt(ma.substring(3)); // Lấy phần số từ mã nhân viên (NV-XXX)
-                        if (num > maxNumber) {
-                            maxNumber = num;
-                        }
+                        int num = Integer.parseInt(ma.substring(3));  // Lấy số từ mã "NV-xxx"
+                        existingNumbers.add(num);  // Thêm vào danh sách các mã đã tồn tại
                     } catch (NumberFormatException e) {
-                        // Bỏ qua những mã không đúng định dạng
+                        // Nếu có lỗi trong việc chuyển đổi số, bỏ qua
                     }
                 }
             }
@@ -42,8 +43,14 @@ public class NhanVienDAO {
             e.printStackTrace();
         }
 
-        int newNumber = maxNumber + 1;
-        return prefix + String.format("%03d", newNumber); // Đảm bảo mã nhân viên có 3 chữ số
+        // Tìm mã trống (ví dụ: nếu có NV-001, NV-003 thì NV-002 sẽ là trống)
+        int newNumber = 1;
+        while (existingNumbers.contains(newNumber)) {
+            newNumber++;  // Tìm số tiếp theo chưa có trong cơ sở dữ liệu
+        }
+
+        // Trả về mã mới theo định dạng NV-xxx
+        return prefix + String.format("%03d", newNumber);
     }
 
     // Hàm thêm nhân viên vào cơ sở dữ liệu
