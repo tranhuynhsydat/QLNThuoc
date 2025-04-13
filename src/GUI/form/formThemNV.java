@@ -24,13 +24,20 @@ public class formThemNV extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         groupGioiTinh();
+        groupChucVu();
     }
 
     private void groupGioiTinh() {
-        // Tạo ButtonGroup để nhóm các JRadioButton lại với nhau
         ButtonGroup groupGioiTinh = new ButtonGroup();
-        groupGioiTinh.add(rbtnNam); // Nhóm JRadioButton "Nam"
-        groupGioiTinh.add(rbtnNu);  // Nhóm JRadioButton "Nữ"
+        groupGioiTinh.add(rbtnNam); 
+        groupGioiTinh.add(rbtnNu);  
+        rbtnNam.setSelected(true);
+    }
+        private void groupChucVu() {
+        ButtonGroup groupChucVu = new ButtonGroup();
+        groupChucVu.add(rbtnQuanLy); 
+        groupChucVu.add(rbtnNhanVien);  
+        rbtnNhanVien.setSelected(true);
     }
 
     /**
@@ -82,8 +89,8 @@ public class formThemNV extends javax.swing.JDialog {
         jPanel20 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel21 = new javax.swing.JPanel();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        rbtnQuanLy = new javax.swing.JRadioButton();
+        rbtnNhanVien = new javax.swing.JRadioButton();
         bottomRoundedPanel2 = new Swing.BottomRoundedPanel();
         btnHuy = new javax.swing.JButton();
         btnThem = new javax.swing.JButton();
@@ -263,11 +270,11 @@ public class formThemNV extends javax.swing.JDialog {
 
         jPanel21.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jRadioButton3.setText("Quản lý");
-        jPanel21.add(jRadioButton3);
+        rbtnQuanLy.setText("Quản lý");
+        jPanel21.add(rbtnQuanLy);
 
-        jRadioButton4.setText("Nhân viên");
-        jPanel21.add(jRadioButton4);
+        rbtnNhanVien.setText("Nhân viên");
+        jPanel21.add(rbtnNhanVien);
 
         jPanel9.add(jPanel21, java.awt.BorderLayout.CENTER);
 
@@ -283,6 +290,11 @@ public class formThemNV extends javax.swing.JDialog {
         btnHuy.setForeground(new java.awt.Color(255, 255, 255));
         btnHuy.setText("Huỷ");
         btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
         bottomRoundedPanel2.add(btnHuy);
 
         btnThem.setBackground(new java.awt.Color(15, 204, 102));
@@ -337,20 +349,10 @@ public class formThemNV extends javax.swing.JDialog {
         Date dtSinh = (Date) jDateChooser1.getDate(); // Lấy ngày sinh
         Date ngayVaoLam = (Date) jDateChooser2.getDate(); // Lấy ngày vào làm
         String cccd = txtCCCD.getText();
-        String chucVu = ""; // Cần thêm trường chức vụ, giả sử chọn qua RadioButton
-        if (jRadioButton3.isSelected()) {
-            chucVu = "Quản lý";
-        } else if (jRadioButton4.isSelected()) {
-            chucVu = "Nhân viên";
-        }
-
-        // Lấy giới tính từ JRadioButton (Nam hoặc Nữ)
+        String chucVu = rbtnQuanLy.isSelected() ? "Quản lý" : "Nhân viên";
         String gioiTinh = rbtnNam.isSelected() ? "Nam" : "Nữ";
-
-        // Sinh mã nhân viên tự động
         String maNV = NhanVienDAO.TaoMaNhanVien();
 
-        // Tạo đối tượng nhân viên với thông tin lấy từ form
         NhanVien nv = new NhanVien(maNV, hoTen, sdt, gioiTinh, dtSinh, ngayVaoLam, cccd, chucVu);
 
         // Gọi hàm thêm nhân viên vào cơ sở dữ liệu
@@ -363,6 +365,10 @@ public class formThemNV extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Thêm nhân viên thất bại!");
         }
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnHuyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -445,11 +451,11 @@ public class formThemNV extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JLabel lblThemNV;
     private javax.swing.JRadioButton rbtnNam;
+    private javax.swing.JRadioButton rbtnNhanVien;
     private javax.swing.JRadioButton rbtnNu;
+    private javax.swing.JRadioButton rbtnQuanLy;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
     private javax.swing.JTextField txtCCCD;

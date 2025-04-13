@@ -522,12 +522,12 @@
                             <Property name="verticalGap" type="int" value="17"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JRadioButton" name="jRadioButton3">
+                            <Component class="javax.swing.JRadioButton" name="rbtnQuanLy">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd;"/>
                               </Properties>
                             </Component>
-                            <Component class="javax.swing.JRadioButton" name="jRadioButton4">
+                            <Component class="javax.swing.JRadioButton" name="rbtnNhanVien">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Nh&#xe2;n vi&#xea;n"/>
                               </Properties>
@@ -571,6 +571,9 @@
                           <Dimension value="[90, 35]"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHuyActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnThem">
                       <Properties>
