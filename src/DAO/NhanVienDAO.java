@@ -11,30 +11,30 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import Entity.NhanVien;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author roxan
  */
 public class NhanVienDAO {
 
-    public static String generateMaNhanVien() {
+    public static String TaoMaNhanVien() {
         String prefix = "NV-";
         int maxNumber = 0;
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT id FROM NhanVien WHERE id LIKE 'NV-%'")) {
+        try (Connection conn = DatabaseConnection.getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT maNV FROM NhanVien WHERE maNV LIKE 'NV-%'")) {
 
             while (rs.next()) {
-                String ma = rs.getString("id");
+                String ma = rs.getString("maNV");
                 if (ma != null && ma.startsWith(prefix)) {
                     try {
-                        int num = Integer.parseInt(ma.substring(3));
+                        int num = Integer.parseInt(ma.substring(3)); // Lấy phần số từ mã nhân viên (NV-XXX)
                         if (num > maxNumber) {
                             maxNumber = num;
                         }
                     } catch (NumberFormatException e) {
-                        // bỏ qua mã sai định dạng
+                        // Bỏ qua những mã không đúng định dạng
                     }
                 }
             }
@@ -43,29 +43,31 @@ public class NhanVienDAO {
         }
 
         int newNumber = maxNumber + 1;
-        return prefix + String.format("%03d", newNumber);
+        return prefix + String.format("%03d", newNumber); // Đảm bảo mã nhân viên có 3 chữ số
     }
 
+    // Hàm thêm nhân viên vào cơ sở dữ liệu
     public static boolean Them(NhanVien nv) {
-        String sql = "INSERT INTO NhanVien (id, hoTen, sdt, gioiTinh, dtSinh, ngayVaoLam, cccd, chucVu) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO NhanVien (maNV, hoTen, sdt, gioiTinh, dtSinh, ngayVaoLam,chucVu, cccd) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, nv.getId());
+            ps.setString(1, nv.getId()); // Mã nhân viên được sinh tự động
             ps.setString(2, nv.getHoTen());
             ps.setString(3, nv.getSdt());
             ps.setString(4, nv.getGioiTinh());
             ps.setDate(5, new java.sql.Date(nv.getDtSinh().getTime()));
             ps.setDate(6, new java.sql.Date(nv.getNgayVaoLam().getTime()));
-            ps.setString(7, nv.getCccd());
-            ps.setString(8, nv.getChucVu());
+            ps.setString(7, nv.getChucVu());
+            ps.setString(8, nv.getCccd());
 
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Lỗi: " + e.getMessage());
         }
         return false;
     }
+
 }

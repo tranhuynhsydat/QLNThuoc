@@ -4,6 +4,13 @@
  */
 package GUI.form;
 
+import DAO.NhanVienDAO;
+import Entity.NhanVien;
+import java.time.LocalDate;
+import java.util.Date;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
@@ -16,6 +23,14 @@ public class formThemNV extends javax.swing.JDialog {
     public formThemNV(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        groupGioiTinh();
+    }
+
+    private void groupGioiTinh() {
+        // Tạo ButtonGroup để nhóm các JRadioButton lại với nhau
+        ButtonGroup groupGioiTinh = new ButtonGroup();
+        groupGioiTinh.add(rbtnNam); // Nhóm JRadioButton "Nam"
+        groupGioiTinh.add(rbtnNu);  // Nhóm JRadioButton "Nữ"
     }
 
     /**
@@ -42,8 +57,8 @@ public class formThemNV extends javax.swing.JDialog {
         jPanel12 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        rbtnNam = new javax.swing.JRadioButton();
+        rbtnNu = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -140,16 +155,16 @@ public class formThemNV extends javax.swing.JDialog {
 
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jRadioButton1.setText("Nam");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        rbtnNam.setText("Nam");
+        rbtnNam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                rbtnNamActionPerformed(evt);
             }
         });
-        jPanel13.add(jRadioButton1);
+        jPanel13.add(rbtnNam);
 
-        jRadioButton2.setText("Nữ");
-        jPanel13.add(jRadioButton2);
+        rbtnNu.setText("Nữ");
+        jPanel13.add(rbtnNu);
         jPanel13.add(jLabel4);
 
         jLabel5.setText("       ");
@@ -308,16 +323,45 @@ public class formThemNV extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void rbtnNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnNamActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_rbtnNamActionPerformed
 
     private void txtSDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSDTActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSDTActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+        String hoTen = txtHoTen.getText();
+        String sdt = txtSDT.getText();
+        Date dtSinh = (Date) jDateChooser1.getDate(); // Lấy ngày sinh
+        Date ngayVaoLam = (Date) jDateChooser2.getDate(); // Lấy ngày vào làm
+        String cccd = txtCCCD.getText();
+        String chucVu = ""; // Cần thêm trường chức vụ, giả sử chọn qua RadioButton
+        if (jRadioButton3.isSelected()) {
+            chucVu = "Quản lý";
+        } else if (jRadioButton4.isSelected()) {
+            chucVu = "Nhân viên";
+        }
+
+        // Lấy giới tính từ JRadioButton (Nam hoặc Nữ)
+        String gioiTinh = rbtnNam.isSelected() ? "Nam" : "Nữ";
+
+        // Sinh mã nhân viên tự động
+        String maNV = NhanVienDAO.TaoMaNhanVien();
+
+        // Tạo đối tượng nhân viên với thông tin lấy từ form
+        NhanVien nv = new NhanVien(maNV, hoTen, sdt, gioiTinh, dtSinh, ngayVaoLam, cccd, chucVu);
+
+        // Gọi hàm thêm nhân viên vào cơ sở dữ liệu
+        boolean isAdded = NhanVienDAO.Them(nv);
+
+        // Hiển thị thông báo cho người dùng
+        if (isAdded) {
+            JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Thêm nhân viên thất bại!");
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     /**
@@ -401,11 +445,11 @@ public class formThemNV extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JLabel lblThemNV;
+    private javax.swing.JRadioButton rbtnNam;
+    private javax.swing.JRadioButton rbtnNu;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
     private javax.swing.JTextField txtCCCD;

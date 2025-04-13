@@ -253,15 +253,15 @@
                             <Property name="verticalGap" type="int" value="17"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JRadioButton" name="jRadioButton1">
+                            <Component class="javax.swing.JRadioButton" name="rbtnNam">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Nam"/>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton1ActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtnNamActionPerformed"/>
                               </Events>
                             </Component>
-                            <Component class="javax.swing.JRadioButton" name="jRadioButton2">
+                            <Component class="javax.swing.JRadioButton" name="rbtnNu">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="N&#x1eef;"/>
                               </Properties>
