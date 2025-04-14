@@ -110,7 +110,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel33.setLayout(new java.awt.BorderLayout());
 
         jPanel34.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel34.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel34.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel34.setLayout(new java.awt.BorderLayout());
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -138,7 +138,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel8.setLayout(new java.awt.BorderLayout());
 
         jPanel17.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel17.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel17.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel17.setLayout(new java.awt.BorderLayout());
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -174,7 +174,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel9.setLayout(new java.awt.BorderLayout());
 
         jPanel19.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel19.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel19.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel19.setLayout(new java.awt.BorderLayout());
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -202,7 +202,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel10.setLayout(new java.awt.BorderLayout());
 
         jPanel21.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel21.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel21.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel21.setLayout(new java.awt.BorderLayout());
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -230,7 +230,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel11.setLayout(new java.awt.BorderLayout());
 
         jPanel23.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel23.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel23.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel23.setLayout(new java.awt.BorderLayout());
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -258,7 +258,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel12.setLayout(new java.awt.BorderLayout());
 
         jPanel25.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel25.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel25.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel25.setLayout(new java.awt.BorderLayout());
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -289,7 +289,7 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel13.setLayout(new java.awt.BorderLayout());
 
         jPanel27.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel27.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel27.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel27.setLayout(new java.awt.BorderLayout(5, 10));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N

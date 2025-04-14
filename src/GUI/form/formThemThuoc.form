@@ -215,8 +215,8 @@
                                 <Component class="javax.swing.JLabel" name="jLabel2">
                                   <Properties>
                                     <Property name="horizontalAlignment" type="int" value="0"/>
-                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                      <Image iconType="2" name="D:\Application_Development\QLThuoc\QLNThuoc\src\icon\image-plus.png"/>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                                      <Connection code="new FlatSVGIcon(&quot;./icon/image.svg&quot;)" type="code"/>
                                     </Property>
                                     <Property name="toolTipText" type="java.lang.String" value=""/>
                                     <Property name="autoscrolls" type="boolean" value="true"/>
@@ -1148,6 +1148,9 @@
                           <Dimension value="[90, 35]"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHuyActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnThem">
                       <Properties>

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package GUI.form;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 /**
  *
@@ -132,7 +133,7 @@ public class formThemThuoc extends javax.swing.JDialog {
         jPanel24.setMinimumSize(new java.awt.Dimension(100, 211));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon("D:\\Application_Development\\QLThuoc\\QLNThuoc\\src\\icon\\image-plus.png")); // NOI18N
+        jLabel2.setIcon(new FlatSVGIcon("./icon/image.svg"));
         jLabel2.setToolTipText("");
         jLabel2.setAutoscrolls(true);
 
@@ -490,6 +491,11 @@ public class formThemThuoc extends javax.swing.JDialog {
         btnHuy.setForeground(new java.awt.Color(255, 255, 255));
         btnHuy.setText("Huỷ");
         btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
         bottomRoundedPanel2.add(btnHuy);
 
         btnThem.setBackground(new java.awt.Color(15, 204, 102));
@@ -549,6 +555,10 @@ public class formThemThuoc extends javax.swing.JDialog {
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+       dispose();
+    }//GEN-LAST:event_btnHuyActionPerformed
 
     /**
      * @param args the command line arguments

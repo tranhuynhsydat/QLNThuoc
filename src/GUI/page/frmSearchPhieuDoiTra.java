@@ -6,14 +6,14 @@ package GUI.page;
 
 /**
  *
- * @author ADMIN
+ * @author Admin
  */
-public class frmSearchHoaDon extends javax.swing.JPanel {
+public class frmSearchPhieuDoiTra extends javax.swing.JPanel {
 
     /**
-     * Creates new form frmSearchHoaDon
+     * Creates new form frmSearchPhieuDoiTra
      */
-    public frmSearchHoaDon() {
+    public frmSearchPhieuDoiTra() {
         initComponents();
     }
 
@@ -37,7 +37,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel26 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel27 = new javax.swing.JPanel();
-        cboKH = new javax.swing.JComboBox<>();
+        cboNCC = new javax.swing.JComboBox<>();
         jPanel16 = new javax.swing.JPanel();
         jPanel24 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -49,20 +49,18 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel23 = new javax.swing.JPanel();
         dateNgayMua = new com.toedter.calendar.JDateChooser();
         jPanel18 = new javax.swing.JPanel();
-        jPanel19 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
+        jPanel19 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel34 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
         jPanel13 = new javax.swing.JPanel();
         btnThem2 = new javax.swing.JButton();
         btnThem3 = new javax.swing.JButton();
 
-        setMaximumSize(new java.awt.Dimension(829, 624));
-        setMinimumSize(new java.awt.Dimension(829, 624));
         setLayout(new java.awt.BorderLayout());
 
         jPanel8.setBackground(new java.awt.Color(255, 102, 102));
@@ -110,7 +108,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel8.setText("Tên khách hàng");
+        jLabel8.setText("Tên khách hàng:");
         jLabel8.setAlignmentX(20.0F);
         jLabel8.setAlignmentY(20.0F);
         jPanel26.add(jLabel8, java.awt.BorderLayout.CENTER);
@@ -121,9 +119,9 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel27.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel27.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        cboKH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboKH.setPreferredSize(new java.awt.Dimension(350, 32));
-        jPanel27.add(cboKH);
+        cboNCC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboNCC.setPreferredSize(new java.awt.Dimension(350, 32));
+        jPanel27.add(cboNCC);
 
         jPanel14.add(jPanel27, java.awt.BorderLayout.CENTER);
 
@@ -166,7 +164,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("Ngày mua:");
+        jLabel6.setText("Ngày đổi trả:");
         jLabel6.setAlignmentX(20.0F);
         jLabel6.setAlignmentY(20.0F);
         jPanel22.add(jLabel6, java.awt.BorderLayout.CENTER);
@@ -188,14 +186,15 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel18.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel18.setLayout(new java.awt.BorderLayout());
 
-        jPanel19.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel19.setPreferredSize(new java.awt.Dimension(500, 38));
-        jPanel19.setLayout(new java.awt.BorderLayout());
-        jPanel18.add(jPanel19, java.awt.BorderLayout.LINE_START);
-
         jPanel20.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel20.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        jPanel19.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel19.setPreferredSize(new java.awt.Dimension(500, 38));
+        jPanel19.setLayout(new java.awt.BorderLayout());
+        jPanel20.add(jPanel19);
+
         jPanel18.add(jPanel20, java.awt.BorderLayout.CENTER);
 
         jPanel10.add(jPanel18);
@@ -214,29 +213,29 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Danh sách hóa đơn");
+        jLabel4.setText("Danh sách phiếu đổi/trả");
         jPanel33.add(jLabel4, java.awt.BorderLayout.CENTER);
 
         jPanel12.add(jPanel33, java.awt.BorderLayout.PAGE_START);
 
         jPanel34.setLayout(new java.awt.BorderLayout());
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày mua", "Tổng hóa đơn"
+                "STT", "Mã phiếu đổi/trả", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày đổi/trả", "Lý do", "Tổng hóa đơn"
             }
         ));
-        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable2.setShowHorizontalLines(true);
-        jScrollPane2.setViewportView(jTable2);
+        jTable3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable3.setShowHorizontalLines(true);
+        jScrollPane3.setViewportView(jTable3);
 
-        jPanel34.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        jPanel34.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
         jPanel12.add(jPanel34, java.awt.BorderLayout.CENTER);
 
@@ -288,7 +287,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThem2;
     private javax.swing.JButton btnThem3;
-    private javax.swing.JComboBox<String> cboKH;
+    private javax.swing.JComboBox<String> cboNCC;
     private javax.swing.JComboBox<String> cboNV;
     private com.toedter.calendar.JDateChooser dateNgayMua;
     private javax.swing.JLabel jLabel3;
@@ -318,7 +317,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
 }

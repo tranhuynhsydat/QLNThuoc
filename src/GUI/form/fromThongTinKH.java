@@ -4,31 +4,18 @@
  */
 package GUI.form;
 
-import DAO.KhachHangDAO;
-import Entity.KhachHang;
-import javax.swing.ButtonGroup;
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author Admin
  */
-public class formThemKH extends javax.swing.JDialog {
+public class fromThongTinKH extends javax.swing.JDialog {
 
     /**
-     * Creates new form formThemNV
+     * Creates new form fromThongTinHK
      */
-    public formThemKH(java.awt.Frame parent, boolean modal) {
+    public fromThongTinKH(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        groupGioiTinh();
-    }
-
-    private void groupGioiTinh() {
-        ButtonGroup groupGioiTinh = new ButtonGroup();
-        groupGioiTinh.add(rbtnNam);
-        groupGioiTinh.add(rbtnNu);
-        rbtnNam.setSelected(true);
     }
 
     /**
@@ -46,43 +33,44 @@ public class formThemKH extends javax.swing.JDialog {
         lblThemKH = new javax.swing.JLabel();
         bottomRoundedPanel1 = new Swing.BottomRoundedPanel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        txtHoTen1 = new javax.swing.JTextField();
+        jPanel22 = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel24 = new javax.swing.JPanel();
+        txtMaKH = new javax.swing.JTextField();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel25 = new javax.swing.JPanel();
+        jPanel26 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel27 = new javax.swing.JPanel();
+        txtHoTen = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        rbtnNam = new javax.swing.JRadioButton();
-        rbtnNu = new javax.swing.JRadioButton();
+        rbtNam = new javax.swing.JRadioButton();
+        rbtNu = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
-        txtHoTen2 = new javax.swing.JTextField();
-        txtHoTen3 = new javax.swing.JTextField();
+        txtSDT = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
-        txtHoTen4 = new javax.swing.JTextField();
+        txtTuoi = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         bottomRoundedPanel2 = new Swing.BottomRoundedPanel();
         btnHuy = new javax.swing.JButton();
-        btnThem = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setBackground(new java.awt.Color(255, 0, 0));
 
         jPanel1.setBackground(new java.awt.Color(81, 219, 185));
 
@@ -94,7 +82,7 @@ public class formThemKH extends javax.swing.JDialog {
 
         lblThemKH.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblThemKH.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblThemKH.setText("Thêm khách hàng");
+        lblThemKH.setText("Thông tin khách hàng");
         lblThemKH.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblThemKH.setMaximumSize(new java.awt.Dimension(190, 32));
         lblThemKH.setMinimumSize(new java.awt.Dimension(190, 32));
@@ -109,41 +97,62 @@ public class formThemKH extends javax.swing.JDialog {
         jPanel2.setPreferredSize(new java.awt.Dimension(567, 350));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(622, 50));
-        jPanel3.setLayout(new java.awt.BorderLayout());
-
-        jPanel10.setPreferredSize(new java.awt.Dimension(150, 50));
-        jPanel10.setLayout(new java.awt.BorderLayout());
-        jPanel3.add(jPanel10, java.awt.BorderLayout.LINE_START);
-
-        jPanel11.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
-        jPanel3.add(jPanel11, java.awt.BorderLayout.CENTER);
-
-        jPanel2.add(jPanel3);
-
         jPanel5.setPreferredSize(new java.awt.Dimension(622, 50));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jPanel12.setPreferredSize(new java.awt.Dimension(150, 50));
-        jPanel12.setLayout(new java.awt.BorderLayout());
+        jPanel22.setPreferredSize(new java.awt.Dimension(622, 50));
+        jPanel22.setLayout(new java.awt.BorderLayout());
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Họ tên:");
-        jLabel2.setAlignmentX(20.0F);
-        jLabel2.setAlignmentY(20.0F);
-        jPanel12.add(jLabel2, java.awt.BorderLayout.CENTER);
+        jPanel23.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel23.setLayout(new java.awt.BorderLayout());
 
-        jPanel5.add(jPanel12, java.awt.BorderLayout.LINE_START);
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("Mã khách hàng:");
+        jLabel6.setAlignmentX(20.0F);
+        jLabel6.setAlignmentY(20.0F);
+        jPanel23.add(jLabel6, java.awt.BorderLayout.CENTER);
 
-        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
+        jPanel22.add(jPanel23, java.awt.BorderLayout.LINE_START);
 
-        txtHoTen1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel4.add(txtHoTen1);
+        jPanel24.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);
+        txtMaKH.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel24.add(txtMaKH);
+
+        jPanel22.add(jPanel24, java.awt.BorderLayout.CENTER);
+
+        jPanel5.add(jPanel22, java.awt.BorderLayout.PAGE_START);
 
         jPanel2.add(jPanel5);
+
+        jPanel10.setLayout(new java.awt.BorderLayout());
+
+        jPanel25.setPreferredSize(new java.awt.Dimension(622, 50));
+        jPanel25.setLayout(new java.awt.BorderLayout());
+
+        jPanel26.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel26.setLayout(new java.awt.BorderLayout());
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel9.setText("Họ tên:");
+        jLabel9.setAlignmentX(20.0F);
+        jLabel9.setAlignmentY(20.0F);
+        jPanel26.add(jLabel9, java.awt.BorderLayout.CENTER);
+
+        jPanel25.add(jPanel26, java.awt.BorderLayout.LINE_START);
+
+        jPanel27.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
+
+        txtHoTen.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel27.add(txtHoTen);
+
+        jPanel25.add(jPanel27, java.awt.BorderLayout.CENTER);
+
+        jPanel10.add(jPanel25, java.awt.BorderLayout.PAGE_START);
+
+        jPanel2.add(jPanel10);
 
         jPanel6.setPreferredSize(new java.awt.Dimension(622, 50));
         jPanel6.setLayout(new java.awt.BorderLayout());
@@ -162,16 +171,16 @@ public class formThemKH extends javax.swing.JDialog {
 
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        rbtnNam.setText("Nam");
-        rbtnNam.addActionListener(new java.awt.event.ActionListener() {
+        rbtNam.setText("Nam");
+        rbtNam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbtnNamActionPerformed(evt);
+                rbtNamActionPerformed(evt);
             }
         });
-        jPanel13.add(rbtnNam);
+        jPanel13.add(rbtNam);
 
-        rbtnNu.setText("Nữ");
-        jPanel13.add(rbtnNu);
+        rbtNu.setText("Nữ");
+        jPanel13.add(rbtNu);
         jPanel13.add(jLabel4);
 
         jLabel5.setText("       ");
@@ -198,11 +207,8 @@ public class formThemKH extends javax.swing.JDialog {
 
         jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        txtHoTen2.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel17.add(txtHoTen2);
-
-        txtHoTen3.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel17.add(txtHoTen3);
+        txtSDT.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel17.add(txtSDT);
 
         jPanel7.add(jPanel17, java.awt.BorderLayout.CENTER);
 
@@ -223,8 +229,8 @@ public class formThemKH extends javax.swing.JDialog {
 
         jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        txtHoTen4.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel19.add(txtHoTen4);
+        txtTuoi.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel19.add(txtTuoi);
 
         jPanel8.add(jPanel19, java.awt.BorderLayout.CENTER);
 
@@ -252,24 +258,7 @@ public class formThemKH extends javax.swing.JDialog {
         btnHuy.setForeground(new java.awt.Color(255, 255, 255));
         btnHuy.setText("Huỷ");
         btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
-        btnHuy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHuyActionPerformed(evt);
-            }
-        });
         bottomRoundedPanel2.add(btnHuy);
-
-        btnThem.setBackground(new java.awt.Color(15, 204, 102));
-        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem.setText("Thêm");
-        btnThem.setPreferredSize(new java.awt.Dimension(90, 35));
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
-            }
-        });
-        bottomRoundedPanel2.add(btnThem);
 
         bottomRoundedPanel1.add(bottomRoundedPanel2, java.awt.BorderLayout.PAGE_END);
 
@@ -281,14 +270,14 @@ public class formThemKH extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
+                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -297,33 +286,9 @@ public class formThemKH extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void rbtnNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnNamActionPerformed
+    private void rbtNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtNamActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rbtnNamActionPerformed
-
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        String hoTen = txtHoTen1.getText();
-        String sdt = txtHoTen2.getText();
-        String gioiTinh = rbtnNam.isSelected() ? "Nam" : "Nữ";
-        int tuoi = Integer.parseInt(txtHoTen4.getText());
-
-        // Tạo mã khách hàng tự động
-        String maKH = KhachHangDAO.TaoMaKhachHang();  // Tạo mã KH-001, KH-002...
-        KhachHang kh = new KhachHang(maKH, hoTen, gioiTinh, sdt, tuoi);
-        // Gọi phương thức thêm khách hàng từ KhachHangDAO
-        boolean isAdded = KhachHangDAO.themKhachHang(kh);
-
-        // Hiển thị thông báo cho người dùng
-        if (isAdded) {
-            JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");
-        } else {
-            JOptionPane.showMessageDialog(this, "Thêm khách hàng thất bại!");
-        }
-    }//GEN-LAST:event_btnThemActionPerformed
-
-    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-        dispose();
-    }//GEN-LAST:event_btnHuyActionPerformed
+    }//GEN-LAST:event_rbtNamActionPerformed
 
     /**
      * @param args the command line arguments
@@ -342,27 +307,21 @@ public class formThemKH extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(formThemKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(fromThongTinKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(formThemKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(fromThongTinKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(formThemKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(fromThongTinKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(formThemKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(fromThongTinKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                formThemKH dialog = new formThemKH(new javax.swing.JFrame(), true);
+                fromThongTinKH dialog = new fromThongTinKH(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -378,17 +337,15 @@ public class formThemKH extends javax.swing.JDialog {
     private Swing.BottomRoundedPanel bottomRoundedPanel1;
     private Swing.BottomRoundedPanel bottomRoundedPanel2;
     private javax.swing.JButton btnHuy;
-    private javax.swing.JButton btnThem;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
@@ -399,21 +356,25 @@ public class formThemKH extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblThemKH;
-    private javax.swing.JRadioButton rbtnNam;
-    private javax.swing.JRadioButton rbtnNu;
+    private javax.swing.JRadioButton rbtNam;
+    private javax.swing.JRadioButton rbtNu;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
-    private javax.swing.JTextField txtHoTen1;
-    private javax.swing.JTextField txtHoTen2;
-    private javax.swing.JTextField txtHoTen3;
-    private javax.swing.JTextField txtHoTen4;
+    private javax.swing.JTextField txtHoTen;
+    private javax.swing.JTextField txtMaKH;
+    private javax.swing.JTextField txtSDT;
+    private javax.swing.JTextField txtTuoi;
     // End of variables declaration//GEN-END:variables
 }

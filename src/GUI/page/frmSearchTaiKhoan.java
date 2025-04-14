@@ -33,12 +33,6 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel33 = new javax.swing.JPanel();
-        jPanel34 = new javax.swing.JPanel();
-        jPanel35 = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
-        jPanel17 = new javax.swing.JPanel();
-        jPanel18 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -60,12 +54,6 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jPanel26 = new javax.swing.JPanel();
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
-        jPanel13 = new javax.swing.JPanel();
-        jPanel27 = new javax.swing.JPanel();
-        jPanel28 = new javax.swing.JPanel();
-        jPanel14 = new javax.swing.JPanel();
-        jPanel29 = new javax.swing.JPanel();
-        jPanel30 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel31 = new javax.swing.JPanel();
@@ -112,7 +100,7 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 102, 102));
         jPanel1.setMinimumSize(new java.awt.Dimension(829, 350));
-        jPanel1.setPreferredSize(new java.awt.Dimension(829, 350));
+        jPanel1.setPreferredSize(new java.awt.Dimension(829, 250));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel3.setBackground(new java.awt.Color(0, 120, 92));
@@ -132,41 +120,11 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jPanel4.setPreferredSize(new java.awt.Dimension(829, 300));
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel33.setMinimumSize(new java.awt.Dimension(829, 38));
-        jPanel33.setLayout(new java.awt.BorderLayout());
-
-        jPanel34.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel34.setPreferredSize(new java.awt.Dimension(300, 38));
-        jPanel34.setLayout(new java.awt.BorderLayout());
-        jPanel33.add(jPanel34, java.awt.BorderLayout.LINE_START);
-
-        jPanel35.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel35.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
-        jPanel33.add(jPanel35, java.awt.BorderLayout.CENTER);
-
-        jPanel4.add(jPanel33);
-
-        jPanel8.setMinimumSize(new java.awt.Dimension(829, 38));
-        jPanel8.setLayout(new java.awt.BorderLayout());
-
-        jPanel17.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel17.setPreferredSize(new java.awt.Dimension(300, 38));
-        jPanel17.setLayout(new java.awt.BorderLayout());
-        jPanel8.add(jPanel17, java.awt.BorderLayout.LINE_START);
-
-        jPanel18.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel18.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel18.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 10));
-        jPanel8.add(jPanel18, java.awt.BorderLayout.CENTER);
-
-        jPanel4.add(jPanel8);
-
         jPanel9.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
         jPanel19.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel19.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel19.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel19.setLayout(new java.awt.BorderLayout());
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -194,7 +152,7 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jPanel10.setLayout(new java.awt.BorderLayout());
 
         jPanel21.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel21.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel21.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel21.setLayout(new java.awt.BorderLayout());
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -222,7 +180,7 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jPanel11.setLayout(new java.awt.BorderLayout());
 
         jPanel23.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel23.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel23.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel23.setLayout(new java.awt.BorderLayout());
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -251,7 +209,7 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jPanel12.setLayout(new java.awt.BorderLayout());
 
         jPanel25.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel25.setPreferredSize(new java.awt.Dimension(300, 38));
+        jPanel25.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel25.setLayout(new java.awt.BorderLayout());
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -278,36 +236,6 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
 
         jPanel4.add(jPanel12);
 
-        jPanel13.setMinimumSize(new java.awt.Dimension(829, 38));
-        jPanel13.setLayout(new java.awt.BorderLayout());
-
-        jPanel27.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel27.setPreferredSize(new java.awt.Dimension(300, 38));
-        jPanel27.setLayout(new java.awt.BorderLayout(5, 10));
-        jPanel13.add(jPanel27, java.awt.BorderLayout.LINE_START);
-
-        jPanel28.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel28.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel28.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
-        jPanel13.add(jPanel28, java.awt.BorderLayout.CENTER);
-
-        jPanel4.add(jPanel13);
-
-        jPanel14.setMinimumSize(new java.awt.Dimension(829, 38));
-        jPanel14.setLayout(new java.awt.BorderLayout());
-
-        jPanel29.setMaximumSize(new java.awt.Dimension(170, 38));
-        jPanel29.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel29.setPreferredSize(new java.awt.Dimension(300, 38));
-        jPanel29.setLayout(new java.awt.BorderLayout());
-        jPanel14.add(jPanel29, java.awt.BorderLayout.LINE_START);
-
-        jPanel30.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel30.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel14.add(jPanel30, java.awt.BorderLayout.CENTER);
-
-        jPanel4.add(jPanel14);
-
         jPanel1.add(jPanel4, java.awt.BorderLayout.CENTER);
 
         add(jPanel1, java.awt.BorderLayout.NORTH);
@@ -318,7 +246,7 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel5.setMinimumSize(new java.awt.Dimension(829, 264));
-        jPanel5.setPreferredSize(new java.awt.Dimension(829, 264));
+        jPanel5.setPreferredSize(new java.awt.Dimension(829, 504));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         jPanel31.setBackground(new java.awt.Color(0, 120, 92));
@@ -398,10 +326,6 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
@@ -411,20 +335,12 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
-    private javax.swing.JPanel jPanel27;
-    private javax.swing.JPanel jPanel28;
-    private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel31;
     private javax.swing.JPanel jPanel32;
-    private javax.swing.JPanel jPanel33;
-    private javax.swing.JPanel jPanel34;
-    private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
