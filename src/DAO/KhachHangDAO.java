@@ -10,7 +10,6 @@ import java.util.Set;
 
 import ConnectDB.DatabaseConnection;
 import Entity.KhachHang;
-import Entity.NhanVien;
 import javax.swing.JOptionPane;
 
 public class KhachHangDAO {
@@ -51,18 +50,18 @@ public class KhachHangDAO {
     }
 
     // Phương thức thêm khách hàng vào cơ sở dữ liệu
-    public static boolean themKhachHang(String maKH, String hoTen, String gioiTinh, String sdt, int tuoi) {
+    public static boolean themKhachHang(KhachHang kh) {
         String sql = "INSERT INTO KhachHang (maKH, tenKH, gioiTinh, SDT, tuoi) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             // Cài đặt giá trị cho PreparedStatement
-            stmt.setString(1, maKH);  // Thêm mã khách hàng
-            stmt.setString(2, hoTen);
-            stmt.setString(3, gioiTinh);
-            stmt.setString(4, sdt);
-            stmt.setInt(5, tuoi);
+            stmt.setString(1, kh.getId());  // Thêm mã khách hàng
+            stmt.setString(2, kh.getHoTen());
+            stmt.setString(3, kh.getGioiTinh());
+            stmt.setString(4, kh.getSdt());
+            stmt.setInt(5, kh.getTuoi());
 
             // Thực hiện câu lệnh SQL và kiểm tra nếu thêm thành công
             return stmt.executeUpdate() > 0;

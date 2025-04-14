@@ -37,10 +37,6 @@ public class NhanVien {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getHoTen() {
         return hoTen;
     }

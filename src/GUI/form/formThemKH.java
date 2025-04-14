@@ -5,7 +5,7 @@
 package GUI.form;
 
 import DAO.KhachHangDAO;
-import DAO.NhanVienDAO;
+import Entity.KhachHang;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 
@@ -309,9 +309,9 @@ public class formThemKH extends javax.swing.JDialog {
 
         // Tạo mã khách hàng tự động
         String maKH = KhachHangDAO.TaoMaKhachHang();  // Tạo mã KH-001, KH-002...
-
+        KhachHang kh = new KhachHang(maKH, hoTen, gioiTinh, sdt, tuoi);
         // Gọi phương thức thêm khách hàng từ KhachHangDAO
-        boolean isAdded = KhachHangDAO.themKhachHang(maKH, hoTen, gioiTinh, sdt, tuoi);
+        boolean isAdded = KhachHangDAO.themKhachHang(kh);
 
         // Hiển thị thông báo cho người dùng
         if (isAdded) {

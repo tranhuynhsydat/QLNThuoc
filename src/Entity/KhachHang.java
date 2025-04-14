@@ -5,28 +5,58 @@
 package Entity;
 
 public class KhachHang {
+
     private String id;
     private String hoTen;
+    private String gioiTinh;
     private String sdt;
-    private String diaChi;
+    private int tuoi;
 
-    public KhachHang(String id, String hoTen, String sdt, String diaChi) {
+    public KhachHang(String id, String hoTen, String gioiTinh, String sdt, int tuoi) {
         this.id = id;
         this.hoTen = hoTen;
+        this.gioiTinh = gioiTinh;
         this.sdt = sdt;
-        this.diaChi = diaChi;
+        this.tuoi = tuoi;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
 
-    public String getHoTen() { return hoTen; }
-    public void setHoTen(String hoTen) { this.hoTen = hoTen; }
 
-    public String getSdt() { return sdt; }
-    public void setSdt(String sdt) { this.sdt = sdt; }
+    public String getGioiTinh() {
+        return gioiTinh;
+    }
 
-    public String getDiaChi() { return diaChi; }
-    public void setDiaChi(String diaChi) { this.diaChi = diaChi; }
+    public void setGioiTinh(String gioiTinh) {
+        this.gioiTinh = gioiTinh;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getHoTen() {
+        return hoTen;
+    }
+
+    public void setHoTen(String hoTen) {
+        this.hoTen = hoTen;
+    }
+
+    public String getSdt() {
+        return sdt;
+    }
+
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
+    }
+
+    public int getTuoi() {
+        return tuoi;
+    }
+
+    public void setTuoi(int tuoi) {
+        this.tuoi = tuoi;
+    }
+
+    
 }
-

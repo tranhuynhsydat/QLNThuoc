@@ -4,6 +4,11 @@
  */
 package GUI.form;
 
+import DAO.KhachHangDAO;
+import DAO.NhaCungCapDAO;
+import Entity.NhaCungCap;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
@@ -38,17 +43,17 @@ public class formThemNCC extends javax.swing.JDialog {
         jPanel12 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        txtHoTen1 = new javax.swing.JTextField();
+        txtTenNCC = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        txtHoTen3 = new javax.swing.JTextField();
+        txtDiaChi = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
-        txtHoTen2 = new javax.swing.JTextField();
+        txtSDT = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         bottomRoundedPanel2 = new Swing.BottomRoundedPanel();
         btnHuy = new javax.swing.JButton();
@@ -108,8 +113,13 @@ public class formThemNCC extends javax.swing.JDialog {
         flowLayout1.setAlignOnBaseline(true);
         jPanel4.setLayout(flowLayout1);
 
-        txtHoTen1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel4.add(txtHoTen1);
+        txtTenNCC.setPreferredSize(new java.awt.Dimension(350, 22));
+        txtTenNCC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTenNCCActionPerformed(evt);
+            }
+        });
+        jPanel4.add(txtTenNCC);
 
         jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);
 
@@ -130,8 +140,8 @@ public class formThemNCC extends javax.swing.JDialog {
 
         jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30));
 
-        txtHoTen3.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel9.add(txtHoTen3);
+        txtDiaChi.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel9.add(txtDiaChi);
 
         jPanel6.add(jPanel9, java.awt.BorderLayout.CENTER);
 
@@ -152,8 +162,8 @@ public class formThemNCC extends javax.swing.JDialog {
 
         jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30));
 
-        txtHoTen2.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel17.add(txtHoTen2);
+        txtSDT.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel17.add(txtSDT);
 
         jPanel7.add(jPanel17, java.awt.BorderLayout.CENTER);
 
@@ -173,6 +183,11 @@ public class formThemNCC extends javax.swing.JDialog {
         btnHuy.setForeground(new java.awt.Color(255, 255, 255));
         btnHuy.setText("Huỷ");
         btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
         bottomRoundedPanel2.add(btnHuy);
 
         btnThem.setBackground(new java.awt.Color(15, 204, 102));
@@ -214,8 +229,26 @@ public class formThemNCC extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+        String tenNCC = txtTenNCC.getText();
+        String diaChi = txtDiaChi.getText();
+        String sdt = txtSDT.getText();
+        String maNCC = NhaCungCapDAO.TaoMaNCC();
+        NhaCungCap ncc = new NhaCungCap(maNCC, tenNCC, diaChi, sdt);
+        boolean isAdded = NhaCungCapDAO.Them(ncc);
+        if (isAdded) {
+            JOptionPane.showMessageDialog(this, "Thêm nhà cung cấp thành công!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Thêm nhà cung cấp thất bại!");
+        }
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnHuyActionPerformed
+
+    private void txtTenNCCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenNCCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTenNCCActionPerformed
 
     /**
      * @param args the command line arguments
@@ -284,8 +317,8 @@ public class formThemNCC extends javax.swing.JDialog {
     private javax.swing.JLabel lblThemNCC;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
-    private javax.swing.JTextField txtHoTen1;
-    private javax.swing.JTextField txtHoTen2;
-    private javax.swing.JTextField txtHoTen3;
+    private javax.swing.JTextField txtDiaChi;
+    private javax.swing.JTextField txtSDT;
+    private javax.swing.JTextField txtTenNCC;
     // End of variables declaration//GEN-END:variables
 }
