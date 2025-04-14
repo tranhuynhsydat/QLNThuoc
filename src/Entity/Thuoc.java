@@ -4,27 +4,22 @@
  */
 package Entity;
 
+import java.util.Date;
+
 public class Thuoc {
 
     private String id;
     private String tenThuoc;
-    private String donViTinh;
+    private byte[] hinhAnh;
+    private String thanhPhan;
+    private DanhMuc danhMuc;
+    private DonViTinh donViTinh;
+    private XuatXu xuatXu;
     private int soLuong;
+    private double giaNhap;
     private double donGia;
-    private String loai;
-    private String nhaSanXuat;
+    private Date hsd;
 
-    public Thuoc(String id, String tenThuoc, String donViTinh, int soLuong, double donGia, String loai, String nhaSanXuat) {
-        this.id = id;
-        this.tenThuoc = tenThuoc;
-        this.donViTinh = donViTinh;
-        this.soLuong = soLuong;
-        this.donGia = donGia;
-        this.loai = loai;
-        this.nhaSanXuat = nhaSanXuat;
-    }
-
-    // Getters và Setters
     public String getId() {
         return id;
     }
@@ -33,47 +28,96 @@ public class Thuoc {
         return tenThuoc;
     }
 
-    public void setTenThuoc(String tenThuoc) {
-        this.tenThuoc = tenThuoc;
+    public byte[] getHinhAnh() {
+        return hinhAnh;
     }
 
-    public String getDonViTinh() {
+    public String getThanhPhan() {
+        return thanhPhan;
+    }
+
+    public DanhMuc getDanhMuc() {
+        return danhMuc;
+    }
+
+    public DonViTinh getDonViTinh() {
         return donViTinh;
     }
 
-    public void setDonViTinh(String donViTinh) {
-        this.donViTinh = donViTinh;
+    public XuatXu getXuatXu() {
+        return xuatXu;
     }
 
     public int getSoLuong() {
         return soLuong;
     }
 
-    public void setSoLuong(int soLuong) {
-        this.soLuong = soLuong;
+    public double getGiaNhap() {
+        return giaNhap;
     }
 
     public double getDonGia() {
         return donGia;
     }
 
+    public Date getHsd() {
+        return hsd;
+    }
+
+
+    public void setTenThuoc(String tenThuoc) {
+        this.tenThuoc = tenThuoc;
+    }
+
+    public void setHinhAnh(byte[] hinhAnh) {
+        this.hinhAnh = hinhAnh;
+    }
+
+    public void setThanhPhan(String thanhPhan) {
+        this.thanhPhan = thanhPhan;
+    }
+
+    public void setDanhMuc(DanhMuc danhMuc) {
+        this.danhMuc = danhMuc;
+    }
+
+    public void setDonViTinh(DonViTinh donViTinh) {
+        this.donViTinh = donViTinh;
+    }
+
+    public void setXuatXu(XuatXu xuatXu) {
+        this.xuatXu = xuatXu;
+    }
+
+    public void setSoLuong(int soLuong) {
+        this.soLuong = soLuong;
+    }
+
+    public void setGiaNhap(double giaNhap) {
+        this.giaNhap = giaNhap;
+    }
+
     public void setDonGia(double donGia) {
         this.donGia = donGia;
     }
 
-    public String getLoai() {
-        return loai;
+    public void setHsd(Date hsd) {
+        this.hsd = hsd;
     }
 
-    public void setLoai(String loai) {
-        this.loai = loai;
+    public Thuoc(String id, String tenThuoc, byte[] hinhAnh, String thanhPhan, DanhMuc danhMuc, DonViTinh donViTinh, XuatXu xuatXu, int soLuong, double giaNhap, double donGia, Date hsd) {
+        this.id = id;
+        this.tenThuoc = tenThuoc;
+        this.hinhAnh = hinhAnh;
+        this.thanhPhan = thanhPhan;
+        this.danhMuc = danhMuc;
+        this.donViTinh = donViTinh;
+        this.xuatXu = xuatXu;
+        this.soLuong = soLuong;
+        this.giaNhap = giaNhap;
+        this.donGia = donGia;
+        this.hsd = hsd;
     }
 
-    public String getNhaSanXuat() {
-        return nhaSanXuat;
-    }
-
-    public void setNhaSanXuat(String nhaSanXuat) {
-        this.nhaSanXuat = nhaSanXuat;
-    }
+    
 }

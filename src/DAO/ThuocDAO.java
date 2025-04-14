@@ -1,13 +1,171 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
-/**
- *
- * @author roxan
- */
+import ConnectDB.DatabaseConnection;
+import Entity.DanhMuc;
+import Entity.DonViTinh;
+import Entity.Thuoc;
+import Entity.XuatXu;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.ImageIcon;
+
 public class ThuocDAO {
-    
+
+    public static List<Thuoc> getAllThuoc() {
+        List<Thuoc> danhSachThuoc = new ArrayList<>();
+        String sql = "SELECT * FROM Thuoc";
+
+        try (Connection conn = DatabaseConnection.getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                String maThuoc = rs.getString("maThuoc");
+                String tenThuoc = rs.getString("tenThuoc");
+                String thanhPhan = rs.getString("thanhPhanThuoc");
+                double giaNhap = rs.getDouble("giaNhap");
+                double donGia = rs.getDouble("donGia");
+                Date hsdSql = rs.getDate("HSD");  // Lấy java.sql.Date từ ResultSet
+                java.util.Date hsd = null;
+                if (hsdSql != null) {
+                    hsd = new java.util.Date(hsdSql.getTime());  // Chuyển java.sql.Date thành java.util.Date
+                }
+                String maDM = rs.getString("maDM");
+                String maDVT = rs.getString("maDVT");
+                String maXX = rs.getString("maXX");
+                int soLuong = rs.getInt("soLuong");
+
+                // Lấy đối tượng DanhMuc, DonViTinh, XuatXu từ mã
+                DanhMuc danhMuc = DanhMucDAO.getDanhMucByMa(maDM);
+                DonViTinh donViTinh = DonViTinhDAO.getDonViTinhByMa(maDVT);
+                XuatXu xuatXu = XuatXuDAO.getXuatXuByMa(maXX);
+
+                // Lấy ảnh dưới dạng byte[]
+                byte[] anh = rs.getBytes("anh");
+                ImageIcon imageIcon = null;
+
+                // Kiểm tra ảnh có null không
+                if (anh != null && anh.length > 0) {
+                    imageIcon = new ImageIcon(anh);  // Tạo ImageIcon từ byte[]
+                } else {
+                    // Nếu ảnh null, sử dụng ảnh mặc định từ SVG
+                    imageIcon = new FlatSVGIcon("./icon/image.svg");  // Đặt đường dẫn đến icon SVG mặc định
+                }
+
+                // Thêm thuốc vào danh sách
+                danhSachThuoc.add(new Thuoc(maThuoc, tenThuoc, anh, thanhPhan, danhMuc, donViTinh, xuatXu, soLuong, giaNhap, donGia, hsd));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return danhSachThuoc;
+    }
+
+    // Phương thức tạo mã thuốc tự động theo định dạng T-XXX
+    public static String TaoMaThuoc() {
+        String prefix = "T-";
+        int maxNumber = 0;
+
+        try (Connection conn = DatabaseConnection.getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT maThuoc FROM Thuoc WHERE maThuoc LIKE 'T-%'")) {
+
+            while (rs.next()) {
+                String ma = rs.getString("maThuoc");
+                if (ma != null && ma.startsWith(prefix)) {
+                    try {
+                        int num = Integer.parseInt(ma.substring(2));
+                        if (num > maxNumber) {
+                            maxNumber = num;
+                        }
+                    } catch (NumberFormatException e) {
+                        // Bỏ qua nếu không thể chuyển mã thuốc thành số
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        int newNumber = maxNumber + 1;
+        return prefix + String.format("%03d", newNumber);  // Đảm bảo mã thuốc có 3 chữ số
+    }
+
+    // Phương thức thêm thuốc vào cơ sở dữ liệu
+    public static boolean them(Thuoc thuoc) {
+        String sql = "INSERT INTO Thuoc (maThuoc, tenThuoc, thanhPhanThuoc, giaNhap, donGia, HSD, maDM, maDVT, maXX, soLuong, anh) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, thuoc.getId());  // Mã thuốc
+            ps.setString(2, thuoc.getTenThuoc());
+            ps.setString(3, thuoc.getThanhPhan());
+            ps.setDouble(4, thuoc.getGiaNhap());
+            ps.setDouble(5, thuoc.getDonGia()); // Giá bán
+            ps.setDate(6, new java.sql.Date(thuoc.getHsd().getTime()));  // Hạn sử dụng
+            ps.setString(7, thuoc.getDanhMuc().getId()); // Mã danh mục
+            ps.setString(8, thuoc.getDonViTinh().getId());  // Mã đơn vị tính
+            ps.setString(9, thuoc.getXuatXu().getId());  // Mã xuất xứ
+            ps.setInt(10, thuoc.getSoLuong());
+            ps.setBytes(11, thuoc.getHinhAnh());  // Lưu ảnh dưới dạng byte[]
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static List<Thuoc> getThuocBatch(int start, int limit) {
+        List<Thuoc> danhSachThuoc = new ArrayList<>();
+        String sql = "SELECT * FROM Thuoc ORDER BY maThuoc OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // Sử dụng cú pháp đúng cho SQL Server
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, start);  // Chỉ mục bắt đầu (OFFSET)
+            ps.setInt(2, limit);  // Số dòng cần lấy (FETCH NEXT)
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String maThuoc = rs.getString("maThuoc");
+                    String tenThuoc = rs.getString("tenThuoc");
+                    String thanhPhan = rs.getString("thanhPhanThuoc");
+                    double giaNhap = rs.getDouble("giaNhap");
+                    double donGia = rs.getDouble("donGia");
+                    Date hsdSql = rs.getDate("HSD");
+                    java.util.Date hsd = null;
+                    if (hsdSql != null) {
+                        hsd = new java.util.Date(hsdSql.getTime());  // Chuyển java.sql.Date thành java.util.Date
+                    }
+                    String maDM = rs.getString("maDM");
+                    String maDVT = rs.getString("maDVT");
+                    String maXX = rs.getString("maXX");
+                    int soLuong = rs.getInt("soLuong");
+
+                    // Lấy đối tượng DanhMuc, DonViTinh, XuatXu từ mã
+                    DanhMuc danhMuc = DanhMucDAO.getDanhMucByMa(maDM);
+                    DonViTinh donViTinh = DonViTinhDAO.getDonViTinhByMa(maDVT);
+                    XuatXu xuatXu = XuatXuDAO.getXuatXuByMa(maXX);
+
+                    // Lấy ảnh dưới dạng byte[]
+                    byte[] anh = rs.getBytes("anh");
+                    ImageIcon imageIcon = null;
+
+                    // Kiểm tra ảnh có null không
+                    if (anh != null && anh.length > 0) {
+                        imageIcon = new ImageIcon(anh);  // Tạo ImageIcon từ byte[]
+                    } else {
+                        // Nếu ảnh null, sử dụng ảnh mặc định từ SVG
+                        imageIcon = new FlatSVGIcon("./icon/image.svg");  // Đặt đường dẫn đến icon SVG mặc định
+                    }
+
+                    // Thêm thuốc vào danh sách
+                    danhSachThuoc.add(new Thuoc(maThuoc, tenThuoc, anh, thanhPhan, danhMuc, donViTinh, xuatXu, soLuong, giaNhap, donGia, hsd));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return danhSachThuoc;
+    }
+
 }
