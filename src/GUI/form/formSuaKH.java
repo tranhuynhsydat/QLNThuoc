@@ -4,11 +4,19 @@
  */
 package GUI.form;
 
+import DAO.KhachHangDAO;
+import Entity.KhachHang;
+import javax.swing.ButtonGroup;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
  */
 public class formSuaKH extends javax.swing.JDialog {
+
+    private String maKH;
 
     /**
      * Creates new form formThemNV
@@ -17,7 +25,34 @@ public class formSuaKH extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+    public formSuaKH(JFrame parentFrame, boolean modal, String maKH) {
+        super(parentFrame, modal);
+        this.maKH = maKH;  // Lưu mã nhân viên
+        initComponents();
+        groupGioiTinh();
+        loadData(maKH);  // Gọi phương thức để tải dữ liệu nhân viên vào form
+    }
+    private void groupGioiTinh() {
+        ButtonGroup groupGioiTinh = new ButtonGroup();
+        groupGioiTinh.add(rbtnNam);
+        groupGioiTinh.add(rbtnNu);
+        rbtnNam.setSelected(true);
+    }
+    private void loadData(String maKH) {
+        // Truy vấn thông tin nhân viên từ cơ sở dữ liệu
+        KhachHang kh = KhachHangDAO.getKhachHangByMaKH(maKH);
 
+        if (kh != null) {
+            txtHoTen.setText(kh.getHoTen());
+            if (kh.getGioiTinh().equals("Nam")) {
+                rbtnNam.setSelected(true);
+            } else {
+                rbtnNu.setSelected(true);
+            }
+            txtSDT.setText(kh.getSdt());
+            txtTuoi.setText(String.valueOf(kh.getTuoi()));
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,27 +75,26 @@ public class formSuaKH extends javax.swing.JDialog {
         jPanel12 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        txtHoTen1 = new javax.swing.JTextField();
+        txtHoTen = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        rbtnNam = new javax.swing.JRadioButton();
+        rbtnNu = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
-        txtHoTen2 = new javax.swing.JTextField();
-        txtHoTen3 = new javax.swing.JTextField();
+        txtSDT = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
-        txtHoTen4 = new javax.swing.JTextField();
+        txtTuoi = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
@@ -125,8 +159,8 @@ public class formSuaKH extends javax.swing.JDialog {
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        txtHoTen1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel4.add(txtHoTen1);
+        txtHoTen.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel4.add(txtHoTen);
 
         jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);
 
@@ -149,16 +183,16 @@ public class formSuaKH extends javax.swing.JDialog {
 
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jRadioButton1.setText("Nam");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        rbtnNam.setText("Nam");
+        rbtnNam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                rbtnNamActionPerformed(evt);
             }
         });
-        jPanel13.add(jRadioButton1);
+        jPanel13.add(rbtnNam);
 
-        jRadioButton2.setText("Nữ");
-        jPanel13.add(jRadioButton2);
+        rbtnNu.setText("Nữ");
+        jPanel13.add(rbtnNu);
         jPanel13.add(jLabel4);
 
         jLabel5.setText("       ");
@@ -185,11 +219,8 @@ public class formSuaKH extends javax.swing.JDialog {
 
         jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        txtHoTen2.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel17.add(txtHoTen2);
-
-        txtHoTen3.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel17.add(txtHoTen3);
+        txtSDT.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel17.add(txtSDT);
 
         jPanel7.add(jPanel17, java.awt.BorderLayout.CENTER);
 
@@ -210,8 +241,8 @@ public class formSuaKH extends javax.swing.JDialog {
 
         jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        txtHoTen4.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel19.add(txtHoTen4);
+        txtTuoi.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel19.add(txtTuoi);
 
         jPanel8.add(jPanel19, java.awt.BorderLayout.CENTER);
 
@@ -239,6 +270,11 @@ public class formSuaKH extends javax.swing.JDialog {
         btnHuy.setForeground(new java.awt.Color(255, 255, 255));
         btnHuy.setText("Huỷ");
         btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
         bottomRoundedPanel2.add(btnHuy);
 
         btnThem.setBackground(new java.awt.Color(15, 204, 102));
@@ -279,13 +315,35 @@ public class formSuaKH extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void rbtnNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnNamActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_rbtnNamActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+        String hoTen = txtHoTen.getText();
+        String gioiTinh = rbtnNam.isSelected() ? "Nam" : "Nữ";  // Lấy giới tính từ JRadioButton
+        String sdt = txtSDT.getText();
+        int tuoi = Integer.parseInt(txtTuoi.getText()); // ✅ Đúng
+        // Tạo đối tượng nhân viên mới, không cần thay đổi maNV
+        KhachHang kh = new KhachHang(maKH,hoTen, gioiTinh, sdt, tuoi);
+
+        // Gọi hàm sửa nhân viên trong DAO
+        boolean isUpdated = KhachHangDAO.sua(kh);
+
+        // Hiển thị thông báo cho người dùng
+        if (isUpdated) {
+            JOptionPane.showMessageDialog(this, "Sửa thông tin khách hàng thành công!");
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Sửa thông tin khách hàng thất bại!");
+        }
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnHuyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -304,35 +362,21 @@ public class formSuaKH extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(formSuaKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formSuaNV.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(formSuaKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formSuaNV.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(formSuaKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formSuaNV.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(formSuaKH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formSuaNV.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                formSuaKH dialog = new formSuaKH(new javax.swing.JFrame(), true);
+                formSuaNV dialog = new formSuaNV(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -376,14 +420,13 @@ public class formSuaKH extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JLabel lblThemKH;
+    private javax.swing.JRadioButton rbtnNam;
+    private javax.swing.JRadioButton rbtnNu;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
-    private javax.swing.JTextField txtHoTen1;
-    private javax.swing.JTextField txtHoTen2;
-    private javax.swing.JTextField txtHoTen3;
-    private javax.swing.JTextField txtHoTen4;
+    private javax.swing.JTextField txtHoTen;
+    private javax.swing.JTextField txtSDT;
+    private javax.swing.JTextField txtTuoi;
     // End of variables declaration//GEN-END:variables
 }
