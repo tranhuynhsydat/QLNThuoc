@@ -60,7 +60,6 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         setLocationRelativeTo(null);
-        loadLanguage("vi");
         addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat, btnPhieuDoiTra));
         jScrollPane1.getVerticalScrollBar().setPreferredSize(new java.awt.Dimension(3, 0));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -457,26 +456,6 @@ public class Main extends javax.swing.JFrame {
             btnPhieuDoiTra.setEnabled(false);
             btnKhachHang.setEnabled(false);
         }
-    }
-
-    private void loadLanguage(String language) {
-        Locale locale = new Locale(language);
-        String baseName = "Style." + (language.equals("vi") ? "VN" : "EN");
-        messages = ResourceBundle.getBundle(baseName, locale);
-        updateLanguage();
-    }
-
-    private void updateLanguage() {
-        btnThongKe.setText(messages.getString("btnThongKe"));
-        btnHoaDon.setText(messages.getString("btnHoaDon"));
-        btnKhachHang.setText(messages.getString("btnKhachHang"));
-        btnNhaCungCap.setText(messages.getString("btnNhaCungCap"));
-        btnNhanVien.setText(messages.getString("btnNhanVien"));
-        btnPhieuNhap.setText(messages.getString("btnPhieuNhap"));
-        btnTaiKhoan.setText(messages.getString("btnTaiKhoan"));
-        btnThuoc.setText(messages.getString("btnThuoc"));
-        btnDangXuat.setText(messages.getString("btnDangXuat"));
-        btnPhieuDoiTra.setText(messages.getString("btnPhieuDoiTra"));
     }
 
     /**
