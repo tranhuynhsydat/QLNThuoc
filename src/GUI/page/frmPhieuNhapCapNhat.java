@@ -378,8 +378,10 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(81, 219, 185), 5));
         jPanel4.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         jPanel4.setMinimumSize(new java.awt.Dimension(420, 50));
+        jPanel4.setName(""); // NOI18N
         jPanel4.setPreferredSize(new java.awt.Dimension(420, 50));
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.LINE_AXIS));
+
 
         jPanel37.setPreferredSize(new java.awt.Dimension(150, 69));
         jPanel37.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
@@ -390,6 +392,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jPanel37.add(jComboBox1);
 
         jPanel4.add(jPanel37);
+
 
         jPanel38.setPreferredSize(new java.awt.Dimension(150, 69));
         jPanel38.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 10));
@@ -410,6 +413,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jButton1.setText("Thêm");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
         jButton1.setPreferredSize(new java.awt.Dimension(130, 32));
+
         jPanel39.add(jButton1);
 
         jPanel4.add(jPanel39);
@@ -749,6 +753,14 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
 //        }
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPanhThuoc;
@@ -814,7 +826,10 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel44;
     private javax.swing.JPanel jPanel45;
     private javax.swing.JPanel jPanel5;
+
+
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel60;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;

@@ -418,6 +418,7 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
         jButton1.setText("Thêm");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
         jButton1.setPreferredSize(new java.awt.Dimension(130, 32));
+
         jPanel52.add(jButton1);
 
         jPanel4.add(jPanel52);
@@ -807,6 +808,14 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
             //        }
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPanhThuoc;
@@ -885,6 +894,7 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private java.awt.Label label1;
     private javax.swing.JTextField txtDonGia;
     private javax.swing.JTextField txtHoTenKH;
