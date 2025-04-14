@@ -361,6 +361,7 @@ public class formThemNV extends javax.swing.JDialog {
         // Hiển thị thông báo cho người dùng
         if (isAdded) {
             JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công!");
+            dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Thêm nhân viên thất bại!");
         }

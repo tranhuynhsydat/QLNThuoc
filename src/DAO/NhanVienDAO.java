@@ -11,7 +11,9 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import Entity.NhanVien;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.swing.JOptionPane;
 
@@ -20,6 +22,63 @@ import javax.swing.JOptionPane;
  * @author roxan
  */
 public class NhanVienDAO {
+
+    public static List<NhanVien> getAllNhanVien() {
+        List<NhanVien> danhSachNhanVien = new ArrayList<>();
+        String sql = "SELECT * FROM NhanVien";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                NhanVien nv = new NhanVien(
+                        rs.getString("maNV"),
+                        rs.getString("hoTen"),
+                        rs.getString("sdt"),
+                        rs.getString("gioiTinh"),
+                        rs.getDate("dtSinh"),
+                        rs.getDate("ngayVaoLam"),
+                        rs.getString("chucVu"),
+                        rs.getString("cccd")
+                );
+                danhSachNhanVien.add(nv);  // Thêm nhân viên vào danh sách
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return danhSachNhanVien;
+    }
+
+    public static NhanVien getNhanVienByMaNV(String maNV) {
+        NhanVien nv = null;
+        String sql = "SELECT * FROM NhanVien WHERE maNV = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, maNV);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    nv = new NhanVien(
+                            rs.getString("maNV"),
+                            rs.getString("hoTen"),
+                            rs.getString("sdt"),
+                            rs.getString("gioiTinh"),
+                            rs.getDate("dtSinh"),
+                            rs.getDate("ngayVaoLam"),
+                            rs.getString("chucVu"),
+                            rs.getString("cccd")
+                    );
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return nv;
+    }
 
     public static String TaoMaNhanVien() {
         String prefix = "NV-";
@@ -73,6 +132,43 @@ public class NhanVienDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Lỗi: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public static boolean sua(NhanVien nv) {
+        String sql = "UPDATE NhanVien SET hoTen = ?, sdt = ?, gioiTinh = ?, dtSinh = ?, ngayVaoLam = ?, chucVu = ?, cccd = ? WHERE maNV = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nv.getHoTen());
+            ps.setString(2, nv.getSdt());
+            ps.setString(3, nv.getGioiTinh());
+            ps.setDate(4, new java.sql.Date(nv.getDtSinh().getTime()));
+            ps.setDate(5, new java.sql.Date(nv.getNgayVaoLam().getTime()));
+            ps.setString(6, nv.getChucVu());
+            ps.setString(7, nv.getCccd());
+            ps.setString(8, nv.getId());  // Mã nhân viên không thay đổi
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean xoa(String maNV) {
+        String sql = "DELETE FROM NhanVien WHERE maNV = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, maNV);  // Truyền mã nhân viên cần xóa vào PreparedStatement
+
+            return ps.executeUpdate() > 0;  // Thực thi câu lệnh và kiểm tra xem có bị ảnh hưởng dòng nào không
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return false;
     }
