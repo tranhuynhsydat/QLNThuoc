@@ -61,7 +61,6 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         setLocationRelativeTo(null);
-        loadLanguage("vi");
         addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat, btnPhieuDoiTra));
         jScrollPane1.getVerticalScrollBar().setPreferredSize(new java.awt.Dimension(3, 0));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -479,26 +478,6 @@ public class Main extends javax.swing.JFrame {
         }
     }
 
-    private void loadLanguage(String language) {
-        Locale locale = new Locale(language);
-        String baseName = "Style." + (language.equals("vi") ? "VN" : "EN");
-        messages = ResourceBundle.getBundle(baseName, locale);
-        updateLanguage();
-    }
-
-    private void updateLanguage() {
-        btnThongKe.setText(messages.getString("btnThongKe"));
-        btnHoaDon.setText(messages.getString("btnHoaDon"));
-        btnKhachHang.setText(messages.getString("btnKhachHang"));
-        btnNhaCungCap.setText(messages.getString("btnNhaCungCap"));
-        btnNhanVien.setText(messages.getString("btnNhanVien"));
-        btnPhieuNhap.setText(messages.getString("btnPhieuNhap"));
-        btnTaiKhoan.setText(messages.getString("btnTaiKhoan"));
-        btnThuoc.setText(messages.getString("btnThuoc"));
-        btnDangXuat.setText(messages.getString("btnDangXuat"));
-        btnPhieuDoiTra.setText(messages.getString("btnPhieuDoiTra"));
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -544,8 +523,6 @@ public class Main extends javax.swing.JFrame {
         btnTaiKhoan = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        label1 = new java.awt.Label();
-        jComboBox1 = new javax.swing.JComboBox<>();
         mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -796,25 +773,6 @@ public class Main extends javax.swing.JFrame {
         jPanel3.setMinimumSize(new java.awt.Dimension(200, 25));
         jPanel3.setPreferredSize(new java.awt.Dimension(200, 25));
         jPanel3.setLayout(new java.awt.BorderLayout());
-
-        label1.setAlignment(java.awt.Label.CENTER);
-        label1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        label1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        label1.setName(""); // NOI18N
-        label1.setPreferredSize(new java.awt.Dimension(100, 20));
-        label1.setText("Select language:");
-        jPanel3.add(label1, java.awt.BorderLayout.LINE_START);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vietnamese", "English" }));
-        jComboBox1.setMinimumSize(new java.awt.Dimension(75, 22));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(75, 22));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jComboBox1, java.awt.BorderLayout.CENTER);
-
         roundPanel9.add(jPanel3);
 
         jScrollPane1.setViewportView(roundPanel9);
@@ -895,15 +853,6 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        String selectedLanguage = (String) jComboBox1.getSelectedItem();
-        if ("Vietnamese".equals(selectedLanguage)) {
-            loadLanguage("vi");
-        } else {
-            loadLanguage("en");
-        }
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
     private void btnThuocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThuocActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnThuocActionPerformed
@@ -923,7 +872,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btnTaiKhoan;
     private javax.swing.JButton btnThongKe;
     private javax.swing.JButton btnThuoc;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -936,7 +884,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private java.awt.Label label1;
     private javax.swing.JLabel lblAvatar;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblRole;

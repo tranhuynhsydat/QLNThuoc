@@ -4,6 +4,11 @@
  */
 package GUI.form;
 
+import DAO.KhachHangDAO;
+import Entity.KhachHang;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
@@ -16,6 +21,14 @@ public class formThemKH extends javax.swing.JDialog {
     public formThemKH(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        groupGioiTinh();
+    }
+
+    private void groupGioiTinh() {
+        ButtonGroup groupGioiTinh = new ButtonGroup();
+        groupGioiTinh.add(rbtnNam);
+        groupGioiTinh.add(rbtnNu);
+        rbtnNam.setSelected(true);
     }
 
     /**
@@ -46,8 +59,8 @@ public class formThemKH extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        rbtnNam = new javax.swing.JRadioButton();
+        rbtnNu = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
@@ -149,16 +162,16 @@ public class formThemKH extends javax.swing.JDialog {
 
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jRadioButton1.setText("Nam");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        rbtnNam.setText("Nam");
+        rbtnNam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                rbtnNamActionPerformed(evt);
             }
         });
-        jPanel13.add(jRadioButton1);
+        jPanel13.add(rbtnNam);
 
-        jRadioButton2.setText("Nữ");
-        jPanel13.add(jRadioButton2);
+        rbtnNu.setText("Nữ");
+        jPanel13.add(rbtnNu);
         jPanel13.add(jLabel4);
 
         jLabel5.setText("       ");
@@ -239,6 +252,11 @@ public class formThemKH extends javax.swing.JDialog {
         btnHuy.setForeground(new java.awt.Color(255, 255, 255));
         btnHuy.setText("Huỷ");
         btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
         bottomRoundedPanel2.add(btnHuy);
 
         btnThem.setBackground(new java.awt.Color(15, 204, 102));
@@ -279,13 +297,33 @@ public class formThemKH extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void rbtnNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnNamActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_rbtnNamActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+        String hoTen = txtHoTen1.getText();
+        String sdt = txtHoTen2.getText();
+        String gioiTinh = rbtnNam.isSelected() ? "Nam" : "Nữ";
+        int tuoi = Integer.parseInt(txtHoTen4.getText());
+
+        // Tạo mã khách hàng tự động
+        String maKH = KhachHangDAO.TaoMaKhachHang();  // Tạo mã KH-001, KH-002...
+        KhachHang kh = new KhachHang(maKH, hoTen, gioiTinh, sdt, tuoi);
+        // Gọi phương thức thêm khách hàng từ KhachHangDAO
+        boolean isAdded = KhachHangDAO.themKhachHang(kh);
+
+        // Hiển thị thông báo cho người dùng
+        if (isAdded) {
+            JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Thêm khách hàng thất bại!");
+        }
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnHuyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -368,9 +406,9 @@ public class formThemKH extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JLabel lblThemKH;
+    private javax.swing.JRadioButton rbtnNam;
+    private javax.swing.JRadioButton rbtnNu;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
     private javax.swing.JTextField txtHoTen1;

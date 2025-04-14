@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author roxan
  */
-class NhanVien {
+public class NhanVien {
     private String id;
     private String hoTen;
     private String sdt;
@@ -35,10 +35,6 @@ class NhanVien {
     // Getter và Setter cho các trường
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getHoTen() {
