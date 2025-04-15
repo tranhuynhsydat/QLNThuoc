@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
@@ -199,6 +200,11 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
         btnXoa.setMaximumSize(new java.awt.Dimension(85, 35));
         btnXoa.setMinimumSize(new java.awt.Dimension(85, 35));
         btnXoa.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
         btnPanel.add(btnXoa);
 
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
@@ -211,10 +217,47 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
         dialog.setVisible(true);    }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        formSuaThuoc dialog = new formSuaThuoc(parentFrame, true);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);    }//GEN-LAST:event_btnSuaActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            String maThuoc = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
+
+            // Mở form sửa nhân viên và truyền mã nhân viên vào constructor
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            formSuaThuoc dialog = new formSuaThuoc(parentFrame, true, maThuoc);  // Truyền mã nhân viên vào constructor
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+            loadDataToTable();  // Gọi lại phương thức để làm mới bảng
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn thuốc để sửa!");
+        }
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            String maThuoc = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
+
+            // Hiển thị hộp thoại xác nhận xóa
+            int response = JOptionPane.showConfirmDialog(this,
+                    "Bạn có chắc chắn muốn xóa thuốc này?",
+                    "Xác nhận", JOptionPane.YES_NO_OPTION);
+
+            // Nếu người dùng chọn Yes, thực hiện xóa
+            if (response == JOptionPane.YES_OPTION) {
+                // Gọi hàm xóa nhân viên trong DAO
+                if (ThuocDAO.xoa(maThuoc)) {
+                    JOptionPane.showMessageDialog(this, "Xóa thuốc thành công!");
+                    loadDataToTable();  // Làm mới bảng sau khi xóa
+                } else {
+                    JOptionPane.showMessageDialog(this, "Xóa thuốc thất bại!");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn thuốc để xóa!");
+        }
+    }//GEN-LAST:event_btnXoaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
