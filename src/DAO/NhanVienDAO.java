@@ -51,35 +51,37 @@ public class NhanVienDAO {
     }
 
     public static List<NhanVien> getNhanVienBatch(int start, int limit) {
-        List<NhanVien> danhSachNhanVien = new ArrayList<>();
-        String sql = "SELECT * FROM NhanVien ORDER BY maNV OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // SQL Server Syntax
+    List<NhanVien> danhSachNhanVien = new ArrayList<>();
+    String sql = "SELECT * FROM NhanVien ORDER BY maNV OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // SQL Server syntax
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, start);  // Chỉ mục bắt đầu (OFFSET)
-            ps.setInt(2, limit);  // Số dòng cần lấy (FETCH NEXT)
+    try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, start);  // Chỉ mục bắt đầu (OFFSET)
+        ps.setInt(2, limit);  // Số dòng cần lấy (FETCH NEXT)
 
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    NhanVien nv = new NhanVien(
-                            rs.getString("maNV"),
-                            rs.getString("hoTen"),
-                            rs.getString("sdt"),
-                            rs.getString("gioiTinh"),
-                            rs.getDate("dtSinh"),
-                            rs.getDate("ngayVaoLam"),
-                            rs.getString("chucVu"),
-                            rs.getString("cccd")
-                    );
-                    danhSachNhanVien.add(nv);  // Thêm nhân viên vào danh sách
-                }
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                NhanVien nv = new NhanVien(
+                        rs.getString("maNV"),
+                        rs.getString("hoTen"),
+                        rs.getString("sdt"),
+                        rs.getString("gioiTinh"),
+                        rs.getDate("dtSinh"),
+                        rs.getDate("ngayVaoLam"),
+                        rs.getString("chucVu"),
+                        rs.getString("cccd")
+                );
+                danhSachNhanVien.add(nv);  // Thêm nhân viên vào danh sách
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
-        return danhSachNhanVien;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return danhSachNhanVien;
+}
+
+
 
     public static NhanVien getNhanVienByMaNV(String maNV) {
         NhanVien nv = null;

@@ -43,7 +43,7 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
 
             // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
             if (current + visible >= max) {
-                startIndex += 13;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                startIndex += 10;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
                 loadDataToTable();  // Tải thêm dữ liệu
             }
         });
@@ -67,17 +67,21 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
     }
 
-    private void loadDataToTable() {
-        // Sử dụng SwingWorker để load dữ liệu trong nền
-        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                // Lấy danh sách nhân viên từ cơ sở dữ liệu với startIndex và số lượng dòng cần lấy
-                List<NhanVien> danhSachNhanVien = NhanVienDAO.getNhanVienBatch(startIndex, 13); // 13 dòng mỗi lần
+  private void loadDataToTable() {
+    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        @Override
+        protected Void doInBackground() throws Exception {
+            startIndex=0;
+            List<NhanVien> danhSachNhanVien = NhanVienDAO.getNhanVienBatch(startIndex, 10); // Tải thêm dữ liệu
+            System.out.println("Dữ liệu nhận được từ DB: " + danhSachNhanVien.size() + " dòng");
+            if (danhSachNhanVien == null || danhSachNhanVien.isEmpty()) {
+                System.out.println("Không có dữ liệu để tải.");
+            } else {
                 SwingUtilities.invokeLater(() -> {
                     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    model.setRowCount(0);  // Xóa dữ liệu cũ trong bảng
 
-                    // Thêm dữ liệu vào bảng mà không xóa dữ liệu cũ
+                    // Thêm dữ liệu mới vào bảng
                     for (NhanVien nv : danhSachNhanVien) {
                         Object[] rowData = {
                             nv.getId(),
@@ -88,16 +92,22 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
                             nv.getNgayVaoLam(),
                             nv.getCccd(),
                             nv.getChucVu()
-                            
                         };
-                        model.addRow(rowData);  // Thêm dòng vào model
+                        model.addRow(rowData);  // Thêm dòng vào bảng
                     }
+
+                    model.fireTableDataChanged();  // Đảm bảo bảng được làm mới
+                    jTable1.revalidate();  // Cập nhật lại bảng
+                    jTable1.repaint();  // Vẽ lại bảng
                 });
-                return null;
             }
-        };
-        worker.execute();
-    }
+            return null;
+        }
+    };
+    worker.execute();
+}
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -223,7 +233,7 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
             formSuaNV dialog = new formSuaNV(parentFrame, true, maNV);  // Truyền mã nhân viên vào constructor
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
-            loadDataToTable();
+            loadDataToTable();  // Gọi lại phương thức để làm mới bảng
         } else {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên để sửa!");
         }
