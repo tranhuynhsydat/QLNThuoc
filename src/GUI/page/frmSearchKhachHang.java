@@ -8,6 +8,7 @@ import DAO.KhachHangDAO;
 import Entity.KhachHang;
 import GUI.form.formThongTinKH;
 import java.util.List;
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,6 +31,7 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
      */
     public frmSearchKhachHang() {
         initComponents();
+        groupGioiTinh();
         configureTable();
          startIndex = 0;
          loadDataToTable();
@@ -46,6 +48,12 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
                  loadDataToTable();  // Tải thêm dữ liệu
             }
          });
+    }
+    private void groupGioiTinh() {
+        ButtonGroup groupGioiTinh = new ButtonGroup();
+        groupGioiTinh.add(rbtnNam);
+        groupGioiTinh.add(rbtnNu);
+        rbtnNam.setSelected(true);
     }
     private void configureTable() {
          // Ngăn không cho phép người dùng chỉnh sửa bảng
@@ -106,26 +114,26 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
         jPanel19 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
-        jTextField4 = new javax.swing.JTextField();
+        txtHoTen = new javax.swing.JTextField();
         jPanel10 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel22 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        rbtnNam = new javax.swing.JRadioButton();
+        rbtnNu = new javax.swing.JRadioButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel24 = new javax.swing.JPanel();
-        txtHoTen2 = new javax.swing.JTextField();
+        txtSDT = new javax.swing.JTextField();
         jPanel12 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel26 = new javax.swing.JPanel();
-        txtHoTen4 = new javax.swing.JTextField();
+        txtTuoi = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel31 = new javax.swing.JPanel();
@@ -183,8 +191,8 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
         jPanel20.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField4.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel20.add(jTextField4);
+        txtHoTen.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel20.add(txtHoTen);
 
         jPanel9.add(jPanel20, java.awt.BorderLayout.CENTER);
 
@@ -210,16 +218,16 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
 
         jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 3));
 
-        jRadioButton1.setText("Nam");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        rbtnNam.setText("Nam");
+        rbtnNam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                rbtnNamActionPerformed(evt);
             }
         });
-        jPanel15.add(jRadioButton1);
+        jPanel15.add(rbtnNam);
 
-        jRadioButton2.setText("Nữ");
-        jPanel15.add(jRadioButton2);
+        rbtnNu.setText("Nữ");
+        jPanel15.add(rbtnNu);
         jPanel15.add(jLabel9);
 
         jLabel5.setText("       ");
@@ -249,8 +257,8 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
         jPanel24.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel24.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        txtHoTen2.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel24.add(txtHoTen2);
+        txtSDT.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel24.add(txtSDT);
 
         jPanel11.add(jPanel24, java.awt.BorderLayout.CENTER);
 
@@ -274,8 +282,8 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
         jPanel26.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel26.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 10));
 
-        txtHoTen4.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel26.add(txtHoTen4);
+        txtTuoi.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel26.add(txtTuoi);
 
         jPanel12.add(jPanel26, java.awt.BorderLayout.CENTER);
 
@@ -364,12 +372,41 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
         add(btnPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void rbtnNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnNamActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_rbtnNamActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
+        String hoTen = txtHoTen.getText().trim();  // Họ tên
+        String gioiTinh = rbtnNam.isSelected() ? "Nam" : rbtnNu.isSelected() ? "Nữ" : "";  // Giới tính  
+        String sdt = txtSDT.getText().trim();  // SĐT
+        String tuoiStr = txtTuoi.getText().trim();
+        int tuoi = tuoiStr.isEmpty() ? 0 : Integer.parseInt(tuoiStr);
+//Tuổi
+
+        // Tìm kiếm nhân viên theo các tiêu chí
+        List<KhachHang> results = KhachHangDAO.searchKhachHang(hoTen, gioiTinh, sdt, tuoi);
+
+        // Cập nhật bảng với kết quả tìm kiếm
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);  // Xóa dữ liệu cũ trong bảng
+
+        // Thêm kết quả tìm kiếm vào bảng
+        for (KhachHang kh: results) {
+            model.addRow(new Object[]{
+                kh.getId(),
+                kh.getHoTen(),
+                kh.getGioiTinh(),
+                kh.getSdt(),
+                kh.getTuoi()
+            });
+        }
+
+        // Nếu không có kết quả, hiển thị thông báo
+        if (results.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng phù hợp!");
+        }
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
@@ -423,12 +460,12 @@ public class frmSearchKhachHang extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField txtHoTen2;
-    private javax.swing.JTextField txtHoTen4;
+    private javax.swing.JRadioButton rbtnNam;
+    private javax.swing.JRadioButton rbtnNu;
+    private javax.swing.JTextField txtHoTen;
+    private javax.swing.JTextField txtSDT;
+    private javax.swing.JTextField txtTuoi;
     // End of variables declaration//GEN-END:variables
 }
