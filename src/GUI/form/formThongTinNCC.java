@@ -4,11 +4,17 @@
  */
 package GUI.form;
 
+import DAO.NhaCungCapDAO;
+import Entity.NhaCungCap;
+import javax.swing.JFrame;
+
 /**
  *
  * @author Admin
  */
 public class formThongTinNCC extends javax.swing.JDialog {
+
+    private String maNCC;
 
     /**
      * Creates new form ThongTinNCC
@@ -17,7 +23,35 @@ public class formThongTinNCC extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-
+    public formThongTinNCC(JFrame parentFrame, boolean modal, String maNCC) {
+        super(parentFrame, modal);
+        this.maNCC = maNCC;  // Lưu mã thuốc
+        initComponents();  // Khởi tạo các thành phần của form
+        loadThongTinNCC(maNCC);  // Gọi phương thức để tải thông tin thuốc
+    }
+    private void disableFields() {
+        // Vô hiệu hóa các trường text (không cho phép chỉnh sửa hoặc chọn)
+        txtMaNCC.setEnabled(false);
+        txtTenNCC.setEnabled(false);  // Vô hiệu hóa toàn bộ text field
+        txtDiaChi.setEnabled(false);
+        txtSDT.setEnabled(false);
+          // Cũng vô hiệu hóa trường nà
+       
+    }
+    private void loadThongTinNCC(String maNCC) {
+         // Truy vấn thông tin thuốc từ cơ sở dữ liệu
+         NhaCungCap ncc = NhaCungCapDAO.getNhaCungCapByMaNCC(maNCC);
+ 
+         if (ncc != null) {
+             // Cập nhật các trường trong form với thông tin thuốc
+             txtMaNCC.setText(maNCC);
+             txtTenNCC.setText(ncc.getTenNhaCungCap());
+             txtDiaChi.setText(ncc.getDiaChi());
+             txtSDT.setText(ncc.getSdt());
+             // Vô hiệu hóa các trường
+             disableFields();
+         }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,83 +64,124 @@ public class formThongTinNCC extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         roundPanel1 = new Swing.RoundPanel();
         topRoundedPanel1 = new Swing.TopRoundedPanel();
-        lblSuaNCC = new javax.swing.JLabel();
+        lblThemNCC = new javax.swing.JLabel();
         bottomRoundedPanel1 = new Swing.BottomRoundedPanel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
-        jPanel13 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
-        txtHoTen4 = new javax.swing.JTextField();
+        jPanel19 = new javax.swing.JPanel();
+        jPanel20 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel21 = new javax.swing.JPanel();
+        txtMaNCC = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        txtTenNCC = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        txtHoTen3 = new javax.swing.JTextField();
-        jPanel11 = new javax.swing.JPanel();
-        jPanel15 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jPanel18 = new javax.swing.JPanel();
-        txtHoTen5 = new javax.swing.JTextField();
+        txtDiaChi = new javax.swing.JTextField();
+        jPanel22 = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel24 = new javax.swing.JPanel();
+        txtSDT = new javax.swing.JTextField();
         bottomRoundedPanel2 = new Swing.BottomRoundedPanel();
         btnHuy = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(81, 219, 185));
-        jPanel1.setPreferredSize(new java.awt.Dimension(634, 464));
+        jPanel1.setPreferredSize(new java.awt.Dimension(606, 517));
 
         roundPanel1.setBackground(new java.awt.Color(0, 120, 92));
-        roundPanel1.setPreferredSize(new java.awt.Dimension(569, 464));
         roundPanel1.setLayout(new java.awt.BorderLayout());
 
         topRoundedPanel1.setPreferredSize(new java.awt.Dimension(569, 75));
         topRoundedPanel1.setLayout(new java.awt.BorderLayout());
 
-        lblSuaNCC.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblSuaNCC.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSuaNCC.setText("Thông tin nhà cung cấp");
-        lblSuaNCC.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        lblSuaNCC.setMaximumSize(new java.awt.Dimension(190, 32));
-        lblSuaNCC.setMinimumSize(new java.awt.Dimension(190, 32));
-        lblSuaNCC.setPreferredSize(new java.awt.Dimension(190, 32));
-        topRoundedPanel1.add(lblSuaNCC, java.awt.BorderLayout.CENTER);
+        lblThemNCC.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblThemNCC.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblThemNCC.setText("Thông tin nhà cung cấp");
+        lblThemNCC.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblThemNCC.setMaximumSize(new java.awt.Dimension(190, 32));
+        lblThemNCC.setMinimumSize(new java.awt.Dimension(190, 32));
+        lblThemNCC.setPreferredSize(new java.awt.Dimension(190, 32));
+        topRoundedPanel1.add(lblThemNCC, java.awt.BorderLayout.CENTER);
 
         roundPanel1.add(topRoundedPanel1, java.awt.BorderLayout.PAGE_START);
 
-        bottomRoundedPanel1.setPreferredSize(new java.awt.Dimension(569, 325));
+        bottomRoundedPanel1.setMinimumSize(new java.awt.Dimension(594, 455));
+        bottomRoundedPanel1.setPreferredSize(new java.awt.Dimension(569, 375));
         bottomRoundedPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(567, 350));
+        jPanel2.setPreferredSize(new java.awt.Dimension(567, 325));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel8.setPreferredSize(new java.awt.Dimension(567, 87));
-        jPanel8.setLayout(new java.awt.BorderLayout());
+        jPanel19.setPreferredSize(new java.awt.Dimension(567, 81));
+        jPanel19.setLayout(new java.awt.BorderLayout());
 
-        jPanel13.setPreferredSize(new java.awt.Dimension(150, 50));
-        jPanel13.setLayout(new java.awt.BorderLayout());
+        jPanel20.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel20.setLayout(new java.awt.BorderLayout());
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("Mã nhà cung cấp:");
-        jLabel6.setAlignmentX(20.0F);
-        jLabel6.setAlignmentY(20.0F);
-        jPanel13.add(jLabel6, java.awt.BorderLayout.CENTER);
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Mã nhà cung cấp:");
+        jLabel5.setAlignmentX(20.0F);
+        jLabel5.setAlignmentY(20.0F);
+        jPanel20.add(jLabel5, java.awt.BorderLayout.CENTER);
 
-        jPanel8.add(jPanel13, java.awt.BorderLayout.LINE_START);
+        jPanel19.add(jPanel20, java.awt.BorderLayout.LINE_START);
 
-        java.awt.FlowLayout flowLayout3 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30);
-        flowLayout3.setAlignOnBaseline(true);
-        jPanel10.setLayout(flowLayout3);
+        java.awt.FlowLayout flowLayout2 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30);
+        flowLayout2.setAlignOnBaseline(true);
+        jPanel21.setLayout(flowLayout2);
 
-        txtHoTen4.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel10.add(txtHoTen4);
+        txtMaNCC.setPreferredSize(new java.awt.Dimension(350, 22));
+        txtMaNCC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMaNCCActionPerformed(evt);
+            }
+        });
+        jPanel21.add(txtMaNCC);
 
-        jPanel8.add(jPanel10, java.awt.BorderLayout.CENTER);
+        jPanel19.add(jPanel21, java.awt.BorderLayout.CENTER);
 
-        jPanel2.add(jPanel8);
+        jPanel2.add(jPanel19);
 
-        jPanel6.setPreferredSize(new java.awt.Dimension(567, 87));
+        jPanel5.setPreferredSize(new java.awt.Dimension(567, 81));
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
+        jPanel12.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel12.setLayout(new java.awt.BorderLayout());
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("Tên nhà cung cấp:");
+        jLabel2.setAlignmentX(20.0F);
+        jLabel2.setAlignmentY(20.0F);
+        jPanel12.add(jLabel2, java.awt.BorderLayout.CENTER);
+
+        jPanel5.add(jPanel12, java.awt.BorderLayout.LINE_START);
+
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30);
+        flowLayout1.setAlignOnBaseline(true);
+        jPanel4.setLayout(flowLayout1);
+
+        txtTenNCC.setPreferredSize(new java.awt.Dimension(350, 22));
+        txtTenNCC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTenNCCActionPerformed(evt);
+            }
+        });
+        jPanel4.add(txtTenNCC);
+
+        jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);
+
+        jPanel2.add(jPanel5);
+
+        jPanel6.setPreferredSize(new java.awt.Dimension(567, 81));
         jPanel6.setLayout(new java.awt.BorderLayout());
 
         jPanel14.setPreferredSize(new java.awt.Dimension(150, 50));
@@ -121,45 +196,60 @@ public class formThongTinNCC extends javax.swing.JDialog {
 
         jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30));
 
-        txtHoTen3.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel9.add(txtHoTen3);
+        txtDiaChi.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel9.add(txtDiaChi);
 
         jPanel6.add(jPanel9, java.awt.BorderLayout.CENTER);
 
         jPanel2.add(jPanel6);
 
-        jPanel11.setPreferredSize(new java.awt.Dimension(567, 87));
-        jPanel11.setLayout(new java.awt.BorderLayout());
+        jPanel22.setPreferredSize(new java.awt.Dimension(567, 81));
+        jPanel22.setLayout(new java.awt.BorderLayout());
 
-        jPanel15.setPreferredSize(new java.awt.Dimension(150, 50));
-        jPanel15.setLayout(new java.awt.BorderLayout());
+        jPanel23.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel23.setLayout(new java.awt.BorderLayout());
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Địa chỉ:");
-        jPanel15.add(jLabel4, java.awt.BorderLayout.CENTER);
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("SĐT:");
+        jLabel7.setAlignmentX(20.0F);
+        jLabel7.setAlignmentY(20.0F);
+        jPanel23.add(jLabel7, java.awt.BorderLayout.CENTER);
 
-        jPanel11.add(jPanel15, java.awt.BorderLayout.LINE_START);
+        jPanel22.add(jPanel23, java.awt.BorderLayout.LINE_START);
 
-        jPanel18.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30));
+        java.awt.FlowLayout flowLayout4 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30);
+        flowLayout4.setAlignOnBaseline(true);
+        jPanel24.setLayout(flowLayout4);
 
-        txtHoTen5.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel18.add(txtHoTen5);
+        txtSDT.setPreferredSize(new java.awt.Dimension(350, 22));
+        txtSDT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSDTActionPerformed(evt);
+            }
+        });
+        jPanel24.add(txtSDT);
 
-        jPanel11.add(jPanel18, java.awt.BorderLayout.CENTER);
+        jPanel22.add(jPanel24, java.awt.BorderLayout.CENTER);
 
-        jPanel2.add(jPanel11);
+        jPanel2.add(jPanel22);
 
         bottomRoundedPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
 
-        bottomRoundedPanel2.setPreferredSize(new java.awt.Dimension(567, 80));
-        bottomRoundedPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 150, 25));
+        bottomRoundedPanel2.setMinimumSize(new java.awt.Dimension(372, 50));
+        bottomRoundedPanel2.setPreferredSize(new java.awt.Dimension(567, 50));
+        bottomRoundedPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 150, 10));
 
         btnHuy.setBackground(new java.awt.Color(255, 103, 102));
         btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnHuy.setForeground(new java.awt.Color(255, 255, 255));
         btnHuy.setText("Huỷ");
         btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
         bottomRoundedPanel2.add(btnHuy);
 
         bottomRoundedPanel1.add(bottomRoundedPanel2, java.awt.BorderLayout.PAGE_END);
@@ -179,33 +269,30 @@ public class formThongTinNCC extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 606, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 517, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 26, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 27, Short.MAX_VALUE)))
-        );
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtTenNCCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenNCCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTenNCCActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnHuyActionPerformed
+
+    private void txtMaNCCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNCCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaNCCActionPerformed
+
+    private void txtSDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSDTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSDTActionPerformed
 
     /**
      * @param args the command line arguments
@@ -254,25 +341,32 @@ public class formThongTinNCC extends javax.swing.JDialog {
     private Swing.BottomRoundedPanel bottomRoundedPanel1;
     private Swing.BottomRoundedPanel bottomRoundedPanel2;
     private javax.swing.JButton btnHuy;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JLabel lblSuaNCC;
+    private javax.swing.JLabel lblThemNCC;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
-    private javax.swing.JTextField txtHoTen3;
-    private javax.swing.JTextField txtHoTen4;
-    private javax.swing.JTextField txtHoTen5;
+    private javax.swing.JTextField txtDiaChi;
+    private javax.swing.JTextField txtMaNCC;
+    private javax.swing.JTextField txtSDT;
+    private javax.swing.JTextField txtTenNCC;
     // End of variables declaration//GEN-END:variables
+
+    
 }

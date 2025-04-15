@@ -151,9 +151,9 @@ public class NhaCungCapDAO {
         }
         return false;
     }
-    public static List<NhaCungCap> getThuocBatch(int start, int limit) {
+    public static List<NhaCungCap> getNhaCungCapBatch(int start, int limit) {
         List<NhaCungCap> danhSachNhaCungCap = new ArrayList<>();
-        String sql = "SELECT * FROM Thuoc ORDER BY maNCC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // Sử dụng cú pháp đúng cho SQL Server
+        String sql = "SELECT * FROM NhaCungCap ORDER BY maNCC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // Sử dụng cú pháp đúng cho SQL Server
 
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, start);  // Chỉ mục bắt đầu (OFFSET)
