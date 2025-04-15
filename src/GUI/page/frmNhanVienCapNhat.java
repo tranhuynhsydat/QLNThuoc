@@ -13,7 +13,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,45 +25,78 @@ import javax.swing.table.DefaultTableModel;
  */
 public class frmNhanVienCapNhat extends javax.swing.JPanel {
 
+    private int startIndex = 0;
+
     /**
      * Creates new form NewJPanel
      */
     public frmNhanVienCapNhat() {
         initComponents();
-        loadTableData();
+        configureTable();
+        loadDataToTable();
+        // Thêm sự kiện cuộn bảng
+        jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
+            JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
+            int max = vertical.getMaximum();
+            int current = vertical.getValue();
+            int visible = vertical.getVisibleAmount();
+
+            // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
+            if (current + visible >= max) {
+                startIndex += 13;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                loadDataToTable();  // Tải thêm dữ liệu
+            }
+        });
+
     }
 
-    private void loadTableData() {
-        // Lấy tất cả nhân viên từ cơ sở dữ liệu
-        List<NhanVien> danhSachNhanVien = NhanVienDAO.getAllNhanVien();
+    private void configureTable() {
+        // Ngăn không cho phép người dùng chỉnh sửa bảng
+        jTable1.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
 
-        // Tạo DefaultTableModel với các cột
-        String[] columnNames = {"Mã NV", "Họ Tên", "SĐT", "Giới Tính", "Ngày Sinh", "Ngày Vào Làm", "Chức Vụ", "CCCD"};
-        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-
-        // Thêm từng nhân viên vào bảng
-        for (NhanVien nv : danhSachNhanVien) {
-            Object[] rowData = {
-                nv.getId(),
-                nv.getHoTen(),
-                nv.getSdt(),
-                nv.getGioiTinh(),
-                nv.getDtSinh(),
-                nv.getNgayVaoLam(),
-                nv.getChucVu(),
-                nv.getCccd()
-            };
-            model.addRow(rowData);  // Thêm dòng vào model
-        }
-        jTable1.setDefaultEditor(Object.class, null);
-
-        // Gán DefaultTableModel cho JTable
-        jTable1.setModel(model);  // jTable1 là JTable trên form của bạn
+        // Căn giữa cho tất cả các cell trong bảng
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Căn giữa cho từng cột
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
+
+        // Ngăn không cho phép chọn nhiều dòng
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    private void loadDataToTable() {
+        // Sử dụng SwingWorker để load dữ liệu trong nền
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                // Lấy danh sách nhân viên từ cơ sở dữ liệu với startIndex và số lượng dòng cần lấy
+                List<NhanVien> danhSachNhanVien = NhanVienDAO.getNhanVienBatch(startIndex, 13); // 13 dòng mỗi lần
+                SwingUtilities.invokeLater(() -> {
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+                    // Thêm dữ liệu vào bảng mà không xóa dữ liệu cũ
+                    for (NhanVien nv : danhSachNhanVien) {
+                        Object[] rowData = {
+                            nv.getId(),
+                            nv.getHoTen(),
+                            nv.getSdt(),
+                            nv.getGioiTinh(),
+                            nv.getDtSinh(),
+                            nv.getNgayVaoLam(),
+                            nv.getCccd(),
+                            nv.getChucVu()
+                            
+                        };
+                        model.addRow(rowData);  // Thêm dòng vào model
+                    }
+                });
+                return null;
+            }
+        };
+        worker.execute();
     }
 
     /**
@@ -108,14 +143,10 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"01", "111", "Đinh Ngọc Dĩ Hào", "012345678", "nam", "1/1/1000", "1/1/2000", "Quản lý"},
-                {"02", "112", "Đinh Ngọc Dĩ Hà", "012345679", "nữ", "1/1/1000", "1/1/2000", "Quản lý"},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "STT", "Mã NV", "Tên NV", "SĐT", "Giới tính", "Ngày sinh", "Ngày vào làm", "Chức vụ"
+                "Mã NV", "Tên NV", "SĐT", "Giới tính", "Ngày sinh", "Ngày vào làm", "Chức vụ", "CCCD"
             }
         ));
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -138,6 +169,7 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThem.setForeground(new java.awt.Color(255, 255, 255));
         btnThem.setText("Thêm");
+        btnThem.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnThem.setMaximumSize(new java.awt.Dimension(85, 35));
         btnThem.setMinimumSize(new java.awt.Dimension(85, 35));
         btnThem.setPreferredSize(new java.awt.Dimension(105, 35));
@@ -181,15 +213,6 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        formThemNV dialog = new formThemNV(parentFrame, true);  // Mở formThemNV
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-
-        // Sau khi đóng formThemNV, gọi lại phương thức để làm mới bảng
-        loadTableData();    }//GEN-LAST:event_btnThemActionPerformed
-
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
@@ -200,7 +223,7 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
             formSuaNV dialog = new formSuaNV(parentFrame, true, maNV);  // Truyền mã nhân viên vào constructor
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
-            loadTableData();
+            loadDataToTable();
         } else {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên để sửa!");
         }
@@ -222,7 +245,7 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
                 // Gọi hàm xóa nhân viên trong DAO
                 if (NhanVienDAO.xoa(maNV)) {
                     JOptionPane.showMessageDialog(this, "Xóa nhân viên thành công!");
-                    loadTableData();  // Làm mới bảng sau khi xóa
+                    loadDataToTable();  // Làm mới bảng sau khi xóa
                 } else {
                     JOptionPane.showMessageDialog(this, "Xóa nhân viên thất bại!");
                 }
@@ -231,6 +254,15 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên để xóa!");
         }
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        formThemNV dialog = new formThemNV(parentFrame, true);  // Mở formThemNV
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+
+        // Sau khi đóng formThemNV, gọi lại phương thức để làm mới bảng
+        loadDataToTable();    }//GEN-LAST:event_btnThemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

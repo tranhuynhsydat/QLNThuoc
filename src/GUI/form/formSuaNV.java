@@ -53,31 +53,34 @@ public class formSuaNV extends javax.swing.JDialog {
     }
 
     private void loadData(String maNV) {
-        // Truy vấn thông tin nhân viên từ cơ sở dữ liệu
-        NhanVien nv = NhanVienDAO.getNhanVienByMaNV(maNV);
+    // Truy vấn thông tin nhân viên từ cơ sở dữ liệu
+    NhanVien nv = NhanVienDAO.getNhanVienByMaNV(maNV);
 
-        if (nv != null) {
-            txtHoTen.setText(nv.getHoTen());
-            txtSDT.setText(nv.getSdt());
-            txtCCCD.setText(nv.getCccd());
-            jDateChooser1.setDate(nv.getDtSinh());
-            jDateChooser2.setDate(nv.getNgayVaoLam());
+    if (nv != null) {
+        System.out.println("CCCD: " + nv.getCccd());  // Kiểm tra giá trị của CCCD
+        txtHoTen.setText(nv.getHoTen());
+        txtSDT.setText(nv.getSdt());
+        txtCCCD.setText(nv.getCccd()); // Cập nhật giá trị CCCD vào text field
 
-            // Cài đặt giới tính
-            if (nv.getGioiTinh().equals("Nam")) {
-                rbtnNam.setSelected(true);
-            } else {
-                rbtnNu.setSelected(true);
-            }
+        jDateChooser1.setDate(nv.getDtSinh()); // Ngày sinh
+        jDateChooser2.setDate(nv.getNgayVaoLam()); // Ngày vào làm
 
-            // Cài đặt chức vụ
-            if (nv.getChucVu().equals("Quản lý")) {
-                rbtnQuanLy.setSelected(true);
-            } else {
-                rbtnNhanVien.setSelected(true);
-            }
+        // Cài đặt giới tính
+        if (nv.getGioiTinh().equals("Nam")) {
+            rbtnNam.setSelected(true);
+        } else {
+            rbtnNu.setSelected(true);
+        }
+        
+        // Cài đặt chức vụ
+        if (nv.getChucVu().equals("Quản lý")) {
+            rbtnQuanLy.setSelected(true);
+        } else {
+            rbtnNhanVien.setSelected(true);
         }
     }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -32,9 +32,8 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
      */
     public frmThuocCapNhat() {
         initComponents();
+        configureTable();
         startIndex = 0;
-        btnThem.addActionListener(evt -> openFormThemThuoc());
-        btnSua.addActionListener(evt -> openFormSuaThuoc());
         loadDataToTable();
         // Thêm sự kiện cuộn bảng
         jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
@@ -51,6 +50,23 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
 
         });
 
+    }
+
+    private void configureTable() {
+        // Ngăn không cho phép người dùng chỉnh sửa bảng
+        jTable1.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
+
+        // Căn giữa cho tất cả các cell trong bảng
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Căn giữa cho từng cột
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        // Ngăn không cho phép chọn nhiều dòng
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
     }
 
     private void loadDataToTable() {
@@ -83,20 +99,6 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
             }
         };
         worker.execute();
-    }
-
-    private void openFormThemThuoc() {
-        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        formThemThuoc dialog = new formThemThuoc(parentFrame, true);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-    }
-
-    private void openFormSuaThuoc() {
-        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        formSuaThuoc dialog = new formSuaThuoc(parentFrame, true);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
     }
 
     /**
@@ -182,6 +184,11 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
         btnSua.setMaximumSize(new java.awt.Dimension(85, 35));
         btnSua.setMinimumSize(new java.awt.Dimension(85, 35));
         btnSua.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
         btnPanel.add(btnSua);
 
         btnXoa.setBackground(new java.awt.Color(0, 120, 92));
@@ -198,8 +205,16 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnThemActionPerformed
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        formThemThuoc dialog = new formThemThuoc(parentFrame, true);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        formSuaThuoc dialog = new formSuaThuoc(parentFrame, true);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);    }//GEN-LAST:event_btnSuaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
