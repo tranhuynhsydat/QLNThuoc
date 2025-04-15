@@ -42,7 +42,7 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
  
              // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
              if (current + visible >= max) {
-                 startIndex += 13;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                 startIndex += 13 ; // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
                  loadDataToTable();  // Tải thêm dữ liệu
              }
  
@@ -287,9 +287,7 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Mã NCC", "Tên NCC", "Địa chỉ NCC", "SĐT NCC"
