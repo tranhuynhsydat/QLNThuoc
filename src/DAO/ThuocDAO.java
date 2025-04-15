@@ -10,6 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class ThuocDAO {
 
@@ -226,29 +227,31 @@ public class ThuocDAO {
     }
 
     public static boolean sua(Thuoc thuoc) {
-        String sql = "UPDATE Thuoc SET tenThuoc = ?, thanhPhanThuoc = ?, giaNhap = ?, donGia = ?, HSD = ?, maDM = ?, maDVT = ?, maXX = ?, soLuong = ?, anh = ? WHERE maThuoc = ?";
+    String sql = "UPDATE Thuoc SET tenThuoc = ?, thanhPhanThuoc = ?, giaNhap = ?, donGia = ?, HSD = ?, maDM = ?, maDVT = ?, maXX = ?, soLuong = ?, anh = ? WHERE maThuoc = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+    try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // Đặt các giá trị vào câu lệnh SQL
-            ps.setString(1, thuoc.getTenThuoc());
-            ps.setString(2, thuoc.getThanhPhan());
-            ps.setDouble(3, thuoc.getGiaNhap());
-            ps.setDouble(4, thuoc.getDonGia());
-            ps.setDate(5, new java.sql.Date(thuoc.getHsd().getTime()));  // Chuyển đổi HSD từ java.util.Date thành java.sql.Date
-            ps.setString(6, thuoc.getDanhMuc().getId());  // Mã danh mục
-            ps.setString(7, thuoc.getDonViTinh().getId());  // Mã đơn vị tính
-            ps.setString(8, thuoc.getXuatXu().getId());  // Mã xuất xứ
-            ps.setInt(9, thuoc.getSoLuong());  // Số lượng
-            ps.setBytes(10, thuoc.getHinhAnh());  // Hình ảnh thuốc dưới dạng byte[]
-            ps.setString(11, thuoc.getId());  // Mã thuốc để xác định bản ghi cần cập nhật
+        // Đặt các giá trị vào câu lệnh SQL
+        ps.setString(1, thuoc.getTenThuoc());
+        ps.setString(2, thuoc.getThanhPhan());
+        ps.setDouble(3, thuoc.getGiaNhap());
+        ps.setDouble(4, thuoc.getDonGia());
+        ps.setDate(5, new java.sql.Date(thuoc.getHsd().getTime()));  // Chuyển đổi HSD từ java.util.Date thành java.sql.Date
+        ps.setString(6, thuoc.getDanhMuc().getId());  // Mã danh mục
+        ps.setString(7, thuoc.getDonViTinh().getId());  // Mã đơn vị tính
+        ps.setString(8, thuoc.getXuatXu().getId());  // Mã xuất xứ
+        ps.setInt(9, thuoc.getSoLuong());  // Số lượng
+        ps.setBytes(10, thuoc.getHinhAnh());  // Hình ảnh thuốc dưới dạng byte[]
+        ps.setString(11, thuoc.getId());  // Mã thuốc để xác định bản ghi cần cập nhật
 
-            // Thực thi câu lệnh UPDATE và kiểm tra xem có cập nhật thành công không
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        // Thực thi câu lệnh UPDATE và kiểm tra xem có cập nhật thành công không
+        return ps.executeUpdate() > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();  // In ra thông tin chi tiết về lỗi
+        JOptionPane.showMessageDialog(null, "Lỗi: " + e.getMessage());  // Hiển thị thông báo lỗi chi tiết
     }
+    return false;
+}
+
 
 }
