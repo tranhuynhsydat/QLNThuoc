@@ -98,8 +98,9 @@ public class NhanVienDAO {
                             rs.getString("gioiTinh"),
                             rs.getDate("dtSinh"),
                             rs.getDate("ngayVaoLam"),
-                            rs.getString("chucVu"),
-                            rs.getString("CCCD")
+                            rs.getString("CCCD"),
+                            rs.getString("chucVu")
+                            
                     );
                 }
             }
