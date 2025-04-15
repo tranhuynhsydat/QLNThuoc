@@ -270,6 +270,9 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
             formSuaThuoc dialog = new formSuaThuoc(parentFrame, true, maThuoc);  // Truyền mã thuốc vào constructor
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            startIndex = 0;
             loadDataToTable();  // Gọi lại phương thức để làm mới bảng
         } else {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn thuốc để sửa!");

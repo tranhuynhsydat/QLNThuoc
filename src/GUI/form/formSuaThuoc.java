@@ -34,6 +34,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class formSuaThuoc extends javax.swing.JDialog {
 
+    private String maThuoc;
     private byte[] imageData = null;
 
     /**
@@ -47,6 +48,7 @@ public class formSuaThuoc extends javax.swing.JDialog {
     public formSuaThuoc(JFrame parentFrame, boolean modal, String maThuoc) {
         super(parentFrame, modal);
         initComponents();
+        this.maThuoc = maThuoc;  // Lưu mã thuốc
         loadComboboxData();
         loadThongTinThuoc(maThuoc);
     }
@@ -72,8 +74,7 @@ public class formSuaThuoc extends javax.swing.JDialog {
     }
 
     private void loadThongTinThuoc(String maThuoc) {
-        System.out.println("Đang truy vấn thuốc với mã: " + maThuoc);
-        // Truy vấn thông tin thuốc từ cơ sở dữ liệu
+        // Truy vấn thông tin thuốc từ cơ sở dữ liệu bằng mã thuốc
         Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(maThuoc);
 
         if (thuoc != null) {
@@ -95,8 +96,6 @@ public class formSuaThuoc extends javax.swing.JDialog {
             } else {
                 lblAnhThuoc.setIcon(new FlatSVGIcon("./icon/image.svg"));
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Không tìm thấy thuốc với mã " + maThuoc);
         }
     }
 
@@ -633,25 +632,40 @@ public class formSuaThuoc extends javax.swing.JDialog {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         try {
-            // Lấy dữ liệu từ form
+            // Kiểm tra xem các trường không để trống
+            if (txtTenThuoc.getText().isEmpty() || txtGiaNhap.getText().isEmpty() || txtGiaBan.getText().isEmpty() || txtSoLuong.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin thuốc.");
+                return;
+            }
+
+            // Lấy thông tin từ form
             String tenThuoc = txtTenThuoc.getText();
             String thanhPhan = txtThanhPhan.getText();
             double giaNhap = Double.parseDouble(txtGiaNhap.getText());
             double giaBan = Double.parseDouble(txtGiaBan.getText());
-            Date hsd = DateHSD.getDate();  // Hạn sử dụng
+            Date hsd = DateHSD.getDate();  // Lấy hạn sử dụng
             String danhMuc = (String) cboDanhMuc.getSelectedItem();
             String donViTinh = (String) cboDVT.getSelectedItem();
             String xuatXu = (String) cboXX.getSelectedItem();
             int soLuong = Integer.parseInt(txtSoLuong.getText());
 
-            // Lấy mã danh mục, đơn vị tính, và xuất xứ từ cơ sở dữ liệu
-            String maDanhMuc = DanhMucDAO.getMaDanhMucByTen(danhMuc);  // Lấy mã danh mục
-            String maDVT = DonViTinhDAO.getMaDonViTinhByTen(donViTinh);  // Lấy mã đơn vị tính
-            String maXuatXu = XuatXuDAO.getMaXuatXuByTen(xuatXu);  // Lấy mã xuất xứ
+            // Kiểm tra giá trị nhập vào hợp lệ
+            if (giaNhap <= 0 || giaBan <= 0 || soLuong <= 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập giá trị hợp lệ cho giá nhập, giá bán và số lượng.");
+                return;
+            }
 
-            // Tạo đối tượng Thuoc
+            // Lấy mã danh mục, đơn vị tính và xuất xứ từ cơ sở dữ liệu
+            String maDanhMuc = DanhMucDAO.getMaDanhMucByTen(danhMuc);
+            String maDVT = DonViTinhDAO.getMaDonViTinhByTen(donViTinh);
+            String maXuatXu = XuatXuDAO.getMaXuatXuByTen(xuatXu);
+
+            // Nếu người dùng thay đổi ảnh, lấy ảnh dưới dạng byte[]
+//            byte[] imageData = null;  // Bạn có thể lấy ảnh nếu có thay đổi
+
+            // Tạo đối tượng Thuoc để cập nhật
             Thuoc thuoc = new Thuoc(
-                    ThuocDAO.TaoMaThuoc(), // Lấy mã thuốc
+                    this.maThuoc, // Mã thuốc (được truyền từ constructor)
                     tenThuoc,
                     imageData, // Lưu ảnh dưới dạng byte[]
                     thanhPhan,
@@ -671,10 +685,13 @@ public class formSuaThuoc extends javax.swing.JDialog {
             } else {
                 JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi sửa thuốc.");
             }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá trị hợp lệ cho giá nhập, giá bán và số lượng.");
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi sửa thuốc. Vui lòng kiểm tra lại dữ liệu.");
         }
+
 
     }//GEN-LAST:event_btnSuaActionPerformed
 
