@@ -103,6 +103,7 @@ public class ThuocDAO {
 
         return danhSachThuoc;
     }
+
     public static boolean xoa(String maThuoc) {
         String sql = "DELETE FROM Thuoc WHERE maThuoc = ?";
 
@@ -117,6 +118,7 @@ public class ThuocDAO {
         }
         return false;
     }
+
     // Phương thức tạo mã thuốc tự động theo định dạng T-XXX
     public static String TaoMaThuoc() {
         String prefix = "T-";
@@ -170,30 +172,7 @@ public class ThuocDAO {
         }
         return false;
     }
-    public static boolean sua(Thuoc thuoc) {
-        String sql = "UPDATE Thuoc SET maThuoc = ?, tenThuoc = ?, anh = ?, thanhPhanThuoc = ?, maDM = ?, maDVT = ?, maXX = ?, giaNhap = ?, donGia = ?, HSD = ? WHERE maThuoc = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, thuoc.getId());  // Mã thuốc
-            ps.setString(2, thuoc.getTenThuoc());
-            ps.setString(3, thuoc.getThanhPhan());
-            ps.setDouble(4, thuoc.getGiaNhap());
-            ps.setDouble(5, thuoc.getDonGia()); // Giá bán
-            ps.setDate(6, new java.sql.Date(thuoc.getHsd().getTime()));  // Hạn sử dụng
-            ps.setString(7, thuoc.getDanhMuc().getId()); // Mã danh mục
-            ps.setString(8, thuoc.getDonViTinh().getId());  // Mã đơn vị tính
-            ps.setString(9, thuoc.getXuatXu().getId());  // Mã xuất xứ
-            ps.setInt(10, thuoc.getSoLuong());
-            ps.setBytes(11, thuoc.getHinhAnh());  // Mã nhân viên không thay đổi
-
-            return ps.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
     public static List<Thuoc> getThuocBatch(int start, int limit) {
         List<Thuoc> danhSachThuoc = new ArrayList<>();
         String sql = "SELECT * FROM Thuoc ORDER BY maThuoc OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // Sử dụng cú pháp đúng cho SQL Server
@@ -244,6 +223,32 @@ public class ThuocDAO {
             e.printStackTrace();
         }
         return danhSachThuoc;
+    }
+
+    public static boolean sua(Thuoc thuoc) {
+        String sql = "UPDATE Thuoc SET tenThuoc = ?, thanhPhanThuoc = ?, giaNhap = ?, donGia = ?, HSD = ?, maDM = ?, maDVT = ?, maXX = ?, soLuong = ?, anh = ? WHERE maThuoc = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            // Đặt các giá trị vào câu lệnh SQL
+            ps.setString(1, thuoc.getTenThuoc());
+            ps.setString(2, thuoc.getThanhPhan());
+            ps.setDouble(3, thuoc.getGiaNhap());
+            ps.setDouble(4, thuoc.getDonGia());
+            ps.setDate(5, new java.sql.Date(thuoc.getHsd().getTime()));  // Chuyển đổi HSD từ java.util.Date thành java.sql.Date
+            ps.setString(6, thuoc.getDanhMuc().getId());  // Mã danh mục
+            ps.setString(7, thuoc.getDonViTinh().getId());  // Mã đơn vị tính
+            ps.setString(8, thuoc.getXuatXu().getId());  // Mã xuất xứ
+            ps.setInt(9, thuoc.getSoLuong());  // Số lượng
+            ps.setBytes(10, thuoc.getHinhAnh());  // Hình ảnh thuốc dưới dạng byte[]
+            ps.setString(11, thuoc.getId());  // Mã thuốc để xác định bản ghi cần cập nhật
+
+            // Thực thi câu lệnh UPDATE và kiểm tra xem có cập nhật thành công không
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }
