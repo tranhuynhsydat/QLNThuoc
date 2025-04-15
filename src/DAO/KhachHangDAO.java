@@ -10,10 +10,61 @@ import java.util.Set;
 
 import ConnectDB.DatabaseConnection;
 import Entity.KhachHang;
+import Entity.NhaCungCap;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class KhachHangDAO {
+        public static List<KhachHang> getAllKhachHang() {
+        List<KhachHang> danhSachKH = new ArrayList<>();
+        String sql = "SELECT * FROM KhachHang";
 
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                KhachHang ncc = new KhachHang(
+                        rs.getString("maKH"),
+                        rs.getString("tenKH"),
+                        rs.getString("gioiTinh"),
+                        rs.getString("SDT"),
+                        rs.getInt("tuoi")
+                );
+                danhSachKH.add(ncc);  // Thêm nhân viên vào danh sách
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return danhSachKH;
+    }
+    public static KhachHang getKhachHangByMaKH(String maKH) {
+        KhachHang kh = null;
+        String sql = "SELECT * FROM KhachHang WHERE maKH = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, maKH);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    kh = new KhachHang(
+                            rs.getString("maKH"),
+                            rs.getString("tenKH"),
+                            rs.getString("gioiTinh"),
+                            rs.getString("SDT"),
+                            rs.getInt("tuoi")
+                    );
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return kh;
+    }
     // Phương thức tạo mã khách hàng tự động
     public static String TaoMaKhachHang() {
         String prefix = "KH-";
@@ -48,7 +99,24 @@ public class KhachHangDAO {
         // Trả về mã mới theo định dạng KH-XXX
         return prefix + String.format("%03d", newNumber);
     }
+    public static boolean sua(KhachHang kh) {
+        String sql = "UPDATE KhachHang SET tenKH = ?, gioiTinh = ?, SDT = ?, tuoi =?  WHERE maKH = ?";
 
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, kh.getHoTen());
+            ps.setString(2, kh.getGioiTinh());
+            ps.setString(3, kh.getSdt());
+            ps.setInt(4, kh.getTuoi());
+            ps.setString(5, kh.getId());  // Mã nhân viên không thay đổi
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     // Phương thức thêm khách hàng vào cơ sở dữ liệu
     public static boolean themKhachHang(KhachHang kh) {
         String sql = "INSERT INTO KhachHang (maKH, tenKH, gioiTinh, SDT, tuoi) VALUES (?, ?, ?, ?, ?)";
@@ -71,5 +139,19 @@ public class KhachHangDAO {
         }
 
         return false;  // Trả về false nếu có lỗi
+    }
+    public static boolean xoa(String maKH) {
+        String sql = "DELETE FROM KhachHang WHERE maKH = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, maKH);  // Truyền mã nhân viên cần xóa vào PreparedStatement
+
+            return ps.executeUpdate() > 0;  // Thực thi câu lệnh và kiểm tra xem có bị ảnh hưởng dòng nào không
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

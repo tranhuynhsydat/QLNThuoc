@@ -3,9 +3,6 @@
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[634, 500]"/>
-    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -198,7 +195,7 @@
                             </Constraint>
                           </Constraints>
                           <SubComponents>
-                            <Component class="javax.swing.JTextField" name="txtHoTen1">
+                            <Component class="javax.swing.JTextField" name="txtTenNCC">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[350, 22]"/>
@@ -277,11 +274,11 @@
                                 <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component"/>
                               </StatementProvider>
                               <Parameters>
-                                <CodeExpression id="7_txtHoTen1">
-                                  <CodeVariable name="txtHoTen1" type="8194" declaredType="javax.swing.JTextField"/>
+                                <CodeExpression id="7_txtTenNCC">
+                                  <CodeVariable name="txtTenNCC" type="8194" declaredType="javax.swing.JTextField"/>
                                   <ExpressionOrigin>
                                     <ExpressionProvider type="ComponentRef">
-                                      <ComponentRef name="txtHoTen1"/>
+                                      <ComponentRef name="txtTenNCC"/>
                                     </ExpressionProvider>
                                   </ExpressionOrigin>
                                 </CodeExpression>
@@ -342,7 +339,7 @@
                             <Property name="verticalGap" type="int" value="30"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JTextField" name="txtHoTen3">
+                            <Component class="javax.swing.JTextField" name="txtDiaChiNCC">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[350, 22]"/>
@@ -404,7 +401,7 @@
                             <Property name="verticalGap" type="int" value="30"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JTextField" name="txtHoTen2">
+                            <Component class="javax.swing.JTextField" name="txtSDT">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[350, 22]"/>
@@ -459,6 +456,9 @@
                           <Dimension value="[90, 35]"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHuyActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnSua">
                       <Properties>

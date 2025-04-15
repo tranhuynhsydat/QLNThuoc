@@ -4,15 +4,19 @@
  */
 package GUI.page;
 
+import DAO.NhaCungCapDAO;
+import Entity.NhaCungCap;
 import GUI.form.formSuaNCC;
 import GUI.form.formThemNCC;
+import java.util.List;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
-
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Admin
@@ -26,20 +30,49 @@ public class frmNhaCungCapCapNhat extends javax.swing.JPanel {
         initComponents();
         btnThem.addActionListener(evt -> openFormThemNCC());
         btnSua.addActionListener(evt -> openFormSuaNCC());
+        loadTableData();
     }
 private void openFormThemNCC() {
     JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
     formThemNCC dialog = new formThemNCC(parentFrame, true);
     dialog.setLocationRelativeTo(this); 
-    dialog.setVisible(true); 
+    dialog.setVisible(false); 
 }
 
 private void openFormSuaNCC() {
     JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
     formSuaNCC dialog = new formSuaNCC(parentFrame, true);
     dialog.setLocationRelativeTo(this); 
-    dialog.setVisible(true); 
+    dialog.setVisible(false); 
 }
+    private void loadTableData() {
+         // Lấy tất cả nhân viên từ cơ sở dữ liệu
+         List<NhaCungCap> danhSachNhaCungCap = NhaCungCapDAO.getAllNhaCungCap();
+ 
+         // Tạo DefaultTableModel với các cột
+         String[] columnNames = {"Mã NCC", "Tên NCC", "Địa chỉ NCC", "SĐT"};
+         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+ 
+         // Thêm từng nhân viên vào bảng
+         for (NhaCungCap ncc : danhSachNhaCungCap) {
+             Object[] rowData = {
+                 ncc.getId(),
+                 ncc.getTenNhaCungCap(),
+                 ncc.getDiaChi(),
+                 ncc.getSdt()                 
+             };
+             model.addRow(rowData);  // Thêm dòng vào model
+         }
+         jTable1.setDefaultEditor(Object.class, null);
+ 
+         // Gán DefaultTableModel cho JTable
+         jTable1.setModel(model);  // jTable1 là JTable trên form của bạn
+         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+         for (int i = 0; i < jTable1.getColumnCount(); i++) {
+             jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+         }
+     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -141,6 +174,11 @@ private void openFormSuaNCC() {
         btnSua.setMaximumSize(new java.awt.Dimension(85, 35));
         btnSua.setMinimumSize(new java.awt.Dimension(85, 35));
         btnSua.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
         btnPanel.add(btnSua);
 
         btnXoa.setBackground(new java.awt.Color(0, 120, 92));
@@ -151,14 +189,70 @@ private void openFormSuaNCC() {
         btnXoa.setMaximumSize(new java.awt.Dimension(85, 35));
         btnXoa.setMinimumSize(new java.awt.Dimension(85, 35));
         btnXoa.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
         btnPanel.add(btnXoa);
 
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+         formThemNCC dialog = new formThemNCC(parentFrame, true);  // Mở formThemNV
+         dialog.setLocationRelativeTo(this);
+         dialog.setVisible(true);
+ 
+         // Sau khi đóng formThemNV, gọi lại phương thức để làm mới bảng
+         loadTableData();
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        // TODO add your handling code here:
+        
+         int selectedRow = jTable1.getSelectedRow();
+         if (selectedRow != -1) {
+             String maNCC = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
+ 
+             // Mở form sửa nhân viên và truyền mã nhân viên vào constructor
+             JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+             formSuaNCC dialog = new formSuaNCC(parentFrame, true, maNCC);  // Truyền mã nhân viên vào constructor
+             dialog.setLocationRelativeTo(this);
+             dialog.setVisible(true);
+             loadTableData();
+         } else {
+             JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp để sửa!");
+         }
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+         if (selectedRow != -1) {
+             String maNCC = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
+ 
+             // Hiển thị hộp thoại xác nhận xóa
+             int response = JOptionPane.showConfirmDialog(this,
+                     "Bạn có chắc chắn muốn xóa nhân viên này?",
+                     "Xác nhận", JOptionPane.YES_NO_OPTION);
+ 
+             // Nếu người dùng chọn Yes, thực hiện xóa
+             if (response == JOptionPane.YES_OPTION) {
+                 // Gọi hàm xóa nhân viên trong DAO
+                 if (NhaCungCapDAO.xoa(maNCC)) {
+                     JOptionPane.showMessageDialog(this, "Xóa nhà cung cấp thành công!");
+                     loadTableData();  // Làm mới bảng sau khi xóa
+                 } else {
+                     JOptionPane.showMessageDialog(this, "Xóa nhà cung cấp thất bại!");
+                 }
+             }
+         } else {
+             JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp để xóa!");
+         }
+    }//GEN-LAST:event_btnXoaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -4,11 +4,18 @@
  */
 package GUI.form;
 
+import DAO.NhaCungCapDAO;
+import Entity.NhaCungCap;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
  */
 public class formSuaNCC extends javax.swing.JDialog {
+
+    private String maNCC;
 
     /**
      * Creates new form SuaNCC
@@ -17,7 +24,23 @@ public class formSuaNCC extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-
+    
+    public formSuaNCC(JFrame parentFrame, boolean modal, String maNCC) {
+         super(parentFrame, modal);
+         this.maNCC = maNCC;  // Lưu mã nhân viên
+         initComponents();
+         loadData(maNCC);  // Gọi phương thức để tải dữ liệu nhân viên vào form
+     }
+     private void loadData(String maNCC) {
+         NhaCungCap ncc = NhaCungCapDAO.getNhaCungCapByMaNCC(maNCC);
+ 
+         if (ncc != null) {
+             txtTenNCC.setText(ncc.getTenNhaCungCap());
+             txtDiaChiNCC.setText(ncc.getDiaChi());
+             txtSDT.setText(ncc.getSdt());
+             
+         }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,24 +61,23 @@ public class formSuaNCC extends javax.swing.JDialog {
         jPanel12 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        txtHoTen1 = new javax.swing.JTextField();
+        txtTenNCC = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        txtHoTen3 = new javax.swing.JTextField();
+        txtDiaChiNCC = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
-        txtHoTen2 = new javax.swing.JTextField();
+        txtSDT = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         bottomRoundedPanel2 = new Swing.BottomRoundedPanel();
         btnHuy = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(634, 500));
 
         jPanel1.setBackground(new java.awt.Color(81, 219, 185));
         jPanel1.setPreferredSize(new java.awt.Dimension(634, 500));
@@ -106,8 +128,8 @@ public class formSuaNCC extends javax.swing.JDialog {
         flowLayout1.setAlignOnBaseline(true);
         jPanel4.setLayout(flowLayout1);
 
-        txtHoTen1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel4.add(txtHoTen1);
+        txtTenNCC.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel4.add(txtTenNCC);
 
         jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);
 
@@ -128,8 +150,8 @@ public class formSuaNCC extends javax.swing.JDialog {
 
         jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30));
 
-        txtHoTen3.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel9.add(txtHoTen3);
+        txtDiaChiNCC.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel9.add(txtDiaChiNCC);
 
         jPanel6.add(jPanel9, java.awt.BorderLayout.CENTER);
 
@@ -150,8 +172,8 @@ public class formSuaNCC extends javax.swing.JDialog {
 
         jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30));
 
-        txtHoTen2.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel17.add(txtHoTen2);
+        txtSDT.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel17.add(txtSDT);
 
         jPanel7.add(jPanel17, java.awt.BorderLayout.CENTER);
 
@@ -171,6 +193,11 @@ public class formSuaNCC extends javax.swing.JDialog {
         btnHuy.setForeground(new java.awt.Color(255, 255, 255));
         btnHuy.setText("Huỷ");
         btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
         bottomRoundedPanel2.add(btnHuy);
 
         btnSua.setBackground(new java.awt.Color(15, 204, 102));
@@ -213,7 +240,28 @@ public class formSuaNCC extends javax.swing.JDialog {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
+        String tenNCC = txtTenNCC.getText();
+         String diaChi = txtDiaChiNCC.getText();
+         String sdt = txtSDT.getText();
+         // Tạo đối tượng nhân viên mới, không cần thay đổi maNV
+         NhaCungCap ncc = new NhaCungCap(maNCC, tenNCC, diaChi, sdt);
+ 
+         // Gọi hàm sửa nhân viên trong DAO
+         boolean isUpdated = NhaCungCapDAO.sua(ncc);
+ 
+         // Hiển thị thông báo cho người dùng
+         if (isUpdated) {
+             JOptionPane.showMessageDialog(this, "Sửa thông tin nhà cung cấp thành công!");
+             dispose();
+         } else {
+             JOptionPane.showMessageDialog(this, "Sửa thông tin nhà cung cấp thất bại!");
+         }
     }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnHuyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -232,13 +280,13 @@ public class formSuaNCC extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(formSuaNCC.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formSuaNV.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(formSuaNCC.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formSuaNV.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(formSuaNCC.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formSuaNV.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(formSuaNCC.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formSuaNV.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -246,7 +294,7 @@ public class formSuaNCC extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                formSuaNCC dialog = new formSuaNCC(new javax.swing.JFrame(), true);
+                formSuaNV dialog = new formSuaNV(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -282,8 +330,9 @@ public class formSuaNCC extends javax.swing.JDialog {
     private javax.swing.JLabel lblSuaNCC;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
-    private javax.swing.JTextField txtHoTen1;
-    private javax.swing.JTextField txtHoTen2;
-    private javax.swing.JTextField txtHoTen3;
+    private javax.swing.JTextField txtDiaChiNCC;
+    private javax.swing.JTextField txtSDT;
+    private javax.swing.JTextField txtTenNCC;
     // End of variables declaration//GEN-END:variables
+
 }
