@@ -38,30 +38,26 @@ public class formThongTinNCC extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         txtHoTen4 = new javax.swing.JTextField();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        txtHoTen1 = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         txtHoTen3 = new javax.swing.JTextField();
-        jPanel7 = new javax.swing.JPanel();
-        jPanel16 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jPanel17 = new javax.swing.JPanel();
-        txtHoTen2 = new javax.swing.JTextField();
+        jPanel11 = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel18 = new javax.swing.JPanel();
+        txtHoTen5 = new javax.swing.JTextField();
         bottomRoundedPanel2 = new Swing.BottomRoundedPanel();
         btnHuy = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(81, 219, 185));
-        jPanel1.setPreferredSize(new java.awt.Dimension(634, 500));
+        jPanel1.setPreferredSize(new java.awt.Dimension(634, 464));
 
         roundPanel1.setBackground(new java.awt.Color(0, 120, 92));
+        roundPanel1.setPreferredSize(new java.awt.Dimension(569, 464));
         roundPanel1.setLayout(new java.awt.BorderLayout());
 
         topRoundedPanel1.setPreferredSize(new java.awt.Dimension(569, 75));
@@ -84,7 +80,7 @@ public class formThongTinNCC extends javax.swing.JDialog {
         jPanel2.setPreferredSize(new java.awt.Dimension(567, 350));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel8.setPreferredSize(new java.awt.Dimension(567, 160));
+        jPanel8.setPreferredSize(new java.awt.Dimension(567, 87));
         jPanel8.setLayout(new java.awt.BorderLayout());
 
         jPanel13.setPreferredSize(new java.awt.Dimension(150, 50));
@@ -110,33 +106,7 @@ public class formThongTinNCC extends javax.swing.JDialog {
 
         jPanel2.add(jPanel8);
 
-        jPanel5.setPreferredSize(new java.awt.Dimension(567, 160));
-        jPanel5.setLayout(new java.awt.BorderLayout());
-
-        jPanel12.setPreferredSize(new java.awt.Dimension(150, 50));
-        jPanel12.setLayout(new java.awt.BorderLayout());
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Tên nhà cung cấp:");
-        jLabel2.setAlignmentX(20.0F);
-        jLabel2.setAlignmentY(20.0F);
-        jPanel12.add(jLabel2, java.awt.BorderLayout.CENTER);
-
-        jPanel5.add(jPanel12, java.awt.BorderLayout.LINE_START);
-
-        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30);
-        flowLayout1.setAlignOnBaseline(true);
-        jPanel4.setLayout(flowLayout1);
-
-        txtHoTen1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel4.add(txtHoTen1);
-
-        jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);
-
-        jPanel2.add(jPanel5);
-
-        jPanel6.setPreferredSize(new java.awt.Dimension(567, 160));
+        jPanel6.setPreferredSize(new java.awt.Dimension(567, 87));
         jPanel6.setLayout(new java.awt.BorderLayout());
 
         jPanel14.setPreferredSize(new java.awt.Dimension(150, 50));
@@ -158,27 +128,27 @@ public class formThongTinNCC extends javax.swing.JDialog {
 
         jPanel2.add(jPanel6);
 
-        jPanel7.setPreferredSize(new java.awt.Dimension(567, 160));
-        jPanel7.setLayout(new java.awt.BorderLayout());
+        jPanel11.setPreferredSize(new java.awt.Dimension(567, 87));
+        jPanel11.setLayout(new java.awt.BorderLayout());
 
-        jPanel16.setPreferredSize(new java.awt.Dimension(150, 50));
-        jPanel16.setLayout(new java.awt.BorderLayout());
+        jPanel15.setPreferredSize(new java.awt.Dimension(150, 50));
+        jPanel15.setLayout(new java.awt.BorderLayout());
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("SĐT:");
-        jPanel16.add(jLabel7, java.awt.BorderLayout.CENTER);
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Địa chỉ:");
+        jPanel15.add(jLabel4, java.awt.BorderLayout.CENTER);
 
-        jPanel7.add(jPanel16, java.awt.BorderLayout.LINE_START);
+        jPanel11.add(jPanel15, java.awt.BorderLayout.LINE_START);
 
-        jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30));
+        jPanel18.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 30));
 
-        txtHoTen2.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel17.add(txtHoTen2);
+        txtHoTen5.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel18.add(txtHoTen5);
 
-        jPanel7.add(jPanel17, java.awt.BorderLayout.CENTER);
+        jPanel11.add(jPanel18, java.awt.BorderLayout.CENTER);
 
-        jPanel2.add(jPanel7);
+        jPanel2.add(jPanel11);
 
         bottomRoundedPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -202,14 +172,14 @@ public class formThongTinNCC extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
+                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -226,12 +196,12 @@ public class formThongTinNCC extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 464, Short.MAX_VALUE)
+            .addGap(0, 517, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 26, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 27, Short.MAX_VALUE)))
         );
 
         pack();
@@ -284,30 +254,25 @@ public class formThongTinNCC extends javax.swing.JDialog {
     private Swing.BottomRoundedPanel bottomRoundedPanel1;
     private Swing.BottomRoundedPanel bottomRoundedPanel2;
     private javax.swing.JButton btnHuy;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblSuaNCC;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
-    private javax.swing.JTextField txtHoTen1;
-    private javax.swing.JTextField txtHoTen2;
     private javax.swing.JTextField txtHoTen3;
     private javax.swing.JTextField txtHoTen4;
+    private javax.swing.JTextField txtHoTen5;
     // End of variables declaration//GEN-END:variables
 }
