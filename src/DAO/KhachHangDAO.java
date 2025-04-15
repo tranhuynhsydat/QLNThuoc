@@ -180,5 +180,95 @@ public class KhachHangDAO {
     }
 
     return danhSachKhachHang;
-}
+    }
+//    public static List<KhachHang> searchKhachHang(String tenKH, String gioiTinh, String SDT, int tuoi) {
+//        List<KhachHang> danhSachKhachHang = new ArrayList<>();
+//        String sql = "SELECT * FROM KhachHang WHERE "
+//                + "(tenKH LIKE ? OR ? = '') AND "
+//                + "(gioiTinh LIKE ? OR ? = '') AND "
+//                + "(SDT LIKE ? OR ? = '') AND "
+//                + "(tuoi LIKE ? OR ? = '') AND ";
+//        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+//            ps.setString(1, "%" + tenKH + "%");
+//            ps.setString(2, tenKH);
+//            ps.setString(3, "%" + gioiTinh + "%");
+//            ps.setString(4, gioiTinh);
+//            ps.setString(5, "%" + SDT + "%");
+//            ps.setString(6, SDT);
+//            ps.setString(7, "%" + tuoi + "%");
+//            ps.setInt(8, tuoi);
+//
+//            try (ResultSet rs = ps.executeQuery()) {
+//                while (rs.next()) {
+//                    KhachHang kh = new KhachHang(
+//                            rs.getString("maKH"),
+//                            rs.getString("tenKH"),
+//                            rs.getString("gioiTinh"),
+//                            rs.getString("SDT"),
+//                            rs.getInt("tuoi")
+//                    );
+//                    danhSachKhachHang.add(kh);
+//                }
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return danhSachKhachHang;
+//    }
+        public static List<KhachHang> searchKhachHang(String tenKH, String gioiTinh, String SDT, int tuoi) {
+            List<KhachHang> danhSachKhachHang = new ArrayList<>();
+            List<String> conditions = new ArrayList<>();
+            List<Object> params = new ArrayList<>();
+
+            String sql = "SELECT * FROM KhachHang";
+
+            if (!tenKH.isEmpty()) {
+                conditions.add("tenKH LIKE ?");
+                params.add("%" + tenKH + "%");
+            }
+            if (!gioiTinh.isEmpty()) {
+                conditions.add("gioiTinh LIKE ?");
+                params.add("%" + gioiTinh + "%");
+            }
+            if (!SDT.isEmpty()) {
+                conditions.add("SDT LIKE ?");
+                params.add("%" + SDT + "%");
+            }
+            if (tuoi > 0) {
+                conditions.add("tuoi = ?");
+                params.add(tuoi);
+            }
+
+            if (!conditions.isEmpty()) {
+                sql += " WHERE " + String.join(" AND ", conditions);
+            }
+
+            try (Connection conn = DatabaseConnection.getConnection(); 
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                for (int i = 0; i < params.size(); i++) {
+                    ps.setObject(i + 1, params.get(i));
+                }
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        KhachHang kh = new KhachHang(
+                            rs.getString("maKH"),
+                            rs.getString("tenKH"),
+                            rs.getString("gioiTinh"),
+                            rs.getString("SDT"),
+                            rs.getInt("tuoi")
+                        );
+                        danhSachKhachHang.add(kh);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return danhSachKhachHang;
+        }
+
 }
