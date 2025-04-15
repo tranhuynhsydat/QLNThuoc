@@ -84,13 +84,13 @@ private void openFormSuaTK() {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"01", "TK-000", "admin", "Đinh Ngọc Dĩ Hào", "Quản lý"},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {"TK-000", "admin", "Đinh Ngọc Dĩ Hào", "Quản lý"},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "STT", "Mã tài khoản", "Tên tài khoản", "Tên nhân viên", "chức vụ"
+                "Mã tài khoản", "Tên tài khoản", "Tên nhân viên", "chức vụ"
             }
         ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);

@@ -4,20 +4,97 @@
  */
 package GUI.form;
 
+import DAO.DanhMucDAO;
+import DAO.DonViTinhDAO;
+import DAO.ThuocDAO;
+import DAO.XuatXuDAO;
+import Entity.DanhMuc;
+import Entity.DonViTinh;
+import Entity.Thuoc;
+import Entity.XuatXu;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import java.awt.Frame;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author Admin
  */
 public class formSuaThuoc extends javax.swing.JDialog {
 
+    private byte[] imageData;
+
     /**
      * Creates new form formSuaThuoc
      */
-    public formSuaThuoc(java.awt.Frame parent, boolean modal) {
+    public formSuaThuoc(Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
+    public formSuaThuoc(JFrame parentFrame, boolean modal, String maThuoc) {
+        super(parentFrame, modal);
+        initComponents();
+        loadComboboxData();
+        loadThongTinThuoc(maThuoc);
+    }
+    private void loadComboboxData() {
+        // Lấy dữ liệu danh mục từ cơ sở dữ liệu và thêm vào comboDanhMuc
+        List<DanhMuc> danhMucList = DanhMucDAO.getDanhMucList();
+        for (DanhMuc dm : danhMucList) {
+            cboDanhMuc.addItem(dm.getTen());  // Thêm tên danh mục vào ComboBox
+        }
 
+        // Lấy dữ liệu đơn vị tính từ cơ sở dữ liệu và thêm vào comboDVT
+        List<DonViTinh> donViTinhList = DonViTinhDAO.getDonViTinhList();
+        for (DonViTinh dvt : donViTinhList) {
+            cboDVT.addItem(dvt.getTen());  // Thêm tên đơn vị tính vào ComboBox
+        }
+
+        // Lấy dữ liệu xuất xứ từ cơ sở dữ liệu và thêm vào comboXuatXu
+        List<XuatXu> xuatXuList = XuatXuDAO.getXuatXuList();
+        for (XuatXu xx : xuatXuList) {
+            cboXX.addItem(xx.getTen());  // Thêm tên xuất xứ vào ComboBox
+        }
+    }
+    private void loadThongTinThuoc(String maThuoc) {
+        // Truy vấn thông tin thuốc từ cơ sở dữ liệu
+        Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(maThuoc);
+
+        if (thuoc != null) {
+            // Cập nhật các trường trong form với thông tin thuốc
+            txtTenThuoc.setText(thuoc.getTenThuoc());
+            txtThanhPhan.setText(thuoc.getThanhPhan());
+            txtGiaNhap.setText(String.valueOf(thuoc.getGiaNhap()));
+            txtGiaBan.setText(String.valueOf(thuoc.getDonGia()));
+            DateHSD.setDate(thuoc.getHsd());
+            cboDanhMuc.setSelectedItem(thuoc.getDanhMuc().getTen());
+            cboDVT.setSelectedItem(thuoc.getDonViTinh().getTen());
+            cboXX.setSelectedItem(thuoc.getXuatXu().getTen());
+            txtSoLuong.setText(String.valueOf(thuoc.getSoLuong()));
+
+            // Kiểm tra xem ảnh có null không
+            if (thuoc.getHinhAnh() != null) {
+                // Nếu ảnh không null, hiển thị ảnh thuốc
+                ImageIcon anhThuoc = new ImageIcon(thuoc.getHinhAnh());
+                lblAnhThuoc.setIcon(anhThuoc);
+            } else {
+                // Nếu ảnh null, hiển thị ảnh mặc định
+                lblAnhThuoc.setIcon(new FlatSVGIcon("./icon/image.svg"));
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,56 +113,56 @@ public class formSuaThuoc extends javax.swing.JDialog {
         jPanel4 = new javax.swing.JPanel();
         jPanel22 = new javax.swing.JPanel();
         jPanel24 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        lblAnhThuoc = new javax.swing.JLabel();
         jPanel25 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnThemAnh = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
         jPanel34 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jPanel35 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
+        txtTenThuoc = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtThanhPhan = new javax.swing.JTextArea();
         jPanel14 = new javax.swing.JPanel();
         jPanel29 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel30 = new javax.swing.JPanel();
-        jTextField4 = new javax.swing.JTextField();
+        txtGiaNhap = new javax.swing.JTextField();
         jPanel23 = new javax.swing.JPanel();
         jPanel31 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jPanel32 = new javax.swing.JPanel();
-        jTextField5 = new javax.swing.JTextField();
+        txtGiaBan = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        DateHSD = new com.toedter.calendar.JDateChooser();
         jPanel15 = new javax.swing.JPanel();
         jPanel36 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jPanel37 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cboDanhMuc = new javax.swing.JComboBox<>();
         jPanel16 = new javax.swing.JPanel();
         jPanel38 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jPanel39 = new javax.swing.JPanel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cboDVT = new javax.swing.JComboBox<>();
         jPanel21 = new javax.swing.JPanel();
         jPanel40 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jPanel41 = new javax.swing.JPanel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cboXX = new javax.swing.JComboBox<>();
         jPanel13 = new javax.swing.JPanel();
         jPanel27 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel28 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
+        txtSoLuong = new javax.swing.JTextField();
         bottomRoundedPanel2 = new Swing.BottomRoundedPanel();
         btnHuy = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
@@ -106,7 +183,7 @@ public class formSuaThuoc extends javax.swing.JDialog {
 
         lblSuaThuoc.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblSuaThuoc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSuaThuoc.setText("Sửa thuốc");
+        lblSuaThuoc.setText("Sửa thông tin thuốc");
         lblSuaThuoc.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblSuaThuoc.setMaximumSize(new java.awt.Dimension(190, 32));
         lblSuaThuoc.setMinimumSize(new java.awt.Dimension(190, 32));
@@ -130,9 +207,9 @@ public class formSuaThuoc extends javax.swing.JDialog {
 
         jPanel24.setMinimumSize(new java.awt.Dimension(100, 211));
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setToolTipText("");
-        jLabel2.setAutoscrolls(true);
+        lblAnhThuoc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAnhThuoc.setToolTipText("");
+        lblAnhThuoc.setAutoscrolls(true);
 
         javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
         jPanel24.setLayout(jPanel24Layout);
@@ -140,23 +217,28 @@ public class formSuaThuoc extends javax.swing.JDialog {
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel24Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                .addComponent(lblAnhThuoc, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel24Layout.setVerticalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel24Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addComponent(lblAnhThuoc, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel22.add(jPanel24, java.awt.BorderLayout.PAGE_START);
 
-        jButton1.setBackground(new java.awt.Color(204, 204, 204));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setText("Thêm ảnh");
-        jButton1.setPreferredSize(new java.awt.Dimension(13, 13));
+        btnThemAnh.setBackground(new java.awt.Color(204, 204, 204));
+        btnThemAnh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnThemAnh.setText("Thêm ảnh");
+        btnThemAnh.setPreferredSize(new java.awt.Dimension(13, 13));
+        btnThemAnh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemAnhActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
         jPanel25.setLayout(jPanel25Layout);
@@ -164,14 +246,14 @@ public class formSuaThuoc extends javax.swing.JDialog {
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addGap(83, 83, 83)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnThemAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(80, Short.MAX_VALUE))
         );
         jPanel25Layout.setVerticalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnThemAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -206,13 +288,13 @@ public class formSuaThuoc extends javax.swing.JDialog {
         jPanel35.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField3.setPreferredSize(new java.awt.Dimension(250, 30));
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        txtTenThuoc.setPreferredSize(new java.awt.Dimension(250, 30));
+        txtTenThuoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                txtTenThuocActionPerformed(evt);
             }
         });
-        jPanel35.add(jTextField3);
+        jPanel35.add(txtTenThuoc);
 
         jPanel33.add(jPanel35, java.awt.BorderLayout.CENTER);
 
@@ -243,11 +325,11 @@ public class formSuaThuoc extends javax.swing.JDialog {
 
         jScrollPane2.setPreferredSize(new java.awt.Dimension(250, 232));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setMinimumSize(new java.awt.Dimension(16, 16));
-        jTextArea1.setPreferredSize(new java.awt.Dimension(349, 32));
-        jScrollPane2.setViewportView(jTextArea1);
+        txtThanhPhan.setColumns(20);
+        txtThanhPhan.setRows(5);
+        txtThanhPhan.setMinimumSize(new java.awt.Dimension(16, 16));
+        txtThanhPhan.setPreferredSize(new java.awt.Dimension(349, 32));
+        jScrollPane2.setViewportView(txtThanhPhan);
 
         jPanel18.add(jScrollPane2);
 
@@ -278,8 +360,8 @@ public class formSuaThuoc extends javax.swing.JDialog {
         jPanel30.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel30.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField4.setPreferredSize(new java.awt.Dimension(250, 30));
-        jPanel30.add(jTextField4);
+        txtGiaNhap.setPreferredSize(new java.awt.Dimension(250, 30));
+        jPanel30.add(txtGiaNhap);
 
         jPanel14.add(jPanel30, java.awt.BorderLayout.CENTER);
 
@@ -308,8 +390,8 @@ public class formSuaThuoc extends javax.swing.JDialog {
         jPanel32.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel32.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField5.setPreferredSize(new java.awt.Dimension(250, 30));
-        jPanel32.add(jTextField5);
+        txtGiaBan.setPreferredSize(new java.awt.Dimension(250, 30));
+        jPanel32.add(txtGiaBan);
 
         jPanel23.add(jPanel32, java.awt.BorderLayout.CENTER);
 
@@ -337,8 +419,8 @@ public class formSuaThuoc extends javax.swing.JDialog {
         jPanel20.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jDateChooser1.setPreferredSize(new java.awt.Dimension(88, 30));
-        jPanel20.add(jDateChooser1);
+        DateHSD.setPreferredSize(new java.awt.Dimension(88, 30));
+        jPanel20.add(DateHSD);
 
         jPanel9.add(jPanel20, java.awt.BorderLayout.CENTER);
 
@@ -366,13 +448,13 @@ public class formSuaThuoc extends javax.swing.JDialog {
         jPanel37.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel37.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jComboBox1.setPreferredSize(new java.awt.Dimension(250, 22));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        cboDanhMuc.setPreferredSize(new java.awt.Dimension(250, 22));
+        cboDanhMuc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                cboDanhMucActionPerformed(evt);
             }
         });
-        jPanel37.add(jComboBox1);
+        jPanel37.add(cboDanhMuc);
 
         jPanel15.add(jPanel37, java.awt.BorderLayout.CENTER);
 
@@ -400,13 +482,13 @@ public class formSuaThuoc extends javax.swing.JDialog {
         jPanel39.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel39.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jComboBox2.setPreferredSize(new java.awt.Dimension(250, 22));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        cboDVT.setPreferredSize(new java.awt.Dimension(250, 22));
+        cboDVT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                cboDVTActionPerformed(evt);
             }
         });
-        jPanel39.add(jComboBox2);
+        jPanel39.add(cboDVT);
 
         jPanel16.add(jPanel39, java.awt.BorderLayout.CENTER);
 
@@ -434,13 +516,13 @@ public class formSuaThuoc extends javax.swing.JDialog {
         jPanel41.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel41.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jComboBox3.setPreferredSize(new java.awt.Dimension(250, 22));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+        cboXX.setPreferredSize(new java.awt.Dimension(250, 22));
+        cboXX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                cboXXActionPerformed(evt);
             }
         });
-        jPanel41.add(jComboBox3);
+        jPanel41.add(cboXX);
 
         jPanel21.add(jPanel41, java.awt.BorderLayout.CENTER);
 
@@ -468,9 +550,9 @@ public class formSuaThuoc extends javax.swing.JDialog {
         jPanel28.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel28.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField2.setMinimumSize(new java.awt.Dimension(350, 22));
-        jTextField2.setPreferredSize(new java.awt.Dimension(250, 30));
-        jPanel28.add(jTextField2);
+        txtSoLuong.setMinimumSize(new java.awt.Dimension(350, 22));
+        txtSoLuong.setPreferredSize(new java.awt.Dimension(250, 30));
+        jPanel28.add(txtSoLuong);
 
         jPanel13.add(jPanel28, java.awt.BorderLayout.CENTER);
 
@@ -528,25 +610,107 @@ public class formSuaThuoc extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void txtTenThuocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenThuocActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_txtTenThuocActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void cboDanhMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDanhMucActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_cboDanhMucActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void cboDVTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDVTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_cboDVTActionPerformed
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+    private void cboXXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboXXActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+    }//GEN-LAST:event_cboXXActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
+        String tenThuoc = txtTenThuoc.getText();
+        String thanhPhan = txtThanhPhan.getText();
+        double giaNhap = Double.parseDouble(txtGiaNhap.getText());
+        double giaBan = Double.parseDouble(txtGiaBan.getText());
+        Date hsd = DateHSD.getDate();
+        String danhMuc = (String) cboDanhMuc.getSelectedItem();
+        String donViTinh = (String) cboDVT.getSelectedItem();
+        String xuatXu = (String) cboXX.getSelectedItem();
+        int soLuong = Integer.parseInt(txtSoLuong.getText());
+
+        // Lấy mã danh mục, đơn vị tính, và xuất xứ từ cơ sở dữ liệu
+        String maDanhMuc = DanhMucDAO.getMaDanhMucByTen(danhMuc);  // Lấy mã danh mục
+        String maDVT = DonViTinhDAO.getMaDonViTinhByTen(donViTinh);  // Lấy mã đơn vị tính
+        String maXuatXu = XuatXuDAO.getMaXuatXuByTen(xuatXu);  // Lấy mã xuất xứ
+
+        // Tạo đối tượng Thuoc
+        Thuoc thuoc = new Thuoc(
+                ThuocDAO.TaoMaThuoc(), // Mã thuốc tự động
+                tenThuoc,
+                imageData, // Lưu ảnh dưới dạng byte[]
+                thanhPhan,
+                new DanhMuc(maDanhMuc, danhMuc), // Tạo đối tượng DanhMuc từ mã
+                new DonViTinh(maDVT, donViTinh), // Tạo đối tượng DonViTinh từ mã
+                new XuatXu(maXuatXu, xuatXu), // Tạo đối tượng XuatXu từ mã
+                soLuong,
+                giaNhap,
+                giaBan,
+                hsd
+        );
+
+        // Thêm thuốc vào cơ sở dữ liệu
+        if (ThuocDAO.sua(thuoc)) {
+            JOptionPane.showMessageDialog(this, "Sửa thuốc thành công!");
+            dispose();  // Đóng form thêm thuốc
+        } else {
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi sửa thuốc.");
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnThemAnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemAnhActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn ảnh thuốc");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("JPG, PNG, JPEG, SVG", "jpg", "png", "jpeg", "svg"));
+
+        int returnValue = fileChooser.showOpenDialog(this);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+
+            try {
+                // Đọc ảnh từ file và chuyển thành BufferedImage
+                BufferedImage img = ImageIO.read(selectedFile);
+
+                // Hiển thị ảnh lên JLabel
+                int labelWidth = lblAnhThuoc.getWidth();
+                int labelHeight = lblAnhThuoc.getHeight();
+                double aspectRatio = (double) img.getWidth() / img.getHeight();
+                int newWidth = labelWidth;
+                int newHeight = (int) (labelWidth / aspectRatio);
+
+                if (newHeight > labelHeight) {
+                    newHeight = labelHeight;
+                    newWidth = (int) (labelHeight * aspectRatio);
+                }
+
+                Image scaledImage = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+                lblAnhThuoc.setIcon(new ImageIcon(scaledImage));
+
+                // Chuyển đổi ảnh thành mảng byte
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(img, "png", baos);
+                baos.flush();
+                byte[] imageData = baos.toByteArray();
+                baos.close();
+
+                // Lưu mảng byte vào biến toàn cục hoặc chuyển sang phương thức thêm thuốc
+                this.imageData = imageData;  // Lưu ảnh vào một biến toàn cục
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnThemAnhActionPerformed
 
     /**
      * @param args the command line arguments
@@ -591,22 +755,21 @@ public class formSuaThuoc extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser DateHSD;
     private Swing.BottomRoundedPanel bottomRoundedPanel1;
     private Swing.BottomRoundedPanel bottomRoundedPanel2;
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnSua;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JButton btnThemAnh;
+    private javax.swing.JComboBox<String> cboDVT;
+    private javax.swing.JComboBox<String> cboDanhMuc;
+    private javax.swing.JComboBox<String> cboXX;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel9;
@@ -645,13 +808,14 @@ public class formSuaThuoc extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JLabel lblAnhThuoc;
     private javax.swing.JLabel lblSuaThuoc;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
+    private javax.swing.JTextField txtGiaBan;
+    private javax.swing.JTextField txtGiaNhap;
+    private javax.swing.JTextField txtSoLuong;
+    private javax.swing.JTextField txtTenThuoc;
+    private javax.swing.JTextArea txtThanhPhan;
     // End of variables declaration//GEN-END:variables
 }
