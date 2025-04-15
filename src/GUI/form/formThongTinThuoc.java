@@ -208,7 +208,7 @@ public class formThongTinThuoc extends javax.swing.JDialog {
 
         lblThemThuoc.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblThemThuoc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblThemThuoc.setText("Thông TinThuốc");
+        lblThemThuoc.setText("Thông Tin Thuốc");
         lblThemThuoc.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblThemThuoc.setMaximumSize(new java.awt.Dimension(190, 32));
         lblThemThuoc.setMinimumSize(new java.awt.Dimension(190, 32));

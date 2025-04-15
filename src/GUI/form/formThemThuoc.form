@@ -97,7 +97,7 @@
                       <Font name="Segoe UI" size="24" style="1"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Th&#xea;m thu&#x1ed1;c"/>
+                    <Property name="text" type="java.lang.String" value="Th&#xea;m th&#xf4;ng tin thu&#x1ed1;c"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[190, 32]"/>
