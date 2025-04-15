@@ -50,6 +50,37 @@ public class NhanVienDAO {
         return danhSachNhanVien;
     }
 
+    public static List<NhanVien> getNhanVienBatch(int start, int limit) {
+        List<NhanVien> danhSachNhanVien = new ArrayList<>();
+        String sql = "SELECT * FROM NhanVien ORDER BY maNV OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // SQL Server Syntax
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, start);  // Chỉ mục bắt đầu (OFFSET)
+            ps.setInt(2, limit);  // Số dòng cần lấy (FETCH NEXT)
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    NhanVien nv = new NhanVien(
+                            rs.getString("maNV"),
+                            rs.getString("hoTen"),
+                            rs.getString("sdt"),
+                            rs.getString("gioiTinh"),
+                            rs.getDate("dtSinh"),
+                            rs.getDate("ngayVaoLam"),
+                            rs.getString("chucVu"),
+                            rs.getString("cccd")
+                    );
+                    danhSachNhanVien.add(nv);  // Thêm nhân viên vào danh sách
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return danhSachNhanVien;
+    }
+
     public static NhanVien getNhanVienByMaNV(String maNV) {
         NhanVien nv = null;
         String sql = "SELECT * FROM NhanVien WHERE maNV = ?";
@@ -68,7 +99,7 @@ public class NhanVienDAO {
                             rs.getDate("dtSinh"),
                             rs.getDate("ngayVaoLam"),
                             rs.getString("chucVu"),
-                            rs.getString("cccd")
+                            rs.getString("CCCD")
                     );
                 }
             }

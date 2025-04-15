@@ -4,17 +4,100 @@
  */
 package GUI.page;
 
+import DAO.ThuocDAO;
+import Entity.Thuoc;
+import GUI.form.formThongTinThuoc;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Admin
  */
 public class frmSearchThuoc extends javax.swing.JPanel {
 
+    private int startIndex;
+
     /**
      * Creates new form frmSearchThuoc
      */
     public frmSearchThuoc() {
         initComponents();
+        configureTable();
+        startIndex = 0;
+        loadDataToTable();
+        // Thêm sự kiện cuộn bảng
+        jScrollPane3.getVerticalScrollBar().addAdjustmentListener(e -> {
+            JScrollBar vertical = jScrollPane3.getVerticalScrollBar();
+            int max = vertical.getMaximum();
+            int current = vertical.getValue();
+            int visible = vertical.getVisibleAmount();
+
+            // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
+            if (current + visible >= max) {
+                startIndex += 13;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                loadDataToTable();  // Tải thêm dữ liệu
+            }
+
+        });
+
+    }
+
+    private void configureTable() {
+        // Ngăn không cho phép người dùng chỉnh sửa bảng
+        jTable2.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
+
+        // Căn giữa cho tất cả các cell trong bảng
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Căn giữa cho từng cột
+        for (int i = 0; i < jTable2.getColumnCount(); i++) {
+            jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        // Ngăn không cho phép chọn nhiều dòng
+        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    private void loadDataToTable() {
+        // Lấy dữ liệu thuốc với batch tiếp theo (13 dòng)
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                // Lấy danh sách thuốc từ cơ sở dữ liệu (13 dòng bắt đầu từ startIndex)
+                List<Thuoc> thuocList = ThuocDAO.getThuocBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
+                SwingUtilities.invokeLater(() -> {
+                    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+
+                    // Chỉ thêm dữ liệu mới vào bảng, không xóa dữ liệu cũ
+                    for (Thuoc thuoc : thuocList) {
+                        model.addRow(new Object[]{
+                            thuoc.getId(),
+                            thuoc.getTenThuoc(),
+                            thuoc.getThanhPhan(),
+                            thuoc.getGiaNhap(),
+                            thuoc.getDonGia(),
+                            thuoc.getHsd(),
+                            thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen() : null,
+                            thuoc.getDonViTinh() != null ? thuoc.getDonViTinh().getTen() : null,
+                            thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen() : null,
+                            thuoc.getSoLuong()
+                        });
+                    }
+                });
+                return null;
+            }
+        };
+        worker.execute();
     }
 
     /**
@@ -34,48 +117,48 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         jPanel34 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jPanel35 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
+        txtTenThuoc = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtThanhPhanThuoc = new javax.swing.JTextArea();
         jPanel11 = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel24 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtGiaNhap = new javax.swing.JTextField();
         jPanel14 = new javax.swing.JPanel();
         jPanel29 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel30 = new javax.swing.JPanel();
-        jTextField4 = new javax.swing.JTextField();
+        txtGiaBan = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        DateHSD = new com.toedter.calendar.JDateChooser();
         jPanel15 = new javax.swing.JPanel();
         jPanel36 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jPanel37 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboDanhMuc = new javax.swing.JComboBox<>();
         jPanel16 = new javax.swing.JPanel();
         jPanel38 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jPanel39 = new javax.swing.JPanel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        comboDVT = new javax.swing.JComboBox<>();
         jPanel21 = new javax.swing.JPanel();
         jPanel40 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jPanel41 = new javax.swing.JPanel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        comboXuatXu = new javax.swing.JComboBox<>();
         jPanel13 = new javax.swing.JPanel();
         jPanel27 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel28 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
+        txtSoLuong = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel42 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -134,13 +217,13 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         jPanel35.setPreferredSize(new java.awt.Dimension(680, 38));
         jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField3.setPreferredSize(new java.awt.Dimension(350, 30));
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        txtTenThuoc.setPreferredSize(new java.awt.Dimension(350, 30));
+        txtTenThuoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                txtTenThuocActionPerformed(evt);
             }
         });
-        jPanel35.add(jTextField3);
+        jPanel35.add(txtTenThuoc);
 
         jPanel33.add(jPanel35, java.awt.BorderLayout.CENTER);
 
@@ -170,11 +253,11 @@ public class frmSearchThuoc extends javax.swing.JPanel {
 
         jScrollPane2.setPreferredSize(new java.awt.Dimension(349, 232));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setMinimumSize(new java.awt.Dimension(16, 16));
-        jTextArea1.setPreferredSize(new java.awt.Dimension(349, 32));
-        jScrollPane2.setViewportView(jTextArea1);
+        txtThanhPhanThuoc.setColumns(20);
+        txtThanhPhanThuoc.setRows(5);
+        txtThanhPhanThuoc.setMinimumSize(new java.awt.Dimension(16, 16));
+        txtThanhPhanThuoc.setPreferredSize(new java.awt.Dimension(349, 32));
+        jScrollPane2.setViewportView(txtThanhPhanThuoc);
 
         jPanel18.add(jScrollPane2);
 
@@ -203,8 +286,8 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         jPanel24.setPreferredSize(new java.awt.Dimension(680, 38));
         jPanel24.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel24.add(jTextField1);
+        txtGiaNhap.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel24.add(txtGiaNhap);
 
         jPanel11.add(jPanel24, java.awt.BorderLayout.CENTER);
 
@@ -232,8 +315,8 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         jPanel30.setPreferredSize(new java.awt.Dimension(680, 38));
         jPanel30.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField4.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel30.add(jTextField4);
+        txtGiaBan.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel30.add(txtGiaBan);
 
         jPanel14.add(jPanel30, java.awt.BorderLayout.CENTER);
 
@@ -260,8 +343,8 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         jPanel20.setPreferredSize(new java.awt.Dimension(680, 38));
         jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jDateChooser1.setPreferredSize(new java.awt.Dimension(88, 30));
-        jPanel20.add(jDateChooser1);
+        DateHSD.setPreferredSize(new java.awt.Dimension(88, 30));
+        jPanel20.add(DateHSD);
 
         jPanel9.add(jPanel20, java.awt.BorderLayout.CENTER);
 
@@ -288,13 +371,13 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         jPanel37.setPreferredSize(new java.awt.Dimension(680, 38));
         jPanel37.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jComboBox1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        comboDanhMuc.setPreferredSize(new java.awt.Dimension(350, 22));
+        comboDanhMuc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                comboDanhMucActionPerformed(evt);
             }
         });
-        jPanel37.add(jComboBox1);
+        jPanel37.add(comboDanhMuc);
 
         jPanel15.add(jPanel37, java.awt.BorderLayout.CENTER);
 
@@ -321,13 +404,13 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         jPanel39.setPreferredSize(new java.awt.Dimension(680, 38));
         jPanel39.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jComboBox2.setPreferredSize(new java.awt.Dimension(350, 22));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        comboDVT.setPreferredSize(new java.awt.Dimension(350, 22));
+        comboDVT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                comboDVTActionPerformed(evt);
             }
         });
-        jPanel39.add(jComboBox2);
+        jPanel39.add(comboDVT);
 
         jPanel16.add(jPanel39, java.awt.BorderLayout.CENTER);
 
@@ -354,13 +437,13 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         jPanel41.setPreferredSize(new java.awt.Dimension(680, 38));
         jPanel41.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jComboBox3.setPreferredSize(new java.awt.Dimension(350, 22));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+        comboXuatXu.setPreferredSize(new java.awt.Dimension(350, 22));
+        comboXuatXu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                comboXuatXuActionPerformed(evt);
             }
         });
-        jPanel41.add(jComboBox3);
+        jPanel41.add(comboXuatXu);
 
         jPanel21.add(jPanel41, java.awt.BorderLayout.CENTER);
 
@@ -387,9 +470,9 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         jPanel28.setPreferredSize(new java.awt.Dimension(680, 38));
         jPanel28.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField2.setMinimumSize(new java.awt.Dimension(350, 22));
-        jTextField2.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel28.add(jTextField2);
+        txtSoLuong.setMinimumSize(new java.awt.Dimension(350, 22));
+        txtSoLuong.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel28.add(txtSoLuong);
 
         jPanel13.add(jPanel28, java.awt.BorderLayout.CENTER);
 
@@ -419,20 +502,14 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         jPanel43.setPreferredSize(new java.awt.Dimension(452, 125));
         jPanel43.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane3.setMinimumSize(new java.awt.Dimension(452, 402));
-
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "STT", "Mã thuốc", "Tên thuốc", "Thành phần", "Giá nhập", "Giá bán", "HSD", "Danh mục", "Đơn vị tính", "Xuất xứ", "Số lượng", "Ảnh"
+                "Mã thuốc", "Tên thuốc", "Thành phần", "Giá nhập", "Giá bán", "HSD", "Danh mục", "Đơn vị tính", "Xuất xứ", "Số lượng"
             }
         ));
-        jTable2.setMinimumSize(new java.awt.Dimension(624, 175));
-        jTable2.setPreferredSize(new java.awt.Dimension(624, 175));
         jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable2.setShowHorizontalLines(true);
         jScrollPane3.setViewportView(jTable2);
@@ -471,40 +548,63 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         btnChiTiet.setMaximumSize(new java.awt.Dimension(85, 35));
         btnChiTiet.setMinimumSize(new java.awt.Dimension(85, 35));
         btnChiTiet.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnChiTiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChiTietActionPerformed(evt);
+            }
+        });
         btnPanel.add(btnChiTiet);
 
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void txtTenThuocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenThuocActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_txtTenThuocActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void comboDanhMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboDanhMucActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_comboDanhMucActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void comboDVTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboDVTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_comboDVTActionPerformed
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+    private void comboXuatXuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboXuatXuActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+    }//GEN-LAST:event_comboXuatXuActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
+    private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
+        int selectedRow = jTable2.getSelectedRow();  // Lấy dòng được chọn trong bảng
+
+        if (selectedRow != -1) {
+            // Lấy mã thuốc từ cột đầu tiên (mã thuốc)
+            String maThuoc = jTable2.getValueAt(selectedRow, 0).toString();
+
+            // Mở form "Thông tin thuốc" và truyền mã thuốc vào constructor
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            formThongTinThuoc dialog = new formThongTinThuoc(parentFrame, true, maThuoc);  // Truyền mã thuốc vào constructor
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn thuốc để xem chi tiết!");
+        }
+
+    }//GEN-LAST:event_btnChiTietActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser DateHSD;
     private javax.swing.JButton btnChiTiet;
     private javax.swing.JPanel btnPanel;
     private javax.swing.JButton btnTimKiem;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JComboBox<String> comboDVT;
+    private javax.swing.JComboBox<String> comboDanhMuc;
+    private javax.swing.JComboBox<String> comboXuatXu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -552,10 +652,10 @@ public class frmSearchThuoc extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField txtGiaBan;
+    private javax.swing.JTextField txtGiaNhap;
+    private javax.swing.JTextField txtSoLuong;
+    private javax.swing.JTextField txtTenThuoc;
+    private javax.swing.JTextArea txtThanhPhanThuoc;
     // End of variables declaration//GEN-END:variables
 }

@@ -131,7 +131,6 @@ public class formSuaThuoc extends javax.swing.JDialog {
         jPanel24.setMinimumSize(new java.awt.Dimension(100, 211));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon("D:\\Application_Development\\QLThuoc\\QLNThuoc\\src\\icon\\image-plus.png")); // NOI18N
         jLabel2.setToolTipText("");
         jLabel2.setAutoscrolls(true);
 

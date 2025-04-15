@@ -327,6 +327,11 @@ public class formThemThuoc extends javax.swing.JDialog {
         jPanel30.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
         txtGiaNhap.setPreferredSize(new java.awt.Dimension(250, 30));
+        txtGiaNhap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtGiaNhapActionPerformed(evt);
+            }
+        });
         jPanel30.add(txtGiaNhap);
 
         jPanel14.add(jPanel30, java.awt.BorderLayout.CENTER);
@@ -685,6 +690,10 @@ public class formThemThuoc extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_btnThemAnhActionPerformed
+
+    private void txtGiaNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGiaNhapActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtGiaNhapActionPerformed
 
     /**
      * @param args the command line arguments
