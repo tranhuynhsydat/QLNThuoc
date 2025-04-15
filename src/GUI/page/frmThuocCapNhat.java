@@ -4,10 +4,20 @@
  */
 package GUI.page;
 
+import DAO.ThuocDAO;
+import Entity.Thuoc;
 import GUI.form.formSuaThuoc;
 import GUI.form.formThemThuoc;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,28 +25,79 @@ import javax.swing.SwingUtilities;
  */
 public class frmThuocCapNhat extends javax.swing.JPanel {
 
+    private int startIndex;
+
     /**
      * Creates new form frmThuoc
      */
     public frmThuocCapNhat() {
         initComponents();
+        startIndex = 0;
         btnThem.addActionListener(evt -> openFormThemThuoc());
         btnSua.addActionListener(evt -> openFormSuaThuoc());
-    }
-    
-private void openFormThemThuoc() {
-    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-    formThemThuoc dialog = new formThemThuoc(parentFrame, true);
-    dialog.setLocationRelativeTo(this); 
-    dialog.setVisible(true); 
-}
+        loadDataToTable();
+        // Thêm sự kiện cuộn bảng
+        jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
+            JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
+            int max = vertical.getMaximum();
+            int current = vertical.getValue();
+            int visible = vertical.getVisibleAmount();
 
-private void openFormSuaThuoc() {
-    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-    formSuaThuoc dialog = new formSuaThuoc(parentFrame, true);
-    dialog.setLocationRelativeTo(this); 
-    dialog.setVisible(true); 
-}
+            // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
+            if (current + visible >= max) {
+                startIndex += 13;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                loadDataToTable();  // Tải thêm dữ liệu
+            }
+
+        });
+
+    }
+
+    private void loadDataToTable() {
+        // Lấy dữ liệu thuốc với batch tiếp theo (13 dòng)
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                // Lấy danh sách thuốc từ cơ sở dữ liệu (13 dòng bắt đầu từ startIndex)
+                List<Thuoc> thuocList = ThuocDAO.getThuocBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
+                SwingUtilities.invokeLater(() -> {
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+                    // Chỉ thêm dữ liệu mới vào bảng, không xóa dữ liệu cũ
+                    for (Thuoc thuoc : thuocList) {
+                        model.addRow(new Object[]{
+                            thuoc.getId(),
+                            thuoc.getTenThuoc(),
+                            thuoc.getThanhPhan(),
+                            thuoc.getGiaNhap(),
+                            thuoc.getDonGia(),
+                            thuoc.getHsd(),
+                            thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen() : null,
+                            thuoc.getDonViTinh() != null ? thuoc.getDonViTinh().getTen() : null,
+                            thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen() : null,
+                            thuoc.getSoLuong()
+                        });
+                    }
+                });
+                return null;
+            }
+        };
+        worker.execute();
+    }
+
+    private void openFormThemThuoc() {
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        formThemThuoc dialog = new formThemThuoc(parentFrame, true);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+
+    private void openFormSuaThuoc() {
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        formSuaThuoc dialog = new formSuaThuoc(parentFrame, true);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -79,12 +140,10 @@ private void openFormSuaThuoc() {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "STT", "Mã thuốc", "Tên thuốc", "Thành phần", "Giá nhập", "Giá bán", "HSD", "Danh mục", "Đơn vị tính", "Xuất xứ", "Số lượng", "Ảnh"
+                "Mã thuốc", "Tên thuốc", "Thành phần", "Giá nhập", "Giá bán", "HSD", "Danh mục", "Đơn vị tính", "Xuất xứ", "Số lượng"
             }
         ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);

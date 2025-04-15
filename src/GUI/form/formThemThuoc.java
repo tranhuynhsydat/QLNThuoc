@@ -1,9 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package GUI.form;
+
+import DAO.DanhMucDAO;
+import DAO.DonViTinhDAO;
+import DAO.ThuocDAO;
+import DAO.XuatXuDAO;
+import Entity.DanhMuc;
+import Entity.DonViTinh;
+import Entity.Thuoc;
+import Entity.XuatXu;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Date;
+import java.util.List;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -11,12 +29,35 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
  */
 public class formThemThuoc extends javax.swing.JDialog {
 
+    private byte[] imageData = null;  // Biến lưu ảnh dưới dạng mảng byte
+
     /**
      * Creates new form formThemThuoc
      */
     public formThemThuoc(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        loadComboboxData();
+    }
+
+    private void loadComboboxData() {
+        // Lấy dữ liệu danh mục từ cơ sở dữ liệu và thêm vào comboDanhMuc
+        List<DanhMuc> danhMucList = DanhMucDAO.getDanhMucList();
+        for (DanhMuc dm : danhMucList) {
+            comboDanhMuc.addItem(dm.getTen());  // Thêm tên danh mục vào ComboBox
+        }
+
+        // Lấy dữ liệu đơn vị tính từ cơ sở dữ liệu và thêm vào comboDVT
+        List<DonViTinh> donViTinhList = DonViTinhDAO.getDonViTinhList();
+        for (DonViTinh dvt : donViTinhList) {
+            comboDVT.addItem(dvt.getTen());  // Thêm tên đơn vị tính vào ComboBox
+        }
+
+        // Lấy dữ liệu xuất xứ từ cơ sở dữ liệu và thêm vào comboXuatXu
+        List<XuatXu> xuatXuList = XuatXuDAO.getXuatXuList();
+        for (XuatXu xx : xuatXuList) {
+            comboXuatXu.addItem(xx.getTen());  // Thêm tên xuất xứ vào ComboBox
+        }
     }
 
     /**
@@ -39,61 +80,60 @@ public class formThemThuoc extends javax.swing.JDialog {
         jPanel24 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel25 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnThemAnh = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
         jPanel34 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jPanel35 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
+        txtTenThuoc = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtThanhPhan = new javax.swing.JTextArea();
         jPanel14 = new javax.swing.JPanel();
         jPanel29 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel30 = new javax.swing.JPanel();
-        jTextField4 = new javax.swing.JTextField();
+        txtGiaNhap = new javax.swing.JTextField();
         jPanel23 = new javax.swing.JPanel();
         jPanel31 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jPanel32 = new javax.swing.JPanel();
-        jTextField5 = new javax.swing.JTextField();
+        txtGiaBan = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        DateHSD = new com.toedter.calendar.JDateChooser();
         jPanel15 = new javax.swing.JPanel();
         jPanel36 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jPanel37 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboDanhMuc = new javax.swing.JComboBox<>();
         jPanel16 = new javax.swing.JPanel();
         jPanel38 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jPanel39 = new javax.swing.JPanel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        comboDVT = new javax.swing.JComboBox<>();
         jPanel21 = new javax.swing.JPanel();
         jPanel40 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jPanel41 = new javax.swing.JPanel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        comboXuatXu = new javax.swing.JComboBox<>();
         jPanel13 = new javax.swing.JPanel();
         jPanel27 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel28 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
+        txtSoLuong = new javax.swing.JTextField();
         bottomRoundedPanel2 = new Swing.BottomRoundedPanel();
         btnHuy = new javax.swing.JButton();
         btnThem = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(694, 544));
-        setPreferredSize(new java.awt.Dimension(720, 580));
 
         jPanel3.setBackground(new java.awt.Color(81, 219, 185));
         jPanel3.setPreferredSize(new java.awt.Dimension(634, 544));
@@ -156,10 +196,15 @@ public class formThemThuoc extends javax.swing.JDialog {
 
         jPanel22.add(jPanel24, java.awt.BorderLayout.PAGE_START);
 
-        jButton1.setBackground(new java.awt.Color(204, 204, 204));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setText("Thêm ảnh");
-        jButton1.setPreferredSize(new java.awt.Dimension(13, 13));
+        btnThemAnh.setBackground(new java.awt.Color(204, 204, 204));
+        btnThemAnh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnThemAnh.setText("Thêm ảnh");
+        btnThemAnh.setPreferredSize(new java.awt.Dimension(13, 13));
+        btnThemAnh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemAnhActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
         jPanel25.setLayout(jPanel25Layout);
@@ -167,14 +212,14 @@ public class formThemThuoc extends javax.swing.JDialog {
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addGap(83, 83, 83)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnThemAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(80, Short.MAX_VALUE))
         );
         jPanel25Layout.setVerticalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnThemAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -209,13 +254,13 @@ public class formThemThuoc extends javax.swing.JDialog {
         jPanel35.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField3.setPreferredSize(new java.awt.Dimension(250, 30));
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        txtTenThuoc.setPreferredSize(new java.awt.Dimension(250, 30));
+        txtTenThuoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                txtTenThuocActionPerformed(evt);
             }
         });
-        jPanel35.add(jTextField3);
+        jPanel35.add(txtTenThuoc);
 
         jPanel33.add(jPanel35, java.awt.BorderLayout.CENTER);
 
@@ -246,11 +291,11 @@ public class formThemThuoc extends javax.swing.JDialog {
 
         jScrollPane2.setPreferredSize(new java.awt.Dimension(250, 232));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setMinimumSize(new java.awt.Dimension(16, 16));
-        jTextArea1.setPreferredSize(new java.awt.Dimension(349, 32));
-        jScrollPane2.setViewportView(jTextArea1);
+        txtThanhPhan.setColumns(20);
+        txtThanhPhan.setRows(5);
+        txtThanhPhan.setMinimumSize(new java.awt.Dimension(16, 16));
+        txtThanhPhan.setPreferredSize(new java.awt.Dimension(349, 32));
+        jScrollPane2.setViewportView(txtThanhPhan);
 
         jPanel18.add(jScrollPane2);
 
@@ -281,8 +326,8 @@ public class formThemThuoc extends javax.swing.JDialog {
         jPanel30.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel30.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField4.setPreferredSize(new java.awt.Dimension(250, 30));
-        jPanel30.add(jTextField4);
+        txtGiaNhap.setPreferredSize(new java.awt.Dimension(250, 30));
+        jPanel30.add(txtGiaNhap);
 
         jPanel14.add(jPanel30, java.awt.BorderLayout.CENTER);
 
@@ -311,8 +356,8 @@ public class formThemThuoc extends javax.swing.JDialog {
         jPanel32.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel32.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField5.setPreferredSize(new java.awt.Dimension(250, 30));
-        jPanel32.add(jTextField5);
+        txtGiaBan.setPreferredSize(new java.awt.Dimension(250, 30));
+        jPanel32.add(txtGiaBan);
 
         jPanel23.add(jPanel32, java.awt.BorderLayout.CENTER);
 
@@ -340,8 +385,8 @@ public class formThemThuoc extends javax.swing.JDialog {
         jPanel20.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jDateChooser1.setPreferredSize(new java.awt.Dimension(88, 30));
-        jPanel20.add(jDateChooser1);
+        DateHSD.setPreferredSize(new java.awt.Dimension(88, 30));
+        jPanel20.add(DateHSD);
 
         jPanel9.add(jPanel20, java.awt.BorderLayout.CENTER);
 
@@ -369,13 +414,13 @@ public class formThemThuoc extends javax.swing.JDialog {
         jPanel37.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel37.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jComboBox1.setPreferredSize(new java.awt.Dimension(250, 22));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        comboDanhMuc.setPreferredSize(new java.awt.Dimension(250, 22));
+        comboDanhMuc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                comboDanhMucActionPerformed(evt);
             }
         });
-        jPanel37.add(jComboBox1);
+        jPanel37.add(comboDanhMuc);
 
         jPanel15.add(jPanel37, java.awt.BorderLayout.CENTER);
 
@@ -403,13 +448,13 @@ public class formThemThuoc extends javax.swing.JDialog {
         jPanel39.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel39.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jComboBox2.setPreferredSize(new java.awt.Dimension(250, 22));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        comboDVT.setPreferredSize(new java.awt.Dimension(250, 22));
+        comboDVT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                comboDVTActionPerformed(evt);
             }
         });
-        jPanel39.add(jComboBox2);
+        jPanel39.add(comboDVT);
 
         jPanel16.add(jPanel39, java.awt.BorderLayout.CENTER);
 
@@ -437,13 +482,13 @@ public class formThemThuoc extends javax.swing.JDialog {
         jPanel41.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel41.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jComboBox3.setPreferredSize(new java.awt.Dimension(250, 22));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+        comboXuatXu.setPreferredSize(new java.awt.Dimension(250, 22));
+        comboXuatXu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                comboXuatXuActionPerformed(evt);
             }
         });
-        jPanel41.add(jComboBox3);
+        jPanel41.add(comboXuatXu);
 
         jPanel21.add(jPanel41, java.awt.BorderLayout.CENTER);
 
@@ -471,9 +516,9 @@ public class formThemThuoc extends javax.swing.JDialog {
         jPanel28.setPreferredSize(new java.awt.Dimension(273, 34));
         jPanel28.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField2.setMinimumSize(new java.awt.Dimension(350, 22));
-        jTextField2.setPreferredSize(new java.awt.Dimension(250, 30));
-        jPanel28.add(jTextField2);
+        txtSoLuong.setMinimumSize(new java.awt.Dimension(350, 22));
+        txtSoLuong.setPreferredSize(new java.awt.Dimension(250, 30));
+        jPanel28.add(txtSoLuong);
 
         jPanel13.add(jPanel28, java.awt.BorderLayout.CENTER);
 
@@ -537,28 +582,109 @@ public class formThemThuoc extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+        // Lấy dữ liệu từ form
+        String tenThuoc = txtTenThuoc.getText();
+        String thanhPhan = txtThanhPhan.getText();
+        double giaNhap = Double.parseDouble(txtGiaNhap.getText());
+        double giaBan = Double.parseDouble(txtGiaBan.getText());
+        Date hsd = DateHSD.getDate();
+        String danhMuc = (String) comboDanhMuc.getSelectedItem();
+        String donViTinh = (String) comboDVT.getSelectedItem();
+        String xuatXu = (String) comboXuatXu.getSelectedItem();
+        int soLuong = Integer.parseInt(txtSoLuong.getText());
+
+        // Lấy mã danh mục, đơn vị tính, và xuất xứ từ cơ sở dữ liệu
+        String maDanhMuc = DanhMucDAO.getMaDanhMucByTen(danhMuc);  // Lấy mã danh mục
+        String maDVT = DonViTinhDAO.getMaDonViTinhByTen(donViTinh);  // Lấy mã đơn vị tính
+        String maXuatXu = XuatXuDAO.getMaXuatXuByTen(xuatXu);  // Lấy mã xuất xứ
+
+        // Tạo đối tượng Thuoc
+        Thuoc thuoc = new Thuoc(
+                ThuocDAO.TaoMaThuoc(), // Mã thuốc tự động
+                tenThuoc,
+                imageData, // Lưu ảnh dưới dạng byte[]
+                thanhPhan,
+                new DanhMuc(maDanhMuc, danhMuc), // Tạo đối tượng DanhMuc từ mã
+                new DonViTinh(maDVT, donViTinh), // Tạo đối tượng DonViTinh từ mã
+                new XuatXu(maXuatXu, xuatXu), // Tạo đối tượng XuatXu từ mã
+                soLuong,
+                giaNhap,
+                giaBan,
+                hsd
+        );
+
+        // Thêm thuốc vào cơ sở dữ liệu
+        if (ThuocDAO.them(thuoc)) {
+            JOptionPane.showMessageDialog(this, "Thêm thuốc thành công!");
+            dispose();  // Đóng form thêm thuốc
+        } else {
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi thêm thuốc.");
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void txtTenThuocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenThuocActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_txtTenThuocActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void comboDanhMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboDanhMucActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_comboDanhMucActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void comboDVTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboDVTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_comboDVTActionPerformed
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+    private void comboXuatXuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboXuatXuActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+    }//GEN-LAST:event_comboXuatXuActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-       dispose();
+        dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
+
+    private void btnThemAnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemAnhActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn ảnh thuốc");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("JPG, PNG, JPEG, SVG", "jpg", "png", "jpeg", "svg"));
+
+        int returnValue = fileChooser.showOpenDialog(this);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+
+            try {
+                // Đọc ảnh từ file và chuyển thành BufferedImage
+                BufferedImage img = ImageIO.read(selectedFile);
+
+                // Hiển thị ảnh lên JLabel
+                int labelWidth = jLabel2.getWidth();
+                int labelHeight = jLabel2.getHeight();
+                double aspectRatio = (double) img.getWidth() / img.getHeight();
+                int newWidth = labelWidth;
+                int newHeight = (int) (labelWidth / aspectRatio);
+
+                if (newHeight > labelHeight) {
+                    newHeight = labelHeight;
+                    newWidth = (int) (labelHeight * aspectRatio);
+                }
+
+                Image scaledImage = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+                jLabel2.setIcon(new ImageIcon(scaledImage));
+
+                // Chuyển đổi ảnh thành mảng byte
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(img, "png", baos);
+                baos.flush();
+                byte[] imageData = baos.toByteArray();
+                baos.close();
+
+                // Lưu mảng byte vào biến toàn cục hoặc chuyển sang phương thức thêm thuốc
+                this.imageData = imageData;  // Lưu ảnh vào một biến toàn cục
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnThemAnhActionPerformed
 
     /**
      * @param args the command line arguments
@@ -603,15 +729,15 @@ public class formThemThuoc extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser DateHSD;
     private Swing.BottomRoundedPanel bottomRoundedPanel1;
     private Swing.BottomRoundedPanel bottomRoundedPanel2;
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JButton btnThemAnh;
+    private javax.swing.JComboBox<String> comboDVT;
+    private javax.swing.JComboBox<String> comboDanhMuc;
+    private javax.swing.JComboBox<String> comboXuatXu;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -657,13 +783,17 @@ public class formThemThuoc extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JLabel lblThemThuoc;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
+    private javax.swing.JTextField txtGiaBan;
+    private javax.swing.JTextField txtGiaNhap;
+    private javax.swing.JTextField txtSoLuong;
+    private javax.swing.JTextField txtTenThuoc;
+    private javax.swing.JTextArea txtThanhPhan;
     // End of variables declaration//GEN-END:variables
+
+    private void ThemCombobox() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

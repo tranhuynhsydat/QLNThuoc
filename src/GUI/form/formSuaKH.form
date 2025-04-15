@@ -228,7 +228,7 @@
                             <Property name="verticalGap" type="int" value="17"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JTextField" name="txtHoTen1">
+                            <Component class="javax.swing.JTextField" name="txtHoTen">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[350, 22]"/>
@@ -297,15 +297,15 @@
                                 <Property name="verticalGap" type="int" value="17"/>
                               </Layout>
                               <SubComponents>
-                                <Component class="javax.swing.JRadioButton" name="jRadioButton1">
+                                <Component class="javax.swing.JRadioButton" name="rbtnNam">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="Nam"/>
                                   </Properties>
                                   <Events>
-                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton1ActionPerformed"/>
+                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtnNamActionPerformed"/>
                                   </Events>
                                 </Component>
-                                <Component class="javax.swing.JRadioButton" name="jRadioButton2">
+                                <Component class="javax.swing.JRadioButton" name="rbtnNu">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="N&#x1eef;"/>
                                   </Properties>
@@ -374,14 +374,7 @@
                             <Property name="verticalGap" type="int" value="17"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JTextField" name="txtHoTen2">
-                              <Properties>
-                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[350, 22]"/>
-                                </Property>
-                              </Properties>
-                            </Component>
-                            <Component class="javax.swing.JTextField" name="txtHoTen3">
+                            <Component class="javax.swing.JTextField" name="txtSDT">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[350, 22]"/>
@@ -443,7 +436,7 @@
                             <Property name="verticalGap" type="int" value="17"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JTextField" name="txtHoTen4">
+                            <Component class="javax.swing.JTextField" name="txtTuoi">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[350, 22]"/>
@@ -526,6 +519,9 @@
                           <Dimension value="[90, 35]"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHuyActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnThem">
                       <Properties>
