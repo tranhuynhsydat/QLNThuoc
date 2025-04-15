@@ -34,7 +34,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class formSuaThuoc extends javax.swing.JDialog {
 
-    private byte[] imageData;
+    private byte[] imageData = null;
 
     /**
      * Creates new form formSuaThuoc
@@ -43,12 +43,14 @@ public class formSuaThuoc extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+
     public formSuaThuoc(JFrame parentFrame, boolean modal, String maThuoc) {
         super(parentFrame, modal);
         initComponents();
         loadComboboxData();
         loadThongTinThuoc(maThuoc);
     }
+
     private void loadComboboxData() {
         // Lấy dữ liệu danh mục từ cơ sở dữ liệu và thêm vào comboDanhMuc
         List<DanhMuc> danhMucList = DanhMucDAO.getDanhMucList();
@@ -68,7 +70,9 @@ public class formSuaThuoc extends javax.swing.JDialog {
             cboXX.addItem(xx.getTen());  // Thêm tên xuất xứ vào ComboBox
         }
     }
+
     private void loadThongTinThuoc(String maThuoc) {
+        System.out.println("Đang truy vấn thuốc với mã: " + maThuoc);
         // Truy vấn thông tin thuốc từ cơ sở dữ liệu
         Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(maThuoc);
 
@@ -86,15 +90,16 @@ public class formSuaThuoc extends javax.swing.JDialog {
 
             // Kiểm tra xem ảnh có null không
             if (thuoc.getHinhAnh() != null) {
-                // Nếu ảnh không null, hiển thị ảnh thuốc
                 ImageIcon anhThuoc = new ImageIcon(thuoc.getHinhAnh());
                 lblAnhThuoc.setIcon(anhThuoc);
             } else {
-                // Nếu ảnh null, hiển thị ảnh mặc định
                 lblAnhThuoc.setIcon(new FlatSVGIcon("./icon/image.svg"));
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy thuốc với mã " + maThuoc);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -627,48 +632,53 @@ public class formSuaThuoc extends javax.swing.JDialog {
     }//GEN-LAST:event_cboXXActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        // TODO add your handling code here:
-        String tenThuoc = txtTenThuoc.getText();
-        String thanhPhan = txtThanhPhan.getText();
-        double giaNhap = Double.parseDouble(txtGiaNhap.getText());
-        double giaBan = Double.parseDouble(txtGiaBan.getText());
-        Date hsd = DateHSD.getDate();
-        String danhMuc = (String) cboDanhMuc.getSelectedItem();
-        String donViTinh = (String) cboDVT.getSelectedItem();
-        String xuatXu = (String) cboXX.getSelectedItem();
-        int soLuong = Integer.parseInt(txtSoLuong.getText());
+        try {
+            // Lấy dữ liệu từ form
+            String tenThuoc = txtTenThuoc.getText();
+            String thanhPhan = txtThanhPhan.getText();
+            double giaNhap = Double.parseDouble(txtGiaNhap.getText());
+            double giaBan = Double.parseDouble(txtGiaBan.getText());
+            Date hsd = DateHSD.getDate();  // Hạn sử dụng
+            String danhMuc = (String) cboDanhMuc.getSelectedItem();
+            String donViTinh = (String) cboDVT.getSelectedItem();
+            String xuatXu = (String) cboXX.getSelectedItem();
+            int soLuong = Integer.parseInt(txtSoLuong.getText());
 
-        // Lấy mã danh mục, đơn vị tính, và xuất xứ từ cơ sở dữ liệu
-        String maDanhMuc = DanhMucDAO.getMaDanhMucByTen(danhMuc);  // Lấy mã danh mục
-        String maDVT = DonViTinhDAO.getMaDonViTinhByTen(donViTinh);  // Lấy mã đơn vị tính
-        String maXuatXu = XuatXuDAO.getMaXuatXuByTen(xuatXu);  // Lấy mã xuất xứ
+            // Lấy mã danh mục, đơn vị tính, và xuất xứ từ cơ sở dữ liệu
+            String maDanhMuc = DanhMucDAO.getMaDanhMucByTen(danhMuc);  // Lấy mã danh mục
+            String maDVT = DonViTinhDAO.getMaDonViTinhByTen(donViTinh);  // Lấy mã đơn vị tính
+            String maXuatXu = XuatXuDAO.getMaXuatXuByTen(xuatXu);  // Lấy mã xuất xứ
 
-        // Tạo đối tượng Thuoc
-        Thuoc thuoc = new Thuoc(
-                ThuocDAO.TaoMaThuoc(), // Mã thuốc tự động
-                tenThuoc,
-                imageData, // Lưu ảnh dưới dạng byte[]
-                thanhPhan,
-                new DanhMuc(maDanhMuc, danhMuc), // Tạo đối tượng DanhMuc từ mã
-                new DonViTinh(maDVT, donViTinh), // Tạo đối tượng DonViTinh từ mã
-                new XuatXu(maXuatXu, xuatXu), // Tạo đối tượng XuatXu từ mã
-                soLuong,
-                giaNhap,
-                giaBan,
-                hsd
-        );
+            // Tạo đối tượng Thuoc
+            Thuoc thuoc = new Thuoc(
+                    ThuocDAO.TaoMaThuoc(), // Lấy mã thuốc
+                    tenThuoc,
+                    imageData, // Lưu ảnh dưới dạng byte[]
+                    thanhPhan,
+                    new DanhMuc(maDanhMuc, danhMuc),
+                    new DonViTinh(maDVT, donViTinh),
+                    new XuatXu(maXuatXu, xuatXu),
+                    soLuong,
+                    giaNhap,
+                    giaBan,
+                    hsd
+            );
 
-        // Thêm thuốc vào cơ sở dữ liệu
-        if (ThuocDAO.sua(thuoc)) {
-            JOptionPane.showMessageDialog(this, "Sửa thuốc thành công!");
-            dispose();  // Đóng form thêm thuốc
-        } else {
-            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi sửa thuốc.");
+            // Cập nhật thông tin thuốc vào cơ sở dữ liệu
+            if (ThuocDAO.sua(thuoc)) {
+                JOptionPane.showMessageDialog(this, "Sửa thuốc thành công!");
+                dispose();  // Đóng form sửa thuốc
+            } else {
+                JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi sửa thuốc.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi sửa thuốc. Vui lòng kiểm tra lại dữ liệu.");
         }
+
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnThemAnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemAnhActionPerformed
-        // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Chọn ảnh thuốc");
         fileChooser.setFileFilter(new FileNameExtensionFilter("JPG, PNG, JPEG, SVG", "jpg", "png", "jpeg", "svg"));
@@ -703,7 +713,7 @@ public class formSuaThuoc extends javax.swing.JDialog {
                 byte[] imageData = baos.toByteArray();
                 baos.close();
 
-                // Lưu mảng byte vào biến toàn cục hoặc chuyển sang phương thức thêm thuốc
+                // Lưu mảng byte vào biến toàn cục hoặc chuyển sang phương thức sửa thuốc
                 this.imageData = imageData;  // Lưu ảnh vào một biến toàn cục
 
             } catch (IOException e) {

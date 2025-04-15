@@ -26,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class frmThuocCapNhat extends javax.swing.JPanel {
 
-    private int startIndex;
+    private int startIndex = 0;
 
     /**
      * Creates new form frmThuoc
@@ -34,9 +34,7 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
     public frmThuocCapNhat() {
         initComponents();
         configureTable();
-        startIndex = 0;
         loadDataToTable();
-        // Thêm sự kiện cuộn bảng
         jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
             JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
             int max = vertical.getMaximum();
@@ -48,7 +46,6 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
                 startIndex += 13;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
                 loadDataToTable();  // Tải thêm dữ liệu
             }
-
         });
 
     }
@@ -75,27 +72,40 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                // Lấy danh sách thuốc từ cơ sở dữ liệu (13 dòng bắt đầu từ startIndex)
                 List<Thuoc> thuocList = ThuocDAO.getThuocBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
-                SwingUtilities.invokeLater(() -> {
-                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                System.out.println("Dữ liệu nhận được từ DB: " + thuocList.size() + " dòng");
 
-                    // Chỉ thêm dữ liệu mới vào bảng, không xóa dữ liệu cũ
-                    for (Thuoc thuoc : thuocList) {
-                        model.addRow(new Object[]{
-                            thuoc.getId(),
-                            thuoc.getTenThuoc(),
-                            thuoc.getThanhPhan(),
-                            thuoc.getGiaNhap(),
-                            thuoc.getDonGia(),
-                            thuoc.getHsd(),
-                            thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen() : null,
-                            thuoc.getDonViTinh() != null ? thuoc.getDonViTinh().getTen() : null,
-                            thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen() : null,
-                            thuoc.getSoLuong()
-                        });
-                    }
-                });
+                if (thuocList == null || thuocList.isEmpty()) {
+                    System.out.println("Không có dữ liệu để tải.");
+                } else {
+                    SwingUtilities.invokeLater(() -> {
+                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                        if (startIndex == 0) {
+                            model.setRowCount(0);  // Xóa tất cả dữ liệu hiện tại trong bảng khi tải lại từ đầu
+                        }
+
+                        // Thêm dữ liệu mới vào bảng
+                        for (Thuoc thuoc : thuocList) {
+                            Object[] rowData = {
+                                thuoc.getId(),
+                                thuoc.getTenThuoc(),
+                                thuoc.getThanhPhan(),
+                                thuoc.getGiaNhap(),
+                                thuoc.getDonGia(),
+                                thuoc.getHsd(),
+                                thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen() : null,
+                                thuoc.getDonViTinh() != null ? thuoc.getDonViTinh().getTen() : null,
+                                thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen() : null,
+                                thuoc.getSoLuong()
+                            };
+                            model.addRow(rowData);  // Thêm dòng vào bảng
+                        }
+
+                        model.fireTableDataChanged();  // Đảm bảo bảng được làm mới
+                        jTable1.revalidate();  // Cập nhật lại bảng
+                        jTable1.repaint();  // Vẽ lại bảng
+                    });
+                }
                 return null;
             }
         };
@@ -210,29 +220,6 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        formThemThuoc dialog = new formThemThuoc(parentFrame, true);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);    }//GEN-LAST:event_btnThemActionPerformed
-
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        // TODO add your handling code here:
-        int selectedRow = jTable1.getSelectedRow();
-        if (selectedRow != -1) {
-            String maThuoc = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
-
-            // Mở form sửa nhân viên và truyền mã nhân viên vào constructor
-            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            formSuaThuoc dialog = new formSuaThuoc(parentFrame, true, maThuoc);  // Truyền mã nhân viên vào constructor
-            dialog.setLocationRelativeTo(this);
-            dialog.setVisible(true);
-            loadDataToTable();  // Gọi lại phương thức để làm mới bảng
-        } else {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn thuốc để sửa!");
-        }
-    }//GEN-LAST:event_btnSuaActionPerformed
-
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
         int selectedRow = jTable1.getSelectedRow();
@@ -249,6 +236,9 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
                 // Gọi hàm xóa nhân viên trong DAO
                 if (ThuocDAO.xoa(maThuoc)) {
                     JOptionPane.showMessageDialog(this, "Xóa thuốc thành công!");
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    model.setRowCount(0);
+                    startIndex = 0;
                     loadDataToTable();  // Làm mới bảng sau khi xóa
                 } else {
                     JOptionPane.showMessageDialog(this, "Xóa thuốc thất bại!");
@@ -258,6 +248,33 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn thuốc để xóa!");
         }
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        formThemThuoc dialog = new formThemThuoc(parentFrame, true);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        startIndex = 0;
+        loadDataToTable();
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            String maThuoc = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã thuốc từ cột đầu tiên
+
+            // Mở form sửa thuốc và truyền mã thuốc vào constructor
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            formSuaThuoc dialog = new formSuaThuoc(parentFrame, true, maThuoc);  // Truyền mã thuốc vào constructor
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+            loadDataToTable();  // Gọi lại phương thức để làm mới bảng
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn thuốc để sửa!");
+        }
+    }//GEN-LAST:event_btnSuaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
