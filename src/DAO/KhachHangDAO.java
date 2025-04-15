@@ -154,4 +154,31 @@ public class KhachHangDAO {
         }
         return false;
     }
+    public static List<KhachHang> getKhachHangBatch(int start, int limit) {
+    List<KhachHang> danhSachKhachHang = new ArrayList<>();
+    String sql = "SELECT * FROM KhachHang ORDER BY maKH OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // SQL Server syntax
+
+    try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, start);  // Chỉ mục bắt đầu (OFFSET)
+        ps.setInt(2, limit);  // Số dòng cần lấy (FETCH NEXT)
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                KhachHang kh = new KhachHang(
+                        rs.getString("maKH"),
+                        rs.getString("tenKH"),
+                        rs.getString("gioiTinh"),
+                        rs.getString("sdt"),
+                        rs.getInt("tuoi")
+                );
+                danhSachKhachHang.add(kh);  // Thêm nhân viên vào danh sách
+            }
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return danhSachKhachHang;
+}
 }
