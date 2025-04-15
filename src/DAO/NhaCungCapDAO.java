@@ -151,4 +151,27 @@ public class NhaCungCapDAO {
         }
         return false;
     }
+    public static List<NhaCungCap> getThuocBatch(int start, int limit) {
+        List<NhaCungCap> danhSachNhaCungCap = new ArrayList<>();
+        String sql = "SELECT * FROM Thuoc ORDER BY maNCC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // Sử dụng cú pháp đúng cho SQL Server
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, start);  // Chỉ mục bắt đầu (OFFSET)
+            ps.setInt(2, limit);  // Số dòng cần lấy (FETCH NEXT)
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String maNCC = rs.getString("maNCC");
+                    String tenNCC = rs.getString("tenNCC");
+                    String diaChiNCC = rs.getString("diaChiNCC");
+                    String sdt = rs.getString("SDT");
+                    // Thêm thuốc vào danh sách
+                    danhSachNhaCungCap.add(new NhaCungCap(maNCC, tenNCC, diaChiNCC, sdt));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return danhSachNhaCungCap;
+    }
 }
