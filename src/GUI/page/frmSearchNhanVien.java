@@ -4,19 +4,95 @@
  */
 package GUI.page;
 
+import DAO.NhanVienDAO;
+import Entity.NhanVien;
+import GUI.form.formThongTinKH;
+import GUI.form.formThongTinNV;
+import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Admin
  */
 public class frmSearchNhanVien extends javax.swing.JPanel {
 
+    private int startIndex;
+
     /**
      * Creates new form frmSearchNhanVien
      */
     public frmSearchNhanVien() {
         initComponents();
+        configureTable();
+        startIndex = 0;
+         loadDataToTable();
+         // Thêm sự kiện cuộn bảng
+         jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
+             JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
+             int max = vertical.getMaximum();
+             int current = vertical.getValue();
+             int visible = vertical.getVisibleAmount();
+ 
+             // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
+             if (current + visible >= max) {
+                 startIndex += 13 ; // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                 loadDataToTable();  // Tải thêm dữ liệu
+            }
+         });
     }
-
+    private void configureTable() {
+         // Ngăn không cho phép người dùng chỉnh sửa bảng
+         jTable1.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
+ 
+         // Căn giữa cho tất cả các cell trong bảng
+         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+ 
+         // Căn giữa cho từng cột
+         for (int i = 0; i < jTable1.getColumnCount(); i++) {
+             jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+         }
+ 
+         // Ngăn không cho phép chọn nhiều dòng
+         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+     }
+    private void loadDataToTable() {
+         // Lấy dữ liệu thuốc với batch tiếp theo (10 dòng)
+         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+             @Override
+             protected Void doInBackground() throws Exception {
+                 // Lấy danh sách NCC từ cơ sở dữ liệu (10 dòng bắt đầu từ startIndex)
+                 List<NhanVien> nvList = NhanVienDAO.getNhanVienBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
+                 SwingUtilities.invokeLater(() -> {
+                     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+ 
+                     // Chỉ thêm dữ liệu mới vào bảng, không xóa dữ liệu cũ
+                     for (NhanVien nv : nvList) {
+                         model.addRow(new Object[]{
+                            nv.getId(),
+                            nv.getHoTen(),
+                            nv.getSdt(),
+                            nv.getGioiTinh(),
+                            nv.getDtSinh(),
+                            nv.getNgayVaoLam(),
+                            nv.getCccd(),
+                            nv.getChucVu()
+                         });
+                     }
+                 });
+                 return null;
+             }
+         };
+         worker.execute();
+     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -355,21 +431,14 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         jPanel32.setPreferredSize(new java.awt.Dimension(824, 174));
         jPanel32.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(824, 174));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(824, 174));
-
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "STT", "Mã NV", "Tên NV", "SĐT ", "Giới tính", "Ngày sinh", "Ngày vào làm", "Chức vụ"
+                "Mã NV", "Họ tên", "SĐT", "Giới tính", "Ngày sinh", "Ngày vào làm", "Chức vụ", "CCCD"
             }
         ));
-        jTable1.setMinimumSize(new java.awt.Dimension(824, 174));
-        jTable1.setPreferredSize(new java.awt.Dimension(824, 174));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable1);
@@ -408,6 +477,11 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
         btnChiTiet.setMaximumSize(new java.awt.Dimension(85, 35));
         btnChiTiet.setMinimumSize(new java.awt.Dimension(85, 35));
         btnChiTiet.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnChiTiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChiTietActionPerformed(evt);
+            }
+        });
         btnPanel.add(btnChiTiet);
 
         add(btnPanel, java.awt.BorderLayout.SOUTH);
@@ -420,6 +494,24 @@ public class frmSearchNhanVien extends javax.swing.JPanel {
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTimKiemActionPerformed
+
+    private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();  // Lấy dòng được chọn trong bảng
+
+        if (selectedRow != -1) {
+            // Lấy mã thuốc từ cột đầu tiên (mã thuốc)
+            String maNV = jTable1.getValueAt(selectedRow, 0).toString();
+
+            // Mở form "Thông tin thuốc" và truyền mã thuốc vào constructor
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            formThongTinNV dialog = new formThongTinNV(parentFrame, true, maNV);  // Truyền mã thuốc vào constructor
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên để xem chi tiết!");
+        }
+    }//GEN-LAST:event_btnChiTietActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
