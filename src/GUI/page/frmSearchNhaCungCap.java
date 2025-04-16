@@ -109,17 +109,17 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         jPanel22 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel23 = new javax.swing.JPanel();
-        jTextField6 = new javax.swing.JTextField();
+        txtTenNCC = new javax.swing.JTextField();
         jPanel13 = new javax.swing.JPanel();
         jPanel24 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel25 = new javax.swing.JPanel();
-        jTextField7 = new javax.swing.JTextField();
+        txtDiaChi = new javax.swing.JTextField();
         jPanel14 = new javax.swing.JPanel();
         jPanel26 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel27 = new javax.swing.JPanel();
-        jTextField8 = new javax.swing.JTextField();
+        txtSDT = new javax.swing.JTextField();
         jPanel15 = new javax.swing.JPanel();
         jPanel28 = new javax.swing.JPanel();
         jPanel29 = new javax.swing.JPanel();
@@ -190,8 +190,8 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         jPanel23.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel23.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField6.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel23.add(jTextField6);
+        txtTenNCC.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel23.add(txtTenNCC);
 
         jPanel12.add(jPanel23, java.awt.BorderLayout.CENTER);
 
@@ -217,8 +217,8 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         jPanel25.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel25.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField7.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel25.add(jTextField7);
+        txtDiaChi.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel25.add(txtDiaChi);
 
         jPanel13.add(jPanel25, java.awt.BorderLayout.CENTER);
 
@@ -244,8 +244,8 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
         jPanel27.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel27.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        jTextField8.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel27.add(jTextField8);
+        txtSDT.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel27.add(txtSDT);
 
         jPanel14.add(jPanel27, java.awt.BorderLayout.CENTER);
 
@@ -341,7 +341,30 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
-        
+        String tenNCC = txtTenNCC.getText().trim();  // Họ tên
+        String diaChi = txtDiaChi.getText().trim();
+        String sdt = txtSDT.getText().trim();  // SĐT
+        // Tìm kiếm nhân viên theo các tiêu chí
+        List<NhaCungCap> results = NhaCungCapDAO.searchNhaCungCap(tenNCC, diaChi, sdt);
+
+        // Cập nhật bảng với kết quả tìm kiếm
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);  // Xóa dữ liệu cũ trong bảng
+
+        // Thêm kết quả tìm kiếm vào bảng
+        for (NhaCungCap ncc: results) {
+            model.addRow(new Object[]{
+                ncc.getId(),
+                ncc.getTenNhaCungCap(),
+                ncc.getDiaChi(),
+                ncc.getSdt(),
+            });
+        }
+
+        // Nếu không có kết quả, hiển thị thông báo
+        if (results.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy nhà cung cấp phù hợp!");
+        }
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
@@ -394,9 +417,9 @@ public class frmSearchNhaCungCap extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField txtDiaChi;
+    private javax.swing.JTextField txtSDT;
+    private javax.swing.JTextField txtTenNCC;
     // End of variables declaration//GEN-END:variables
 
     private void formThongTinNCC() {

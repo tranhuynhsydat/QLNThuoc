@@ -3,44 +3,105 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package GUI.page;
-
+import DAO.TaiKhoanDAO;
+import Entity.TaiKhoan;
 import GUI.form.formThemNCC;
 import GUI.form.formSuaNV;
 import GUI.form.formSuaTK;
 import GUI.form.formThemNV;
 import GUI.form.formThemTK;
 import javax.swing.JFrame;
+import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
-
+ import javax.swing.SwingWorker;
+ import javax.swing.table.DefaultTableCellRenderer;
+ import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author roxan
  */
 public class frmTaiKhoanCapNhat extends javax.swing.JPanel {
 
+    private int startIndex = 0;
     /**
      * Creates new form NewJPanel
      */
     public frmTaiKhoanCapNhat() {
         initComponents();
-        btnThem.addActionListener(evt -> openFormThemTK());
-        btnSua.addActionListener(evt -> openFormSuaTK());
+        configureTable();
+         loadDataToTable();
+         jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
+             JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
+             int max = vertical.getMaximum();
+             int current = vertical.getValue();
+             int visible = vertical.getVisibleAmount();
+ 
+             // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
+             if (current + visible >= max) {
+                 startIndex += 13;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                 loadDataToTable();  // Tải thêm dữ liệu
+             }
+         });
     }
-    
-private void openFormThemTK() {
-    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-    formThemTK dialog = new formThemTK(parentFrame, true);
-    dialog.setLocationRelativeTo(this); 
-    dialog.setVisible(true); 
-}
+    private void configureTable() {
+         // Ngăn không cho phép người dùng chỉnh sửa bảng
+         jTable1.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
 
-private void openFormSuaTK() {
-    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-    formSuaTK dialog = new formSuaTK(parentFrame, true);
-    dialog.setLocationRelativeTo(this); 
-    dialog.setVisible(true); 
-}
-
+        // Căn giữa cho tất cả các cell trong bảng
+         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+ 
+         // Căn giữa cho từng cột
+         for (int i = 0; i < jTable1.getColumnCount(); i++) {
+             jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+         }
+ 
+         // Ngăn không cho phép chọn nhiều dòng
+         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+     }
+ 
+     private void loadDataToTable() {
+         // Lấy dữ liệu thuốc với batch tiếp theo (13 dòng)
+         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+             @Override
+             protected Void doInBackground() throws Exception {
+                 List<TaiKhoan> TaiKhoanList = TaiKhoanDAO.getTaiKhoanBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
+                 System.out.println("Dữ liệu nhận được từ DB: " + TaiKhoanList.size() + " dòng");
+ 
+                 if (TaiKhoanList == null || TaiKhoanList.isEmpty()) {
+                     System.out.println("Không có dữ liệu để tải.");
+                 } else {
+                     SwingUtilities.invokeLater(() -> {
+                         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                         if (startIndex == 0) {
+                             model.setRowCount(0);  // Xóa tất cả dữ liệu hiện tại trong bảng khi tải lại từ đầu
+                         }
+ 
+                         // Thêm dữ liệu mới vào bảng
+                         for (TaiKhoan tk : TaiKhoanList) {
+                             Object[] rowData = {
+                                 tk.getId(),
+                                 tk.getUsername(),
+                                 tk.getPassword(),
+                                 tk.getNhanVien() != null ? tk.getNhanVien().getHoTen(): null,
+                                 tk.getNhanVien() != null ? tk.getNhanVien().getChucVu(): null,
+                                 
+                             };
+                             model.addRow(rowData);  // Thêm dòng vào bảng
+                         }
+ 
+                         model.fireTableDataChanged();  // Đảm bảo bảng được làm mới
+                         jTable1.revalidate();  // Cập nhật lại bảng
+                         jTable1.repaint();  // Vẽ lại bảng
+                     });
+                 }
+                 return null;
+             }
+         };
+         worker.execute();
+     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,13 +145,10 @@ private void openFormSuaTK() {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"TK-000", "admin", "Đinh Ngọc Dĩ Hào", "Quản lý"},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Mã tài khoản", "Tên tài khoản", "Tên nhân viên", "chức vụ"
+                "Mã tài khoản", "Tên tài khoản", "Password", "Tên nhân viên", "Chức vụ"
             }
         ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -98,8 +156,6 @@ private void openFormSuaTK() {
         jScrollPane1.setViewportView(jTable1);
 
         tablePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        add(tablePanel, java.awt.BorderLayout.CENTER);
 
         btnPanel.setBackground(new java.awt.Color(222, 222, 222));
         btnPanel.setPreferredSize(new java.awt.Dimension(829, 50));
@@ -141,11 +197,21 @@ private void openFormSuaTK() {
         btnXoa.setPreferredSize(new java.awt.Dimension(105, 35));
         btnPanel.add(btnXoa);
 
-        add(btnPanel, java.awt.BorderLayout.PAGE_END);
+        tablePanel.add(btnPanel, java.awt.BorderLayout.PAGE_END);
+
+        add(tablePanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        formThemTK dialog = new formThemTK(parentFrame, true);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        startIndex = 0;
+        loadDataToTable();
     }//GEN-LAST:event_btnThemActionPerformed
 
 
