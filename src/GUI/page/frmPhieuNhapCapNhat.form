@@ -71,7 +71,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Th&#xf4;ng tin h&#xf3;a &#x111;&#x1a1;n nh&#x1ead;p"/>
+                <Property name="text" type="java.lang.String" value="Danh s&#xe1;ch phi&#x1ebf;u nh&#x1ead;p"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
               </Properties>
               <Constraints>
@@ -94,16 +94,42 @@
             <Component class="javax.swing.JTable" name="jTable1">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="8" rowCount="0">
-                    <Column editable="true" title="M&#xe3; NV" type="java.lang.Object"/>
+                  <Table columnCount="5" rowCount="0">
+                    <Column editable="true" title="M&#xe3; phi&#x1ebf;u nh&#x1ead;p" type="java.lang.Object"/>
                     <Column editable="true" title="T&#xea;n NV" type="java.lang.Object"/>
-                    <Column editable="true" title="S&#x110;T" type="java.lang.Object"/>
-                    <Column editable="true" title="Gi&#x1edb;i t&#xed;nh" type="java.lang.Object"/>
-                    <Column editable="true" title="Ng&#xe0;y sinh" type="java.lang.Object"/>
-                    <Column editable="true" title="Ng&#xe0;y v&#xe0;o l&#xe0;m" type="java.lang.Object"/>
-                    <Column editable="true" title="Ch&#x1ee9;c v&#x1ee5;" type="java.lang.Object"/>
-                    <Column editable="true" title="CCCD" type="java.lang.Object"/>
+                    <Column editable="true" title="T&#xea;n NCC" type="java.lang.Object"/>
+                    <Column editable="true" title="Tr&#x1ea1;ng th&#xe1;i phi&#x1ebf;u" type="java.lang.Object"/>
+                    <Column editable="true" title="Th&#x1edd;i gian l&#x1ead;p" type="java.lang.Object"/>
                   </Table>
+                </Property>
+                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                  <TableColumnModel selectionModel="0">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                  </TableColumnModel>
                 </Property>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Default Cursor"/>
@@ -111,6 +137,9 @@
                 <Property name="dragEnabled" type="boolean" value="true"/>
                 <Property name="selectionMode" type="int" value="0"/>
                 <Property name="showHorizontalLines" type="boolean" value="true"/>
+                <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                  <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                </Property>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="frmNhanVienCapNhat_jTable1"/>

@@ -5,7 +5,10 @@
 package GUI.page;
 
 import DAO.NhanVienDAO;
+import DAO.PhieuNhapDAO;
+
 import Entity.NhanVien;
+import Entity.PhieuNhap;
 import GUI.form.formThemNCC;
 import GUI.form.formSuaNV;
 import GUI.form.formThemNV;
@@ -72,9 +75,9 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         @Override
         protected Void doInBackground() throws Exception {
             startIndex=0;
-            List<NhanVien> danhSachNhanVien = NhanVienDAO.getNhanVienBatch(startIndex, 10); // Tải thêm dữ liệu
-            System.out.println("Dữ liệu nhận được từ DB: " + danhSachNhanVien.size() + " dòng");
-            if (danhSachNhanVien == null || danhSachNhanVien.isEmpty()) {
+            List<PhieuNhap> danhSachPhieuNhap = PhieuNhapDAO.getPhieuNhapBatch(startIndex, 10); // Tải thêm dữ liệu
+            System.out.println("Dữ liệu nhận được từ DB: " + danhSachPhieuNhap.size() + " dòng");
+            if (danhSachPhieuNhap == null || danhSachPhieuNhap.isEmpty()) {
                 System.out.println("Không có dữ liệu để tải.");
             } else {
                 SwingUtilities.invokeLater(() -> {
@@ -82,16 +85,13 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
                     model.setRowCount(0);  // Xóa dữ liệu cũ trong bảng
 
                     // Thêm dữ liệu mới vào bảng
-                    for (NhanVien nv : danhSachNhanVien) {
+                    for (PhieuNhap pn : danhSachPhieuNhap) {
                         Object[] rowData = {
-                            nv.getId(),
-                            nv.getHoTen(),
-                            nv.getSdt(),
-                            nv.getGioiTinh(),
-                            nv.getDtSinh(),
-                            nv.getNgayVaoLam(),
-                            nv.getCccd(),
-                            nv.getChucVu()
+                            pn.getMaPN(),
+                            pn.getNhanVien()!= null ? pn.getNhanVien().getHoTen(): null,
+                            pn.getNhaCungCap()!= null ? pn.getNhaCungCap().getTenNhaCungCap(): null,
+                            pn.getTrangThai(),
+                            pn.getThoiGian(),
                         };
                         model.addRow(rowData);  // Thêm dòng vào bảng
                     }
@@ -144,7 +144,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Thông tin hóa đơn nhập");
+        jLabel2.setText("Danh sách phiếu nhập");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(jLabel2, java.awt.BorderLayout.CENTER);
 
@@ -155,7 +155,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã NV", "Tên NV", "SĐT", "Giới tính", "Ngày sinh", "Ngày vào làm", "Chức vụ", "CCCD"
+                "Mã phiếu nhập", "Tên NV", "Tên NCC", "Trạng thái phiếu", "Thời gian lập"
             }
         ));
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -234,12 +234,40 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        formThemNV dialog = new formThemNV(parentFrame, true);  // Mở formThemNV
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
+         try {
+            // Tạo đối tượng frmHoaDonThem không có tham số
+            frmPhieuNhapThem dialog = new frmPhieuNhapThem();
 
-        // Sau khi đóng formThemNV, gọi lại phương thức để làm mới bảng
+            // Nếu dialog này kế thừa từ JPanel thay vì JDialog, cần hiển thị nó trong một
+            // cửa sổ mới
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            JFrame dialogFrame = new JFrame("Thêm hóa đơn");
+            dialogFrame.setContentPane(dialog);
+
+            // Thiết lập kích thước tối đa
+            dialogFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Mở ở chế độ toàn màn hình
+            // HOẶC bạn có thể dùng một trong các cách sau
+
+            // Cách 1: Sử dụng kích thước cụ thể
+            // dialogFrame.setSize(1024, 768); // Đặt kích thước cố định
+
+            // Cách 2: Sử dụng kích thước màn hình
+            // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            // dialogFrame.setSize(screenSize.width, screenSize.height);
+
+            // Cách 3: Sử dụng một tỷ lệ nhất định của màn hình
+            // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            // dialogFrame.setSize(screenSize.width * 9/10, screenSize.height * 9/10);
+
+            dialogFrame.setLocationRelativeTo(parentFrame);
+            dialogFrame.setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Không thể mở form thêm hóa đơn: " + ex.getMessage(),
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Sau khi đóng formThemHoaDon, gọi lại phương thức để làm mới bảng
         loadDataToTable();    }//GEN-LAST:event_btnThemActionPerformed
 
 
