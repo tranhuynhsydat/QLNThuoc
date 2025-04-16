@@ -450,22 +450,40 @@ setFontForMenuItems(new RoundedMenuItem[]{itemPhieuNhap1, itemPhieuNhap2});
     // Cập nhật lại giao diện
     mainPanel.revalidate();
     mainPanel.repaint();
-});
-//sự kiện tìm kiếm tài khoản
-        itemTK2.addActionListener(e -> {
-            frmSearchTaiKhoan tk = new frmSearchTaiKhoan();
-            // Xóa tất cả các phần cũ 
-            mainPanel.removeAll();
-            // Đặt layout cho mainPanel
-            mainPanel.setLayout(new java.awt.BorderLayout());
+         });
+ //sự kiện cập nhật tài khoản
+         itemTK1.addActionListener(e -> {
+             frmTaiKhoanCapNhat tk = new frmTaiKhoanCapNhat();
+             // Xóa tất cả các phần cũ 
+             mainPanel.removeAll();
+             // Đặt layout cho mainPanel
+             mainPanel.setLayout(new java.awt.BorderLayout());
+ 
+             // Thêm NhaCungCapCapNhat vào mainPanel
+             mainPanel.add(tk, java.awt.BorderLayout.CENTER);
+ 
 
-            // Thêm NhaCungCapCapNhat vào mainPanel
-            mainPanel.add(tk, java.awt.BorderLayout.CENTER);
 
-            // Cập nhật lại giao diện
-            mainPanel.revalidate();
-            mainPanel.repaint();
-        });
+             // Cập nhật lại giao diện
+             mainPanel.revalidate();
+             mainPanel.repaint();
+         });
+ //sự kiện tìm kiếm tài khoản
+         itemTK2.addActionListener(e -> {
+             frmSearchTaiKhoan tk = new frmSearchTaiKhoan();
+             // Xóa tất cả các phần cũ 
+             mainPanel.removeAll();
+             // Đặt layout cho mainPanel
+             mainPanel.setLayout(new java.awt.BorderLayout());
+ 
+             // Thêm NhaCungCapCapNhat vào mainPanel
+             mainPanel.add(tk, java.awt.BorderLayout.CENTER);
+ 
+             // Cập nhật lại giao diện
+             mainPanel.revalidate();
+             mainPanel.repaint();
+         });
+         
     }
 
     private void setFontForMenuItems(RoundedMenuItem[] items) {
