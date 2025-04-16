@@ -129,6 +129,7 @@ public class frmThongKeDoanhThuTheoThangPage extends javax.swing.JPanel {
         jPanel5.add(lblChart1);
 
         txtYear.setPreferredSize(new java.awt.Dimension(80, 26));
+        txtYear.setValue(2025);
         jPanel5.add(txtYear);
 
         btnStatistic.setBackground(new java.awt.Color(51, 153, 255));
