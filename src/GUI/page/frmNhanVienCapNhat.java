@@ -10,6 +10,7 @@ import GUI.form.formThemNCC;
 import GUI.form.formSuaNV;
 import GUI.form.formThemNV;
 import java.util.List;
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,64 +26,104 @@ import javax.swing.table.DefaultTableModel;
  */
 public class frmNhanVienCapNhat extends javax.swing.JPanel {
 
-    private int startIndex = 0;
+    private int startIndex =0 ;
 
     /**
      * Creates new form NewJPanel
      */
     public frmNhanVienCapNhat() {
         initComponents();
-        configureTable();
-        loadDataToTable();
-        // Thêm sự kiện cuộn bảng
-        jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
-            JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
-            int max = vertical.getMaximum();
-            int current = vertical.getValue();
-            int visible = vertical.getVisibleAmount();
-
-            // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
-            if (current + visible >= max) {
-                startIndex += 10;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
-                loadDataToTable();  // Tải thêm dữ liệu
-            }
-        });
-
+        btnThem.addActionListener(evt -> openFormThemNV());
+        btnSua.addActionListener(evt -> openFormSuaNV());
+        loadTableData();
+//        initComponents();
+//        configureTable();
+//        startIndex = 0;
+//        loadDataToTable();
+//        // Thêm sự kiện cuộn bảng
+//        jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
+//            JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
+//            int max = vertical.getMaximum();
+//            int current = vertical.getValue();
+//            int visible = vertical.getVisibleAmount();
+//
+//            // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
+//            if (current + visible >= max) {
+//                startIndex += 13; // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+//                loadDataToTable();  // Tải thêm dữ liệu
+//            }
+//        });
+    
     }
+//    private void configureTable() {
+//        // Ngăn không cho phép người dùng chỉnh sửa bảng
+//        jTable1.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
+//
+//        // Căn giữa cho tất cả các cell trong bảng
+//        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+//        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+//
+//        // Căn giữa cho từng cột
+//        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+//            jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+//        }
+//
+//        // Ngăn không cho phép chọn nhiều dòng
+//        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+//    }
+//
+//    private void loadDataToTable() {
+//        // Lấy dữ liệu thuốc với batch tiếp theo (10 dòng)
+//        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+//            @Override
+//            protected Void doInBackground() throws Exception {
+//                // Lấy danh sách NCC từ cơ sở dữ liệu (10 dòng bắt đầu từ startIndex)
+//                List<NhanVien> nvList = NhanVienDAO.getNhanVienBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
+//                SwingUtilities.invokeLater(() -> {
+//                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+//
+//                    // Chỉ thêm dữ liệu mới vào bảng, không xóa dữ liệu cũ
+//                    for (NhanVien nv : nvList) {
+//                        model.addRow(new Object[]{
+//                            nv.getId(),
+//                            nv.getHoTen(),
+//                            nv.getSdt(),
+//                            nv.getGioiTinh(),
+//                            nv.getDtSinh(),
+//                            nv.getNgayVaoLam(),
+//                            nv.getCccd(),
+//                            nv.getChucVu()
+//                        });
+//                    }
+//                });
+//                return null;
+//            }
+//        };
+//        worker.execute();
+//    }
+        private void openFormThemNV() {
+    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    formThemNV dialog = new formThemNV(parentFrame, true);
+    dialog.setLocationRelativeTo(this); 
+    dialog.setVisible(false); 
+}
 
-    private void configureTable() {
-        // Ngăn không cho phép người dùng chỉnh sửa bảng
-        jTable1.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
-
-        // Căn giữa cho tất cả các cell trong bảng
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-
-        // Căn giữa cho từng cột
-        for (int i = 0; i < jTable1.getColumnCount(); i++) {
-            jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
-
-        // Ngăn không cho phép chọn nhiều dòng
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-    }
-
-  private void loadDataToTable() {
-    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-        @Override
-        protected Void doInBackground() throws Exception {
-            startIndex=0;
-            List<NhanVien> danhSachNhanVien = NhanVienDAO.getNhanVienBatch(startIndex, 10); // Tải thêm dữ liệu
-            System.out.println("Dữ liệu nhận được từ DB: " + danhSachNhanVien.size() + " dòng");
-            if (danhSachNhanVien == null || danhSachNhanVien.isEmpty()) {
-                System.out.println("Không có dữ liệu để tải.");
-            } else {
-                SwingUtilities.invokeLater(() -> {
-                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                    model.setRowCount(0);  // Xóa dữ liệu cũ trong bảng
-
-                    // Thêm dữ liệu mới vào bảng
-                    for (NhanVien nv : danhSachNhanVien) {
+private void openFormSuaNV() {
+    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    formSuaNV dialog = new formSuaNV(parentFrame, true);
+    dialog.setLocationRelativeTo(this); 
+    dialog.setVisible(false); 
+}
+    private void loadTableData() {
+         // Lấy tất cả nhân viên từ cơ sở dữ liệu
+         List<NhanVien> danhSachNhanVien = NhanVienDAO.getAllNhanVien();
+ 
+         // Tạo DefaultTableModel với các cột
+         String[] columnNames = {"Mã NV", "Họ Tên NV","SĐT","Giới tính","Ngày vào làm","Chức vụ" , "Tuổi"};
+         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+ 
+         // Thêm từng nhân viên vào bảng
+          for (NhanVien nv : danhSachNhanVien) {
                         Object[] rowData = {
                             nv.getId(),
                             nv.getHoTen(),
@@ -92,21 +133,19 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
                             nv.getNgayVaoLam(),
                             nv.getCccd(),
                             nv.getChucVu()
-                        };
-                        model.addRow(rowData);  // Thêm dòng vào bảng
-                    }
-
-                    model.fireTableDataChanged();  // Đảm bảo bảng được làm mới
-                    jTable1.revalidate();  // Cập nhật lại bảng
-                    jTable1.repaint();  // Vẽ lại bảng
-                });
-            }
-            return null;
-        }
-    };
-    worker.execute();
-}
-
+             };
+             model.addRow(rowData);  // Thêm dòng vào model
+         }
+         jTable1.setDefaultEditor(Object.class, null);
+ 
+         // Gán DefaultTableModel cho JTable
+         jTable1.setModel(model);  // jTable1 là JTable trên form của bạn
+         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+         for (int i = 0; i < jTable1.getColumnCount(); i++) {
+             jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+         }
+     }
 
 
     /**
@@ -156,11 +195,10 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã NV", "Tên NV", "SĐT", "Giới tính", "Ngày sinh", "Ngày vào làm", "Chức vụ", "CCCD"
+                "Mã NV", "Họ tên", "SĐT", "Giới tính", "Ngày sinh", "Ngày vào làm", "Chức vụ", "CCCD"
             }
         ));
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTable1.setDragEnabled(true);
+        jTable1.setPreferredSize(new java.awt.Dimension(600, 402));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable1);
@@ -224,55 +262,70 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        int selectedRow = jTable1.getSelectedRow();
-        if (selectedRow != -1) {
-            String maNV = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
-
-            // Mở form sửa nhân viên và truyền mã nhân viên vào constructor
-            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            formSuaNV dialog = new formSuaNV(parentFrame, true, maNV);  // Truyền mã nhân viên vào constructor
-            dialog.setLocationRelativeTo(this);
-            dialog.setVisible(true);
-            loadDataToTable();  // Gọi lại phương thức để làm mới bảng
-        } else {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên để sửa!");
-        }
+//        int selectedRow = jTable1.getSelectedRow();
+//        if (selectedRow != -1) {
+//            String maNV = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
+//
+//            // Mở form sửa nhân viên và truyền mã nhân viên vào constructor
+//            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+//            formSuaNV dialog = new formSuaNV(parentFrame, true, maNV);  // Truyền mã nhân viên vào constructor
+//            dialog.setLocationRelativeTo(this);
+//            dialog.setVisible(true);
+//            loadDataToTable();  // Gọi lại phương thức để làm mới bảng
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên để sửa!");
+//        }
+    int selectedRow = jTable1.getSelectedRow();
+         if (selectedRow != -1) {
+             String maNV = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
+ 
+             // Mở form sửa nhân viên và truyền mã nhân viên vào constructor
+             JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+             formSuaNV dialog = new formSuaNV(parentFrame, true, maNV);  // Truyền mã nhân viên vào constructor
+             dialog.setLocationRelativeTo(this);
+             dialog.setVisible(true);
+             loadTableData();
+         } else {
+             JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để sửa!");
+         }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // Kiểm tra nếu có dòng được chọn trong JTable
         int selectedRow = jTable1.getSelectedRow();
-        if (selectedRow != -1) {
-            String maNV = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
-
-            // Hiển thị hộp thoại xác nhận xóa
-            int response = JOptionPane.showConfirmDialog(this,
-                    "Bạn có chắc chắn muốn xóa nhân viên này?",
-                    "Xác nhận", JOptionPane.YES_NO_OPTION);
-
-            // Nếu người dùng chọn Yes, thực hiện xóa
-            if (response == JOptionPane.YES_OPTION) {
-                // Gọi hàm xóa nhân viên trong DAO
-                if (NhanVienDAO.xoa(maNV)) {
-                    JOptionPane.showMessageDialog(this, "Xóa nhân viên thành công!");
-                    loadDataToTable();  // Làm mới bảng sau khi xóa
-                } else {
-                    JOptionPane.showMessageDialog(this, "Xóa nhân viên thất bại!");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên để xóa!");
-        }
+         if (selectedRow != -1) {
+             String maNV = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
+ 
+             // Hiển thị hộp thoại xác nhận xóa
+             int response = JOptionPane.showConfirmDialog(this,
+                     "Bạn có chắc chắn muốn xóa khách hàng này?",
+                     "Xác nhận", JOptionPane.YES_NO_OPTION);
+ 
+             // Nếu người dùng chọn Yes, thực hiện xóa
+             if (response == JOptionPane.YES_OPTION) {
+                 // Gọi hàm xóa nhân viên trong DAO
+                 if (NhanVienDAO.xoa(maNV)) {
+                     JOptionPane.showMessageDialog(this, "Xóa khách hàng thành công!");
+                     loadTableData();  // Làm mới bảng sau khi xóa
+                 } else {
+                     JOptionPane.showMessageDialog(this, "Xóa khách hàng thất bại!");
+                 }
+             }
+         } else {
+             JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để xóa!");
+         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
         JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        formThemNV dialog = new formThemNV(parentFrame, true);  // Mở formThemNV
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-
-        // Sau khi đóng formThemNV, gọi lại phương thức để làm mới bảng
-        loadDataToTable();    }//GEN-LAST:event_btnThemActionPerformed
+         formThemNV dialog = new formThemNV(parentFrame, true);  // Mở formThemNV
+         dialog.setLocationRelativeTo(this);
+         dialog.setVisible(true);
+ 
+         // Sau khi đóng formThemNV, gọi lại phương thức để làm mới bảng
+         loadTableData();
+    }//GEN-LAST:event_btnThemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
