@@ -5,22 +5,27 @@
 package GUI;
 
 import Entity.TaiKhoan;
+import GUI.page.frmHoaDonThem;
 import GUI.page.frmHoaDonCapNhat;
 import GUI.page.frmSearchHoaDon;
+import GUI.page.frmHoaDonDoiThem;
+import GUI.page.frmHoaDonTraThem;
 import GUI.page.frmHoaDonDoiCapNhat;
 import GUI.page.frmHoaDonTraCapNhat;
+import GUI.page.frmSearchHoaDonDoi;
+import GUI.page.frmSearchHoaDonTra;
+import GUI.page.frmPhieuNhapThem;
+import GUI.page.frmPhieuNhapCapNhat;
+import GUI.page.frmSearchPhieuNhap;
 import GUI.page.frmNhaCungCapCapNhat;
 import GUI.page.frmSearchNhaCungCap;
 import GUI.page.frmNhanVienCapNhat;
 import GUI.page.frmKhachHangCapNhat;
-import GUI.page.frmPhieuNhapCapNhat;
-import GUI.page.frmSearchPhieuNhap;
 import GUI.page.frmSearchKhachHang;
 import GUI.page.frmSearchNhanVien;
 import GUI.page.frmSearchTaiKhoan;
 import GUI.page.frmSearchThuoc;
 import GUI.page.frmTaiKhoanCapNhat;
-import GUI.page.frmSearchPhieuDoiTra;
 import GUI.page.frmThuocCapNhat;
 import Swing.RoundedMenuItem;
 import Swing.RoundedPopupMenu;
@@ -81,41 +86,61 @@ public class Main extends javax.swing.JFrame {
         RoundedMenuItem itemHoaDon1 = new RoundedMenuItem("Lập hóa đơn");
         popupMenuHoaDon.add(itemHoaDon1);
         popupMenuHoaDon.add(new JSeparator());
-
-        RoundedMenuItem itemHoaDon2 = new RoundedMenuItem("Tìm kiếm");
+        
+        RoundedMenuItem itemHoaDon2 = new RoundedMenuItem("Cập Nhật");
         popupMenuHoaDon.add(itemHoaDon2);
         popupMenuHoaDon.add(new JSeparator());
 
+        RoundedMenuItem itemHoaDon3 = new RoundedMenuItem("Tìm kiếm");
+        popupMenuHoaDon.add(itemHoaDon3);
+        popupMenuHoaDon.add(new JSeparator());
+
         btnHoaDon.addActionListener(e -> popupMenuHoaDon.show(btnHoaDon, btnHoaDon.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemHoaDon1, itemHoaDon2});
+        setFontForMenuItems(new RoundedMenuItem[]{itemHoaDon1, itemHoaDon2, itemHoaDon3});
 // Menu hóa đơn đổi trả
         popupMenuHoaDonDoiTra = new RoundedPopupMenu();
-        RoundedMenuItem itemHoaDonDoi1 = new RoundedMenuItem("Hóa đơn đổi");
-        popupMenuHoaDonDoiTra.add(itemHoaDonDoi1);
+        RoundedMenuItem itemHoaDonDoiThem = new RoundedMenuItem("Lập hóa đơn đổi");
+        popupMenuHoaDonDoiTra.add(itemHoaDonDoiThem);
         popupMenuHoaDonDoiTra.add(new JSeparator());
 
-        RoundedMenuItem itemHoaDonTra1 = new RoundedMenuItem("Hóa đơn trả");
-        popupMenuHoaDonDoiTra.add(itemHoaDonTra1);
+        RoundedMenuItem itemHoaDonTraThem = new RoundedMenuItem("Lập hóa đơn trả");
+        popupMenuHoaDonDoiTra.add(itemHoaDonTraThem);
         popupMenuHoaDonDoiTra.add(new JSeparator());
         
-        RoundedMenuItem itemTimKiemHoaDon = new RoundedMenuItem("Tìm kiếm");
-        popupMenuHoaDonDoiTra.add(itemTimKiemHoaDon);
+        RoundedMenuItem itemHoaDonDoiCapNhat = new RoundedMenuItem("Cập nhật đổi");
+        popupMenuHoaDonDoiTra.add(itemHoaDonDoiCapNhat);
+        popupMenuHoaDonDoiTra.add(new JSeparator());
+        
+        RoundedMenuItem itemHoaDonTraCapNhat = new RoundedMenuItem("Cập nhật trả");
+        popupMenuHoaDonDoiTra.add(itemHoaDonTraCapNhat);
+        popupMenuHoaDonDoiTra.add(new JSeparator());
+        
+        RoundedMenuItem itemTimKiemHoaDonDoi = new RoundedMenuItem("Tìm kiếm đổi");
+        popupMenuHoaDonDoiTra.add(itemTimKiemHoaDonDoi);
+        popupMenuHoaDonDoiTra.add(new JSeparator());
+        
+        RoundedMenuItem itemTimKiemHoaDonTra = new RoundedMenuItem("Tìm kiếm trả");
+        popupMenuHoaDonDoiTra.add(itemTimKiemHoaDonTra);
         popupMenuHoaDonDoiTra.add(new JSeparator());
 
         btnPhieuDoiTra.addActionListener(e -> popupMenuHoaDonDoiTra.show(btnPhieuDoiTra, btnPhieuDoiTra.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemHoaDonDoi1, itemHoaDonTra1,itemTimKiemHoaDon});
+        setFontForMenuItems(new RoundedMenuItem[]{itemHoaDonDoiThem, itemHoaDonTraThem, itemHoaDonDoiCapNhat, itemTimKiemHoaDonDoi, itemHoaDonTraCapNhat, itemTimKiemHoaDonTra});
 //Menu phiếu nhập
         popupMenuPhieuNhap = new RoundedPopupMenu();
         RoundedMenuItem itemPhieuNhap1 = new RoundedMenuItem("Lập phiếu nhập");
         popupMenuPhieuNhap.add(itemPhieuNhap1);
         popupMenuPhieuNhap.add(new JSeparator());
 
-        RoundedMenuItem itemPhieuNhap2 = new RoundedMenuItem("Tìm kiếm");
+        RoundedMenuItem itemPhieuNhap2 = new RoundedMenuItem("Cập nhật");
         popupMenuPhieuNhap.add(itemPhieuNhap2);
+        popupMenuPhieuNhap.add(new JSeparator());
+        
+        RoundedMenuItem itemPhieuNhap3 = new RoundedMenuItem("Tìm kiếm");
+        popupMenuPhieuNhap.add(itemPhieuNhap3);
         popupMenuPhieuNhap.add(new JSeparator());
 
         btnPhieuNhap.addActionListener(e -> popupMenuPhieuNhap.show(btnPhieuNhap, btnPhieuNhap.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemHoaDon1, itemHoaDon2});
+        setFontForMenuItems(new RoundedMenuItem[]{itemPhieuNhap1, itemPhieuNhap2, itemPhieuNhap3});
 // Menu nhà cung cấp
         popupMenuNCC = new RoundedPopupMenu();
         RoundedMenuItem itemNCC1 = new RoundedMenuItem("Cập nhật");
@@ -288,9 +313,9 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện cập nhật phiếu nhập
+//sự kiện thêm phiếu nhập
         itemPhieuNhap1.addActionListener(e -> {
-            frmPhieuNhapCapNhat pn1 = new frmPhieuNhapCapNhat();
+            frmPhieuNhapThem pn1 = new frmPhieuNhapThem();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
@@ -303,9 +328,9 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện tìm kiếm phiếu nhập
+//sự kiện cập nhật phiếu nhập
         itemPhieuNhap2.addActionListener(e -> {
-            frmSearchPhieuNhap pn2 = new frmSearchPhieuNhap();
+            frmPhieuNhapCapNhat pn2 = new frmPhieuNhapCapNhat();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
@@ -318,8 +343,38 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện cập nhật hóa đơn
+//sự kiện tìm kiếm phiếu nhập
+        itemPhieuNhap3.addActionListener(e -> {
+            frmSearchPhieuNhap pn3 = new frmSearchPhieuNhap();
+            // Xóa tất cả các phần cũ 
+            mainPanel.removeAll();
+            // Đặt layout cho mainPanel
+            mainPanel.setLayout(new java.awt.BorderLayout());
+
+            // Thêm NhaCungCapCapNhat vào mainPanel
+            mainPanel.add(pn3, java.awt.BorderLayout.CENTER);
+
+            // Cập nhật lại giao diện
+            mainPanel.revalidate();
+            mainPanel.repaint();
+        });
+//sự kiện thêm hóa đơn
         itemHoaDon1.addActionListener(e -> {
+            frmHoaDonThem hoadon = new frmHoaDonThem();
+            // Xóa tất cả các phần cũ 
+            mainPanel.removeAll();
+            // Đặt layout cho mainPanel
+            mainPanel.setLayout(new java.awt.BorderLayout());
+
+            // Thêm NhaCungCapCapNhat vào mainPanel
+            mainPanel.add(hoadon, java.awt.BorderLayout.CENTER);
+
+            // Cập nhật lại giao diện
+            mainPanel.revalidate();
+            mainPanel.repaint();
+        });
+//sự kiện cập nhật hóa đơn
+            itemHoaDon2.addActionListener(e -> {
             frmHoaDonCapNhat hoadon = new frmHoaDonCapNhat();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
@@ -334,7 +389,7 @@ public class Main extends javax.swing.JFrame {
             mainPanel.repaint();
         });
 //sự kiện tìm kiếm hóa đơn
-        itemHoaDon2.addActionListener(e -> {
+            itemHoaDon3.addActionListener(e -> {
             frmSearchHoaDon hoadon = new frmSearchHoaDon();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
@@ -348,61 +403,91 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện cập nhật hóa đơn đổi
-        itemHoaDonDoi1.addActionListener(e -> {
-            frmHoaDonDoiCapNhat doitra = new frmHoaDonDoiCapNhat();
+//sự kiện thêm hóa đơn đổi
+            itemHoaDonDoiThem.addActionListener(e -> {
+            frmHoaDonDoiThem doitra1 = new frmHoaDonDoiThem();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
 
             // Thêm HoaDonTraCapNhat vào mainPanel
-            mainPanel.add(doitra, java.awt.BorderLayout.CENTER);
+            mainPanel.add(doitra1, java.awt.BorderLayout.CENTER);
 
             // Cập nhật lại giao diện
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện cập nhật hóa đơn trả
-        itemHoaDonTra1.addActionListener(e -> {
-            frmHoaDonTraCapNhat doitra = new frmHoaDonTraCapNhat();
+//sự kiện thêm hóa đơn trả
+        itemHoaDonTraThem.addActionListener(e -> {
+            frmHoaDonTraThem doitra2 = new frmHoaDonTraThem();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
 
             // Thêm HoaDonDoiCapNhat vào mainPanel
-            mainPanel.add(doitra, java.awt.BorderLayout.CENTER);
+            mainPanel.add(doitra2, java.awt.BorderLayout.CENTER);
 
             // Cập nhật lại giao diện
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện cập nhật hóa đơn trả
-        itemHoaDonTra1.addActionListener(e -> {
-            frmHoaDonTraCapNhat doitra = new frmHoaDonTraCapNhat();
+//sự kiện cập nhật hóa đơn đổi
+            itemHoaDonDoiCapNhat.addActionListener(e -> {
+            frmHoaDonDoiCapNhat doitra3 = new frmHoaDonDoiCapNhat();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
 
             // Thêm HoaDonDoiCapNhat vào mainPanel
-            mainPanel.add(doitra, java.awt.BorderLayout.CENTER);
+            mainPanel.add(doitra3, java.awt.BorderLayout.CENTER);
 
             // Cập nhật lại giao diện
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện tìm kiếm hóa đơn đổi trả
-        itemTimKiemHoaDon.addActionListener(e -> {
-            frmSearchPhieuDoiTra pdt = new frmSearchPhieuDoiTra();
+//sự kiện cập nhật hóa đơn trả
+            itemHoaDonTraCapNhat.addActionListener(e -> {
+            frmHoaDonTraCapNhat doitra4 = new frmHoaDonTraCapNhat();
+            // Xóa tất cả các phần cũ 
+            mainPanel.removeAll();
+            // Đặt layout cho mainPanel
+            mainPanel.setLayout(new java.awt.BorderLayout());
+
+            // Thêm HoaDonDoiCapNhat vào mainPanel
+            mainPanel.add(doitra4, java.awt.BorderLayout.CENTER);
+
+            // Cập nhật lại giao diện
+            mainPanel.revalidate();
+            mainPanel.repaint();
+        });
+//sự kiện tìm kiếm hóa đơn đổi
+        itemTimKiemHoaDonDoi.addActionListener(e -> {
+            frmSearchHoaDonDoi doitra5 = new frmSearchHoaDonDoi();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
 
             // Thêm NhaCungCapCapNhat vào mainPanel
-            mainPanel.add(pdt, java.awt.BorderLayout.CENTER);
+            mainPanel.add(doitra5, java.awt.BorderLayout.CENTER);
+
+            // Cập nhật lại giao diện
+            mainPanel.revalidate();
+            mainPanel.repaint();
+        });
+//sự kiện tìm kiếm hóa đơn trả
+        itemTimKiemHoaDonTra.addActionListener(e -> {
+            frmSearchHoaDonTra doitra6 = new frmSearchHoaDonTra();
+            // Xóa tất cả các phần cũ 
+            mainPanel.removeAll();
+            // Đặt layout cho mainPanel
+            mainPanel.setLayout(new java.awt.BorderLayout());
+
+            // Thêm NhaCungCapCapNhat vào mainPanel
+            mainPanel.add(doitra6, java.awt.BorderLayout.CENTER);
 
             // Cập nhật lại giao diện
             mainPanel.revalidate();
