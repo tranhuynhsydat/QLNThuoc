@@ -4,6 +4,17 @@
  */
 package GUI.page;
 
+import DAO.TaiKhoanDAO;
+import Entity.TaiKhoan;
+import java.util.List;
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.JScrollBar;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Admin
@@ -13,8 +24,79 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
     /**
      * Creates new form frmSearchNhanVien
      */
+    private int startIndex;
     public frmSearchTaiKhoan() {
         initComponents();
+        groupChucVu();
+        configureTable();
+        startIndex = 0;
+        loadDataToTable();
+        // Thêm sự kiện cuộn bảng
+        jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
+            JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
+            int max = vertical.getMaximum();
+            int current = vertical.getValue();
+            int visible = vertical.getVisibleAmount();
+
+            // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
+            if (current + visible >= max) {
+                startIndex += 13; // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                loadDataToTable();  // Tải thêm dữ liệu
+            }
+        });
+    }
+
+    
+
+    private void groupChucVu() {
+        ButtonGroup groupChucVu = new ButtonGroup();
+        groupChucVu.add(rbtnQuanLy);
+        groupChucVu.add(rbtnNhanVien);
+        rbtnNhanVien.setSelected(true);
+    }
+
+    private void configureTable() {
+        // Ngăn không cho phép người dùng chỉnh sửa bảng
+        jTable1.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
+
+        // Căn giữa cho tất cả các cell trong bảng
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Căn giữa cho từng cột
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        // Ngăn không cho phép chọn nhiều dòng
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    private void loadDataToTable() {
+        // Lấy dữ liệu thuốc với batch tiếp theo (10 dòng)
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                // Lấy danh sách NCC từ cơ sở dữ liệu (10 dòng bắt đầu từ startIndex)
+                List<TaiKhoan> tkList = TaiKhoanDAO.getTaiKhoanBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
+                SwingUtilities.invokeLater(() -> {
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+                    // Chỉ thêm dữ liệu mới vào bảng, không xóa dữ liệu cũ
+                    for (TaiKhoan tk : tkList) {
+                        model.addRow(new Object[]{
+                            tk.getId(),
+                            tk.getUsername(),
+                            tk.getPassword(),
+                            tk.getNhanVien().getHoTen(),
+                            tk.getNhanVien().getChucVu()
+                        });
+                    }
+                });
+                return null;
+            }
+        };
+        worker.execute();
     }
 
     /**
@@ -33,11 +115,6 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jPanel19 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jPanel20 = new javax.swing.JPanel();
-        jTextField4 = new javax.swing.JTextField();
         jPanel10 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -47,13 +124,13 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jPanel23 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel24 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jTextField6 = new javax.swing.JTextField();
         jPanel12 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel26 = new javax.swing.JPanel();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        rbtnQuanLy = new javax.swing.JRadioButton();
+        rbtnNhanVien = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel31 = new javax.swing.JPanel();
@@ -120,34 +197,6 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jPanel4.setPreferredSize(new java.awt.Dimension(829, 300));
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel9.setMinimumSize(new java.awt.Dimension(829, 38));
-        jPanel9.setLayout(new java.awt.BorderLayout());
-
-        jPanel19.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel19.setPreferredSize(new java.awt.Dimension(500, 38));
-        jPanel19.setLayout(new java.awt.BorderLayout());
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("Mã tài khoản:");
-        jLabel5.setMaximumSize(new java.awt.Dimension(170, 38));
-        jLabel5.setMinimumSize(new java.awt.Dimension(170, 38));
-        jLabel5.setPreferredSize(new java.awt.Dimension(170, 38));
-        jPanel19.add(jLabel5, java.awt.BorderLayout.CENTER);
-
-        jPanel9.add(jPanel19, java.awt.BorderLayout.LINE_START);
-
-        jPanel20.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel20.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
-
-        jTextField4.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel20.add(jTextField4);
-
-        jPanel9.add(jPanel20, java.awt.BorderLayout.CENTER);
-
-        jPanel4.add(jPanel9);
-
         jPanel10.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel10.setLayout(new java.awt.BorderLayout());
 
@@ -167,7 +216,7 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
 
         jPanel22.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel22.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel22.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+        jPanel22.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 20));
 
         jTextField5.setPreferredSize(new java.awt.Dimension(350, 30));
         jPanel22.add(jTextField5);
@@ -195,11 +244,10 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
 
         jPanel24.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel24.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel24.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+        jPanel24.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 20));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đinh Ngọc Dĩ Hào", "Trần Huỳnh Sỹ Đạt", "Phan Nhật Đăng" }));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel24.add(jComboBox1);
+        jTextField6.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel24.add(jTextField6);
 
         jPanel11.add(jPanel24, java.awt.BorderLayout.CENTER);
 
@@ -224,13 +272,13 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
 
         jPanel26.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel26.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel26.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 10));
+        jPanel26.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 20));
 
-        jRadioButton3.setText("Quản lý");
-        jPanel26.add(jRadioButton3);
+        rbtnQuanLy.setText("Quản lý");
+        jPanel26.add(rbtnQuanLy);
 
-        jRadioButton4.setText("Nhân viên");
-        jPanel26.add(jRadioButton4);
+        rbtnNhanVien.setText("Nhân viên");
+        jPanel26.add(rbtnNhanVien);
 
         jPanel12.add(jPanel26, java.awt.BorderLayout.CENTER);
 
@@ -274,7 +322,7 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã tài khoản", "Tên tài khoản", "password", "Tên nhân viên", "chức vụ"
+                "Mã tài khoản", "Tên tài khoản", "Password", "Tên nhân viên", "Chức vụ"
             }
         ));
         jTable1.setMinimumSize(new java.awt.Dimension(829, 200));
@@ -304,10 +352,8 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnThem1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -315,9 +361,7 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
@@ -330,12 +374,11 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JRadioButton rbtnNhanVien;
+    private javax.swing.JRadioButton rbtnQuanLy;
     // End of variables declaration//GEN-END:variables
 }

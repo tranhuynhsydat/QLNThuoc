@@ -111,7 +111,30 @@ public class NhanVienDAO {
 
         return nv;
     }
+    public static NhanVien getNhanVienHoTenChucVu(String maNV) {
+        NhanVien nv = null;
+        String sql = "SELECT maNV, hoTen, chucVu FROM NhanVien WHERE maNV = ?";
 
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, maNV);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    nv = new NhanVien(
+                            rs.getString("maNV"),
+                            rs.getString("hoTen"),
+                            rs.getString("chucVu")
+                    );
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return nv;
+    }
     public static String TaoMaNhanVien() {
         String prefix = "NV-";
         Set<Integer> existingNumbers = new HashSet<>();  // Lưu trữ các mã nhân viên đã có

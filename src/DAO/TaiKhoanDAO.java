@@ -124,4 +124,93 @@
          }
          return danhSachTaiKhoan;
      }
+    public static boolean Them(TaiKhoan tk) {
+        String sql = "INSERT INTO TaiKhoan (maTK, UserName, Password, maNV) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, tk.getId()); // Mã nhân viên được sinh tự động
+            ps.setString(2, tk.getUsername());
+            ps.setString(3, tk.getPassword());
+            ps.setString(4, tk.getNhanVien().getId());
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Lỗi: " + e.getMessage());
+        }
+        return false;
+    }
+    public static boolean sua(TaiKhoan tk) {
+        String sql = "UPDATE TaiKhoan SET maTK = ?, UserName = ?, Password = ?, maNV = ? WHERE maTK = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, tk.getId()); // Mã nhân viên được sinh tự động
+            ps.setString(2, tk.getUsername());
+            ps.setString(3, tk.getPassword());
+            ps.setString(4, tk.getNhanVien().getHoTen());
+            ps.setString(5, tk.getNhanVien().getChucVu());
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public static boolean xoa(String maNV) {
+        String sql = "DELETE FROM TaiKhoan WHERE maTK = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, maNV);  // Truyền mã nhân viên cần xóa vào PreparedStatement
+
+            return ps.executeUpdate() > 0;  // Thực thi câu lệnh và kiểm tra xem có bị ảnh hưởng dòng nào không
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+//    public static List<TaiKhoan> searchTaiKhoan(String UserName, String Password, String maNV) {
+//    List<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
+//    String sql = "SELECT * FROM TaiKhoan WHERE "
+//        + "(UserName LIKE ? OR ? = '') AND "
+//        + "(Password LIKE ? OR ? = '') AND "
+//        + "(maNV = ? OR ? IS NULL)";
+//
+//    try (Connection conn = DatabaseConnection.getConnection(); 
+//         PreparedStatement ps = conn.prepareStatement(sql)) {
+//
+//        ps.setString(1, "%" + UserName + "%");
+//        ps.setString(2, UserName);
+//        ps.setString(3, "%" + Password + "%");
+//        ps.setString(4, Password);
+//        ps.setString(5, maNV);
+//        ps.setString(6, maNV);
+//
+//        try (ResultSet rs = ps.executeQuery()) {
+//            while (rs.next()) {
+//                NhanVien nv = new NhanVien();
+//                nv.setMaNV(rs.getString("maNV")); // hoặc new NhanVien(rs.getString("maNV"))
+//
+//                TaiKhoan tk = new TaiKhoan(
+//                    rs.getString("maTK"),
+//                    rs.getString("UserName"),
+//                    rs.getString("Password"),
+//                    nv
+//                );
+//
+//                danhSachTaiKhoan.add(tk);
+//            }
+//        }
+//
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//
+//    return danhSachTaiKhoan;
+//}
+
  }

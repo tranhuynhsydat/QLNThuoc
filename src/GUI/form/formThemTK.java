@@ -4,11 +4,22 @@
  */
 package GUI.form;
 
+import DAO.NhanVienDAO;
+import DAO.TaiKhoanDAO;
+import Entity.NhanVien;
+import Entity.TaiKhoan;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
  */
 public class formThemTK extends javax.swing.JDialog {
+    // ✅ Đúng (chứa object NhanVien)
 
     /**
      * Creates new form formThemNV
@@ -16,7 +27,19 @@ public class formThemTK extends javax.swing.JDialog {
     public formThemTK(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        loadComboboxData();
     }
+    Map<String, NhanVien> nhanVienMap = new HashMap<>();
+    private void loadComboboxData() {
+    List<NhanVien> nhanVienList = NhanVienDAO.getAllNhanVien();
+    for (NhanVien nv : nhanVienList) {
+        cboNhanVien.addItem(nv.getHoTen());
+         nhanVienMap.put(nv.getHoTen(), nv);
+    }
+}
+
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -40,22 +63,22 @@ public class formThemTK extends javax.swing.JDialog {
         jPanel12 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtUserName = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
+        txtRePassword = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cboNhanVien = new javax.swing.JComboBox<String>();
         jPanel9 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
@@ -111,15 +134,15 @@ public class formThemTK extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("Tài khoản:");
+        jLabel1.setText("Tên tài khoản:");
         jPanel12.add(jLabel1, java.awt.BorderLayout.CENTER);
 
         jPanel5.add(jPanel12, java.awt.BorderLayout.LINE_START);
 
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel13.add(jTextField1);
+        txtUserName.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel13.add(txtUserName);
 
         jPanel5.add(jPanel13, java.awt.BorderLayout.CENTER);
 
@@ -140,8 +163,8 @@ public class formThemTK extends javax.swing.JDialog {
 
         jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jTextField2.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel15.add(jTextField2);
+        txtPassword.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel15.add(txtPassword);
 
         jPanel6.add(jPanel15, java.awt.BorderLayout.CENTER);
 
@@ -162,8 +185,8 @@ public class formThemTK extends javax.swing.JDialog {
 
         jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jTextField3.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel17.add(jTextField3);
+        txtRePassword.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel17.add(txtRePassword);
 
         jPanel7.add(jPanel17, java.awt.BorderLayout.CENTER);
 
@@ -184,9 +207,9 @@ public class formThemTK extends javax.swing.JDialog {
 
         jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đinh Ngọc Dĩ Hào", "Trần Huỳnh Sỹ Đạt", "Phan Nhật Đăng" }));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel19.add(jComboBox1);
+        cboNhanVien.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đinh Ngọc Dĩ Hào", "Trần Huỳnh Sỹ Đạt", "Phan Nhật Đăng" }));
+        cboNhanVien.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel19.add(cboNhanVien);
 
         jPanel8.add(jPanel19, java.awt.BorderLayout.CENTER);
 
@@ -214,6 +237,11 @@ public class formThemTK extends javax.swing.JDialog {
         btnHuy.setForeground(new java.awt.Color(255, 255, 255));
         btnHuy.setText("Huỷ");
         btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
         bottomRoundedPanel2.add(btnHuy);
 
         btnThem.setBackground(new java.awt.Color(15, 204, 102));
@@ -256,7 +284,46 @@ public class formThemTK extends javax.swing.JDialog {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+        String userName = txtUserName.getText();
+    String passWord = txtPassword.getText();
+    String rePassWord = txtRePassword.getText();
+    String nvName = (String) cboNhanVien.getSelectedItem();  // Lấy tên nhân viên từ ComboBox
+
+    // Tìm đối tượng NhanVien từ tên nhân viên
+    NhanVien maNV = nhanVienMap.get(nvName);  // Tìm đối tượng NhanVien dựa trên tên
+
+    // Kiểm tra null trước khi tiếp tục
+    if (maNV == null) {
+        JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin nhân viên!");
+        return;
+    }
+
+    // Tạo đối tượng tài khoản
+    TaiKhoan tk = new TaiKhoan(
+        TaiKhoanDAO.TaoMaTaiKhoan(),
+        userName,
+        passWord,
+        maNV // truyền vào đối tượng NhanVien
+    );
+
+    // Kiểm tra mật khẩu
+    if (!passWord.equals(rePassWord)) {
+        JOptionPane.showMessageDialog(this, "Mật khẩu không khớp. Vui lòng nhập lại!");
+        return;
+    }
+
+    // Thêm tài khoản vào cơ sở dữ liệu
+    if (TaiKhoanDAO.Them(tk)) {
+        JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công!");
+        dispose();  // Đóng form thêm tài khoản
+    } else {
+        JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi thêm tài khoản.");
+    }
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+    dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnHuyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -312,7 +379,7 @@ public class formThemTK extends javax.swing.JDialog {
     private Swing.BottomRoundedPanel bottomRoundedPanel2;
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnThem;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cboNhanVien;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -337,11 +404,11 @@ public class formThemTK extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lblThemTK;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
+    private javax.swing.JTextField txtPassword;
+    private javax.swing.JTextField txtRePassword;
+    private javax.swing.JTextField txtUserName;
     // End of variables declaration//GEN-END:variables
 }

@@ -148,7 +148,7 @@ public class frmTaiKhoanCapNhat extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã tài khoản", "Tên tài khoản", "Tên nhân viên", "Chức vụ"
+                "Mã tài khoản", "Tên tài khoản", "Password", "Tên nhân viên", "Chức vụ"
             }
         ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -204,6 +204,14 @@ public class frmTaiKhoanCapNhat extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        formThemTK dialog = new formThemTK(parentFrame, true);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        startIndex = 0;
+        loadDataToTable();
     }//GEN-LAST:event_btnThemActionPerformed
 
 

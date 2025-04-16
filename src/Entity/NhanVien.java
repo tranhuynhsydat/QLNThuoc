@@ -32,6 +32,17 @@ public class NhanVien {
         this.chucVu = chucVu;
     }
 
+    public NhanVien(String id, String hoTen, String chucVu) {
+        this.id = id;
+        this.hoTen = hoTen;
+        this.chucVu = chucVu;
+    }
+
+    @Override
+    public String toString() {
+        return hoTen + chucVu;
+    }
+    
     // Getter và Setter cho các trường
     public String getId() {
         return id;

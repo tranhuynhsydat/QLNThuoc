@@ -34,7 +34,7 @@ public class NhaCungCapDAO {
                         rs.getString("maNCC"),
                         rs.getString("tenNCC"),
                         rs.getString("diaChiNCC"),
-                        rs.getString("SDT")            
+                        rs.getString("SĐT")            
                 );
                 danhSachNCC.add(ncc);  // Thêm nhân viên vào danh sách
             }
@@ -59,7 +59,7 @@ public class NhaCungCapDAO {
                             rs.getString("maNCC"),
                             rs.getString("tenNCC"),
                             rs.getString("diaChiNCC"),
-                            rs.getString("SDT")
+                            rs.getString("SĐT")
                     );
                 }
             }
@@ -102,7 +102,7 @@ public class NhaCungCapDAO {
         return prefix + String.format("%03d", newNumber);
     }
     public static boolean sua(NhaCungCap ncc) {
-        String sql = "UPDATE NhaCungCap SET tenNCC = ?, diaChiNCC = ?, SDT = ? WHERE maNCC = ?";
+        String sql = "UPDATE NhaCungCap SET tenNCC = ?, diaChiNCC = ?, SĐT = ? WHERE maNCC = ?";
 
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -120,7 +120,7 @@ public class NhaCungCapDAO {
     }
     // Hàm thêm nhân viên vào cơ sở dữ liệu
     public static boolean Them(NhaCungCap ncc) {
-        String sql = "INSERT INTO NhaCungCap (maNCC, tenNCC, diaChiNCC, SDT) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO NhaCungCap (maNCC, tenNCC, diaChiNCC, SĐT) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -164,7 +164,7 @@ public class NhaCungCapDAO {
                     String maNCC = rs.getString("maNCC");
                     String tenNCC = rs.getString("tenNCC");
                     String diaChiNCC = rs.getString("diaChiNCC");
-                    String sdt = rs.getString("SDT");
+                    String sdt = rs.getString("SĐT");
                     // Thêm thuốc vào danh sách
                     danhSachNhaCungCap.add(new NhaCungCap(maNCC, tenNCC, diaChiNCC, sdt));
                 }
@@ -174,7 +174,7 @@ public class NhaCungCapDAO {
         }
         return danhSachNhaCungCap;
     }
-    public static List<NhaCungCap> searchNhaCungCap(String tenNCC, String diaChiNCC, String SDT) {
+    public static List<NhaCungCap> searchNhaCungCap(String tenNCC, String diaChiNCC, String SĐT) {
             List<NhaCungCap> danhSachNhaCungCap = new ArrayList<>();
             List<String> conditions = new ArrayList<>();
             List<Object> params = new ArrayList<>();
@@ -189,9 +189,9 @@ public class NhaCungCapDAO {
                 conditions.add("diaChiNCC LIKE ?");
                 params.add("%" + diaChiNCC + "%");
             }
-            if (!SDT.isEmpty()) {
-                conditions.add("SDT LIKE ?");
-                params.add("%" + SDT + "%");
+            if (!SĐT.isEmpty()) {
+                conditions.add("SĐT LIKE ?");
+                params.add("%" + SĐT + "%");
             }
 
             if (!conditions.isEmpty()) {
@@ -211,7 +211,7 @@ public class NhaCungCapDAO {
                             rs.getString("maNCC"),
                             rs.getString("tenNCC"),
                             rs.getString("diaChiNCC"),
-                            rs.getString("SDT")
+                            rs.getString("SĐT")
                         );
                         danhSachNhaCungCap.add(ncc);
                     }
