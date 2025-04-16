@@ -10,6 +10,11 @@ import Entity.Thuoc;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
@@ -30,11 +35,13 @@ public class frmHoaDonThem extends javax.swing.JPanel {
      * Creates new form frmHoaDonCapNhat
      */
     private int startIndex = 0; // Track the starting index for data loading
+    private JLabel lblThongTinThuoc;
 
     public frmHoaDonThem() {
         initComponents();
         configureTable();
         loadDataToTable();
+        initEvent();
         // Add scroll listener to load more data when user scrolls to bottom
         jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
             JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
@@ -136,6 +143,10 @@ public class frmHoaDonThem extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -178,9 +189,10 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jPanel50 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jPanel51 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
-        jPanel52 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
+        btnTimKiem = new javax.swing.JButton();
+        jPanel52 = new javax.swing.JPanel();
+        jTextField2 = new javax.swing.JTextField();
         jPanel57 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jPanel53 = new javax.swing.JPanel();
@@ -485,32 +497,43 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jPanel4.add(jPanel50);
 
         jPanel51.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jPanel51.setPreferredSize(new java.awt.Dimension(100, 69));
+        jPanel51.setMinimumSize(new java.awt.Dimension(100, 69));
+        jPanel51.setPreferredSize(new java.awt.Dimension(150, 69));
         jPanel51.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 10));
-
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("Tìm kiếm...");
-        jTextField2.setActionCommand("<Not Set>");
-        jTextField2.setMinimumSize(new java.awt.Dimension(140, 32));
-        jTextField2.setPreferredSize(new java.awt.Dimension(140, 32));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-        jPanel51.add(jTextField2);
-
-        jPanel4.add(jPanel51);
-
-        jPanel52.setPreferredSize(new java.awt.Dimension(70, 69));
-        jPanel52.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 10));
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("Số lượng...");
-        jTextField1.setPreferredSize(new java.awt.Dimension(130, 32));
-        jPanel52.add(jTextField1);
+        jTextField1.setText("Nhập mã thuốc...");
+        jTextField1.setActionCommand("<Not Set>");
+        jTextField1.setMinimumSize(new java.awt.Dimension(140, 32));
+        jTextField1.setPreferredSize(new java.awt.Dimension(140, 32));
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jPanel51.add(jTextField1);
+
+        btnTimKiem.setText("Tìm");
+        btnTimKiem.setPreferredSize(new java.awt.Dimension(60, 32));
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
+            }
+        });
+        jPanel51.add(btnTimKiem);
+
+        jPanel4.add(jPanel51);
+
+        jPanel52.setFocusTraversalPolicyProvider(true);
+        jPanel52.setPreferredSize(new java.awt.Dimension(70, 69));
+        jPanel52.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 10));
+
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField2.setText("Số lượng...");
+        jTextField2.setPreferredSize(new java.awt.Dimension(70, 32));
+        jPanel52.add(jTextField2);
 
         jPanel4.add(jPanel52);
 
@@ -790,7 +813,6 @@ public class frmHoaDonThem extends javax.swing.JPanel {
             }
         });
         jPanel59.add(txtSdtKH1);
-
         btnSearchKH1.setBorderPainted(false);
         btnSearchKH1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSearchKH1.setFocusPainted(false);
@@ -802,6 +824,7 @@ public class frmHoaDonThem extends javax.swing.JPanel {
             }
         });
         jPanel59.add(btnSearchKH1);
+
         btnAddCustomer1.setBorderPainted(false);
         btnAddCustomer1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAddCustomer1.setFocusPainted(false);
@@ -889,10 +912,51 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         add(billPanel);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnTimKiemActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_btnTimKiemActionPerformed
+
+    private void jTextField1ActionPerformed(ActionEvent evt) {
+        // Thực hiện hành động khi người dùng nhấn Enter trong JTextField
+        String text = jTextField1.getText();
+        System.out.println("Text field value: " + text);
+    }
+
     private void setThoiGianThuc() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         txtThoiGian.setText(now.format(formatter));
+    }
+
+    private void initEvent() {
+        btnTimKiem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String maThuoc = jTextField1.getText().trim();
+
+                if (!maThuoc.isEmpty()) {
+                    Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(maThuoc);
+                    if (thuoc != null) {
+                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                        model.setRowCount(0);
+                        model.addRow(new Object[] {
+                                1,
+                                thuoc.getId(),
+                                thuoc.getTenThuoc(),
+                                thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen() : "",
+                                thuoc.getDonViTinh() != null ? thuoc.getDonViTinh().getTen() : "",
+                                thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen() : "",
+                                thuoc.getSoLuong(),
+                                thuoc.getGiaNhap()
+                        });
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy thuốc với mã: " + maThuoc);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập mã thuốc cần tìm");
+                }
+            }
+        });
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
@@ -999,6 +1063,7 @@ public class frmHoaDonThem extends javax.swing.JPanel {
     private javax.swing.JButton btnSearchKH;
     private javax.swing.JButton btnSearchKH1;
     private javax.swing.JButton btnThanhToan;
+    private javax.swing.JButton btnTimKiem;
     private javax.swing.JComboBox<String> cboxGioiTinhKH;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
