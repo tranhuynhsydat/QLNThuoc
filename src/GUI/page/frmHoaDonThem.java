@@ -19,6 +19,7 @@ import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 //import utils.Formatter;
 //import utils.MessageDialog;
@@ -146,8 +147,7 @@ public class frmHoaDonThem extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         label1 = new java.awt.Label();
@@ -287,11 +287,13 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         javax.swing.GroupLayout JPanhThuocLayout = new javax.swing.GroupLayout(JPanhThuoc);
         JPanhThuoc.setLayout(JPanhThuocLayout);
         JPanhThuocLayout.setHorizontalGroup(
-                JPanhThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 262, Short.MAX_VALUE));
+            JPanhThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 262, Short.MAX_VALUE)
+        );
         JPanhThuocLayout.setVerticalGroup(
-                JPanhThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 304, Short.MAX_VALUE));
+            JPanhThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 304, Short.MAX_VALUE)
+        );
 
         jPanel29.add(JPanhThuoc);
 
@@ -388,11 +390,13 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel45Layout = new javax.swing.GroupLayout(jPanel45);
         jPanel45.setLayout(jPanel45Layout);
         jPanel45Layout.setHorizontalGroup(
-                jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 60, Short.MAX_VALUE));
+            jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
         jPanel45Layout.setVerticalGroup(
-                jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 142, Short.MAX_VALUE));
+            jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 142, Short.MAX_VALUE)
+        );
 
         jPanel22.add(jPanel45);
 
@@ -414,11 +418,13 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel47Layout = new javax.swing.GroupLayout(jPanel47);
         jPanel47.setLayout(jPanel47Layout);
         jPanel47Layout.setHorizontalGroup(
-                jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 60, Short.MAX_VALUE));
+            jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
         jPanel47Layout.setVerticalGroup(
-                jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 142, Short.MAX_VALUE));
+            jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 142, Short.MAX_VALUE)
+        );
 
         jPanel22.add(jPanel47);
 
@@ -467,11 +473,13 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel49Layout = new javax.swing.GroupLayout(jPanel49);
         jPanel49.setLayout(jPanel49Layout);
         jPanel49Layout.setHorizontalGroup(
-                jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 919, Short.MAX_VALUE));
+            jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 919, Short.MAX_VALUE)
+        );
         jPanel49Layout.setVerticalGroup(
-                jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 40, Short.MAX_VALUE));
+            jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
 
         jPanel9.add(jPanel49, java.awt.BorderLayout.SOUTH);
 
@@ -488,8 +496,7 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jPanel50.setRequestFocusEnabled(false);
         jPanel50.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
 
-        jComboBox1.setModel(
-                new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
         jComboBox1.setPreferredSize(new java.awt.Dimension(130, 32));
         jPanel50.add(jComboBox1);
@@ -564,15 +571,16 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jScrollPane1.setPreferredSize(new java.awt.Dimension(470, 217));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null }
-                },
-                new String[] {
-                        "STT", "Mã thuốc", "Tên thuốc", "Danh mục", "Đơn vị", "Xuất xứ", "Số lượng", "Giá nhập"
-                }));
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Mã thuốc", "Tên thuốc", "Danh mục", "Đơn vị", "Xuất xứ", "Số lượng", "Giá nhập"
+            }
+        ));
         jTable1.setMinimumSize(new java.awt.Dimension(470, 217));
         jTable1.setPreferredSize(new java.awt.Dimension(470, 217));
         jScrollPane1.setViewportView(jTable1);
@@ -608,15 +616,16 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jPanel43.setLayout(new java.awt.BorderLayout());
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null }
-                },
-                new String[] {
-                        "STT", "Tên thuốc", "Số lượng", "Giá nhập"
-                }));
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "STT", "Tên thuốc", "Số lượng", "Giá nhập"
+            }
+        ));
         jScrollPane3.setViewportView(jTable2);
 
         jPanel43.add(jScrollPane3, java.awt.BorderLayout.CENTER);
@@ -738,6 +747,7 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         });
         jPanel37.add(txtSdtKH);
 
+        btnSearchKH.setIcon(new FlatSVGIcon("./icon/man.svg"));
         btnSearchKH.setBorderPainted(false);
         btnSearchKH.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSearchKH.setFocusPainted(false);
@@ -750,6 +760,7 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         });
         jPanel37.add(btnSearchKH);
 
+        btnAddCustomer.setIcon(new FlatSVGIcon("./icon/add-customer.svg"));
         btnAddCustomer.setBorderPainted(false);
         btnAddCustomer.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAddCustomer.setFocusPainted(false);
@@ -813,6 +824,8 @@ public class frmHoaDonThem extends javax.swing.JPanel {
             }
         });
         jPanel59.add(txtSdtKH1);
+
+        btnSearchKH1.setIcon(new FlatSVGIcon("./icon/search.svg"));
         btnSearchKH1.setBorderPainted(false);
         btnSearchKH1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSearchKH1.setFocusPainted(false);
@@ -825,6 +838,7 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         });
         jPanel59.add(btnSearchKH1);
 
+        btnAddCustomer1.setIcon(new FlatSVGIcon("./icon/add-customer.svg"));
         btnAddCustomer1.setBorderPainted(false);
         btnAddCustomer1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAddCustomer1.setFocusPainted(false);
@@ -916,12 +930,6 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         // TODO add your handling code here:
     }// GEN-LAST:event_btnTimKiemActionPerformed
 
-    private void jTextField1ActionPerformed(ActionEvent evt) {
-        // Thực hiện hành động khi người dùng nhấn Enter trong JTextField
-        String text = jTextField1.getText();
-        System.out.println("Text field value: " + text);
-    }
-
     private void setThoiGianThuc() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -966,6 +974,12 @@ public class frmHoaDonThem extends javax.swing.JPanel {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }// GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField1ActionPerformed(ActionEvent evt) {
+        // Thực hiện hành động khi người dùng nhấn Enter trong JTextField
+        String text = jTextField1.getText();
+        System.out.println("Text field value: " + text);
+    }
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnThanhToanActionPerformed
         // if (isValidHoaDon() && isValidPayment()) {
