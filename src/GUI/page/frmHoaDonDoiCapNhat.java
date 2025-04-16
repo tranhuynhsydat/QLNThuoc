@@ -125,7 +125,6 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         btnPanel = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
-        btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(829, 624));
@@ -188,21 +187,6 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
         });
         btnPanel.add(btnThem);
 
-        btnSua.setBackground(new java.awt.Color(0, 120, 92));
-        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnSua.setForeground(new java.awt.Color(255, 255, 255));
-        btnSua.setText("Sửa");
-        btnSua.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSua.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnSua.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnSua.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnSua.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSuaActionPerformed(evt);
-            }
-        });
-        btnPanel.add(btnSua);
-
         btnXoa.setBackground(new java.awt.Color(0, 120, 92));
         btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnXoa.setForeground(new java.awt.Color(255, 255, 255));
@@ -220,22 +204,6 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
 
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        int selectedRow = jTable1.getSelectedRow();
-        if (selectedRow != -1) {
-            String maNV = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
-
-            // Mở form sửa nhân viên và truyền mã nhân viên vào constructor
-            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            formSuaNV dialog = new formSuaNV(parentFrame, true, maNV);  // Truyền mã nhân viên vào constructor
-            dialog.setLocationRelativeTo(this);
-            dialog.setVisible(true);
-            loadDataToTable();  // Gọi lại phương thức để làm mới bảng
-        } else {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên để sửa!");
-        }
-    }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // Kiểm tra nếu có dòng được chọn trong JTable
@@ -275,7 +243,6 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnPanel;
-    private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel2;
