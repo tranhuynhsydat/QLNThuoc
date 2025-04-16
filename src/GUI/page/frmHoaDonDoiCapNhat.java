@@ -131,6 +131,7 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(829, 624));
         setLayout(new java.awt.BorderLayout());
 
+
         tablePanel.setMinimumSize(new java.awt.Dimension(829, 452));
         tablePanel.setLayout(new java.awt.BorderLayout());
 
@@ -155,7 +156,7 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
 
             },
             new String [] {
-                "STT", "Mã phiếu đổi", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày đổi", "Lý do", "Tổng hóa đơn"
+                "STT", "Mã phiếu đổi", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày đổi", "Lý do", "Tổng hóa đơn;
             }
         ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);

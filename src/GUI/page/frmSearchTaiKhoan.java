@@ -271,21 +271,10 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"01", "TK-000", "admin", "Đinh Ngọc Dĩ Hào", "Quản lý"},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "STT", "Mã tài khoản", "Tên tài khoản", "Tên nhân viên", "chức vụ"
+                "Mã tài khoản", "Tên tài khoản", "password", "Tên nhân viên", "chức vụ"
             }
         ));
         jTable1.setMinimumSize(new java.awt.Dimension(829, 200));

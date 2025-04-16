@@ -5,8 +5,11 @@
 package GUI;
 
 import Entity.TaiKhoan;
+import GUI.page.frmHoaDonThem;
 import GUI.page.frmHoaDonCapNhat;
 import GUI.page.frmSearchHoaDon;
+import GUI.page.frmHoaDonDoiThem;
+import GUI.page.frmHoaDonTraThem;
 import GUI.page.frmHoaDonDoiCapNhat;
 import GUI.page.frmHoaDonTraCapNhat;
 import GUI.page.frmSearchHoaDonDoi;
@@ -150,8 +153,12 @@ public class Main extends javax.swing.JFrame {
         popupMenuPhieuNhap.add(itemPhieuNhap1);
         popupMenuPhieuNhap.add(new JSeparator());
 
-        RoundedMenuItem itemPhieuNhap2 = new RoundedMenuItem("Tìm kiếm");
+        RoundedMenuItem itemPhieuNhap2 = new RoundedMenuItem("Cập nhật");
         popupMenuPhieuNhap.add(itemPhieuNhap2);
+        popupMenuPhieuNhap.add(new JSeparator());
+        
+        RoundedMenuItem itemPhieuNhap3 = new RoundedMenuItem("Tìm kiếm");
+        popupMenuPhieuNhap.add(itemPhieuNhap3);
         popupMenuPhieuNhap.add(new JSeparator());
 
         btnPhieuNhap.addActionListener(e -> popupMenuPhieuNhap.show(btnPhieuNhap, btnPhieuNhap.getWidth(), 2));
@@ -328,9 +335,9 @@ setFontForMenuItems(new RoundedMenuItem[]{itemPhieuNhap1, itemPhieuNhap2});
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện cập nhật phiếu nhập
+//sự kiện thêm phiếu nhập
         itemPhieuNhap1.addActionListener(e -> {
-            frmPhieuNhapCapNhat pn1 = new frmPhieuNhapCapNhat();
+            frmPhieuNhapThem pn1 = new frmPhieuNhapThem();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
@@ -343,9 +350,9 @@ setFontForMenuItems(new RoundedMenuItem[]{itemPhieuNhap1, itemPhieuNhap2});
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện tìm kiếm phiếu nhập
+//sự kiện cập nhật phiếu nhập
         itemPhieuNhap2.addActionListener(e -> {
-            frmSearchPhieuNhap pn2 = new frmSearchPhieuNhap();
+            frmPhieuNhapCapNhat pn2 = new frmPhieuNhapCapNhat();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
             // Đặt layout cho mainPanel

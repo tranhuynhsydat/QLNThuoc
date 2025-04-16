@@ -174,4 +174,52 @@ public class NhaCungCapDAO {
         }
         return danhSachNhaCungCap;
     }
+    public static List<NhaCungCap> searchNhaCungCap(String tenNCC, String diaChiNCC, String SDT) {
+            List<NhaCungCap> danhSachNhaCungCap = new ArrayList<>();
+            List<String> conditions = new ArrayList<>();
+            List<Object> params = new ArrayList<>();
+
+            String sql = "SELECT * FROM NhaCungCap";
+
+            if (!tenNCC.isEmpty()) {
+                conditions.add("tenKH LIKE ?");
+                params.add("%" + tenNCC + "%");
+            }
+            if (!diaChiNCC.isEmpty()) {
+                conditions.add("diaChiNCC LIKE ?");
+                params.add("%" + diaChiNCC + "%");
+            }
+            if (!SDT.isEmpty()) {
+                conditions.add("SDT LIKE ?");
+                params.add("%" + SDT + "%");
+            }
+
+            if (!conditions.isEmpty()) {
+                sql += " WHERE " + String.join(" AND ", conditions);
+            }
+
+            try (Connection conn = DatabaseConnection.getConnection(); 
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                for (int i = 0; i < params.size(); i++) {
+                    ps.setObject(i + 1, params.get(i));
+                }
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        NhaCungCap ncc = new NhaCungCap(
+                            rs.getString("maNCC"),
+                            rs.getString("tenNCC"),
+                            rs.getString("diaChiNCC"),
+                            rs.getString("SDT")
+                        );
+                        danhSachNhaCungCap.add(ncc);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return danhSachNhaCungCap;
+        }
 }
