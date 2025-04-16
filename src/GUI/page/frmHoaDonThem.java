@@ -18,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
@@ -42,6 +44,7 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         initComponents();
         configureTable();
         loadDataToTable();
+        addTableSelectionListener();
         initEvent();
         // Add scroll listener to load more data when user scrolls to bottom
         jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
@@ -130,6 +133,29 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         worker.execute();
     }
 
+    private void addTableSelectionListener() {
+        // Add a selection listener to the JTable
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int selectedRow = jTable1.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Get data from selected row
+                    String maThuoc = jTable1.getValueAt(selectedRow, 1).toString();
+                    String tenThuoc = jTable1.getValueAt(selectedRow, 2).toString();
+                    String thanhPhan = "Công thức thuốc ví dụ"; // Add actual data
+                    String donGia = jTable1.getValueAt(selectedRow, 7).toString();
+
+                    // Update text fields with the selected row's data
+                    txtMaThuoc.setText(maThuoc);
+                    txtTenThuoc.setText(tenThuoc);
+                    txtThanhPhan.setText(thanhPhan);
+                    txtDonGia.setText(donGia);
+                }
+            }
+        });
+    }
+
     // Make sure to also remove any references to FlatSVGIcon in your button setup
     // code
     // For example, replace:
@@ -147,7 +173,8 @@ public class frmHoaDonThem extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         label1 = new java.awt.Label();
@@ -287,13 +314,11 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         javax.swing.GroupLayout JPanhThuocLayout = new javax.swing.GroupLayout(JPanhThuoc);
         JPanhThuoc.setLayout(JPanhThuocLayout);
         JPanhThuocLayout.setHorizontalGroup(
-            JPanhThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 262, Short.MAX_VALUE)
-        );
+                JPanhThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 262, Short.MAX_VALUE));
         JPanhThuocLayout.setVerticalGroup(
-            JPanhThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 304, Short.MAX_VALUE)
-        );
+                JPanhThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 304, Short.MAX_VALUE));
 
         jPanel29.add(JPanhThuoc);
 
@@ -390,13 +415,11 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel45Layout = new javax.swing.GroupLayout(jPanel45);
         jPanel45.setLayout(jPanel45Layout);
         jPanel45Layout.setHorizontalGroup(
-            jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
-        );
+                jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 60, Short.MAX_VALUE));
         jPanel45Layout.setVerticalGroup(
-            jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 142, Short.MAX_VALUE)
-        );
+                jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 142, Short.MAX_VALUE));
 
         jPanel22.add(jPanel45);
 
@@ -418,13 +441,11 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel47Layout = new javax.swing.GroupLayout(jPanel47);
         jPanel47.setLayout(jPanel47Layout);
         jPanel47Layout.setHorizontalGroup(
-            jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
-        );
+                jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 60, Short.MAX_VALUE));
         jPanel47Layout.setVerticalGroup(
-            jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 142, Short.MAX_VALUE)
-        );
+                jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 142, Short.MAX_VALUE));
 
         jPanel22.add(jPanel47);
 
@@ -473,13 +494,11 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel49Layout = new javax.swing.GroupLayout(jPanel49);
         jPanel49.setLayout(jPanel49Layout);
         jPanel49Layout.setHorizontalGroup(
-            jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 919, Short.MAX_VALUE)
-        );
+                jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 919, Short.MAX_VALUE));
         jPanel49Layout.setVerticalGroup(
-            jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
+                jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 40, Short.MAX_VALUE));
 
         jPanel9.add(jPanel49, java.awt.BorderLayout.SOUTH);
 
@@ -496,7 +515,8 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jPanel50.setRequestFocusEnabled(false);
         jPanel50.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(
+                new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
         jComboBox1.setPreferredSize(new java.awt.Dimension(130, 32));
         jPanel50.add(jComboBox1);
@@ -571,16 +591,15 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jScrollPane1.setPreferredSize(new java.awt.Dimension(470, 217));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "STT", "Mã thuốc", "Tên thuốc", "Danh mục", "Đơn vị", "Xuất xứ", "Số lượng", "Giá nhập"
-            }
-        ));
+                new Object[][] {
+                        { null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null }
+                },
+                new String[] {
+                        "STT", "Mã thuốc", "Tên thuốc", "Danh mục", "Đơn vị", "Xuất xứ", "Số lượng", "Giá nhập"
+                }));
         jTable1.setMinimumSize(new java.awt.Dimension(470, 217));
         jTable1.setPreferredSize(new java.awt.Dimension(470, 217));
         jScrollPane1.setViewportView(jTable1);
@@ -616,16 +635,15 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jPanel43.setLayout(new java.awt.BorderLayout());
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "STT", "Tên thuốc", "Số lượng", "Giá nhập"
-            }
-        ));
+                new Object[][] {
+                        { null, null, null, null },
+                        { null, null, null, null },
+                        { null, null, null, null },
+                        { null, null, null, null }
+                },
+                new String[] {
+                        "STT", "Tên thuốc", "Số lượng", "Giá nhập"
+                }));
         jScrollPane3.setViewportView(jTable2);
 
         jPanel43.add(jScrollPane3, java.awt.BorderLayout.CENTER);
