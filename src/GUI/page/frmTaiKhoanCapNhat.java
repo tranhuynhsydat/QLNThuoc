@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package GUI.page;
+
 import DAO.TaiKhoanDAO;
 import Entity.TaiKhoan;
 import GUI.form.formThemNCC;
@@ -13,11 +14,13 @@ import GUI.form.formThemTK;
 import javax.swing.JFrame;
 import java.util.List;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
- import javax.swing.SwingWorker;
- import javax.swing.table.DefaultTableCellRenderer;
- import javax.swing.table.DefaultTableModel;
+import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author roxan
@@ -25,83 +28,84 @@ import javax.swing.SwingUtilities;
 public class frmTaiKhoanCapNhat extends javax.swing.JPanel {
 
     private int startIndex = 0;
+
     /**
      * Creates new form NewJPanel
      */
     public frmTaiKhoanCapNhat() {
         initComponents();
         configureTable();
-         loadDataToTable();
-         jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
-             JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
-             int max = vertical.getMaximum();
-             int current = vertical.getValue();
-             int visible = vertical.getVisibleAmount();
- 
-             // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
-             if (current + visible >= max) {
-                 startIndex += 13;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
-                 loadDataToTable();  // Tải thêm dữ liệu
-             }
-         });
+        loadDataToTable();
+        jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
+            JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
+            int max = vertical.getMaximum();
+            int current = vertical.getValue();
+            int visible = vertical.getVisibleAmount();
+
+            // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
+            if (current + visible >= max) {
+                startIndex += 13;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                loadDataToTable();  // Tải thêm dữ liệu
+            }
+        });
     }
+
     private void configureTable() {
-         // Ngăn không cho phép người dùng chỉnh sửa bảng
-         jTable1.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
+        // Ngăn không cho phép người dùng chỉnh sửa bảng
+        jTable1.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
 
         // Căn giữa cho tất cả các cell trong bảng
-         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
- 
-         // Căn giữa cho từng cột
-         for (int i = 0; i < jTable1.getColumnCount(); i++) {
-             jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-         }
- 
-         // Ngăn không cho phép chọn nhiều dòng
-         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-     }
- 
-     private void loadDataToTable() {
-         // Lấy dữ liệu thuốc với batch tiếp theo (13 dòng)
-         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-             @Override
-             protected Void doInBackground() throws Exception {
-                 List<TaiKhoan> TaiKhoanList = TaiKhoanDAO.getTaiKhoanBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
-                 System.out.println("Dữ liệu nhận được từ DB: " + TaiKhoanList.size() + " dòng");
- 
-                 if (TaiKhoanList == null || TaiKhoanList.isEmpty()) {
-                     System.out.println("Không có dữ liệu để tải.");
-                 } else {
-                     SwingUtilities.invokeLater(() -> {
-                         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                         if (startIndex == 0) {
-                             model.setRowCount(0);  // Xóa tất cả dữ liệu hiện tại trong bảng khi tải lại từ đầu
-                         }
- 
-                         // Thêm dữ liệu mới vào bảng
-                         for (TaiKhoan tk : TaiKhoanList) {
-                             Object[] rowData = {
-                                 tk.getId(),
-                                 tk.getUsername(),
-                                 tk.getPassword(),
-                                 tk.getNhanVien() != null ? tk.getNhanVien().getHoTen(): null,
-                                 tk.getNhanVien() != null ? tk.getNhanVien().getChucVu(): null,
-                                 
-                             };
-                             model.addRow(rowData);  // Thêm dòng vào bảng
-                         }
- 
-                         model.fireTableDataChanged();  // Đảm bảo bảng được làm mới
-                         jTable1.revalidate();  // Cập nhật lại bảng
-                         jTable1.repaint();  // Vẽ lại bảng
-                     });
-                 }
-                 return null;
-             }
-         };
-         worker.execute();
-     }
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Căn giữa cho từng cột
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        // Ngăn không cho phép chọn nhiều dòng
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    private void loadDataToTable() {
+        // Lấy dữ liệu thuốc với batch tiếp theo (13 dòng)
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                List<TaiKhoan> TaiKhoanList = TaiKhoanDAO.getTaiKhoanBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
+                System.out.println("Dữ liệu nhận được từ DB: " + TaiKhoanList.size() + " dòng");
+
+                if (TaiKhoanList == null || TaiKhoanList.isEmpty()) {
+                    System.out.println("Không có dữ liệu để tải.");
+                } else {
+                    SwingUtilities.invokeLater(() -> {
+                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                        if (startIndex == 0) {
+                            model.setRowCount(0);  // Xóa tất cả dữ liệu hiện tại trong bảng khi tải lại từ đầu
+                        }
+
+                        // Thêm dữ liệu mới vào bảng
+                        for (TaiKhoan tk : TaiKhoanList) {
+                            Object[] rowData = {
+                                tk.getId(),
+                                tk.getUsername(),
+                                tk.getPassword(),
+                                tk.getNhanVien() != null ? tk.getNhanVien().getHoTen() : null,
+                                tk.getNhanVien() != null ? tk.getNhanVien().getChucVu() : null,};
+                            model.addRow(rowData);  // Thêm dòng vào bảng
+                        }
+
+                        model.fireTableDataChanged();  // Đảm bảo bảng được làm mới
+                        jTable1.revalidate();  // Cập nhật lại bảng
+                        jTable1.repaint();  // Vẽ lại bảng
+                    });
+                }
+                return null;
+            }
+        };
+        worker.execute();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -195,6 +199,11 @@ public class frmTaiKhoanCapNhat extends javax.swing.JPanel {
         btnXoa.setMaximumSize(new java.awt.Dimension(85, 35));
         btnXoa.setMinimumSize(new java.awt.Dimension(85, 35));
         btnXoa.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
         btnPanel.add(btnXoa);
 
         tablePanel.add(btnPanel, java.awt.BorderLayout.PAGE_END);
@@ -213,6 +222,38 @@ public class frmTaiKhoanCapNhat extends javax.swing.JPanel {
         startIndex = 0;
         loadDataToTable();
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+// Lấy mã tài khoản từ dòng đã chọn trong bảng
+        int selectedRow = jTable1.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản cần xóa!");
+            return;
+        }
+
+        // Lấy mã tài khoản từ bảng
+        String maTK = (String) jTable1.getValueAt(selectedRow, 0);  // Mã tài khoản ở cột 0
+
+        // Hiển thị hộp thoại xác nhận xóa
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa tài khoản này?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            // Gọi phương thức xóa tài khoản trong DAO
+            boolean isDeleted = TaiKhoanDAO.xoa(maTK);
+
+            if (isDeleted) {
+                JOptionPane.showMessageDialog(this, "Tài khoản đã được xóa thành công!");
+                // Cập nhật lại bảng sau khi xóa
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);  // Xóa dữ liệu cũ trong bảng
+                startIndex = 0;
+                loadDataToTable();  // Tải lại dữ liệu bảng
+            } else {
+                JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi xóa tài khoản!");
+            }
+        }
+    }//GEN-LAST:event_btnXoaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -30,16 +30,14 @@ public class formThemTK extends javax.swing.JDialog {
         loadComboboxData();
     }
     Map<String, NhanVien> nhanVienMap = new HashMap<>();
+
     private void loadComboboxData() {
-    List<NhanVien> nhanVienList = NhanVienDAO.getAllNhanVien();
-    for (NhanVien nv : nhanVienList) {
-        cboNhanVien.addItem(nv.getHoTen());
-         nhanVienMap.put(nv.getHoTen(), nv);
+        List<NhanVien> nhanVienList = NhanVienDAO.getAllNhanVien();
+        for (NhanVien nv : nhanVienList) {
+            cboNhanVien.addItem(nv.getHoTen());
+            nhanVienMap.put(nv.getHoTen(), nv);
+        }
     }
-}
-
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -283,46 +281,51 @@ public class formThemTK extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
-        String userName = txtUserName.getText();
-    String passWord = txtPassword.getText();
-    String rePassWord = txtRePassword.getText();
-    String nvName = (String) cboNhanVien.getSelectedItem();  // Lấy tên nhân viên từ ComboBox
+        // Lấy thông tin từ các trường nhập liệu
+        String userName = txtUserName.getText().trim();
+        String passWord = txtPassword.getText().trim();
+        String rePassWord = txtRePassword.getText().trim();
+        String nvName = (String) cboNhanVien.getSelectedItem();  // Lấy tên nhân viên từ ComboBox
 
-    // Tìm đối tượng NhanVien từ tên nhân viên
-    NhanVien maNV = nhanVienMap.get(nvName);  // Tìm đối tượng NhanVien dựa trên tên
+        // Tìm đối tượng NhanVien từ tên nhân viên
+        NhanVien maNV = nhanVienMap.get(nvName);  // Tìm đối tượng NhanVien dựa trên tên
 
-    // Kiểm tra null trước khi tiếp tục
-    if (maNV == null) {
-        JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin nhân viên!");
-        return;
-    }
+        // Kiểm tra null trước khi tiếp tục
+        if (maNV == null) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin nhân viên!");
+            return;
+        }
 
-    // Tạo đối tượng tài khoản
-    TaiKhoan tk = new TaiKhoan(
-        TaiKhoanDAO.TaoMaTaiKhoan(),
-        userName,
-        passWord,
-        maNV // truyền vào đối tượng NhanVien
-    );
+        // Kiểm tra nếu các trường không rỗng và mật khẩu trùng khớp
+        if (userName.isEmpty() || passWord.isEmpty() || rePassWord.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin tài khoản!");
+            return;
+        }
 
-    // Kiểm tra mật khẩu
-    if (!passWord.equals(rePassWord)) {
-        JOptionPane.showMessageDialog(this, "Mật khẩu không khớp. Vui lòng nhập lại!");
-        return;
-    }
+        if (!passWord.equals(rePassWord)) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu không khớp. Vui lòng nhập lại!");
+            return;
+        }
 
-    // Thêm tài khoản vào cơ sở dữ liệu
-    if (TaiKhoanDAO.Them(tk)) {
-        JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công!");
-        dispose();  // Đóng form thêm tài khoản
-    } else {
-        JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi thêm tài khoản.");
-    }
+        // Tạo đối tượng tài khoản
+        TaiKhoan tk = new TaiKhoan(
+                TaiKhoanDAO.TaoMaTaiKhoan(), // Sinh mã tài khoản tự động
+                userName,
+                passWord,
+                maNV // truyền vào đối tượng NhanVien
+        );
+
+        // Thêm tài khoản vào cơ sở dữ liệu
+        if (TaiKhoanDAO.Them(tk)) {
+            JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công!");
+            dispose();  // Đóng form thêm tài khoản
+        } else {
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi thêm tài khoản.");
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-    dispose();        // TODO add your handling code here:
+        dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_btnHuyActionPerformed
 
     /**
