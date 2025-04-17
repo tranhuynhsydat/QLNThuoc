@@ -16,6 +16,7 @@ public class ThuocDAO {
 
     public static Thuoc getThuocByMaThuoc(String maThuoc) {
         Thuoc thuoc = null;
+        
         String sql = "SELECT * FROM Thuoc WHERE maThuoc = ?";
 
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {

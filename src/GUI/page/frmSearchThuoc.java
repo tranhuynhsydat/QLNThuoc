@@ -26,7 +26,6 @@ import javax.swing.table.DefaultTableModel;
  * @author Admin
  */
 public class frmSearchThuoc extends javax.swing.JPanel {
-
     private int startIndex;
     private boolean isSearching = false;
 
