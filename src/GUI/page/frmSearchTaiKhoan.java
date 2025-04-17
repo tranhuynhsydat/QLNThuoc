@@ -109,8 +109,8 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel6 = new javax.swing.JPanel();
-        btnThem = new javax.swing.JButton();
-        btnThem1 = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
+        btnChiTiet = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -145,33 +145,33 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
 
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 10));
 
-        btnThem.setBackground(new java.awt.Color(0, 120, 92));
-        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem.setText("Tìm kiếm");
-        btnThem.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnThem.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnThem.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
+        btnSearch.setBackground(new java.awt.Color(0, 120, 92));
+        btnSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSearch.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearch.setText("Tìm kiếm");
+        btnSearch.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnSearch.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnSearch.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
+                btnSearchActionPerformed(evt);
             }
         });
-        jPanel6.add(btnThem);
+        jPanel6.add(btnSearch);
 
-        btnThem1.setBackground(new java.awt.Color(0, 120, 92));
-        btnThem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem1.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem1.setText("Chi tiết");
-        btnThem1.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnThem1.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnThem1.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnThem1.addActionListener(new java.awt.event.ActionListener() {
+        btnChiTiet.setBackground(new java.awt.Color(0, 120, 92));
+        btnChiTiet.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChiTiet.setForeground(new java.awt.Color(255, 255, 255));
+        btnChiTiet.setText("Chi tiết");
+        btnChiTiet.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnChiTiet.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnChiTiet.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnChiTiet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThem1ActionPerformed(evt);
+                btnChiTietActionPerformed(evt);
             }
         });
-        jPanel6.add(btnThem1);
+        jPanel6.add(btnChiTiet);
 
         add(jPanel6, java.awt.BorderLayout.SOUTH);
 
@@ -340,18 +340,18 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnThemActionPerformed
+    }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void btnThem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem1ActionPerformed
+    private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnThem1ActionPerformed
+    }//GEN-LAST:event_btnChiTietActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnThem1;
+    private javax.swing.JButton btnChiTiet;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;

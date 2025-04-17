@@ -227,31 +227,86 @@ public class ThuocDAO {
     }
 
     public static boolean sua(Thuoc thuoc) {
-    String sql = "UPDATE Thuoc SET tenThuoc = ?, thanhPhanThuoc = ?, giaNhap = ?, donGia = ?, HSD = ?, maDM = ?, maDVT = ?, maXX = ?, soLuong = ?, anh = ? WHERE maThuoc = ?";
+        String sql = "UPDATE Thuoc SET tenThuoc = ?, thanhPhanThuoc = ?, giaNhap = ?, donGia = ?, HSD = ?, maDM = ?, maDVT = ?, maXX = ?, soLuong = ?, anh = ? WHERE maThuoc = ?";
 
-    try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        // Đặt các giá trị vào câu lệnh SQL
-        ps.setString(1, thuoc.getTenThuoc());
-        ps.setString(2, thuoc.getThanhPhan());
-        ps.setDouble(3, thuoc.getGiaNhap());
-        ps.setDouble(4, thuoc.getDonGia());
-        ps.setDate(5, new java.sql.Date(thuoc.getHsd().getTime()));  // Chuyển đổi HSD từ java.util.Date thành java.sql.Date
-        ps.setString(6, thuoc.getDanhMuc().getId());  // Mã danh mục
-        ps.setString(7, thuoc.getDonViTinh().getId());  // Mã đơn vị tính
-        ps.setString(8, thuoc.getXuatXu().getId());  // Mã xuất xứ
-        ps.setInt(9, thuoc.getSoLuong());  // Số lượng
-        ps.setBytes(10, thuoc.getHinhAnh());  // Hình ảnh thuốc dưới dạng byte[]
-        ps.setString(11, thuoc.getId());  // Mã thuốc để xác định bản ghi cần cập nhật
+            // Đặt các giá trị vào câu lệnh SQL
+            ps.setString(1, thuoc.getTenThuoc());
+            ps.setString(2, thuoc.getThanhPhan());
+            ps.setDouble(3, thuoc.getGiaNhap());
+            ps.setDouble(4, thuoc.getDonGia());
+            ps.setDate(5, new java.sql.Date(thuoc.getHsd().getTime()));  // Chuyển đổi HSD từ java.util.Date thành java.sql.Date
+            ps.setString(6, thuoc.getDanhMuc().getId());  // Mã danh mục
+            ps.setString(7, thuoc.getDonViTinh().getId());  // Mã đơn vị tính
+            ps.setString(8, thuoc.getXuatXu().getId());  // Mã xuất xứ
+            ps.setInt(9, thuoc.getSoLuong());  // Số lượng
+            ps.setBytes(10, thuoc.getHinhAnh());  // Hình ảnh thuốc dưới dạng byte[]
+            ps.setString(11, thuoc.getId());  // Mã thuốc để xác định bản ghi cần cập nhật
 
-        // Thực thi câu lệnh UPDATE và kiểm tra xem có cập nhật thành công không
-        return ps.executeUpdate() > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();  // In ra thông tin chi tiết về lỗi
-        JOptionPane.showMessageDialog(null, "Lỗi: " + e.getMessage());  // Hiển thị thông báo lỗi chi tiết
+            // Thực thi câu lệnh UPDATE và kiểm tra xem có cập nhật thành công không
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();  // In ra thông tin chi tiết về lỗi
+            JOptionPane.showMessageDialog(null, "Lỗi: " + e.getMessage());  // Hiển thị thông báo lỗi chi tiết
+        }
+        return false;
     }
-    return false;
-}
 
+    public static List<Thuoc> searchThuoc(String tenThuoc, String thanhPhanThuoc, double giaNhap, double giaBan, Date hsd, String danhMuc, String donViTinh, String xuatXu) {
+        List<Thuoc> danhSachThuoc = new ArrayList<>();
+        String sql = "SELECT * FROM Thuoc WHERE "
+                + "(tenThuoc LIKE ? OR ? = '') AND "
+                + "(thanhPhanThuoc LIKE ? OR ? = '') AND "
+                + "(giaNhap >= ? OR ? = -1) AND "
+                + "(donGia >= ? OR ? = -1) AND "
+                + "(HSD >= ? OR ? IS NULL) AND "
+                + "(maDM = ? OR ? = '') AND "
+                + "(maDVT = ? OR ? = '') AND "
+                + "(maXX = ? OR ? = '')";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "%" + tenThuoc + "%");
+            ps.setString(2, tenThuoc);
+            ps.setString(3, "%" + thanhPhanThuoc + "%");
+            ps.setString(4, thanhPhanThuoc);
+            ps.setDouble(5, giaNhap);
+            ps.setDouble(6, giaNhap);
+            ps.setDouble(7, giaBan);
+            ps.setDouble(8, giaBan);
+            ps.setDate(9, hsd != null ? new java.sql.Date(hsd.getTime()) : null);
+            ps.setDate(10, hsd != null ? new java.sql.Date(hsd.getTime()) : null);
+            ps.setString(11, danhMuc);
+            ps.setString(12, danhMuc);
+            ps.setString(13, donViTinh);
+            ps.setString(14, donViTinh);
+            ps.setString(15, xuatXu);
+            ps.setString(16, xuatXu);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Thuoc thuoc = new Thuoc(
+                            rs.getString("maThuoc"),
+                            rs.getString("tenThuoc"),
+                            rs.getBytes("anh"),
+                            rs.getString("thanhPhanThuoc"),
+                            DanhMucDAO.getDanhMucByMa(rs.getString("maDM")),
+                            DonViTinhDAO.getDonViTinhByMa(rs.getString("maDVT")),
+                            XuatXuDAO.getXuatXuByMa(rs.getString("maXX")),
+                            rs.getInt("soLuong"),
+                            rs.getDouble("giaNhap"),
+                            rs.getDouble("donGia"),
+                            rs.getDate("HSD")
+                    );
+                    danhSachThuoc.add(thuoc);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return danhSachThuoc;
+    }
 
 }

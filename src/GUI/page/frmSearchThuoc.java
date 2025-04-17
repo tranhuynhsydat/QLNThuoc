@@ -4,9 +4,12 @@
  */
 package GUI.page;
 
+import DAO.NhanVienDAO;
 import DAO.ThuocDAO;
+import Entity.NhanVien;
 import Entity.Thuoc;
 import GUI.form.formThongTinThuoc;
+import java.util.Date;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -25,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 public class frmSearchThuoc extends javax.swing.JPanel {
 
     private int startIndex;
+    private boolean isSearching = false;
 
     /**
      * Creates new form frmSearchThuoc
@@ -36,6 +40,11 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         loadDataToTable();
         // Thêm sự kiện cuộn bảng
         jScrollPane3.getVerticalScrollBar().addAdjustmentListener(e -> {
+            // Nếu đang tìm kiếm thì không tải thêm dữ liệu
+            if (isSearching) {
+                return;
+            }
+
             JScrollBar vertical = jScrollPane3.getVerticalScrollBar();
             int max = vertical.getMaximum();
             int current = vertical.getValue();
@@ -43,40 +52,39 @@ public class frmSearchThuoc extends javax.swing.JPanel {
 
             // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
             if (current + visible >= max) {
-                startIndex += 13;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                startIndex += 13; // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
                 loadDataToTable();  // Tải thêm dữ liệu
             }
-
         });
 
     }
 
     private void configureTable() {
         // Ngăn không cho phép người dùng chỉnh sửa bảng
-        jTable2.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
+        jTable1.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
 
         // Căn giữa cho tất cả các cell trong bảng
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
         // Căn giữa cho từng cột
-        for (int i = 0; i < jTable2.getColumnCount(); i++) {
-            jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
         // Ngăn không cho phép chọn nhiều dòng
-        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
     }
 
     private void loadDataToTable() {
-        // Lấy dữ liệu thuốc với batch tiếp theo (13 dòng)
+        // Lấy dữ liệu thuốc với batch tiếp theo (10 dòng)
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                // Lấy danh sách thuốc từ cơ sở dữ liệu (13 dòng bắt đầu từ startIndex)
+                // Lấy danh sách NCC từ cơ sở dữ liệu (10 dòng bắt đầu từ startIndex)
                 List<Thuoc> thuocList = ThuocDAO.getThuocBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
                 SwingUtilities.invokeLater(() -> {
-                    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
                     // Chỉ thêm dữ liệu mới vào bảng, không xóa dữ liệu cũ
                     for (Thuoc thuoc : thuocList) {
@@ -164,7 +172,7 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jPanel43 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable();
         btnPanel = new javax.swing.JPanel();
         btnTimKiem = new javax.swing.JButton();
         btnChiTiet = new javax.swing.JButton();
@@ -502,7 +510,9 @@ public class frmSearchThuoc extends javax.swing.JPanel {
         jPanel43.setPreferredSize(new java.awt.Dimension(452, 125));
         jPanel43.setLayout(new java.awt.BorderLayout());
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(200, 452));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -510,9 +520,9 @@ public class frmSearchThuoc extends javax.swing.JPanel {
                 "Mã thuốc", "Tên thuốc", "Thành phần", "Giá nhập", "Giá bán", "HSD", "Danh mục", "Đơn vị tính", "Xuất xứ", "Số lượng"
             }
         ));
-        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable2.setShowHorizontalLines(true);
-        jScrollPane3.setViewportView(jTable2);
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.setShowHorizontalLines(true);
+        jScrollPane3.setViewportView(jTable1);
 
         jPanel43.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
@@ -575,15 +585,83 @@ public class frmSearchThuoc extends javax.swing.JPanel {
     }//GEN-LAST:event_comboXuatXuActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
-        // TODO add your handling code here:
+        // Đánh dấu là đang tìm kiếm
+        isSearching = true;
+
+        // Lấy giá trị từ các trường nhập liệu
+        String tenThuoc = txtTenThuoc.getText().trim();
+        String thanhPhanThuoc = txtThanhPhanThuoc.getText().trim();
+        double giaNhap = -1;
+        double giaBan = -1;
+
+        // Kiểm tra giá trị của "Giá nhập" và "Giá bán"
+        try {
+            if (!txtGiaNhap.getText().isEmpty()) {
+                giaNhap = Double.parseDouble(txtGiaNhap.getText().trim());
+            }
+            if (!txtGiaBan.getText().isEmpty()) {
+                giaBan = Double.parseDouble(txtGiaBan.getText().trim());
+            }
+        } catch (NumberFormatException e) {
+            // Nếu có lỗi, giaNhap và giaBan đã được mặc định là -1 (không lọc)
+        }
+
+        // Chuyển đổi java.util.Date sang java.sql.Date (cho trường HSD)
+        java.util.Date utilDate = DateHSD.getDate();
+        java.sql.Date hsd = utilDate != null ? new java.sql.Date(utilDate.getTime()) : null;
+
+        // Lấy giá trị từ các comboBox
+        String danhMuc = comboDanhMuc.getSelectedItem() != null ? comboDanhMuc.getSelectedItem().toString() : "";
+        String donViTinh = comboDVT.getSelectedItem() != null ? comboDVT.getSelectedItem().toString() : "";
+        String xuatXu = comboXuatXu.getSelectedItem() != null ? comboXuatXu.getSelectedItem().toString() : "";
+
+        // Lấy giá trị từ "Số lượng"
+        int soLuong = 0;
+        try {
+            if (!txtSoLuong.getText().isEmpty()) {
+                soLuong = Integer.parseInt(txtSoLuong.getText().trim());
+            }
+        } catch (NumberFormatException e) {
+            soLuong = 0;  // Nếu không nhập, coi như không lọc
+        }
+
+        // Gọi phương thức tìm kiếm thuốc từ DAO
+        List<Thuoc> thuocList = ThuocDAO.searchThuoc(tenThuoc, thanhPhanThuoc, giaNhap, giaBan, hsd, danhMuc, donViTinh, xuatXu);
+
+        // Cập nhật bảng với kết quả tìm kiếm
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);  // Xóa dữ liệu cũ trong bảng
+
+        // Thêm dữ liệu vào bảng
+        if (thuocList.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy thuốc phù hợp!");
+        } else {
+            for (Thuoc thuoc : thuocList) {
+                model.addRow(new Object[]{
+                    thuoc.getId(),
+                    thuoc.getTenThuoc(),
+                    thuoc.getThanhPhan(),
+                    thuoc.getGiaNhap(),
+                    thuoc.getDonGia(),
+                    thuoc.getHsd(),
+                    thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen() : null,
+                    thuoc.getDonViTinh() != null ? thuoc.getDonViTinh().getTen() : null,
+                    thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen() : null,
+                    thuoc.getSoLuong()
+                });
+            }
+        }
+
+        // Đánh dấu tìm kiếm xong
+
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
-        int selectedRow = jTable2.getSelectedRow();  // Lấy dòng được chọn trong bảng
+        int selectedRow = jTable1.getSelectedRow();  // Lấy dòng được chọn trong bảng
 
         if (selectedRow != -1) {
             // Lấy mã thuốc từ cột đầu tiên (mã thuốc)
-            String maThuoc = jTable2.getValueAt(selectedRow, 0).toString();
+            String maThuoc = jTable1.getValueAt(selectedRow, 0).toString();
 
             // Mở form "Thông tin thuốc" và truyền mã thuốc vào constructor
             JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -651,7 +729,7 @@ public class frmSearchThuoc extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtGiaBan;
     private javax.swing.JTextField txtGiaNhap;
     private javax.swing.JTextField txtSoLuong;

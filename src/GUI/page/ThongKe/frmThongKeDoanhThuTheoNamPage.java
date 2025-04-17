@@ -131,7 +131,7 @@ public class frmThongKeDoanhThuTheoNamPage extends javax.swing.JPanel {
         lblChart.setPreferredSize(new java.awt.Dimension(60, 30));
         jPanel5.add(lblChart);
 
-        txtStartYear.setText("2015");
+        txtStartYear.setText(String.valueOf(currentYear-10));
         jPanel5.add(txtStartYear);
 
         lblChart1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
@@ -141,7 +141,7 @@ public class frmThongKeDoanhThuTheoNamPage extends javax.swing.JPanel {
         lblChart1.setPreferredSize(new java.awt.Dimension(60, 30));
         jPanel5.add(lblChart1);
 
-        txtEndYear.setText("2025");
+        txtEndYear.setText(String.valueOf(currentYear));
         txtEndYear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEndYearActionPerformed(evt);
