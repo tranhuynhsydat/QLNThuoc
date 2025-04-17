@@ -325,7 +325,7 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
 // 
 //         // Sau khi đóng formThemNV, gọi lại phương thức để làm mới bảng
 //         loadTableData();
-JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         formThemNV dialog = new formThemNV(parentFrame, true);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
