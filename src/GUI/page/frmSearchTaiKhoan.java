@@ -316,7 +316,7 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã tài khoản", "Tên tài khoản", "Password", "Tên nhân viên", ""
+                "Mã tài khoản", "Tên tài khoản", "Password", "Tên nhân viên", "Chức vụ"
             }
         ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
