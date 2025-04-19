@@ -12,16 +12,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import java.awt.Container;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 //import utils.Formatter;
 //import utils.MessageDialog;
@@ -43,6 +47,8 @@ public class frmHoaDonThem extends javax.swing.JPanel {
     public frmHoaDonThem() {
         initComponents();
         configureTable();
+        optimizeTableDisplay();
+        setupScrollingBehavior();
         loadDataToTable();
         addTableSelectionListener();
         initEvent();
@@ -61,55 +67,91 @@ public class frmHoaDonThem extends javax.swing.JPanel {
     }
 
     private void configureTable() {
-        // Configure table with column names
+        // Cấu hình bảng với tên cột
         DefaultTableModel model = new DefaultTableModel(
                 new Object[][] {},
                 new String[] {
                         "STT", "Mã thuốc", "Tên thuốc", "Danh mục", "Đơn vị", "Xuất xứ", "Số lượng", "Giá nhập"
-                });
-        jTable1.setModel(model);
-        jTable1.setMinimumSize(new java.awt.Dimension(470, 217));
-        jTable1.setPreferredSize(new java.awt.Dimension(470, 217));
-    }
-
-    private void loadDataToTable() {
-        // Load medicine data in batches using SwingWorker to prevent UI freezing
-        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                }) {
             @Override
-            protected Void doInBackground() throws Exception {
-                List<Thuoc> thuocList = ThuocDAO.getThuocBatch(startIndex, 13);
-                System.out.println("Received data from DB: " + thuocList.size() + " rows");
-                if (thuocList == null || thuocList.isEmpty()) {
-                    System.out.println("No data to load.");
-                } else {
-                    SwingUtilities.invokeLater(() -> {
-                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                        if (startIndex == 0) {
-                            model.setRowCount(0); // Clear all existing data when reloading from beginning
-                        }
+            public boolean isCellEditable(int row, int column) {
+                return false; // Ngăn chặn chỉnh sửa
+            }
+        };
+
+        jTable1.setModel(model);
+
+        // Thiết lập chiều cao dòng để hiển thị nhiều dòng hơn
+        jTable1.setRowHeight(25);
+
+        // Sử dụng kích thước hiện có nhưng đảm bảo đủ lớn
+        jTable1.setMinimumSize(new java.awt.Dimension(470, 300));
+        jTable1.setPreferredSize(new java.awt.Dimension(470, 300));
+
+        // Đảm bảo thanh cuộn hiển thị khi cần
+        if (jScrollPane1 != null) {
+            jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        }
+    }
+// Phương thức cải tiến để đảm bảo hiển thị tối đa bảng
+private void optimizeTableDisplay() {
+    // Đảm bảo rằng panel chứa JScrollPane đủ lớn
+    Container parent = jScrollPane1.getParent();
+    if (parent != null) {
+        // Đặt kích thước tối thiểu của jScrollPane1 để sử dụng tối đa không gian có sẵn
+        parent.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                // Tính toán chiều cao tối đa có thể có
+                int maxHeight = parent.getHeight() - jScrollPane1.getY() - 10; // 10px margin
+                if (maxHeight > 100) { // Đảm bảo chiều cao tối thiểu hợp lý
+                    jScrollPane1.setSize(jScrollPane1.getWidth(), maxHeight);
+                }
+            }
+        });
+    }
+    
+    // Đảm bảo JTable sử dụng toàn bộ không gian của JScrollPane
+    jTable1.setFillsViewportHeight(true);
+}
+
+// Phương thức loadDataToTable() được cải tiến
+private void loadDataToTable() {
+    // Hiển thị thông báo đang tải (tùy chọn)
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    
+    // Load medicine data in batches using SwingWorker to prevent UI freezing
+    SwingWorker<List<Thuoc>, Void> worker = new SwingWorker<List<Thuoc>, Void>() {
+        @Override
+        protected List<Thuoc> doInBackground() throws Exception {
+            return ThuocDAO.getThuocBatch(startIndex, 13);
+        }
+        
+        @Override
+        protected void done() {
+            try {
+                List<Thuoc> thuocList = get();
+                System.out.println("Received data from DB: " + 
+                                 (thuocList != null ? thuocList.size() : 0) + " rows");
+                
+                SwingUtilities.invokeLater(() -> {
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    
+
                         // Add new data to table
                         int stt = startIndex + 1;
                         for (Thuoc thuoc : thuocList) {
                             // Get the category, unit, and origin names safely
-                            String danhMucName = "";
-                            if (thuoc.getDanhMuc() != null) {
-                                // Use the field directly or a getter that exists
-                                // For example, if the field is directly accessible:
-                                danhMucName = thuoc.getDanhMuc().getTen(); // Adjust if needed
-                            }
-
-                            String donViName = "";
-                            if (thuoc.getDonViTinh() != null) {
-                                // Use the field directly or a getter that exists
-                                donViName = thuoc.getDonViTinh().getTen(); // Adjust if needed
-                            }
-
-                            String xuatXuName = "";
-                            if (thuoc.getXuatXu() != null) {
-                                // Use the field directly or a getter that exists
-                                xuatXuName = thuoc.getXuatXu().getTen(); // Adjust if needed
-                            }
-
+                            String danhMucName = (thuoc.getDanhMuc() != null) ? 
+                                               thuoc.getDanhMuc().getTen() : "";
+                            
+                            String donViName = (thuoc.getDonViTinh() != null) ? 
+                                             thuoc.getDonViTinh().getTen() : "";
+                            
+                            String xuatXuName = (thuoc.getXuatXu() != null) ? 
+                                              thuoc.getXuatXu().getTen() : "";
+                            
                             Object[] rowData = {
                                     stt++,
                                     thuoc.getId(),
@@ -122,38 +164,73 @@ public class frmHoaDonThem extends javax.swing.JPanel {
                             };
                             model.addRow(rowData);
                         }
-                        model.fireTableDataChanged(); // Ensure table is refreshed
-                        jTable1.revalidate(); // Update table
-                        jTable1.repaint(); // Repaint table
-                    });
-                }
-                return null;
+                    
+                    // Đảm bảo bảng được cập nhật đúng cách
+                    model.fireTableDataChanged();
+                    jTable1.revalidate();
+                    jTable1.repaint();
+                    
+                    // Đảm bảo rằng JScrollPane hiển thị thanh cuộn nếu cần
+                    jScrollPane1.revalidate();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        };
-        worker.execute();
-    }
+        }
+    };
+    
+    worker.execute();
+}
+
+// Thêm phương thức này vào constructor hoặc initComponents()
+private void setupScrollingBehavior() {
+    // Điều chỉnh hành vi cuộn để tải thêm dữ liệu khi cuộn đến cuối
+    jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
+        // Chỉ tải thêm dữ liệu khi thanh cuộn dừng lại
+        if (!e.getValueIsAdjusting()) {
+            JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
+            int max = vertical.getMaximum();
+            int current = vertical.getValue();
+            int visible = vertical.getVisibleAmount();
+            
+            // Kiểm tra xem người dùng đã cuộn đến gần cuối chưa (90%)
+            if (current + visible >= max * 0.9) {
+                startIndex += 13; // Tăng chỉ số bắt đầu để tải batch tiếp theo
+                loadDataToTable(); // Tải thêm dữ liệu
+            }
+        }
+    });
+}
 
     private void addTableSelectionListener() {
-        // Add a selection listener to the JTable
-        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
+    // Thêm listener xử lý sự kiện khi chọn dòng trong bảng
+    jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if (!e.getValueIsAdjusting()) { // Chỉ xử lý khi sự kiện chọn đã hoàn tất
                 int selectedRow = jTable1.getSelectedRow();
                 if (selectedRow != -1) {
-                    // Get data from selected row
-                    String maThuoc = jTable1.getValueAt(selectedRow, 1).toString();
-                    String tenThuoc = jTable1.getValueAt(selectedRow, 2).toString();
-                    String thanhPhan = "Công thức thuốc ví dụ"; // Add actual data
-                    String donGia = jTable1.getValueAt(selectedRow, 7).toString();
-
-                    // Update text fields with the selected row's data
+                    // Lấy dữ liệu từ dòng đã chọn
+                    String maThuoc = jTable1.getValueAt(selectedRow, 1) != null ? 
+                                    jTable1.getValueAt(selectedRow, 1).toString() : "";
+                    String tenThuoc = jTable1.getValueAt(selectedRow, 2) != null ?
+                                     jTable1.getValueAt(selectedRow, 2).toString() : "";
+                    String donGia = jTable1.getValueAt(selectedRow, 7) != null ?
+                                  jTable1.getValueAt(selectedRow, 7).toString() : "";
+                    
+                    // Giả định lấy thành phần từ DAO
+                    String thanhPhan = "Công thức thuốc ví dụ"; // Thay bằng dữ liệu thực
+                    
+                    // Cập nhật các trường văn bản với dữ liệu đã chọn
                     txtMaThuoc.setText(maThuoc);
                     txtTenThuoc.setText(tenThuoc);
                     txtThanhPhan.setText(thanhPhan);
                     txtDonGia.setText(donGia);
                 }
             }
-        });
+        }
+    });
+    
     }
 
     // Make sure to also remove any references to FlatSVGIcon in your button setup
@@ -174,7 +251,7 @@ public class frmHoaDonThem extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         label1 = new java.awt.Label();
@@ -253,14 +330,14 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         btnAddCustomer = new javax.swing.JButton();
         jPanel38 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        txtHoTenKH = new javax.swing.JTextField();
+        txtTenKH = new javax.swing.JTextField();
         cboxGioiTinhKH = new javax.swing.JComboBox<>();
         jPanel8 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         txtThoiGian = new javax.swing.JTextField();
         jPanel59 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
-        txtSdtKH1 = new javax.swing.JTextField();
+        txtNV = new javax.swing.JTextField();
         btnSearchKH1 = new javax.swing.JButton();
         btnAddCustomer1 = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
@@ -314,11 +391,13 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         javax.swing.GroupLayout JPanhThuocLayout = new javax.swing.GroupLayout(JPanhThuoc);
         JPanhThuoc.setLayout(JPanhThuocLayout);
         JPanhThuocLayout.setHorizontalGroup(
-                JPanhThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 262, Short.MAX_VALUE));
+            JPanhThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 262, Short.MAX_VALUE)
+        );
         JPanhThuocLayout.setVerticalGroup(
-                JPanhThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 304, Short.MAX_VALUE));
+            JPanhThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 304, Short.MAX_VALUE)
+        );
 
         jPanel29.add(JPanhThuoc);
 
@@ -415,11 +494,13 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel45Layout = new javax.swing.GroupLayout(jPanel45);
         jPanel45.setLayout(jPanel45Layout);
         jPanel45Layout.setHorizontalGroup(
-                jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 60, Short.MAX_VALUE));
+            jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
         jPanel45Layout.setVerticalGroup(
-                jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 142, Short.MAX_VALUE));
+            jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 142, Short.MAX_VALUE)
+        );
 
         jPanel22.add(jPanel45);
 
@@ -441,11 +522,13 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel47Layout = new javax.swing.GroupLayout(jPanel47);
         jPanel47.setLayout(jPanel47Layout);
         jPanel47Layout.setHorizontalGroup(
-                jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 60, Short.MAX_VALUE));
+            jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
         jPanel47Layout.setVerticalGroup(
-                jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 142, Short.MAX_VALUE));
+            jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 142, Short.MAX_VALUE)
+        );
 
         jPanel22.add(jPanel47);
 
@@ -494,11 +577,13 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel49Layout = new javax.swing.GroupLayout(jPanel49);
         jPanel49.setLayout(jPanel49Layout);
         jPanel49Layout.setHorizontalGroup(
-                jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 919, Short.MAX_VALUE));
+            jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 919, Short.MAX_VALUE)
+        );
         jPanel49Layout.setVerticalGroup(
-                jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 40, Short.MAX_VALUE));
+            jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
 
         jPanel9.add(jPanel49, java.awt.BorderLayout.SOUTH);
 
@@ -515,8 +600,7 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jPanel50.setRequestFocusEnabled(false);
         jPanel50.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
 
-        jComboBox1.setModel(
-                new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
         jComboBox1.setPreferredSize(new java.awt.Dimension(130, 32));
         jPanel50.add(jComboBox1);
@@ -587,21 +671,26 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jPanel53.setPreferredSize(new java.awt.Dimension(470, 362));
         jPanel53.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(470, 217));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(470, 217));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(470, 362));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(470, 362));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null }
-                },
-                new String[] {
-                        "STT", "Mã thuốc", "Tên thuốc", "Danh mục", "Đơn vị", "Xuất xứ", "Số lượng", "Giá nhập"
-                }));
-        jTable1.setMinimumSize(new java.awt.Dimension(470, 217));
-        jTable1.setPreferredSize(new java.awt.Dimension(470, 217));
+            new Object [][] {
+
+            },
+            new String [] {
+                "STT", "Mã thuốc", "Tên thuốc", "Danh mục", "Đơn vị", "Xuất xứ", "Số lượng", "Giá nhập"
+            }
+        ));
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jTable1.setMaximumSize(new java.awt.Dimension(470, 362));
+        jTable1.setMinimumSize(new java.awt.Dimension(470, 362));
+        jTable1.setPreferredSize(new java.awt.Dimension(470, 362));
+        jTable1.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                jTable1ComponentResized(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jPanel53.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -635,15 +724,16 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jPanel43.setLayout(new java.awt.BorderLayout());
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null }
-                },
-                new String[] {
-                        "STT", "Tên thuốc", "Số lượng", "Giá nhập"
-                }));
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "STT", "Tên thuốc", "Số lượng", "Giá nhập"
+            }
+        ));
         jScrollPane3.setViewportView(jTable2);
 
         jPanel43.add(jScrollPane3, java.awt.BorderLayout.CENTER);
@@ -802,8 +892,8 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jLabel12.setPreferredSize(new java.awt.Dimension(120, 40));
         jPanel38.add(jLabel12);
 
-        txtHoTenKH.setPreferredSize(new java.awt.Dimension(200, 40));
-        jPanel38.add(txtHoTenKH);
+        txtTenKH.setPreferredSize(new java.awt.Dimension(200, 40));
+        jPanel38.add(txtTenKH);
 
         jPanel36.add(jPanel38);
 
@@ -835,13 +925,8 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jLabel20.setPreferredSize(new java.awt.Dimension(120, 40));
         jPanel59.add(jLabel20);
 
-        txtSdtKH1.setPreferredSize(new java.awt.Dimension(200, 40));
-        txtSdtKH1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSdtKH1ActionPerformed(evt);
-            }
-        });
-        jPanel59.add(txtSdtKH1);
+        txtNV.setPreferredSize(new java.awt.Dimension(200, 40));
+        jPanel59.add(txtNV);
 
         btnSearchKH1.setIcon(new FlatSVGIcon("./icon/search.svg"));
         btnSearchKH1.setBorderPainted(false);
@@ -943,6 +1028,10 @@ public class frmHoaDonThem extends javax.swing.JPanel {
 
         add(billPanel);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTable1ComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTable1ComponentResized
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1ComponentResized
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
@@ -1172,11 +1261,11 @@ public class frmHoaDonThem extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField2;
     private java.awt.Label label1;
     private javax.swing.JTextField txtDonGia;
-    private javax.swing.JTextField txtHoTenKH;
     private javax.swing.JTextField txtMaHoaDon;
     private javax.swing.JTextField txtMaThuoc;
+    private javax.swing.JTextField txtNV;
     private javax.swing.JTextField txtSdtKH;
-    private javax.swing.JTextField txtSdtKH1;
+    private javax.swing.JTextField txtTenKH;
     private javax.swing.JTextField txtTenThuoc;
     private javax.swing.JTextArea txtThanhPhan;
     private javax.swing.JTextField txtThoiGian;
