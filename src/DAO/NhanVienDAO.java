@@ -24,6 +24,30 @@ import javax.swing.JOptionPane;
  */
 public class NhanVienDAO {
 
+    public static NhanVien getNhanVienByHoTen(String hoTen) {
+        NhanVien nhanVien = null;
+        String sql = "SELECT * FROM NhanVien WHERE HoTen = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, hoTen);  // Truyền tên nhân viên vào truy vấn
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    // Tạo đối tượng NhanVien với thông tin lấy từ ResultSet
+                    nhanVien = new NhanVien(
+                            rs.getString("maNV"),
+                            rs.getString("HoTen"),
+                            rs.getString("ChucVu")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return nhanVien;
+    }
+
     public static List<NhanVien> getAllNhanVien() {
         List<NhanVien> danhSachNhanVien = new ArrayList<>();
         String sql = "SELECT * FROM NhanVien";
@@ -111,6 +135,7 @@ public class NhanVienDAO {
 
         return nv;
     }
+
     public static NhanVien getNhanVienHoTenChucVu(String maNV) {
         NhanVien nv = null;
         String sql = "SELECT maNV, hoTen, chucVu FROM NhanVien WHERE maNV = ?";
@@ -135,6 +160,7 @@ public class NhanVienDAO {
 
         return nv;
     }
+
     public static String TaoMaNhanVien() {
         String prefix = "NV-";
         Set<Integer> existingNumbers = new HashSet<>();  // Lưu trữ các mã nhân viên đã có

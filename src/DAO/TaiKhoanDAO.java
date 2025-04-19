@@ -156,21 +156,21 @@ public class TaiKhoanDAO {
     }
 
     public static boolean sua(TaiKhoan tk) {
-        String sql = "UPDATE TaiKhoan SET maTK = ?, UserName = ?, Password = ?, maNV = ? WHERE maTK = ?";
+        String sql = "UPDATE TaiKhoan SET UserName = ?, Password = ?, maNV = ? WHERE maTK = ?";
 
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, tk.getId()); // Mã nhân viên được sinh tự động
-            ps.setString(2, tk.getUsername());
-            ps.setString(3, tk.getPassword());
-            ps.setString(4, tk.getNhanVien().getHoTen());
-            ps.setString(5, tk.getNhanVien().getChucVu());
-            return ps.executeUpdate() > 0;
+            ps.setString(1, tk.getUsername());  // Tên đăng nhập mới
+            ps.setString(2, tk.getPassword());  // Mật khẩu mới
+            ps.setString(3, tk.getNhanVien().getId());  // ID nhân viên
+            ps.setString(4, tk.getId());  // Mã tài khoản cần sửa
 
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;  // Nếu có ít nhất một dòng bị ảnh hưởng thì cập nhật thành công
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;  // Trả về false nếu có lỗi
         }
-        return false;
     }
 
     public static boolean xoa(String maTK) {
@@ -188,43 +188,37 @@ public class TaiKhoanDAO {
         return false;
     }
 
-//    public static List<TaiKhoan> searchTaiKhoan(String UserName, String Password, String maNV) {
-//    List<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
-//    String sql = "SELECT * FROM TaiKhoan WHERE "
-//        + "(UserName LIKE ? OR ? = '') AND "
-//        + "(Password LIKE ? OR ? = '') AND "
-//        + "(maNV = ? OR ? IS NULL)";
-//
-//    try (Connection conn = DatabaseConnection.getConnection(); 
-//         PreparedStatement ps = conn.prepareStatement(sql)) {
-//
-//        ps.setString(1, "%" + UserName + "%");
-//        ps.setString(2, UserName);
-//        ps.setString(3, "%" + Password + "%");
-//        ps.setString(4, Password);
-//        ps.setString(5, maNV);
-//        ps.setString(6, maNV);
-//
-//        try (ResultSet rs = ps.executeQuery()) {
-//            while (rs.next()) {
-//                NhanVien nv = new NhanVien();
-//                nv.setMaNV(rs.getString("maNV")); // hoặc new NhanVien(rs.getString("maNV"))
-//
-//                TaiKhoan tk = new TaiKhoan(
-//                    rs.getString("maTK"),
-//                    rs.getString("UserName"),
-//                    rs.getString("Password"),
-//                    nv
-//                );
-//
-//                danhSachTaiKhoan.add(tk);
-//            }
-//        }
-//
-//    } catch (SQLException e) {
-//        e.printStackTrace();
-//    }
-//
-//    return danhSachTaiKhoan;
-//}
+    public static List<TaiKhoan> tim(String tenTaiKhoan, String tenNhanVien, String chucVu) {
+        List<TaiKhoan> taiKhoanList = new ArrayList<>();
+        String sql = "SELECT * FROM TaiKhoan tk "
+                + "JOIN NhanVien nv ON tk.maNV = nv.maNV "
+                + "WHERE tk.UserName LIKE ? "
+                + "AND nv.HoTen LIKE ? "
+                + "AND nv.ChucVu LIKE ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "%" + tenTaiKhoan + "%");
+            ps.setString(2, "%" + tenNhanVien + "%");
+            ps.setString(3, "%" + chucVu + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String maTK = rs.getString("maTK");
+                    String username = rs.getString("UserName");
+                    String password = rs.getString("Password");
+                    String maNV = rs.getString("maNV");
+                    NhanVien nv = NhanVienDAO.getNhanVienByMaNV(maNV);
+
+                    TaiKhoan tk = new TaiKhoan(maTK, username, password, nv);
+                    taiKhoanList.add(tk);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return taiKhoanList;
+    }
+
 }

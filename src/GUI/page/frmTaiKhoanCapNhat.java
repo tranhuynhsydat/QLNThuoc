@@ -189,6 +189,11 @@ public class frmTaiKhoanCapNhat extends javax.swing.JPanel {
         btnSua.setMaximumSize(new java.awt.Dimension(85, 35));
         btnSua.setMinimumSize(new java.awt.Dimension(85, 35));
         btnSua.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
         btnPanel.add(btnSua);
 
         btnXoa.setBackground(new java.awt.Color(0, 120, 92));
@@ -254,6 +259,36 @@ public class frmTaiKhoanCapNhat extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        // Lấy dòng được chọn trong bảng
+        int selectedRow = jTable1.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản cần sửa!");
+            return;
+        }
+
+        // Lấy mã tài khoản từ cột 0 của dòng đã chọn
+        String maTK = (String) jTable1.getValueAt(selectedRow, 0);
+
+        // Tạo đối tượng TaiKhoan từ mã tài khoản
+        TaiKhoan taiKhoan = TaiKhoanDAO.getTaiKhoanByMaTK(maTK);
+
+        if (taiKhoan != null) {
+            // Mở form sửa tài khoản với thông tin tài khoản đã chọn
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            formSuaTK dialog = new formSuaTK(parentFrame, true, taiKhoan); // Truyền tài khoản vào form sửa
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+
+            // Cập nhật lại bảng sau khi sửa
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0); // Xóa dữ liệu cũ trong bảng
+            startIndex = 0;
+            loadDataToTable();  // Tải lại dữ liệu bảng
+        }
+    }//GEN-LAST:event_btnSuaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

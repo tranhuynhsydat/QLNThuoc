@@ -4,11 +4,23 @@
  */
 package GUI.form;
 
+import DAO.NhanVienDAO;
+import DAO.TaiKhoanDAO;
+import Entity.NhanVien;
+import Entity.TaiKhoan;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
  */
 public class formSuaTK extends javax.swing.JDialog {
+
+    Map<String, NhanVien> nhanVienMap = new HashMap<>();
+    private TaiKhoan taiKhoan;  // Để lưu đối tượng TaiKhoan
 
     /**
      * Creates new form formThemNV
@@ -16,6 +28,36 @@ public class formSuaTK extends javax.swing.JDialog {
     public formSuaTK(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    public formSuaTK(java.awt.Frame parent, boolean modal, TaiKhoan taiKhoan) {
+        super(parent, modal);
+        initComponents();
+
+        // Lưu đối tượng taiKhoan vào một biến trong form
+        this.taiKhoan = taiKhoan;  // Biến taiKhoan sẽ được sử dụng sau này
+        // Hiển thị thông tin tài khoản lên các trường nhập liệu
+        jTextField1.setText(taiKhoan.getUsername());  // Tài khoản
+        jTextField2.setText(taiKhoan.getPassword());  // Mật khẩu
+        jTextField3.setText(taiKhoan.getPassword());  // Nhập lại mật khẩu (hoặc trường khác nếu cần)
+        // Nếu có thông tin nhân viên, bạn có thể điền thêm
+        jComboBox1.setSelectedItem(taiKhoan.getNhanVien().getHoTen());  // Chọn nhân viên
+        loadComboboxData();
+    }
+
+    private void loadComboboxData() {
+        // Lấy danh sách nhân viên từ cơ sở dữ liệu
+        List<NhanVien> nhanVienList = NhanVienDAO.getAllNhanVien();
+        for (NhanVien nv : nhanVienList) {
+            jComboBox1.addItem(nv.getHoTen());  // Thêm tên nhân viên vào ComboBox
+            nhanVienMap.put(nv.getHoTen(), nv);  // Lưu ánh xạ giữa tên và đối tượng NhanVien vào Map
+        }
+
+        // Chọn nhân viên hiện tại của tài khoản cần sửa trong ComboBox
+        if (taiKhoan != null && taiKhoan.getNhanVien() != null) {
+            NhanVien nvHienTai = taiKhoan.getNhanVien();
+            jComboBox1.setSelectedItem(nvHienTai.getHoTen());  // Chọn nhân viên hiện tại trong ComboBox
+        }
     }
 
     /**
@@ -61,7 +103,7 @@ public class formSuaTK extends javax.swing.JDialog {
         jPanel21 = new javax.swing.JPanel();
         bottomRoundedPanel2 = new Swing.BottomRoundedPanel();
         btnHuy = new javax.swing.JButton();
-        btnThem = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 0, 0));
@@ -184,7 +226,6 @@ public class formSuaTK extends javax.swing.JDialog {
 
         jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đinh Ngọc Dĩ Hào", "Trần Huỳnh Sỹ Đạt", "Phan Nhật Đăng" }));
         jComboBox1.setPreferredSize(new java.awt.Dimension(350, 22));
         jPanel19.add(jComboBox1);
 
@@ -216,17 +257,17 @@ public class formSuaTK extends javax.swing.JDialog {
         btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
         bottomRoundedPanel2.add(btnHuy);
 
-        btnThem.setBackground(new java.awt.Color(15, 204, 102));
-        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem.setText("Sửa");
-        btnThem.setPreferredSize(new java.awt.Dimension(90, 35));
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
+        btnSua.setBackground(new java.awt.Color(15, 204, 102));
+        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSua.setForeground(new java.awt.Color(255, 255, 255));
+        btnSua.setText("Sửa");
+        btnSua.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
+                btnSuaActionPerformed(evt);
             }
         });
-        bottomRoundedPanel2.add(btnThem);
+        bottomRoundedPanel2.add(btnSua);
 
         bottomRoundedPanel1.add(bottomRoundedPanel2, java.awt.BorderLayout.PAGE_END);
 
@@ -254,15 +295,38 @@ public class formSuaTK extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnThemActionPerformed
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        // Lấy thông tin từ form nhập liệu
+        String username = jTextField1.getText();
+        String password = jTextField2.getText();
+        String confirmPassword = jTextField3.getText();
+
+        // Kiểm tra mật khẩu có khớp hay không
+        if (!password.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu không khớp!");
+            return;
+        }
+
+        // Lấy nhân viên đã chọn từ ComboBox
+        String selectedNhanVien = (String) jComboBox1.getSelectedItem();
+        NhanVien nv = NhanVienDAO.getNhanVienByHoTen(selectedNhanVien);
+
+        // Cập nhật tài khoản
+        TaiKhoan taiKhoanMoi = new TaiKhoan(taiKhoan.getId(), username, password, nv);  // Dùng lại id của tài khoản cũ
+        boolean isUpdated = TaiKhoanDAO.sua(taiKhoanMoi);  // Gọi phương thức sửa tài khoản trong DAO
+
+        if (isUpdated) {
+            JOptionPane.showMessageDialog(this, "Sửa tài khoản thành công!");
+            dispose(); // Đóng form sửa
+        } else {
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi sửa tài khoản!");
+        }
+    }//GEN-LAST:event_btnSuaActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -284,21 +348,7 @@ public class formSuaTK extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(formSuaTK.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -319,7 +369,7 @@ public class formSuaTK extends javax.swing.JDialog {
     private Swing.BottomRoundedPanel bottomRoundedPanel1;
     private Swing.BottomRoundedPanel bottomRoundedPanel2;
     private javax.swing.JButton btnHuy;
-    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnSua;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;

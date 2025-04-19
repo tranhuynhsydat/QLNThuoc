@@ -19,7 +19,8 @@ import javax.swing.JOptionPane;
  * @author Admin
  */
 public class formThemTK extends javax.swing.JDialog {
-    // ✅ Đúng (chứa object NhanVien)
+
+    Map<String, NhanVien> nhanVienMap = new HashMap<>();
 
     /**
      * Creates new form formThemNV
@@ -29,13 +30,13 @@ public class formThemTK extends javax.swing.JDialog {
         initComponents();
         loadComboboxData();
     }
-    Map<String, NhanVien> nhanVienMap = new HashMap<>();
 
     private void loadComboboxData() {
+        // Lấy dữ liệu từ cơ sở dữ liệu và thêm vào comboNhanVien
         List<NhanVien> nhanVienList = NhanVienDAO.getAllNhanVien();
         for (NhanVien nv : nhanVienList) {
-            cboNhanVien.addItem(nv.getHoTen());
-            nhanVienMap.put(nv.getHoTen(), nv);
+            cboNhanVien.addItem(nv.getHoTen());  // Thêm tên nhân viên vào ComboBox
+            nhanVienMap.put(nv.getHoTen(), nv);  // Lưu ánh xạ giữa tên và đối tượng NhanVien vào Map
         }
     }
 
@@ -205,7 +206,6 @@ public class formThemTK extends javax.swing.JDialog {
 
         jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        cboNhanVien.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đinh Ngọc Dĩ Hào", "Trần Huỳnh Sỹ Đạt", "Phan Nhật Đăng" }));
         cboNhanVien.setPreferredSize(new java.awt.Dimension(350, 22));
         jPanel19.add(cboNhanVien);
 

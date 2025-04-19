@@ -21,10 +21,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class frmSearchTaiKhoan extends javax.swing.JPanel {
 
+    private boolean isSearching = false;
+
     /**
      * Creates new form frmSearchNhanVien
      */
     private int startIndex;
+
     public frmSearchTaiKhoan() {
         initComponents();
         groupChucVu();
@@ -33,6 +36,11 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         loadDataToTable();
         // Thêm sự kiện cuộn bảng
         jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
+            // Nếu đang tìm kiếm thì không tải thêm dữ liệu
+            if (isSearching) {
+                return;
+            }
+
             JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
             int max = vertical.getMaximum();
             int current = vertical.getValue();
@@ -45,8 +53,6 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
             }
         });
     }
-
-    
 
     private void groupChucVu() {
         ButtonGroup groupChucVu = new ButtonGroup();
@@ -73,31 +79,36 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
     }
 
     private void loadDataToTable() {
-        // Lấy dữ liệu thuốc với batch tiếp theo (10 dòng)
-        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                // Lấy danh sách NCC từ cơ sở dữ liệu (10 dòng bắt đầu từ startIndex)
-                List<TaiKhoan> tkList = TaiKhoanDAO.getTaiKhoanBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
-                SwingUtilities.invokeLater(() -> {
-                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    // Lấy dữ liệu tài khoản với batch tiếp theo (13 dòng)
+    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        @Override
+        protected Void doInBackground() throws Exception {
+            // Lấy danh sách tài khoản từ cơ sở dữ liệu (13 dòng bắt đầu từ startIndex)
+            List<TaiKhoan> taiKhoanList = TaiKhoanDAO.getTaiKhoanBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
+            SwingUtilities.invokeLater(() -> {
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-                    // Chỉ thêm dữ liệu mới vào bảng, không xóa dữ liệu cũ
-                    for (TaiKhoan tk : tkList) {
-                        model.addRow(new Object[]{
-                            tk.getId(),
-                            tk.getUsername(),
-                            tk.getPassword(),
-                            tk.getNhanVien().getHoTen(),
-                            tk.getNhanVien().getChucVu()
-                        });
-                    }
-                });
-                return null;
+                // Chỉ thêm dữ liệu mới vào bảng, không xóa dữ liệu cũ
+                for (TaiKhoan tk : taiKhoanList) {
+                    model.addRow(new Object[]{
+                        tk.getId(),
+                        tk.getUsername(),
+                        tk.getPassword(),
+                        tk.getNhanVien().getHoTen(),
+                        tk.getNhanVien().getChucVu()
+                    });
+                }
+
+                model.fireTableDataChanged();  // Đảm bảo bảng được làm mới
+                jTable1.revalidate();  // Cập nhật lại bảng
+                jTable1.repaint();  // Vẽ lại bảng
+            });
+            return null;
             }
         };
         worker.execute();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,7 +121,6 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
 
         jPanel6 = new javax.swing.JPanel();
         btnSearch = new javax.swing.JButton();
-        btnChiTiet = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -158,20 +168,6 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
             }
         });
         jPanel6.add(btnSearch);
-
-        btnChiTiet.setBackground(new java.awt.Color(0, 120, 92));
-        btnChiTiet.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnChiTiet.setForeground(new java.awt.Color(255, 255, 255));
-        btnChiTiet.setText("Chi tiết");
-        btnChiTiet.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnChiTiet.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnChiTiet.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnChiTiet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChiTietActionPerformed(evt);
-            }
-        });
-        jPanel6.add(btnChiTiet);
 
         add(jPanel6, java.awt.BorderLayout.SOUTH);
 
@@ -314,8 +310,7 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
         jPanel32.setPreferredSize(new java.awt.Dimension(829, 200));
         jPanel32.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(829, 200));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(829, 200));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(652, 402));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -325,8 +320,7 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
                 "Mã tài khoản", "Tên tài khoản", "Password", "Tên nhân viên", "Chức vụ"
             }
         ));
-        jTable1.setMinimumSize(new java.awt.Dimension(829, 200));
-        jTable1.setPreferredSize(new java.awt.Dimension(829, 200));
+        jTable1.setPreferredSize(new java.awt.Dimension(652, 402));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable1);
@@ -341,16 +335,29 @@ public class frmSearchTaiKhoan extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSearchActionPerformed
+        String tenTaiKhoan = jTextField5.getText().trim();  // Lấy tên tài khoản từ trường nhập liệu
+        String tenNhanVien = jTextField6.getText().trim();  // Lấy tên nhân viên từ trường nhập liệu
+        String chucVu = rbtnQuanLy.isSelected() ? "Quản lý" : "Nhân viên";  // Lấy chức vụ từ radio button
 
-    private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnChiTietActionPerformed
+        // Gọi phương thức tìm kiếm trong DAO
+        List<TaiKhoan> taiKhoanList = TaiKhoanDAO.tim(tenTaiKhoan, tenNhanVien, chucVu);
+
+        // Hiển thị kết quả tìm kiếm lên bảng
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);  // Xóa dữ liệu cũ trong bảng
+        for (TaiKhoan tk : taiKhoanList) {
+            model.addRow(new Object[]{
+                tk.getId(),
+                tk.getUsername(),
+                tk.getPassword(),
+                tk.getNhanVien().getHoTen(),
+                tk.getNhanVien().getChucVu()
+            });
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnChiTiet;
     private javax.swing.JButton btnSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
