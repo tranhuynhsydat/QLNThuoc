@@ -4,7 +4,9 @@
  */
 package GUI.page;
 
+import DAO.HoaDonDoiDAO;
 import DAO.NhanVienDAO;
+import Entity.HoaDonDoi;
 import Entity.NhanVien;
 import GUI.form.formThemNCC;
 import GUI.form.formSuaNV;
@@ -43,8 +45,8 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
 
             // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
             if (current + visible >= max) {
-                startIndex += 10;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
-                loadDataToTable();  // Tải thêm dữ liệu
+                startIndex += 10; // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                loadDataToTable(); // Tải thêm dữ liệu
             }
         });
 
@@ -52,7 +54,8 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
 
     private void configureTable() {
         // Ngăn không cho phép người dùng chỉnh sửa bảng
-        jTable1.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
+        jTable1.setDefaultEditor(Object.class, null); // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong
+                                                      // bảng.
 
         // Căn giữa cho tất cả các cell trong bảng
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -67,47 +70,50 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
     }
 
-  private void loadDataToTable() {
-    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-        @Override
-        protected Void doInBackground() throws Exception {
-            startIndex=0;
-            List<NhanVien> danhSachNhanVien = NhanVienDAO.getNhanVienBatch(startIndex, 10); // Tải thêm dữ liệu
-            System.out.println("Dữ liệu nhận được từ DB: " + danhSachNhanVien.size() + " dòng");
-            if (danhSachNhanVien == null || danhSachNhanVien.isEmpty()) {
-                System.out.println("Không có dữ liệu để tải.");
-            } else {
-                SwingUtilities.invokeLater(() -> {
-                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                    model.setRowCount(0);  // Xóa dữ liệu cũ trong bảng
+    private void loadDataToTable() {
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                startIndex = 0;
+                // Fetch data from CTPhieuDoi instead of HoaDonDoi
+                List<HoaDonDoi> danhSachHoaDonDoi = HoaDonDoiDAO.getCTPhieuDoiBatch(startIndex, 10); // Change to
+                                                                                                     // CTPhieuDoiDAO if
+                                                                                                     // necessary
+                System.out.println("Dữ liệu nhận được từ DB: " + danhSachHoaDonDoi.size() + " dòng");
 
-                    // Thêm dữ liệu mới vào bảng
-                    for (NhanVien nv : danhSachNhanVien) {
-                        Object[] rowData = {
-                            nv.getId(),
-                            nv.getHoTen(),
-                            nv.getSdt(),
-                            nv.getGioiTinh(),
-                            nv.getDtSinh(),
-                            nv.getNgayVaoLam(),
-                            nv.getCccd(),
-                            nv.getChucVu()
-                        };
-                        model.addRow(rowData);  // Thêm dòng vào bảng
-                    }
+                if (danhSachHoaDonDoi == null || danhSachHoaDonDoi.isEmpty()) {
+                    System.out.println("Không có dữ liệu để tải.");
+                } else {
+                    SwingUtilities.invokeLater(() -> {
+                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                        model.setRowCount(0); // Clear the previous data in the table
 
-                    model.fireTableDataChanged();  // Đảm bảo bảng được làm mới
-                    jTable1.revalidate();  // Cập nhật lại bảng
-                    jTable1.repaint();  // Vẽ lại bảng
-                });
+                        // Add new data to the table
+                        int stt = 1; // Start counter for "STT" (serial number)
+                        for (HoaDonDoi hd : danhSachHoaDonDoi) {
+                            Object[] rowData = {
+                                    stt++, // Serial number
+                                    hd.getMaPD(),
+                                    hd.getTenKhachHang(),
+                                    hd.getSdt(),
+                                    hd.getTenNhanVien(),
+                                    hd.getNgayDoi(),
+                                    hd.getLyDo(),
+                                    hd.getTongTien()
+                            };
+                            model.addRow(rowData); // Add row to table
+                        }
+
+                        model.fireTableDataChanged(); // Ensure the table is updated
+                        jTable1.revalidate(); // Revalidate table
+                        jTable1.repaint(); // Repaint table
+                    });
+                }
+                return null;
             }
-            return null;
-        }
-    };
-    worker.execute();
-}
-
-
+        };
+        worker.execute();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -115,7 +121,8 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         tablePanel = new javax.swing.JPanel();
@@ -151,13 +158,13 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
         tablePanel.add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][] {
 
-            },
-            new String [] {
-                "STT", "Mã phiếu đổi", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày đổi", "Lý do", "Tổng hóa đơn"
-            }
-        ));
+                },
+                new String[] {
+                        "STT", "Mã phiếu đổi", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày đổi", "Lý do",
+                        "Tổng hóa đơn"
+                }));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable1);
@@ -205,11 +212,11 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXoaActionPerformed
         // Kiểm tra nếu có dòng được chọn trong JTable
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
-            String maNV = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
+            String maNV = jTable1.getValueAt(selectedRow, 0).toString(); // Lấy mã nhân viên từ cột đầu tiên
 
             // Hiển thị hộp thoại xác nhận xóa
             int response = JOptionPane.showConfirmDialog(this,
@@ -221,7 +228,7 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
                 // Gọi hàm xóa nhân viên trong DAO
                 if (NhanVienDAO.xoa(maNV)) {
                     JOptionPane.showMessageDialog(this, "Xóa nhân viên thành công!");
-                    loadDataToTable();  // Làm mới bảng sau khi xóa
+                    loadDataToTable(); // Làm mới bảng sau khi xóa
                 } else {
                     JOptionPane.showMessageDialog(this, "Xóa nhân viên thất bại!");
                 }
@@ -229,17 +236,45 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên để xóa!");
         }
-    }//GEN-LAST:event_btnXoaActionPerformed
+    }// GEN-LAST:event_btnXoaActionPerformed
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        formThemNV dialog = new formThemNV(parentFrame, true);  // Mở formThemNV
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
+private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            // Tạo đối tượng frmHoaDonThem không có tham số
+            frmHoaDonDoiThem dialog = new frmHoaDonDoiThem();
 
-        // Sau khi đóng formThemNV, gọi lại phương thức để làm mới bảng
-        loadDataToTable();    }//GEN-LAST:event_btnThemActionPerformed
+            // Nếu dialog này kế thừa từ JPanel thay vì JDialog, cần hiển thị nó trong một
+            // cửa sổ mới
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            JFrame dialogFrame = new JFrame("Thêm hóa đơn");
+            dialogFrame.setContentPane(dialog);
 
+            // Thiết lập kích thước tối đa
+            dialogFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Mở ở chế độ toàn màn hình
+            // HOẶC bạn có thể dùng một trong các cách sau
+
+            // Cách 1: Sử dụng kích thước cụ thể
+            // dialogFrame.setSize(1024, 768); // Đặt kích thước cố định
+
+            // Cách 2: Sử dụng kích thước màn hình
+            // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            // dialogFrame.setSize(screenSize.width, screenSize.height);
+
+            // Cách 3: Sử dụng một tỷ lệ nhất định của màn hình
+            // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            // dialogFrame.setSize(screenSize.width * 9/10, screenSize.height * 9/10);
+
+            dialogFrame.setLocationRelativeTo(parentFrame);
+            dialogFrame.setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Không thể mở form thêm hóa đơn: " + ex.getMessage(),
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Sau khi đóng formThemHoaDon, gọi lại phương thức để làm mới bảng
+        loadDataToTable();
+    }// GEN-LAST:event_btnThemActionPerformed// GEN-LAST:event_btnThemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnPanel;
