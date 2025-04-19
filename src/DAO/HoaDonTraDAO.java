@@ -14,7 +14,7 @@ public class HoaDonTraDAO {
     // Get a batch of CTPhieuTra (pagination)
     public static List<HoaDonTra> getHoaDonTraBatch(int startIndex, int batchSize) {
         List<HoaDonTra> danhSachHoaDonTra = new ArrayList<>();
-        String sql = "SELECT * FROM CTPhieuTra ORDER BY maPD OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String sql = "SELECT * FROM CTPhieuTra ORDER BY maPT OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -25,7 +25,7 @@ public class HoaDonTraDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     HoaDonTra hoaDonTra = new HoaDonTra();
-                    hoaDonTra.setMaPD(rs.getString("maPD"));
+                    hoaDonTra.setMaPT(rs.getString("maPT"));
                     hoaDonTra.setTenKhachHang(rs.getString("tenKhachHang"));
                     hoaDonTra.setSdt(rs.getString("sdt"));
                     hoaDonTra.setTenNhanVien(rs.getString("tenNhanVien"));
@@ -45,12 +45,12 @@ public class HoaDonTraDAO {
 
     // Insert a new HoaDonTra (Return Invoice)
     public static boolean themHoaDonTra(HoaDonTra hoaDonTra) {
-        String sql = "INSERT INTO CTPhieuTra (maPD, tenKhachHang, sdt, tenNhanVien, ngayDoi, lyDo, tongTien) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO CTPhieuTra (maPT, tenKhachHang, sdt, tenNhanVien, ngayDoi, lyDo, tongTien) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, hoaDonTra.getMaPD());
+            ps.setString(1, hoaDonTra.getMaPT());
             ps.setString(2, hoaDonTra.getTenKhachHang());
             ps.setString(3, hoaDonTra.getSdt());
             ps.setString(4, hoaDonTra.getTenNhanVien());
@@ -69,7 +69,7 @@ public class HoaDonTraDAO {
 
     // Update a HoaDonTra (Return Invoice)
     public static boolean suaHoaDonTra(HoaDonTra hoaDonTra) {
-        String sql = "UPDATE CTPhieuTra SET tenKhachHang = ?, sdt = ?, tenNhanVien = ?, ngayDoi = ?, lyDo = ?, tongTien = ? WHERE maPD = ?";
+        String sql = "UPDATE CTPhieuTra SET tenKhachHang = ?, sdt = ?, tenNhanVien = ?, ngayDoi = ?, lyDo = ?, tongTien = ? WHERE maPT = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -80,7 +80,7 @@ public class HoaDonTraDAO {
             ps.setString(4, hoaDonTra.getNgayDoi());
             ps.setString(5, hoaDonTra.getLyDo());
             ps.setFloat(6, hoaDonTra.getTongTien());
-            ps.setString(7, hoaDonTra.getMaPD());
+            ps.setString(7, hoaDonTra.getMaPT());
 
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
@@ -92,13 +92,13 @@ public class HoaDonTraDAO {
     }
 
     // Delete a HoaDonTra (Return Invoice)
-    public static boolean xoaHoaDonTra(String maPD) {
-        String sql = "DELETE FROM CTPhieuTra WHERE maPD = ?";
+    public static boolean xoaHoaDonTra(String maPT) {
+        String sql = "DELETE FROM CTPhieuTra WHERE maPT = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, maPD);
+            ps.setString(1, maPT);
 
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;

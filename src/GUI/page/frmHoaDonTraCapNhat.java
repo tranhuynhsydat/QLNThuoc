@@ -79,7 +79,7 @@ public class frmHoaDonTraCapNhat extends javax.swing.JPanel {
                         for (HoaDonTra hd : danhSachHoaDonTra) {
                             Object[] rowData = {
                                     stt++, // Serial number
-                                    hd.getMaPD(),
+                                    hd.getMaPT(),
                                     hd.getTenKhachHang(),
                                     hd.getSdt(),
                                     hd.getTenNhanVien(),

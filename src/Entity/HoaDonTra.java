@@ -5,7 +5,7 @@
 package Entity;
 
 public class HoaDonTra {
-    private String maPD;           // Invoice ID (Return Invoice ID)
+    private String maPT;           // Invoice ID (Return Invoice ID)
     private String tenKhachHang;   // Customer Name
     private String sdt;            // Customer Phone Number
     private String tenNhanVien;    // Employee Name
@@ -14,12 +14,12 @@ public class HoaDonTra {
     private float tongTien;        // Total Amount
 
     // Getters and Setters
-    public String getMaPD() {
-        return maPD;
+    public String getMaPT() {
+        return maPT;
     }
 
-    public void setMaPD(String maPD) {
-        this.maPD = maPD;
+    public void setMaPT(String maPT) {
+        this.maPT = maPT;
     }
 
     public String getTenKhachHang() {
