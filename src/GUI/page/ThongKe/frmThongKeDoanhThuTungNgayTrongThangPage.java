@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import DAO.ThongKeDAO;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -137,7 +138,8 @@ public class frmThongKeDoanhThuTungNgayTrongThangPage extends javax.swing.JPanel
         table = new javax.swing.JTable();
         chart = new GUI.barchart.chart();
 
-        setMinimumSize(new java.awt.Dimension(1130, 800));
+        setMinimumSize(new java.awt.Dimension(829, 624));
+        setPreferredSize(new java.awt.Dimension(829, 624));
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setLayout(new java.awt.BorderLayout());

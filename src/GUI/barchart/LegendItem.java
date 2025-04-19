@@ -32,8 +32,9 @@ public class LegendItem extends javax.swing.JPanel {
         lblColor = new GUI.barchart.LabelColor();
         lblName = new javax.swing.JLabel();
 
-        setMinimumSize(new java.awt.Dimension(66, 28));
-        setPreferredSize(new java.awt.Dimension(66, 28));
+        setMinimumSize(new java.awt.Dimension(96, 28));
+        setName(""); // NOI18N
+        setPreferredSize(new java.awt.Dimension(96, 28));
 
         lblColor.setText("labelColor1");
 
@@ -45,7 +46,7 @@ public class LegendItem extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(42, Short.MAX_VALUE)
                 .addComponent(lblColor, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblName)

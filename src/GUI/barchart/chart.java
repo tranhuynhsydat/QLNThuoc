@@ -102,19 +102,10 @@ public class chart extends javax.swing.JPanel {
         panelLegend = new javax.swing.JPanel();
         blankPlotChart = new GUI.barchart.BlankPlotChart();
 
-        setMinimumSize(new java.awt.Dimension(573, 342));
-        setPreferredSize(new java.awt.Dimension(573, 342));
+        setMinimumSize(new java.awt.Dimension(563, 342));
+        setPreferredSize(new java.awt.Dimension(563, 342));
 
-        javax.swing.GroupLayout panelLegendLayout = new javax.swing.GroupLayout(panelLegend);
-        panelLegend.setLayout(panelLegendLayout);
-        panelLegendLayout.setHorizontalGroup(
-            panelLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 567, Short.MAX_VALUE)
-        );
-        panelLegendLayout.setVerticalGroup(
-            panelLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
-        );
+        panelLegend.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -128,9 +119,9 @@ public class chart extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(blankPlotChart, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+                .addComponent(blankPlotChart, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
