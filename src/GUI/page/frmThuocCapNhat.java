@@ -10,15 +10,19 @@ import GUI.form.formSuaThuoc;
 import GUI.form.formThemThuoc;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -68,16 +72,13 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
     }
 
     private void loadDataToTable() {
-        // Lấy dữ liệu thuốc với batch tiếp theo (13 dòng)
+        // Tạo một worker để tải dữ liệu trong nền
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
+                // Lấy danh sách thuốc từ cơ sở dữ liệu
                 List<Thuoc> thuocList = ThuocDAO.getThuocBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
-                System.out.println("Dữ liệu nhận được từ DB: " + thuocList.size() + " dòng");
-
-                if (thuocList == null || thuocList.isEmpty()) {
-                    System.out.println("Không có dữ liệu để tải.");
-                } else {
+                if (thuocList != null && !thuocList.isEmpty()) {
                     SwingUtilities.invokeLater(() -> {
                         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                         if (startIndex == 0) {
@@ -101,15 +102,16 @@ public class frmThuocCapNhat extends javax.swing.JPanel {
                             model.addRow(rowData);  // Thêm dòng vào bảng
                         }
 
-                        model.fireTableDataChanged();  // Đảm bảo bảng được làm mới
-                        jTable1.revalidate();  // Cập nhật lại bảng
-                        jTable1.repaint();  // Vẽ lại bảng
+                        // Sắp xếp lại bảng sau khi dữ liệu được thêm vào
+                        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel) jTable1.getModel());
+                        jTable1.setRowSorter(sorter);
+                        sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));  // Sắp xếp theo cột đầu tiên (Mã thuốc)
                     });
                 }
                 return null;
             }
         };
-        worker.execute();
+        worker.execute();  // Chạy worker
     }
 
     /**

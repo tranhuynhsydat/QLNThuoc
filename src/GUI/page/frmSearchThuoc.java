@@ -9,6 +9,7 @@ import DAO.ThuocDAO;
 import Entity.NhanVien;
 import Entity.Thuoc;
 import GUI.form.formThongTinThuoc;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -16,16 +17,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author Admin
  */
 public class frmSearchThuoc extends javax.swing.JPanel {
+
     private int startIndex;
     private boolean isSearching = false;
 
@@ -76,35 +81,46 @@ public class frmSearchThuoc extends javax.swing.JPanel {
     }
 
     private void loadDataToTable() {
-        // Lấy dữ liệu thuốc với batch tiếp theo (10 dòng)
+        // Tạo một worker để tải dữ liệu trong nền
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                // Lấy danh sách NCC từ cơ sở dữ liệu (10 dòng bắt đầu từ startIndex)
+                // Lấy danh sách thuốc từ cơ sở dữ liệu
                 List<Thuoc> thuocList = ThuocDAO.getThuocBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
-                SwingUtilities.invokeLater(() -> {
-                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                if (thuocList != null && !thuocList.isEmpty()) {
+                    SwingUtilities.invokeLater(() -> {
+                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                        if (startIndex == 0) {
+                            model.setRowCount(0);  // Xóa tất cả dữ liệu hiện tại trong bảng khi tải lại từ đầu
+                        }
 
-                    // Chỉ thêm dữ liệu mới vào bảng, không xóa dữ liệu cũ
-                    for (Thuoc thuoc : thuocList) {
-                        model.addRow(new Object[]{
-                            thuoc.getId(),
-                            thuoc.getTenThuoc(),
-                            thuoc.getThanhPhan(),
-                            thuoc.getGiaNhap(),
-                            thuoc.getDonGia(),
-                            thuoc.getHsd(),
-                            thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen() : null,
-                            thuoc.getDonViTinh() != null ? thuoc.getDonViTinh().getTen() : null,
-                            thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen() : null,
-                            thuoc.getSoLuong()
-                        });
-                    }
-                });
+                        // Thêm dữ liệu mới vào bảng
+                        for (Thuoc thuoc : thuocList) {
+                            Object[] rowData = {
+                                thuoc.getId(),
+                                thuoc.getTenThuoc(),
+                                thuoc.getThanhPhan(),
+                                thuoc.getGiaNhap(),
+                                thuoc.getDonGia(),
+                                thuoc.getHsd(),
+                                thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen() : null,
+                                thuoc.getDonViTinh() != null ? thuoc.getDonViTinh().getTen() : null,
+                                thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen() : null,
+                                thuoc.getSoLuong()
+                            };
+                            model.addRow(rowData);  // Thêm dòng vào bảng
+                        }
+
+                        // Sắp xếp lại bảng sau khi dữ liệu được thêm vào
+                        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel) jTable1.getModel());
+                        jTable1.setRowSorter(sorter);
+                        sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));  // Sắp xếp theo cột đầu tiên (Mã thuốc)
+                    });
+                }
                 return null;
             }
         };
-        worker.execute();
+        worker.execute();  // Chạy worker
     }
 
     /**
