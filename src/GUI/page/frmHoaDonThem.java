@@ -810,20 +810,25 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jPanel4.setPreferredSize(new java.awt.Dimension(420, 50));
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel50.setPreferredSize(new java.awt.Dimension(90, 69));
+        jPanel50.setMaximumSize(new java.awt.Dimension(120, 50));
+        jPanel50.setMinimumSize(new java.awt.Dimension(120, 50));
+        jPanel50.setPreferredSize(new java.awt.Dimension(120, 50));
         jPanel50.setRequestFocusEnabled(false);
         jPanel50.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 120, 92)));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(130, 32));
+        jComboBox1.setMaximumSize(new java.awt.Dimension(72, 32));
+        jComboBox1.setMinimumSize(new java.awt.Dimension(72, 32));
+        jComboBox1.setPreferredSize(new java.awt.Dimension(72, 32));
         jPanel50.add(jComboBox1);
 
         jPanel4.add(jPanel50);
 
         jPanel51.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jPanel51.setMinimumSize(new java.awt.Dimension(100, 69));
-        jPanel51.setPreferredSize(new java.awt.Dimension(150, 69));
+        jPanel51.setMaximumSize(new java.awt.Dimension(240, 50));
+        jPanel51.setMinimumSize(new java.awt.Dimension(240, 50));
+        jPanel51.setPreferredSize(new java.awt.Dimension(240, 50));
         jPanel51.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 10));
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
@@ -850,10 +855,11 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jPanel4.add(jPanel51);
 
         jPanel52.setFocusTraversalPolicyProvider(true);
+        jPanel52.setMinimumSize(new java.awt.Dimension(70, 69));
         jPanel52.setPreferredSize(new java.awt.Dimension(70, 69));
         jPanel52.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 10));
 
-        label2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        label2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         label2.setText("Số lượng:");
         jPanel52.add(label2);
 
@@ -1174,8 +1180,6 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jSeparator4.setPreferredSize(new java.awt.Dimension(400, 3));
         jPanel35.add(jSeparator4);
 
-        jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        jScrollPane5.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane5.setMinimumSize(new java.awt.Dimension(440, 150));
         jScrollPane5.setPreferredSize(new java.awt.Dimension(440, 150));
 
