@@ -10,6 +10,8 @@ package DAO;
  */
 import ConnectDB.DatabaseConnection;
 import Entity.ChiTietHoaDon;
+import Entity.Thuoc;
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,40 +21,77 @@ import java.util.List;
 
 public class ChiTietHoaDonDAO {
 
-    // Thêm chi tiết hóa đơn vào CSDL
-    public static boolean themChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {
-        String sql = "INSERT INTO CTHoaDon (maHD, maThuoc, soLuong, donGia) " +
-                "VALUES (?, ?, ?, ?)";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, chiTietHoaDon.getIdHoaDon());
-            stmt.setString(2, chiTietHoaDon.getIdThuoc());
-            stmt.setInt(3, chiTietHoaDon.getSoLuong());
-            stmt.setDouble(4, chiTietHoaDon.getDonGia());
-
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Lỗi khi thêm chi tiết hóa đơn: " + e.getMessage());
-            e.printStackTrace();
-            return false;
+    public static boolean themChiTietHoaDon(List<ChiTietHoaDon> chiTietList, String maHD) {
+        if (chiTietList == null || chiTietList.isEmpty()) {
+            return true;  // Không có chi tiết để thêm
         }
-        
+
+        String sql = "INSERT INTO CTHoaDon (maHD, maThuoc, soLuong, donGia) VALUES (?, ?, ?, ?)";
+        int successCount = 0;
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            for (ChiTietHoaDon chiTiet : chiTietList) {
+                ps.setString(1, maHD);  // Sử dụng maHD truyền vào
+                ps.setString(2, chiTiet.getIdThuoc());
+                ps.setInt(3, chiTiet.getSoLuong());
+                ps.setDouble(4, chiTiet.getDonGia());
+
+                ps.addBatch();  // Thêm vào batch
+                successCount++;
+
+                // Cập nhật số lượng thuốc trong kho
+                capNhatSoLuongThuoc(chiTiet.getIdThuoc(), chiTiet.getSoLuong());
+            }
+
+            // Thực thi batch
+            int[] results = ps.executeBatch();
+            for (int result : results) {
+                if (result == Statement.EXECUTE_FAILED) {
+                    System.out.println("Lỗi trong quá trình thêm chi tiết hóa đơn!");
+                    return false;  // Nếu có lỗi trong bất kỳ dòng nào của batch
+                }
+            }
+
+            return successCount == chiTietList.size();  // Kiểm tra tất cả chi tiết đã được thêm
+        } catch (SQLException e) {
+            System.out.println("Lỗi thêm chi tiết hóa đơn: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    private static void capNhatSoLuongThuoc(String maThuoc, int soLuongBan) {
+        // Lấy thông tin thuốc hiện tại
+        Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(maThuoc);
+        if (thuoc != null) {
+            // Cập nhật số lượng (trừ đi số lượng bán)
+            int soLuongMoi = thuoc.getSoLuong() - soLuongBan;
+
+            // Cập nhật vào database
+            String sql = "UPDATE Thuoc SET soLuong = ? WHERE maThuoc = ?";
+
+            try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                ps.setInt(1, soLuongMoi);
+                ps.setString(2, maThuoc);
+
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("Lỗi cập nhật số lượng thuốc: " + e.getMessage());
+            }
+        }
     }
 
     public static List<ChiTietHoaDon> getChiTietByHoaDonId(String hoaDonId) {
         List<ChiTietHoaDon> chiTietList = new ArrayList<>();
-        String sql = "SELECT ct.maHD, ct.maThuoc, ct.soLuong, ct.donGia, " +
-                "t.tenThuoc " +
-                "FROM CTHoaDon ct " +
-                "JOIN Thuoc t ON ct.maThuoc = t.maThuoc " +
-                "WHERE ct.maHD = ?";
+        String sql = "SELECT ct.maHD, ct.maThuoc, ct.soLuong, ct.donGia, "
+                + "t.tenThuoc "
+                + "FROM CTHoaDon ct "
+                + "JOIN Thuoc t ON ct.maThuoc = t.maThuoc "
+                + "WHERE ct.maHD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, hoaDonId);
 
@@ -86,8 +125,7 @@ public class ChiTietHoaDonDAO {
     public static boolean capNhatChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {
         String sql = "UPDATE CTHoaDon SET soLuong = ?, donGia = ?, thanhTien = ? WHERE id = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, chiTietHoaDon.getSoLuong());
             stmt.setDouble(2, chiTietHoaDon.getDonGia());
@@ -108,8 +146,7 @@ public class ChiTietHoaDonDAO {
     public static boolean xoaChiTietHoaDon(int chiTietId) {
         String sql = "DELETE FROM CTHoaDon WHERE id = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, chiTietId);
 
@@ -127,8 +164,7 @@ public class ChiTietHoaDonDAO {
     public static boolean xoaChiTietTheoHoaDon(String hoaDonId) {
         String sql = "DELETE FROM CTHoaDon WHERE maHD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, hoaDonId);
 
@@ -146,8 +182,7 @@ public class ChiTietHoaDonDAO {
     public static double tinhTongTienHoaDon(String hoaDonId) {
         String sql = "SELECT SUM(thanhTien) AS tong_tien FROM CTHoaDon WHERE maHD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, hoaDonId);
 

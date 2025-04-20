@@ -16,7 +16,7 @@ public class ThuocDAO {
 
     public static Thuoc getThuocByMaThuoc(String maThuoc) {
         Thuoc thuoc = null;
-        
+
         String sql = "SELECT * FROM Thuoc WHERE maThuoc = ?";
 
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -55,6 +55,45 @@ public class ThuocDAO {
             e.printStackTrace(); // In lỗi nếu có vấn đề với truy vấn SQL
         }
         return thuoc;
+    }
+
+    public static List<Thuoc> getThuocByKeyword(String keyword) {
+        List<Thuoc> thuocList = new ArrayList<>();
+        String sql = "SELECT * FROM Thuoc WHERE tenThuoc LIKE ?";  // Tìm thuốc có tên chứa từ khóa
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "%" + keyword + "%");  // Thêm dấu `%` để tìm kiếm chứa từ khóa
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                // Đọc thông tin thuốc từ ResultSet
+                String maThuoc = rs.getString("maThuoc");
+                String tenThuoc = rs.getString("tenThuoc");
+                String thanhPhan = rs.getString("thanhPhanThuoc");
+                double giaNhap = rs.getDouble("giaNhap");
+                double giaBan = rs.getDouble("donGia");
+                Date hsd = rs.getDate("HSD");
+                String maDM = rs.getString("maDM");
+                String maDVT = rs.getString("maDVT");
+                String maXX = rs.getString("maXX");
+                int soLuong = rs.getInt("soLuong");
+
+                // Lấy thông tin về Danh Mục, Đơn Vị Tính, Xuất Xứ từ các bảng khác
+                DanhMuc danhMuc = DanhMucDAO.getDanhMucByMa(maDM);
+                DonViTinh donViTinh = DonViTinhDAO.getDonViTinhByMa(maDVT);
+                XuatXu xuatXu = XuatXuDAO.getXuatXuByMa(maXX);
+
+                // Lấy ảnh thuốc dưới dạng byte[]
+                byte[] anh = rs.getBytes("anh");  // Giả sử tên trường ảnh là "anh"
+
+                // Tạo đối tượng Thuoc với tất cả thông tin đã lấy
+                Thuoc thuoc = new Thuoc(maThuoc, tenThuoc, anh, thanhPhan, danhMuc, donViTinh, xuatXu, soLuong, giaNhap, giaBan, hsd);
+                thuocList.add(thuoc);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // In lỗi nếu có vấn đề với truy vấn SQL
+        }
+        return thuocList;
     }
 
     public static List<Thuoc> getAllThuoc() {

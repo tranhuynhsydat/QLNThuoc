@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 public class HoaDonDAO {
-    
+
 //Tạo mã hoá đơn
     public static String taoMaHoaDon() {
         String prefix = "HD-";  // Tiền tố của mã hóa đơn
@@ -149,76 +149,33 @@ public class HoaDonDAO {
         return null;
     }
 
-
-    // Thêm hóa đơn mới
     public static boolean them(HoaDon hoaDon) {
-        String sql = "INSERT INTO HoaDon (maHD, maNV, maKH, thoiGian) VALUES (?, ?, ?, ?)";
+    String sql = "INSERT INTO HoaDon (maHD, maNV, maKH, thoiGian) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+    try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        // Thêm thông tin hóa đơn vào bảng HoaDon
+        ps.setString(1, hoaDon.getId());  // Gán maHD vào câu lệnh SQL
+        ps.setString(2, hoaDon.getIdNhanVien());
+        ps.setString(3, hoaDon.getIdKhachHang());
 
-            ps.setString(1, hoaDon.getId());
-            ps.setString(2, hoaDon.getIdNhanVien());
-            ps.setString(3, hoaDon.getIdKhachHang());
-            ps.setTimestamp(4, new Timestamp(hoaDon.getNgayLap().getTime()));
+        // Sử dụng java.sql.Timestamp để đảm bảo ngày tháng đúng định dạng
+        Timestamp thoiGian = new Timestamp(hoaDon.getNgayLap().getTime());
+        ps.setTimestamp(4, thoiGian);  // Chuyển ngày giờ sang Timestamp
 
-            int rowsAffected = ps.executeUpdate();
-
-            if (rowsAffected > 0) {
-                // Thêm chi tiết hóa đơn
-                return themChiTietHoaDon(hoaDon.getChiTietHoaDon());
-            }
-        } catch (SQLException e) {
-            System.out.println("Lỗi thêm hóa đơn: " + e.getMessage());
+        int rowsAffected = ps.executeUpdate();
+        
+        if (rowsAffected > 0) {
+            // Sau khi thêm hóa đơn thành công, gọi phương thức thêm chi tiết hóa đơn
+            return ChiTietHoaDonDAO.themChiTietHoaDon(hoaDon.getChiTietHoaDon(), hoaDon.getId());  // Truyền maHD vào chi tiết hóa đơn
         }
-
-        return false;
+    } catch (SQLException e) {
+        System.out.println("Lỗi thêm hóa đơn: " + e.getMessage());
+        e.printStackTrace();
     }
 
-    // Cập nhật hóa đơn
-    public static boolean sua(HoaDon hoaDon) {
-        String sql = "UPDATE HoaDon SET maNV = ?, maKH = ?, thoiGian = ? WHERE maHD = ?";
+    return false;
+}
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, hoaDon.getIdNhanVien());
-            ps.setString(2, hoaDon.getIdKhachHang());
-            ps.setTimestamp(3, new Timestamp(hoaDon.getNgayLap().getTime()));
-            ps.setString(4, hoaDon.getId());
-
-            int rowsAffected = ps.executeUpdate();
-
-            if (rowsAffected > 0) {
-                // Cập nhật chi tiết hóa đơn
-                // Xóa chi tiết cũ và thêm chi tiết mới
-                xoaChiTietHoaDon(hoaDon.getId());
-                return themChiTietHoaDon(hoaDon.getChiTietHoaDon());
-            }
-        } catch (SQLException e) {
-            System.out.println("Lỗi cập nhật hóa đơn: " + e.getMessage());
-        }
-
-        return false;
-    }
-
-    // Xóa hóa đơn
-    public static boolean xoa(String maHD) {
-        // Xóa chi tiết hóa đơn trước
-        if (xoaChiTietHoaDon(maHD)) {
-            String sql = "DELETE FROM HoaDon WHERE maHD = ?";
-
-            try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
-                ps.setString(1, maHD);
-
-                int rowsAffected = ps.executeUpdate();
-                return rowsAffected > 0;
-            } catch (SQLException e) {
-                System.out.println("Lỗi xóa hóa đơn: " + e.getMessage());
-            }
-        }
-
-        return false;
-    }
 
     // Lấy danh sách chi tiết hóa đơn theo mã hóa đơn
     public static List<ChiTietHoaDon> getChiTietHoaDonByMaHD(String maHD) {
@@ -250,64 +207,6 @@ public class HoaDonDAO {
         return chiTietList;
     }
 
-    // Thêm chi tiết hóa đơn
-    public static boolean themChiTietHoaDon(List<ChiTietHoaDon> chiTietList) {
-        if (chiTietList == null || chiTietList.isEmpty()) {
-            return true; // Không có chi tiết để thêm
-        }
-
-        String sql = "INSERT INTO CTHoaDon (maHD, maThuoc, soLuong, donGia) VALUES (?, ?, ?, ?)";
-        int successCount = 0;
-
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            for (ChiTietHoaDon chiTiet : chiTietList) {
-                ps.setString(1, chiTiet.getIdHoaDon());
-                ps.setString(2, chiTiet.getIdThuoc());
-                ps.setInt(3, chiTiet.getSoLuong());
-                ps.setDouble(4, chiTiet.getDonGia());
-
-                ps.addBatch();
-                successCount++;
-
-                // Cập nhật số lượng thuốc trong kho
-                capNhatSoLuongThuoc(chiTiet.getIdThuoc(), chiTiet.getSoLuong());
-            }
-
-            ps.executeBatch();
-            return successCount == chiTietList.size();
-        } catch (SQLException e) {
-            System.out.println("Lỗi thêm chi tiết hóa đơn: " + e.getMessage());
-        }
-
-        return false;
-    }
-
-    // Xóa chi tiết hóa đơn
-    public static boolean xoaChiTietHoaDon(String maHD) {
-        // Lấy danh sách chi tiết để hoàn trả số lượng thuốc
-        List<ChiTietHoaDon> chiTietList = getChiTietHoaDonByMaHD(maHD);
-
-        String sql = "DELETE FROM CTHoaDon WHERE maHD = ?";
-
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, maHD);
-
-            int rowsAffected = ps.executeUpdate();
-
-            // Hoàn trả số lượng thuốc
-            for (ChiTietHoaDon chiTiet : chiTietList) {
-                capNhatSoLuongThuoc(chiTiet.getIdThuoc(), -chiTiet.getSoLuong());
-            }
-
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            System.out.println("Lỗi xóa chi tiết hóa đơn: " + e.getMessage());
-        }
-
-        return false;
-    }
 
     // Cập nhật số lượng thuốc (trừ khi bán, cộng khi hủy hóa đơn)
     private static void capNhatSoLuongThuoc(String maThuoc, int soLuongBan) {
