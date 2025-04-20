@@ -1516,116 +1516,135 @@ private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {
 
     // Sự kiện khi nhấn nút "THANH TOÁN"
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {
-    //     try {
-    //         // Kiểm tra đã có sản phẩm trong chi tiết hóa đơn chưa
-    //         DefaultTableModel chiTietModel = (DefaultTableModel) jTable2.getModel();
-    //         if (chiTietModel.getRowCount() == 0) {
-    //             JOptionPane.showMessageDialog(this, "Vui lòng thêm sản phẩm vào hóa đơn trước khi thanh toán",
-    //                     "Thông báo", JOptionPane.WARNING_MESSAGE);
-    //             return;
-    //         }
+        try {
+            // Kiểm tra đã có sản phẩm trong chi tiết hóa đơn chưa
+            DefaultTableModel chiTietModel = (DefaultTableModel) jTable2.getModel();
+            if (chiTietModel.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng thêm sản phẩm vào hóa đơn trước khi thanh toán",
+                        "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
-    //         // Kiểm tra đã nhập đủ thông tin khách hàng chưa
-    //         if (txtTenKH.getText().trim().isEmpty()) {
-    //             JOptionPane.showMessageDialog(this, "Vui lòng nhập tên khách hàng", "Thông báo",
-    //                     JOptionPane.WARNING_MESSAGE);
-    //             txtTenKH.requestFocus();
-    //             return;
-    //         }
+            // Kiểm tra đã nhập đủ thông tin khách hàng chưa
+            if (txtTenKH.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên khách hàng", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+                txtTenKH.requestFocus();
+                return;
+            }
 
-    //         // Kiểm tra đã nhập tiền khách đưa chưa
-    //         if (txtTienKhachDua.getText().trim().isEmpty()) {
-    //             JOptionPane.showMessageDialog(this, "Vui lòng nhập số tiền khách đưa", "Thông báo",
-    //                     JOptionPane.WARNING_MESSAGE);
-    //             txtTienKhachDua.requestFocus();
-    //             return;
-    //         }
+            // Kiểm tra đã nhập tiền khách đưa chưa
+            if (txtTienKhachDua.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập số tiền khách đưa", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+                txtTienKhachDua.requestFocus();
+                return;
+            }
 
-    //         // Kiểm tra tiền khách đưa có đủ không
-    //         double tongTien = Double.parseDouble(txtTong.getText().replace(",", ""));
-    //         double tienKhachDua = Double.parseDouble(txtTienKhachDua.getText().replace(",", ""));
+            // Kiểm tra tiền khách đưa có đủ không
+            double tongTien = Double.parseDouble(txtTong.getText().replace(",", ""));
+            double tienKhachDua = Double.parseDouble(txtTienKhachDua.getText().replace(",", ""));
 
-    //         if (tienKhachDua < tongTien) {
-    //             JOptionPane.showMessageDialog(this, "Tiền khách đưa không đủ", "Thông báo",
-    //                     JOptionPane.WARNING_MESSAGE);
-    //             txtTienKhachDua.requestFocus();
-    //             return;
-    //         }
+            if (tienKhachDua < tongTien) {
+                JOptionPane.showMessageDialog(this, "Tiền khách đưa không đủ", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+                txtTienKhachDua.requestFocus();
+                return;
+            }
 
-    //         // THÊM MỚI: Tạo và lưu hóa đơn trước
-    //         HoaDon hoaDon = taoHoaDon();
-    //         boolean result = HoaDonDAO.them(hoaDon);
+            // THÊM MỚI: Tạo và lưu hóa đơn trước
+            HoaDon hoaDon = taoHoaDon();
+            boolean result = HoaDonDAO.them(hoaDon);
 
-    //         if (!result) {
-    //             JOptionPane.showMessageDialog(this, "Không thể lưu hóa đơn. Vui lòng thử lại.",
-    //                     "Lỗi", JOptionPane.ERROR_MESSAGE);
-    //             return;
-    //         }
+            if (!result) {
+                JOptionPane.showMessageDialog(this, "Không thể lưu hóa đơn. Vui lòng thử lại.",
+                        "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-    //         // THÊM MỚI: Lưu các chi tiết hóa đơn vào CSDL
-    //         boolean chiTietResult = luuChiTietHoaDon(hoaDon.getId());
+            // THÊM MỚI: Lưu các chi tiết hóa đơn vào CSDL
+            boolean chiTietResult = luuChiTietHoaDon(hoaDon.getId());
 
-    //         if (!chiTietResult) {
-    //             // Nếu không lưu được chi tiết, xóa hóa đơn để tránh dữ liệu mồ côi
-    //             HoaDonDAO.xoa(hoaDon.getId());
-    //             JOptionPane.showMessageDialog(this,
-    //                     "Không thể lưu chi tiết hóa đơn. Vui lòng thử lại.",
-    //                     "Lỗi", JOptionPane.ERROR_MESSAGE);
-    //             return;
-    //         }
+            if (!chiTietResult) {
+                // Nếu không lưu được chi tiết, xóa hóa đơn để tránh dữ liệu mồ côi
+                HoaDonDAO.xoa(hoaDon.getId());
+                JOptionPane.showMessageDialog(this,
+                        "Không thể lưu chi tiết hóa đơn. Vui lòng thử lại.",
+                        "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-    //         // Nếu mọi thứ OK, hiển thị thông báo thành công
-    //         JOptionPane.showMessageDialog(this,
-    //                 "Thanh toán hóa đơn thành công!\nMã hóa đơn: " + hoaDon.getId(),
-    //                 "Thành công", JOptionPane.INFORMATION_MESSAGE);
+            // Nếu mọi thứ OK, hiển thị thông báo thành công
+            JOptionPane.showMessageDialog(this,
+                    "Thanh toán hóa đơn thành công!\nMã hóa đơn: " + hoaDon.getId(),
+                    "Thành công", JOptionPane.INFORMATION_MESSAGE);
 
-    //         // Tính tiền thừa và hiển thị
-    //         double tienThua = tienKhachDua - tongTien;
-    //         txtTienThua.setText(String.format("%.0f", tienThua));
+            // Tính tiền thừa và hiển thị
+            double tienThua = tienKhachDua - tongTien;
+            txtTienThua.setText(String.format("%.0f", tienThua));
 
-    //         // Có thể in hóa đơn ở đây
-    //         // inHoaDon(hoaDon.getId());
+            // Có thể in hóa đơn ở đây
+            // inHoaDon(hoaDon.getId());
 
-    //         // Reset form sau khi thanh toán thành công
-    //         resetForm();
+            // Reset form sau khi thanh toán thành công
+            resetForm();
 
-    //     } catch (Exception e) {
-    //         System.err.println("Lỗi khi thanh toán hóa đơn: " + e.getMessage());
-    //         e.printStackTrace();
-    //         JOptionPane.showMessageDialog(this,
-    //                 "Lỗi khi thanh toán hóa đơn: " + e.getMessage(),
-    //                 "Lỗi", JOptionPane.ERROR_MESSAGE);
-    //     }
+        } catch (Exception e) {
+            System.err.println("Lỗi khi thanh toán hóa đơn: " + e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Lỗi khi thanh toán hóa đơn: " + e.getMessage(),
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 // Phương thức tạo đối tượng hóa đơn từ dữ liệu trên form
-// private HoaDon taoHoaDon() {
-//     // Tạo mã hóa đơn mới
-//     String maHD = generateMaHD();
+private HoaDon taoHoaDon() {
+    // Tạo mã hóa đơn mới
+    String maHD = HoaDonDAO.taoMaHoaDon(); // Sử dụng phương thức có sẵn
 
-//     // Lấy thông tin từ form
-//     String tenKH = txtTenKH.getText().trim();
-//     String sdtKH = txtSdtKH.getText().trim();
-//     // String diaChi = txtDiaChi.getText().trim(); // Có vẻ như không có trường địa
-//     // chỉ trong form
-//     double tongTien = Double.parseDouble(txtTong.getText().replace(",", ""));
+    // Lấy thông tin từ form
+    String tenKH = txtTenKH.getText().trim();
 
-//     String idNhanVien = txtNV.getText().trim(); // Phương thức cần được thực hiện
+    // Lấy ID nhân viên hiện tại (từ session hoặc đối tượng NhanVien đang đăng nhập)
+    String idNhanVien = "NV001"; // Thay bằng ID nhân viên thực tế
 
-//     // Tạo hoặc lấy ID khách hàng
-//     // String idKhachHang = timHoacTaoKhachHang(tenKH, sdtKH); // Phương thức cần được thực hiện
+    // Lấy hoặc tạo ID khách hàng
+    String idKhachHang = "KH001"; // Thay bằng mã KH thực tế hoặc từ phương thức tìm kiếm/tạo mới
 
-//     // Tạo đối tượng hóa đơn theo cấu trúc lớp HoaDon.java
-//     HoaDon hoaDon = new HoaDon();
-//     hoaDon.setId(maHD);
-//     hoaDon.setNgayLap(new Date());
-//     hoaDon.setIdNhanVien(idNhanVien);
-//     hoaDon.setIdKhachHang(idKhachHang);
-//     hoaDon.setTongTien(tongTien);
+    // Tạo đối tượng hóa đơn với constructor đầy đủ
+    HoaDon hoaDon = new HoaDon(maHD, new Date(), idNhanVien, idKhachHang);
 
-//     return hoaDon;
-// }
+    // Lấy chi tiết hóa đơn từ bảng hiển thị và thêm vào hóa đơn
+    List<ChiTietHoaDon> chiTietList = layChiTietHoaDonTuBang(maHD);
+    hoaDon.setChiTietHoaDon(chiTietList);
 
+    // Tính tổng tiền
+    hoaDon.tinhTongTien();
+
+    return hoaDon;
+}
+
+// Phương thức để lấy chi tiết hóa đơn từ bảng hiển thị
+private List<ChiTietHoaDon> layChiTietHoaDonTuBang(String maHD) {
+    List<ChiTietHoaDon> chiTietList = new ArrayList<>();
+    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+
+    for (int i = 0; i < model.getRowCount(); i++) {
+        String maThuoc = model.getValueAt(i, 1).toString();
+        String tenThuoc = model.getValueAt(i, 2).toString();
+        int soLuong = Integer.parseInt(model.getValueAt(i, 3).toString());
+        double donGia = Double.parseDouble(model.getValueAt(i, 4).toString());
+        double thanhTien = Double.parseDouble(model.getValueAt(i, 5).toString());
+
+        ChiTietHoaDon chiTiet = new ChiTietHoaDon(
+                maHD, maThuoc, tenThuoc, soLuong, donGia, thanhTien);
+
+        chiTietList.add(chiTiet);
+    }
+
+    return chiTietList;
+}
 
 // Phương thức lưu tất cả chi tiết hóa đơn vào CSDL
 private boolean luuChiTietHoaDon(String maHD) {
