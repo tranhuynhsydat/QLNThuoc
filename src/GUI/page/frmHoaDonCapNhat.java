@@ -8,6 +8,7 @@ import DAO.NhanVienDAO;
 import Entity.HoaDon;
 import Entity.KhachHang;
 import Entity.NhanVien;
+import GUI.Main;
 // Bỏ comment dòng import dưới đây nếu class này tồn tại trong dự án của bạn
 // import GUI.frmHoaDon;
 import java.text.DecimalFormat;
@@ -204,69 +205,23 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-//    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXoaActionPerformed
-//        // Kiểm tra nếu có dòng được chọn trong JTable
-//        int selectedRow = jTable1.getSelectedRow();
-//        if (selectedRow != -1) {
-//            String maHD = jTable1.getValueAt(selectedRow, 1).toString(); // Lấy mã hóa đơn từ cột thứ hai
-//
-//            // Hiển thị hộp thoại xác nhận xóa
-//            int response = JOptionPane.showConfirmDialog(this,
-//                    "Bạn có chắc chắn muốn xóa hóa đơn này?",
-//                    "Xác nhận", JOptionPane.YES_NO_OPTION);
-//
-//            // Nếu người dùng chọn Yes, thực hiện xóa
-//            if (response == JOptionPane.YES_OPTION) {
-//                // Gọi hàm xóa hóa đơn trong DAO
-//                if (HoaDonDAO.xoa(maHD)) {
-//                    JOptionPane.showMessageDialog(this, "Xóa hóa đơn thành công!");
-//                    loadDataToTable(); // Làm mới bảng sau khi xóa
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "Xóa hóa đơn thất bại!");
-//                }
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn để xóa!");
-//        }
-//    }// GEN-LAST:event_btnXoaActionPerformed
-//
-//    // Phương thức btnThemActionPerformed đã sửa
+
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            // Tạo đối tượng frmHoaDonThem không có tham số
-            frmHoaDonThem dialog = new frmHoaDonThem();
+        // Tạo đối tượng frmHoaDonThem
+        frmHoaDonThem formThem = new frmHoaDonThem();
 
-            // Nếu dialog này kế thừa từ JPanel thay vì JDialog, cần hiển thị nó trong một
-            // cửa sổ mới
-            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            JFrame dialogFrame = new JFrame("Thêm hóa đơn");
-            dialogFrame.setContentPane(dialog);
-
-            // Thiết lập kích thước tối đa
-            dialogFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Mở ở chế độ toàn màn hình
-            // HOẶC bạn có thể dùng một trong các cách sau
-
-            // Cách 1: Sử dụng kích thước cụ thể
-            // dialogFrame.setSize(1024, 768); // Đặt kích thước cố định
-
-            // Cách 2: Sử dụng kích thước màn hình
-            // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            // dialogFrame.setSize(screenSize.width, screenSize.height);
-
-            // Cách 3: Sử dụng một tỷ lệ nhất định của màn hình
-            // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            // dialogFrame.setSize(screenSize.width * 9/10, screenSize.height * 9/10);
-
-            dialogFrame.setLocationRelativeTo(parentFrame);
-            dialogFrame.setVisible(true);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,
-                    "Không thể mở form thêm hóa đơn: " + ex.getMessage(),
-                    "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-
-        // Sau khi đóng formThemHoaDon, gọi lại phương thức để làm mới bảng
-        loadDataToTable();
+        // Lấy đối tượng Main (parent frame)
+        Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
+        
+        // Gọi phương thức replaceMainPanel để thay thế nội dung trong mainPanel
+        parentFrame.replaceMainPanel(formThem);
+        
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this,
+                "Không thể mở form thêm hóa đơn: " + ex.getMessage(),
+                "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
     }// GEN-LAST:event_btnThemActionPerformed
 
     private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXemActionPerformed
