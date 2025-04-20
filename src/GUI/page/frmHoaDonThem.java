@@ -855,8 +855,8 @@ public class frmHoaDonThem extends javax.swing.JPanel {
         jPanel4.add(jPanel51);
 
         jPanel52.setFocusTraversalPolicyProvider(true);
-        jPanel52.setMinimumSize(new java.awt.Dimension(70, 69));
-        jPanel52.setPreferredSize(new java.awt.Dimension(70, 69));
+        jPanel52.setMinimumSize(new java.awt.Dimension(70, 50));
+        jPanel52.setPreferredSize(new java.awt.Dimension(70, 50));
         jPanel52.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 10));
 
         label2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
@@ -875,7 +875,9 @@ public class frmHoaDonThem extends javax.swing.JPanel {
 
         jPanel4.add(jPanel52);
 
-        jPanel57.setPreferredSize(new java.awt.Dimension(80, 100));
+        jPanel57.setMaximumSize(new java.awt.Dimension(130, 50));
+        jPanel57.setMinimumSize(new java.awt.Dimension(130, 50));
+        jPanel57.setPreferredSize(new java.awt.Dimension(130, 50));
 
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnThem.setForeground(new java.awt.Color(0, 120, 92));
