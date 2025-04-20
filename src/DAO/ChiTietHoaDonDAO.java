@@ -40,6 +40,7 @@ public class ChiTietHoaDonDAO {
             e.printStackTrace();
             return false;
         }
+        
     }
 
     public static List<ChiTietHoaDon> getChiTietByHoaDonId(String hoaDonId) {
