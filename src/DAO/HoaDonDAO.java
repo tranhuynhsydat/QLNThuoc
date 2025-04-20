@@ -9,6 +9,7 @@ import Entity.HoaDon;
 import Entity.KhachHang;
 import Entity.NhanVien;
 import Entity.Thuoc;
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,15 +20,38 @@ import java.util.Date;
 import java.util.List;
 
 public class HoaDonDAO {
+    
+//Tạo mã hoá đơn
+    public static String taoMaHoaDon() {
+        String prefix = "HD-";  // Tiền tố của mã hóa đơn
+        int maxNumber = 0;
+
+        // Truy vấn để lấy mã hóa đơn mới nhất
+        String sql = "SELECT maHD FROM HoaDon WHERE maHD LIKE 'HD-%' ORDER BY maHD DESC";
+
+        try (Connection conn = DatabaseConnection.getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+
+            // Kiểm tra mã hóa đơn mới nhất
+            if (rs.next()) {
+                String lastMaHD = rs.getString("maHD");
+                // Lấy số từ mã cuối cùng và tăng lên 1
+                int lastNumber = Integer.parseInt(lastMaHD.substring(3));  // Lấy số sau tiền tố "HD-"
+                maxNumber = lastNumber + 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Tạo mã hóa đơn mới với số có 3 chữ số
+        return prefix + String.format("%03d", maxNumber);  // Đảm bảo mã hóa đơn có 3 chữ số
+    }
 
     // Lấy tất cả hóa đơn
     public static List<HoaDon> getAllHoaDon() {
         List<HoaDon> danhSachHoaDon = new ArrayList<>();
         String sql = "SELECT * FROM HoaDon";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 String maHD = rs.getString("maHD");
@@ -71,9 +95,7 @@ public class HoaDonDAO {
             sql += " AND ngayMua = '" + sqlDate + "'";
         }
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 HoaDon hoaDon = new HoaDon();
@@ -96,8 +118,7 @@ public class HoaDonDAO {
     public static HoaDon getHoaDonByMaHD(String maHD) {
         String sql = "SELECT * FROM HoaDon WHERE maHD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maHD);
 
@@ -128,39 +149,12 @@ public class HoaDonDAO {
         return null;
     }
 
-    // Tạo mã hóa đơn mới
-    public static String taoMaHoaDon() {
-        String maHD = "HD-";
-        String sql = "SELECT TOP 1 maHD FROM HoaDon ORDER BY maHD DESC";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
-
-            if (rs.next()) {
-                String lastMaHD = rs.getString("maHD");
-                // Lấy số từ mã cuối cùng và tăng lên 1
-                int lastNumber = Integer.parseInt(lastMaHD.substring(3));
-                maHD += String.format("%03d", lastNumber + 1);
-            } else {
-                // Nếu không có hóa đơn nào, bắt đầu từ 001
-                maHD += "001";
-            }
-        } catch (SQLException e) {
-            System.out.println("Lỗi tạo mã hóa đơn: " + e.getMessage());
-            // Trường hợp lỗi, tạo mã dựa vào thời gian
-            maHD += System.currentTimeMillis() % 1000;
-        }
-
-        return maHD;
-    }
 
     // Thêm hóa đơn mới
     public static boolean them(HoaDon hoaDon) {
         String sql = "INSERT INTO HoaDon (maHD, maNV, maKH, thoiGian) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, hoaDon.getId());
             ps.setString(2, hoaDon.getIdNhanVien());
@@ -184,8 +178,7 @@ public class HoaDonDAO {
     public static boolean sua(HoaDon hoaDon) {
         String sql = "UPDATE HoaDon SET maNV = ?, maKH = ?, thoiGian = ? WHERE maHD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, hoaDon.getIdNhanVien());
             ps.setString(2, hoaDon.getIdKhachHang());
@@ -213,8 +206,7 @@ public class HoaDonDAO {
         if (xoaChiTietHoaDon(maHD)) {
             String sql = "DELETE FROM HoaDon WHERE maHD = ?";
 
-            try (Connection conn = DatabaseConnection.getConnection();
-                    PreparedStatement ps = conn.prepareStatement(sql)) {
+            try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
                 ps.setString(1, maHD);
 
@@ -233,8 +225,7 @@ public class HoaDonDAO {
         List<ChiTietHoaDon> chiTietList = new ArrayList<>();
         String sql = "SELECT * FROM CTHoaDon WHERE maHD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maHD);
 
@@ -268,8 +259,7 @@ public class HoaDonDAO {
         String sql = "INSERT INTO CTHoaDon (maHD, maThuoc, soLuong, donGia) VALUES (?, ?, ?, ?)";
         int successCount = 0;
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             for (ChiTietHoaDon chiTiet : chiTietList) {
                 ps.setString(1, chiTiet.getIdHoaDon());
@@ -300,8 +290,7 @@ public class HoaDonDAO {
 
         String sql = "DELETE FROM CTHoaDon WHERE maHD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maHD);
 
@@ -331,8 +320,7 @@ public class HoaDonDAO {
             // Cập nhật vào database
             String sql = "UPDATE Thuoc SET soLuong = ? WHERE maThuoc = ?";
 
-            try (Connection conn = DatabaseConnection.getConnection();
-                    PreparedStatement ps = conn.prepareStatement(sql)) {
+            try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
                 ps.setInt(1, soLuongMoi);
                 ps.setString(2, maThuoc);
@@ -349,8 +337,7 @@ public class HoaDonDAO {
         List<HoaDon> danhSachHoaDon = new ArrayList<>();
         String sql = "SELECT * FROM HoaDon WHERE thoiGian BETWEEN ? AND ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setTimestamp(1, new Timestamp(tuNgay.getTime()));
             ps.setTimestamp(2, new Timestamp(denNgay.getTime()));
@@ -388,8 +375,7 @@ public class HoaDonDAO {
         List<HoaDon> danhSachHoaDon = new ArrayList<>();
         String sql = "SELECT * FROM HoaDon WHERE maKH = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maKH);
 
@@ -426,8 +412,7 @@ public class HoaDonDAO {
         List<HoaDon> danhSachHoaDon = new ArrayList<>();
         String sql = "SELECT * FROM HoaDon WHERE maNV = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maNV);
 

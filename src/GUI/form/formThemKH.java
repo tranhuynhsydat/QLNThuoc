@@ -316,6 +316,7 @@ public class formThemKH extends javax.swing.JDialog {
         // Hiển thị thông báo cho người dùng
         if (isAdded) {
             JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");
+            dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Thêm khách hàng thất bại!");
         }
