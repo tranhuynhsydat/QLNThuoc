@@ -141,28 +141,28 @@ private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {
     }// GEN-LAST:event_btnThemActionPerformed
 
     // Event handler for "Delete" button
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {
-        int selectedRow = jTable1.getSelectedRow();
-        if (selectedRow != -1) {
-            String maPD = jTable1.getValueAt(selectedRow, 1).toString(); // Get the invoice ID from the first column
-
-            // Confirm deletion
-            int response = JOptionPane.showConfirmDialog(this,
-                    "Bạn có chắc chắn muốn xóa hóa đơn trả này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-
-            // If user confirms, perform the deletion
-            if (response == JOptionPane.YES_OPTION) {
-                if (HoaDonTraDAO.xoaHoaDonTra(maPD)) {
-                    JOptionPane.showMessageDialog(this, "Xóa hóa đơn trả thành công!");
-                    loadDataToTable(); // Refresh the table after deletion
-                } else {
-                    JOptionPane.showMessageDialog(this, "Xóa hóa đơn trả thất bại!");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn trả để xóa!");
-        }
-    }
+//    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {
+//        int selectedRow = jTable1.getSelectedRow();
+//        if (selectedRow != -1) {
+//            String maPD = jTable1.getValueAt(selectedRow, 1).toString(); // Get the invoice ID from the first column
+//
+//            // Confirm deletion
+//            int response = JOptionPane.showConfirmDialog(this,
+//                    "Bạn có chắc chắn muốn xóa hóa đơn trả này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+//
+//            // If user confirms, perform the deletion
+//            if (response == JOptionPane.YES_OPTION) {
+//                if (HoaDonTraDAO.xoaHoaDonTra(maPD)) {
+//                    JOptionPane.showMessageDialog(this, "Xóa hóa đơn trả thành công!");
+//                    loadDataToTable(); // Refresh the table after deletion
+//                } else {
+//                    JOptionPane.showMessageDialog(this, "Xóa hóa đơn trả thất bại!");
+//                }
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn trả để xóa!");
+//        }
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -171,7 +171,7 @@ private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         tablePanel = new javax.swing.JPanel();
@@ -181,7 +181,6 @@ private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {
         jTable1 = new javax.swing.JTable();
         btnPanel = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
-        btnXoa = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(829, 624));
         setPreferredSize(new java.awt.Dimension(829, 624));
@@ -207,13 +206,13 @@ private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {
         tablePanel.add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
+            new Object [][] {
 
-                },
-                new String[] {
-                        "STT", "Mã phiếu trả", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày đổi/trả", "Lý do",
-                        "Tổng hóa đơn"
-                }));
+            },
+            new String [] {
+                "STT", "Mã phiếu trả", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày đổi/trả", "Lý do", "Tổng hóa đơn"
+            }
+        ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable1);
@@ -243,28 +242,12 @@ private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {
         });
         btnPanel.add(btnThem);
 
-        btnXoa.setBackground(new java.awt.Color(0, 120, 92));
-        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnXoa.setForeground(new java.awt.Color(255, 255, 255));
-        btnXoa.setText("Xoá");
-        btnXoa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnXoa.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnXoa.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnXoa.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnXoa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoaActionPerformed(evt);
-            }
-        });
-        btnPanel.add(btnXoa);
-
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnPanel;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

@@ -1,54 +1,100 @@
-/*
- * Entity/ChiTietHoaDon.java
- */
 package Entity;
 
 public class ChiTietHoaDon {
-    private String idHoaDon;
-    private String idThuoc;
+    private String maHD;
+    private String maThuoc;
+    private String tenThuoc;
     private int soLuong;
     private double donGia;
-    private Thuoc thuoc;
+    private double thanhTien;
 
+    // Constructor mặc định
     public ChiTietHoaDon() {
     }
 
-    public ChiTietHoaDon(String idHoaDon, String idThuoc, int soLuong, double donGia) {
-        this.idHoaDon = idHoaDon;
-        this.idThuoc = idThuoc;
+    // Constructor đầy đủ tham số
+    public ChiTietHoaDon(String mHD, String maThuoc, String tenThuoc, int soLuong, double donGia,
+            double thanhTien) {
+        this.maHD = maHD;
+        this.maThuoc = maThuoc;
+        this.tenThuoc = tenThuoc;
         this.soLuong = soLuong;
         this.donGia = donGia;
+        this.thanhTien = thanhTien;
     }
-    
-    public ChiTietHoaDon(String idHoaDon, Thuoc thuoc, int soLuong) {
-        this.idHoaDon = idHoaDon;
-        this.idThuoc = thuoc.getId();
+
+    // Getters và Setters
+
+    public String getIdHoaDon() {
+        return maHD;
+    }
+
+    public void setIdHoaDon(String maHD) {
+        this.maHD = maHD;
+    }
+
+    public String getIdThuoc() {
+        return maThuoc;
+    }
+
+    public void setIdThuoc(String maThuoc) {
+        this.maThuoc = maThuoc;
+    }
+
+    public String getThuoc() {
+        return tenThuoc;
+    }
+
+    public void setThuoc(String tenThuoc) {
+        this.tenThuoc = tenThuoc;
+    }
+
+    public int getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
-        this.donGia = thuoc.getDonGia();
-        this.thuoc = thuoc;
+        // Tự động cập nhật thành tiền khi thay đổi số lượng
+        if (this.donGia > 0) {
+            this.thanhTien = this.soLuong * this.donGia;
+        }
     }
 
-    // Getters
-    public String getIdHoaDon() { return idHoaDon; }
-    public String getIdThuoc() { return idThuoc; }
-    public int getSoLuong() { return soLuong; }
-    public double getDonGia() { return donGia; }
-    public Thuoc getThuoc() { return thuoc; }
+    public double getDonGia() {
+        return donGia;
+    }
 
-    // Setters
-    public void setIdHoaDon(String idHoaDon) { this.idHoaDon = idHoaDon; }
-    public void setIdThuoc(String idThuoc) { this.idThuoc = idThuoc; }
-    public void setSoLuong(int soLuong) { this.soLuong = soLuong; }
-    public void setDonGia(double donGia) { this.donGia = donGia; }
-    public void setThuoc(Thuoc thuoc) { this.thuoc = thuoc; }
+    public void setDonGia(double donGia) {
+        this.donGia = donGia;
+        // Tự động cập nhật thành tiền khi thay đổi đơn giá
+        if (this.soLuong > 0) {
+            this.thanhTien = this.soLuong * this.donGia;
+        }
+    }
 
-    // Tính thành tiền
     public double getThanhTien() {
-        return soLuong * donGia;
+        return thanhTien;
     }
-    
+
+    public void setThanhTien(double thanhTien) {
+        this.thanhTien = thanhTien;
+    }
+
+    // Phương thức tính thành tiền
+    public void tinhThanhTien() {
+        this.thanhTien = this.soLuong * this.donGia;
+    }
+
     @Override
     public String toString() {
-        return "ChiTietHoaDon{" + "idHoaDon=" + idHoaDon + ", idThuoc=" + idThuoc + ", soLuong=" + soLuong + ", donGia=" + donGia + '}';
+        return "ChiTietHoaDon{" +
+                ", hoaDonId=" + maHD +
+                ", maThuoc='" + maThuoc + '\'' +
+                ", tenThuoc='" + tenThuoc + '\'' +
+                ", soLuong=" + soLuong +
+                ", donGia=" + donGia +
+                ", thanhTien=" + thanhTien +
+                '}';
     }
 }

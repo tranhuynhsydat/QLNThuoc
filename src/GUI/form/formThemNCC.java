@@ -237,6 +237,7 @@ public class formThemNCC extends javax.swing.JDialog {
         boolean isAdded = NhaCungCapDAO.Them(ncc);
         if (isAdded) {
             JOptionPane.showMessageDialog(this, "Thêm nhà cung cấp thành công!");
+            
         } else {
             JOptionPane.showMessageDialog(this, "Thêm nhà cung cấp thất bại!");
         }

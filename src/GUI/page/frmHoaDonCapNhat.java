@@ -8,6 +8,7 @@ import DAO.NhanVienDAO;
 import Entity.HoaDon;
 import Entity.KhachHang;
 import Entity.NhanVien;
+import GUI.Main;
 // Bỏ comment dòng import dưới đây nếu class này tồn tại trong dự án của bạn
 // import GUI.frmHoaDon;
 import java.text.DecimalFormat;
@@ -122,7 +123,7 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         tablePanel = new javax.swing.JPanel();
@@ -133,8 +134,6 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         btnPanel = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
-        btnXoa = new javax.swing.JButton();
-        btnXem = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(829, 624));
         setPreferredSize(new java.awt.Dimension(829, 624));
@@ -162,15 +161,16 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
         jPanel34.setLayout(new java.awt.BorderLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null }
-                },
-                new String[] {
-                        "STT", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày mua", "Tổng hóa đơn"
-                }));
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày mua", "Tổng hóa đơn"
+            }
+        ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable1);
@@ -202,102 +202,26 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
         });
         btnPanel.add(btnThem);
 
-        btnXoa.setBackground(new java.awt.Color(0, 120, 92));
-        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnXoa.setForeground(new java.awt.Color(255, 255, 255));
-        btnXoa.setText("Xoá");
-        btnXoa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnXoa.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnXoa.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnXoa.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnXoa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoaActionPerformed(evt);
-            }
-        });
-        btnPanel.add(btnXoa);
-
-        btnXem.setBackground(new java.awt.Color(0, 120, 92));
-        btnXem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnXem.setForeground(new java.awt.Color(255, 255, 255));
-        btnXem.setText("Xem Chi Tiết");
-        btnXem.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnXem.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnXem.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnXem.setPreferredSize(new java.awt.Dimension(120, 35));
-        btnXem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXemActionPerformed(evt);
-            }
-        });
-        btnPanel.add(btnXem);
-
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXoaActionPerformed
-        // Kiểm tra nếu có dòng được chọn trong JTable
-        int selectedRow = jTable1.getSelectedRow();
-        if (selectedRow != -1) {
-            String maHD = jTable1.getValueAt(selectedRow, 1).toString(); // Lấy mã hóa đơn từ cột thứ hai
 
-            // Hiển thị hộp thoại xác nhận xóa
-            int response = JOptionPane.showConfirmDialog(this,
-                    "Bạn có chắc chắn muốn xóa hóa đơn này?",
-                    "Xác nhận", JOptionPane.YES_NO_OPTION);
-
-            // Nếu người dùng chọn Yes, thực hiện xóa
-            if (response == JOptionPane.YES_OPTION) {
-                // Gọi hàm xóa hóa đơn trong DAO
-                if (HoaDonDAO.xoa(maHD)) {
-                    JOptionPane.showMessageDialog(this, "Xóa hóa đơn thành công!");
-                    loadDataToTable(); // Làm mới bảng sau khi xóa
-                } else {
-                    JOptionPane.showMessageDialog(this, "Xóa hóa đơn thất bại!");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn để xóa!");
-        }
-    }// GEN-LAST:event_btnXoaActionPerformed
-
-    // Phương thức btnThemActionPerformed đã sửa
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            // Tạo đối tượng frmHoaDonThem không có tham số
-            frmHoaDonThem dialog = new frmHoaDonThem();
+        // Tạo đối tượng frmHoaDonThem
+        frmHoaDonThem formThem = new frmHoaDonThem();
 
-            // Nếu dialog này kế thừa từ JPanel thay vì JDialog, cần hiển thị nó trong một
-            // cửa sổ mới
-            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            JFrame dialogFrame = new JFrame("Thêm hóa đơn");
-            dialogFrame.setContentPane(dialog);
-
-            // Thiết lập kích thước tối đa
-            dialogFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Mở ở chế độ toàn màn hình
-            // HOẶC bạn có thể dùng một trong các cách sau
-
-            // Cách 1: Sử dụng kích thước cụ thể
-            // dialogFrame.setSize(1024, 768); // Đặt kích thước cố định
-
-            // Cách 2: Sử dụng kích thước màn hình
-            // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            // dialogFrame.setSize(screenSize.width, screenSize.height);
-
-            // Cách 3: Sử dụng một tỷ lệ nhất định của màn hình
-            // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            // dialogFrame.setSize(screenSize.width * 9/10, screenSize.height * 9/10);
-
-            dialogFrame.setLocationRelativeTo(parentFrame);
-            dialogFrame.setVisible(true);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,
-                    "Không thể mở form thêm hóa đơn: " + ex.getMessage(),
-                    "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-
-        // Sau khi đóng formThemHoaDon, gọi lại phương thức để làm mới bảng
-        loadDataToTable();
+        // Lấy đối tượng Main (parent frame)
+        Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
+        
+        // Gọi phương thức replaceMainPanel để thay thế nội dung trong mainPanel
+        parentFrame.replaceMainPanel(formThem);
+        
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this,
+                "Không thể mở form thêm hóa đơn: " + ex.getMessage(),
+                "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
     }// GEN-LAST:event_btnThemActionPerformed
 
     private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXemActionPerformed
@@ -323,7 +247,7 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
                 chiTietHD.append("-----------------------------------------\n");
 
                 hoaDon.getChiTietHoaDon().forEach(ct -> {
-                    chiTietHD.append(ct.getThuoc().getTenThuoc())
+                    chiTietHD.append(ct.getIdThuoc()).append(" - ").append(ct.getThuoc())
                             .append(" (").append(ct.getSoLuong()).append(")")
                             .append(" x ").append(currencyFormat.format(ct.getDonGia()))
                             .append(" = ").append(currencyFormat.format(ct.getThanhTien()))
@@ -348,8 +272,6 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnPanel;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnXem;
-    private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel34;

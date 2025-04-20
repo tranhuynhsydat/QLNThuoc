@@ -6,18 +6,6 @@ package GUI.page;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-//import controller.ChiTietPhieuNhapController;
-//import controller.NhaCungCapController;
-//import controller.PhieuNhapController;
-//import controller.ThuocController;
-//import entities.ChiTietPhieuNhap;
-//import entities.NhaCungCap;
-//import entities.NhanVien;
-//import entities.PhieuNhap;
-//import entities.TaiKhoan;
-//import entities.Thuoc;
-//import gui.MainLayout;
-//import gui.dialog.CreateNhaCungCapDialog;
 import java.awt.Image;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

@@ -106,6 +106,36 @@ public class NhanVienDAO {
         return danhSachNhanVien;
     }
 
+    public static NhanVien getNhanVienBySdt(String sdt) {
+        NhanVien nv = null;
+        String sql = "SELECT * FROM NhanVien WHERE sdt = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, sdt);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    nv = new NhanVien(
+                            rs.getString("maNV"),
+                            rs.getString("hoTen"),
+                            rs.getString("gioiTinh"),
+                            rs.getString("sdt"),
+                            rs.getDate("dtSinh"),
+                            rs.getDate("ngayVaoLam"),
+                            rs.getString("chucVu"),
+                            rs.getString("cccd")
+                    );
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return nv;
+    }
+
     public static NhanVien getNhanVienByMaNV(String maNV) {
         NhanVien nv = null;
         String sql = "SELECT * FROM NhanVien WHERE maNV = ?";

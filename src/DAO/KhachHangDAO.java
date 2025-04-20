@@ -16,7 +16,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 public class KhachHangDAO {
-        public static List<KhachHang> getAllKhachHang() {
+
+    public static List<KhachHang> getAllKhachHang() {
         List<KhachHang> danhSachKH = new ArrayList<>();
         String sql = "SELECT * FROM KhachHang";
 
@@ -39,6 +40,7 @@ public class KhachHangDAO {
 
         return danhSachKH;
     }
+
     public static KhachHang getKhachHangByMaKH(String maKH) {
         KhachHang kh = null;
         String sql = "SELECT * FROM KhachHang WHERE maKH = ?";
@@ -65,15 +67,41 @@ public class KhachHangDAO {
 
         return kh;
     }
+
+    public static KhachHang getKhachHangBySdt(String sdt) {
+        KhachHang kh = null;
+        String sql = "SELECT * FROM KhachHang WHERE SDT = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, sdt);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    kh = new KhachHang(
+                            rs.getString("maKH"),
+                            rs.getString("tenKH"),
+                            rs.getString("gioiTinh"),
+                            rs.getString("SDT"),
+                            rs.getInt("tuoi")
+                    );
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return kh;
+    }
+
     // Phương thức tạo mã khách hàng tự động
     public static String TaoMaKhachHang() {
         String prefix = "KH-";
         Set<Integer> existingNumbers = new HashSet<>();  // Lưu trữ các số mã khách hàng đã tồn tại
 
         // Lấy tất cả các mã khách hàng hiện có trong cơ sở dữ liệu
-        try (Connection conn = DatabaseConnection.getConnection(); 
-             Statement stmt = conn.createStatement(); 
-             ResultSet rs = stmt.executeQuery("SELECT maKH FROM KhachHang WHERE maKH LIKE 'KH-%'")) {
+        try (Connection conn = DatabaseConnection.getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT maKH FROM KhachHang WHERE maKH LIKE 'KH-%'")) {
 
             while (rs.next()) {
                 String ma = rs.getString("maKH");
@@ -99,6 +127,7 @@ public class KhachHangDAO {
         // Trả về mã mới theo định dạng KH-XXX
         return prefix + String.format("%03d", newNumber);
     }
+
     public static boolean sua(KhachHang kh) {
         String sql = "UPDATE KhachHang SET tenKH = ?, gioiTinh = ?, SDT = ?, tuoi =?  WHERE maKH = ?";
 
@@ -117,12 +146,12 @@ public class KhachHangDAO {
         }
         return false;
     }
+
     // Phương thức thêm khách hàng vào cơ sở dữ liệu
     public static boolean themKhachHang(KhachHang kh) {
         String sql = "INSERT INTO KhachHang (maKH, tenKH, gioiTinh, SDT, tuoi) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             // Cài đặt giá trị cho PreparedStatement
             stmt.setString(1, kh.getId());  // Thêm mã khách hàng
@@ -140,6 +169,7 @@ public class KhachHangDAO {
 
         return false;  // Trả về false nếu có lỗi
     }
+
     public static boolean xoa(String maKH) {
         String sql = "DELETE FROM KhachHang WHERE maKH = ?";
 
@@ -154,32 +184,33 @@ public class KhachHangDAO {
         }
         return false;
     }
+
     public static List<KhachHang> getKhachHangBatch(int start, int limit) {
-    List<KhachHang> danhSachKhachHang = new ArrayList<>();
-    String sql = "SELECT * FROM KhachHang ORDER BY maKH OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // SQL Server syntax
+        List<KhachHang> danhSachKhachHang = new ArrayList<>();
+        String sql = "SELECT * FROM KhachHang ORDER BY maKH OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // SQL Server syntax
 
-    try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setInt(1, start);  // Chỉ mục bắt đầu (OFFSET)
-        ps.setInt(2, limit);  // Số dòng cần lấy (FETCH NEXT)
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, start);  // Chỉ mục bắt đầu (OFFSET)
+            ps.setInt(2, limit);  // Số dòng cần lấy (FETCH NEXT)
 
-        try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                KhachHang kh = new KhachHang(
-                        rs.getString("maKH"),
-                        rs.getString("tenKH"),
-                        rs.getString("gioiTinh"),
-                        rs.getString("sdt"),
-                        rs.getInt("tuoi")
-                );
-                danhSachKhachHang.add(kh);  // Thêm nhân viên vào danh sách
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    KhachHang kh = new KhachHang(
+                            rs.getString("maKH"),
+                            rs.getString("tenKH"),
+                            rs.getString("gioiTinh"),
+                            rs.getString("sdt"),
+                            rs.getInt("tuoi")
+                    );
+                    danhSachKhachHang.add(kh);  // Thêm nhân viên vào danh sách
+                }
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-
-    return danhSachKhachHang;
+        return danhSachKhachHang;
     }
 //    public static List<KhachHang> searchKhachHang(String tenKH, String gioiTinh, String SDT, int tuoi) {
 //        List<KhachHang> danhSachKhachHang = new ArrayList<>();
@@ -217,58 +248,58 @@ public class KhachHangDAO {
 //
 //        return danhSachKhachHang;
 //    }
-        public static List<KhachHang> searchKhachHang(String tenKH, String gioiTinh, String SDT, int tuoi) {
-            List<KhachHang> danhSachKhachHang = new ArrayList<>();
-            List<String> conditions = new ArrayList<>();
-            List<Object> params = new ArrayList<>();
 
-            String sql = "SELECT * FROM KhachHang";
+    public static List<KhachHang> searchKhachHang(String tenKH, String gioiTinh, String SDT, int tuoi) {
+        List<KhachHang> danhSachKhachHang = new ArrayList<>();
+        List<String> conditions = new ArrayList<>();
+        List<Object> params = new ArrayList<>();
 
-            if (!tenKH.isEmpty()) {
-                conditions.add("tenKH LIKE ?");
-                params.add("%" + tenKH + "%");
+        String sql = "SELECT * FROM KhachHang";
+
+        if (!tenKH.isEmpty()) {
+            conditions.add("tenKH LIKE ?");
+            params.add("%" + tenKH + "%");
+        }
+        if (!gioiTinh.isEmpty()) {
+            conditions.add("gioiTinh LIKE ?");
+            params.add("%" + gioiTinh + "%");
+        }
+        if (!SDT.isEmpty()) {
+            conditions.add("SDT LIKE ?");
+            params.add("%" + SDT + "%");
+        }
+        if (tuoi > 0) {
+            conditions.add("tuoi = ?");
+            params.add(tuoi);
+        }
+
+        if (!conditions.isEmpty()) {
+            sql += " WHERE " + String.join(" AND ", conditions);
+        }
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
             }
-            if (!gioiTinh.isEmpty()) {
-                conditions.add("gioiTinh LIKE ?");
-                params.add("%" + gioiTinh + "%");
-            }
-            if (!SDT.isEmpty()) {
-                conditions.add("SDT LIKE ?");
-                params.add("%" + SDT + "%");
-            }
-            if (tuoi > 0) {
-                conditions.add("tuoi = ?");
-                params.add(tuoi);
-            }
 
-            if (!conditions.isEmpty()) {
-                sql += " WHERE " + String.join(" AND ", conditions);
-            }
-
-            try (Connection conn = DatabaseConnection.getConnection(); 
-                 PreparedStatement ps = conn.prepareStatement(sql)) {
-
-                for (int i = 0; i < params.size(); i++) {
-                    ps.setObject(i + 1, params.get(i));
-                }
-
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        KhachHang kh = new KhachHang(
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    KhachHang kh = new KhachHang(
                             rs.getString("maKH"),
                             rs.getString("tenKH"),
                             rs.getString("gioiTinh"),
                             rs.getString("SDT"),
                             rs.getInt("tuoi")
-                        );
-                        danhSachKhachHang.add(kh);
-                    }
+                    );
+                    danhSachKhachHang.add(kh);
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-
-            return danhSachKhachHang;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        return danhSachKhachHang;
+    }
 
 }

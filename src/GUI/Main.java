@@ -41,6 +41,7 @@ import java.util.ResourceBundle;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 /**
@@ -531,6 +532,21 @@ public class Main extends javax.swing.JFrame {
 
         // Đổi màu nút được chọn
         sourceButton.setBackground(new Color(0, 155, 118));
+    }
+
+    public void replaceMainPanel(JPanel newPanel) {
+        // Xóa tất cả các phần cũ trong mainPanel
+        mainPanel.removeAll();
+
+        // Đặt layout cho mainPanel
+        mainPanel.setLayout(new java.awt.BorderLayout());
+
+        // Thêm panel mới vào mainPanel
+        mainPanel.add(newPanel, java.awt.BorderLayout.CENTER);
+
+        // Cập nhật lại giao diện
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 
     private void addActionListeners(List<JButton> buttons) {
