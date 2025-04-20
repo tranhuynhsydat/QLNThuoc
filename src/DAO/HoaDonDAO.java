@@ -247,7 +247,7 @@ public class HoaDonDAO {
                     chiTiet.setDonGia(rs.getDouble("donGia"));
 
                     // Lấy thông tin thuốc
-                    chiTiet.setThuoc(ThuocDAO.getThuocByMaThuoc(chiTiet.getIdThuoc()));
+                    chiTiet.setThuoc(ThuocDAO.getThuocByMaThuoc(rs.getString("maThuoc")).getTenThuoc());
 
                     chiTietList.add(chiTiet);
                 }
