@@ -9,6 +9,7 @@ import DAO.PhieuNhapDAO;
 
 import Entity.NhanVien;
 import Entity.PhieuNhap;
+import GUI.Main;
 import GUI.form.formThemNCC;
 import GUI.form.formSuaNV;
 import GUI.form.formThemNV;
@@ -249,46 +250,27 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-         try {
-            // Tạo đối tượng frmHoaDonThem không có tham số
-            frmPhieuNhapThem dialog = new frmPhieuNhapThem();
-
-            // Nếu dialog này kế thừa từ JPanel thay vì JDialog, cần hiển thị nó trong một
-            // cửa sổ mới
-            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            JFrame dialogFrame = new JFrame("Thêm hóa đơn");
-            dialogFrame.setContentPane(dialog);
-
-            // Thiết lập kích thước tối đa
-            dialogFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Mở ở chế độ toàn màn hình
-            // HOẶC bạn có thể dùng một trong các cách sau
-
-            // Cách 1: Sử dụng kích thước cụ thể
-            // dialogFrame.setSize(1024, 768); // Đặt kích thước cố định
-
-            // Cách 2: Sử dụng kích thước màn hình
-            // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            // dialogFrame.setSize(screenSize.width, screenSize.height);
-
-            // Cách 3: Sử dụng một tỷ lệ nhất định của màn hình
-            // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            // dialogFrame.setSize(screenSize.width * 9/10, screenSize.height * 9/10);
-
-            dialogFrame.setLocationRelativeTo(parentFrame);
-            dialogFrame.setVisible(true);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,
-                    "Không thể mở form thêm hóa đơn: " + ex.getMessage(),
-                    "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-
-        // Sau khi đóng formThemHoaDon, gọi lại phương thức để làm mới bảng
-        loadDataToTable();    }//GEN-LAST:event_btnThemActionPerformed
-
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnXacNhanActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+try {
+        // Tạo đối tượng frmHoaDonThem
+        frmPhieuNhapThem formThem = new frmPhieuNhapThem();
+
+        // Lấy đối tượng Main (parent frame)
+        Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
+        
+        // Gọi phương thức replaceMainPanel để thay thế nội dung trong mainPanel
+        parentFrame.replaceMainPanel(formThem);
+        
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this,
+                "Không thể mở form thêm phiếu nhập: " + ex.getMessage(),
+                "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

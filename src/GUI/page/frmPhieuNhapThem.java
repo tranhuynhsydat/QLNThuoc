@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package GUI.page;
+import GUI.Main;
+import GUI.page.frmPhieuNhapCapNhat;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 //import controller.ChiTietPhieuNhapController;
@@ -26,6 +28,8 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 //import utils.Formatter;
@@ -458,13 +462,13 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã thuốc", "Tên thuốc", "Danh mục", "Đơn vị", "Xuất xứ", "Số lượng", "Giá nhập"
+                "Mã thuốc", "Tên thuốc", "Thành phần", "Giá nhập", "Giá nhập", "HSD", "Danh mục", "Đơn vị", "Xuất xứ", "Số lượng"
             }
         ));
         jTable1.setMinimumSize(new java.awt.Dimension(470, 217));
@@ -814,16 +818,21 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-        //                if (MessageDialog.confirm(this, "Xác nhận hủy hóa đơn?", "Hủy hóa đơn")) {
-            //                        for (ChiTietHoaDon cthd : listCTHD) {
-                //                                Thuoc thuocCTHD = cthd.getThuoc();
-                //                                Thuoc thuoc = listThuoc.get(listThuoc.indexOf(thuocCTHD));
-                //                                int updatedSoLuongTon = thuoc.getSoLuongTon() + cthd.getSoLuong();
-                //                                THUOC_CON.updateSoLuongTon(thuoc, updatedSoLuongTon);
-                //                            }
-            //
-            //                        main.setPanel(new HoaDonPage(main));
-            //                    }
+        try {
+            // Tạo đối tượng frmHoaDonCapNhat
+            frmPhieuNhapCapNhat formCapNhat = new frmPhieuNhapCapNhat();
+
+            // Lấy đối tượng Main (parent frame)
+            Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
+
+            // Gọi phương thức replaceMainPanel để thay thế nội dung trong mainPanel
+            parentFrame.replaceMainPanel(formCapNhat);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Không thể quay lại form cập nhật hóa đơn: " + ex.getMessage(),
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }                  
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnAddCustomer1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCustomer1ActionPerformed

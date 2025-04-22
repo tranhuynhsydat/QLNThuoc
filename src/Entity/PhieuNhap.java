@@ -5,96 +5,125 @@
 package Entity;
 
 import java.util.Date;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  *
  * @author Admin
  */
 public class PhieuNhap {
-    private String maPN;
+    private String id;
+    private String ngayLap;
+    private String idNhanVien;
+    private String idNhaCungCap;
+    private double tongTien;
     private NhanVien nhanVien;
     private NhaCungCap nhaCungCap;
-    private String trangThai;
-    private Date thoiGian;
+    private boolean trangThai;
+    private List<ChiTietPhieuNhap> chiTietPhieuNhap;
 
-    public PhieuNhap(String maPN, NhanVien nhanVien, NhaCungCap nhaCungCap, String trangThai, Date thoiGian) {
-        this.maPN = maPN;
+    public PhieuNhap(String id, String ngayLap, String idNhanVien, String idNhaCungCap, double tongTien, NhanVien nhanVien,NhaCungCap nhaCungCap, boolean trangThai, List<ChiTietPhieuNhap> chiTietPhieuNhap) {
+        this.id = id;
+        this.ngayLap = ngayLap;
+        this.idNhanVien = idNhanVien;
+        this.idNhaCungCap = idNhaCungCap;
+        this.tongTien = tongTien;
         this.nhanVien = nhanVien;
-        this.nhaCungCap = nhaCungCap;
         this.trangThai = trangThai;
-        this.thoiGian = thoiGian;
+        this.chiTietPhieuNhap = chiTietPhieuNhap;
     }
 
-    public String getMaPN() {
-        return maPN;
+    public String getId() {
+        return id;
+    }
+
+    public String getNgayLap() {
+        return ngayLap;
+    }
+
+    public String getIdNhanVien() {
+        return idNhanVien;
+    }
+
+    public String getIdNhaCungCap() {
+        return idNhaCungCap;
+    }
+
+    public double getTongTien() {
+        return tongTien;
     }
 
     public NhanVien getNhanVien() {
         return nhanVien;
     }
-
     public NhaCungCap getNhaCungCap() {
         return nhaCungCap;
     }
 
-    public String getTrangThai() {
+    public boolean isTrangThai() {
         return trangThai;
     }
 
-    public Date getThoiGian() {
-        return thoiGian;
+    public List<ChiTietPhieuNhap> getChiTietPhieuNhap() {
+        return chiTietPhieuNhap;
     }
 
-    public void setMaPN(String maPN) {
-        this.maPN = maPN;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setNgayLap(String ngayLap) {
+        this.ngayLap = ngayLap;
+    }
+
+    public void setIdNhanVien(String idNhanVien) {
+        this.idNhanVien = idNhanVien;
+    }
+
+    public void setIdNhaCungCap(String idNhaCungCap) {
+        this.idNhaCungCap = idNhaCungCap;
+    }
+
+    public void setTongTien(double tongTien) {
+        this.tongTien = tongTien;
     }
 
     public void setNhanVien(NhanVien nhanVien) {
         this.nhanVien = nhanVien;
     }
-
     public void setNhaCungCap(NhaCungCap nhaCungCap) {
         this.nhaCungCap = nhaCungCap;
     }
 
-    public void setTrangThai(String trangThai) {
+    public void setTrangThai(boolean trangThai) {
         this.trangThai = trangThai;
     }
 
-    public void setThoiGian(Date thoiGian) {
-        this.thoiGian = thoiGian;
+    public void setChiTietPhieuNhap(List<ChiTietPhieuNhap> chiTietPhieuNhap) {
+        this.chiTietPhieuNhap = chiTietPhieuNhap;
+    }
+    
+    
+
+    // Thêm chi tiết hoá đơn
+    public void addChiTietPhieuNhap(ChiTietPhieuNhap chiTiet) {
+        this.chiTietPhieuNhap.add(chiTiet);
+        this.tongTien += chiTiet.getThanhTien();
     }
 
-   
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.maPN);
-        return hash;
+    // Tính tổng tiền
+    public void tinhTongTien() {
+        double tong = 0;
+        for (ChiTietPhieuNhap chiTiet : chiTietPhieuNhap) {
+            tong += chiTiet.getThanhTien();
+        }
+        this.tongTien = tong;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final PhieuNhap other = (PhieuNhap) obj;
-        return Objects.equals(this.maPN, other.maPN);
-    }
-
+    
     @Override
     public String toString() {
-        return "PhieuNhap{" + "maPN=" + maPN + ", nhanVien=" + nhanVien + ", nhaCungCap=" + nhaCungCap + ", trangThai=" + trangThai + ", thoiGian=" + thoiGian + '}';
+        return "PhieuNhap{" + "id=" + id + ", ngayLap=" + ngayLap + ", nhanVien=" + idNhanVien + ", khachHang=" + idNhaCungCap + ", tongTien=" + tongTien + '}';
     }
-    
-    
-   
-         
 }
