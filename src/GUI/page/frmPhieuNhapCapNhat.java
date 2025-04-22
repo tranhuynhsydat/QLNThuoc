@@ -126,6 +126,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         btnPanel = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
+        btnXacNhan = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(829, 624));
         setPreferredSize(new java.awt.Dimension(829, 624));
@@ -204,6 +205,21 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         });
         btnPanel.add(btnXoa);
 
+        btnXacNhan.setBackground(new java.awt.Color(0, 120, 92));
+        btnXacNhan.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnXacNhan.setForeground(new java.awt.Color(255, 255, 255));
+        btnXacNhan.setText("Xác nhận");
+        btnXacNhan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnXacNhan.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnXacNhan.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnXacNhan.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnXacNhan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXacNhanActionPerformed(evt);
+            }
+        });
+        btnPanel.add(btnXacNhan);
+
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -270,10 +286,15 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         // Sau khi đóng formThemHoaDon, gọi lại phương thức để làm mới bảng
         loadDataToTable();    }//GEN-LAST:event_btnThemActionPerformed
 
+    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnXacNhanActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnPanel;
     private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnXacNhan;
     private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
