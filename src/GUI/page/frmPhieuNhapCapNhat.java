@@ -6,6 +6,7 @@ package GUI.page;
 
 import DAO.NhanVienDAO;
 import DAO.PhieuNhapDAO;
+import Entity.NhaCungCap;
 
 import Entity.NhanVien;
 import Entity.PhieuNhap;
@@ -13,6 +14,8 @@ import GUI.Main;
 import GUI.form.formThemNCC;
 import GUI.form.formSuaNV;
 import GUI.form.formThemNV;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,7 +33,8 @@ import javax.swing.table.DefaultTableModel;
 public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
 
     private int startIndex = 0;
-
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private final DecimalFormat currencyFormat = new DecimalFormat("#,### VND");
     /**
      * Creates new form NewJPanel
      */
@@ -47,8 +51,8 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
 
             // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
             if (current + visible >= max) {
-                startIndex += 10;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
-                loadDataToTable();  // Tải thêm dữ liệu
+                startIndex += 10; // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                loadDataToTable(); // Tải thêm dữ liệu
             }
         });
 
@@ -70,43 +74,48 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         // Ngăn không cho phép chọn nhiều dòng
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
     }
+    private void loadDataToTable() {
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                List<PhieuNhap> danhSachPhieuNhap = PhieuNhapDAO.getAllPhieuNhap(); // Lấy tất cả hóa đơn
+                System.out.println("Dữ liệu nhận được từ DB: " + danhSachPhieuNhap.size() + " dòng");
+                if (danhSachPhieuNhap == null || danhSachPhieuNhap.isEmpty()) {
+                    System.out.println("Không có dữ liệu để tải.");
+                } else {
+                    SwingUtilities.invokeLater(() -> {
+                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                        model.setRowCount(0); // Xóa dữ liệu cũ trong bảng
 
-  private void loadDataToTable() {
-    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-        @Override
-        protected Void doInBackground() throws Exception {
-            startIndex=0;
-            List<PhieuNhap> danhSachPhieuNhap = PhieuNhapDAO.getPhieuNhapBatch(startIndex, 10); // Tải thêm dữ liệu
-            System.out.println("Dữ liệu nhận được từ DB: " + danhSachPhieuNhap.size() + " dòng");
-            if (danhSachPhieuNhap == null || danhSachPhieuNhap.isEmpty()) {
-                System.out.println("Không có dữ liệu để tải.");
-            } else {
-                SwingUtilities.invokeLater(() -> {
-                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                    model.setRowCount(0);  // Xóa dữ liệu cũ trong bảng
+                        int stt = 1;
+                        // Thêm dữ liệu mới vào bảng
+                        for (PhieuNhap pn : danhSachPhieuNhap) {
+                            NhaCungCap ncc = pn.getNhaCungCap();
+                            NhanVien nv = pn.getNhanVien();
 
-                    // Thêm dữ liệu mới vào bảng
-                    for (PhieuNhap pn : danhSachPhieuNhap) {
-                        Object[] rowData = {
-                            pn.getMaPN(),
-                            pn.getNhanVien()!= null ? pn.getNhanVien().getHoTen(): null,
-                            pn.getNhaCungCap()!= null ? pn.getNhaCungCap().getTenNhaCungCap(): null,
-                            pn.getTrangThai(),
-                            pn.getThoiGian(),
-                        };
-                        model.addRow(rowData);  // Thêm dòng vào bảng
-                    }
+                            Object[] rowData = {
+                                    stt++,
+                                    pn.getId(),
+                                    ncc != null ? ncc.getTenNhaCungCap(): "N/A", // Sử dụng getHoTen() từ KhachHang
+                                    ncc != null ? ncc.getSdt(): "N/A", // Sử dụng getSdt() từ KhachHang
+                                    nv != null ? nv.getHoTen() : "N/A",
+                                    dateFormat.format(pn.getNgayLap()),
+                                    currencyFormat.format(pn.getTongTien())
+                            };
+                            model.addRow(rowData); // Thêm dòng vào bảng
+                        }
 
-                    model.fireTableDataChanged();  // Đảm bảo bảng được làm mới
-                    jTable1.revalidate();  // Cập nhật lại bảng
-                    jTable1.repaint();  // Vẽ lại bảng
-                });
+                        model.fireTableDataChanged(); // Đảm bảo bảng được làm mới
+                        jTable1.revalidate(); // Cập nhật lại bảng
+                        jTable1.repaint(); // Vẽ lại bảng
+                    });
+                }
+                return null;
             }
-            return null;
-        }
-    };
-    worker.execute();
-}
+        };
+        worker.execute();
+    }
+ 
 
 
 
@@ -126,8 +135,6 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         btnPanel = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
-        btnXoa = new javax.swing.JButton();
-        btnXacNhan = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(829, 624));
         setPreferredSize(new java.awt.Dimension(829, 624));
@@ -157,7 +164,7 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã phiếu nhập", "Tên NV", "Tên NCC", "Trạng thái phiếu", "Thời gian lập"
+                "STT", "Mã phiếu nhập", "Tên NCC", "SĐT", "Tên nhân viên", "Ngày lập", "Tổng hóa đơn"
             }
         ));
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -191,68 +198,8 @@ public class frmPhieuNhapCapNhat extends javax.swing.JPanel {
         });
         btnPanel.add(btnThem);
 
-        btnXoa.setBackground(new java.awt.Color(0, 120, 92));
-        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnXoa.setForeground(new java.awt.Color(255, 255, 255));
-        btnXoa.setText("Xoá");
-        btnXoa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnXoa.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnXoa.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnXoa.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnXoa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoaActionPerformed(evt);
-            }
-        });
-        btnPanel.add(btnXoa);
-
-        btnXacNhan.setBackground(new java.awt.Color(0, 120, 92));
-        btnXacNhan.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnXacNhan.setForeground(new java.awt.Color(255, 255, 255));
-        btnXacNhan.setText("Xác nhận");
-        btnXacNhan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnXacNhan.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnXacNhan.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnXacNhan.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnXacNhan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXacNhanActionPerformed(evt);
-            }
-        });
-        btnPanel.add(btnXacNhan);
-
         add(btnPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // Kiểm tra nếu có dòng được chọn trong JTable
-        int selectedRow = jTable1.getSelectedRow();
-        if (selectedRow != -1) {
-            String maNV = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
-
-            // Hiển thị hộp thoại xác nhận xóa
-            int response = JOptionPane.showConfirmDialog(this,
-                    "Bạn có chắc chắn muốn xóa nhân viên này?",
-                    "Xác nhận", JOptionPane.YES_NO_OPTION);
-
-            // Nếu người dùng chọn Yes, thực hiện xóa
-            if (response == JOptionPane.YES_OPTION) {
-                // Gọi hàm xóa nhân viên trong DAO
-                if (NhanVienDAO.xoa(maNV)) {
-                    JOptionPane.showMessageDialog(this, "Xóa nhân viên thành công!");
-                    loadDataToTable();  // Làm mới bảng sau khi xóa
-                } else {
-                    JOptionPane.showMessageDialog(this, "Xóa nhân viên thất bại!");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên để xóa!");
-        }
-    }//GEN-LAST:event_btnXoaActionPerformed
-
-    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnXacNhanActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
 try {
@@ -271,13 +218,55 @@ try {
                 "Lỗi", JOptionPane.ERROR_MESSAGE);
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btnThemActionPerformed
+    
+    private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXemActionPerformed
+        // Kiểm tra nếu có dòng được chọn trong JTable
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            String maPN = jTable1.getValueAt(selectedRow, 1).toString(); // Lấy mã hóa đơn từ cột thứ hai
 
+            // Lấy thông tin hóa đơn
+            PhieuNhap phieuNhap = PhieuNhapDAO.getPhieuNhapByMaPN(maPN);
+
+            if (phieuNhap != null) {
+                // Hiển thị thông tin chi tiết hóa đơn
+                StringBuilder chiTietPN = new StringBuilder();
+                chiTietPN.append("Mã phiếu nhập: ").append(phieuNhap.getId()).append("\n");
+                chiTietPN.append("Ngày lập: ").append(dateFormat.format(phieuNhap.getNgayLap())).append("\n");
+                chiTietPN.append("Nhà cung cấp: ").append(phieuNhap.getNhaCungCap().getTenNhaCungCap()).append("\n"); // Sử dụng
+                                                                                                        // getHoTen()
+                chiTietPN.append("SĐT: ").append(phieuNhap.getNhaCungCap().getSdt()).append("\n"); // Sử dụng getSdt()
+                chiTietPN.append("Nhân viên: ").append(phieuNhap.getNhanVien().getHoTen()).append("\n\n");
+
+                chiTietPN.append("CHI TIẾT PHIẾU NHẬP\n");
+                chiTietPN.append("-----------------------------------------\n");
+
+                phieuNhap.getChiTietPhieuNhap().forEach(ct -> {
+                    chiTietPN.append(ct.getIdThuoc()).append(" - ").append(ct.getThuoc())
+                            .append(" (").append(ct.getSoLuong()).append(")")
+                            .append(" x ").append(currencyFormat.format(ct.getDonGia()))
+                            .append(" = ").append(currencyFormat.format(ct.getThanhTien()))
+                            .append("\n");
+                });
+
+                chiTietPN.append("-----------------------------------------\n");
+                chiTietPN.append("TỔNG CỘNG: ").append(currencyFormat.format(phieuNhap.getTongTien()));
+
+                JOptionPane.showMessageDialog(this, chiTietPN.toString(), "Chi tiết phiếu nhập",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin phiếu nhập!", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu nhập để xem chi tiết!", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }// GEN-LAST:event_btnXemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnPanel;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnXacNhan;
-    private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

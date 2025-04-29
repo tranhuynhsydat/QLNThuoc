@@ -70,6 +70,33 @@ public class NhaCungCapDAO {
 
         return ncc;
     }
+    
+    public static NhaCungCap getNhaCungCapBySdt(String sdt) {
+        NhaCungCap ncc = null;
+        String sql = "SELECT * FROM NhaCungCap WHERE SĐT = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, sdt);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    ncc = new NhaCungCap(
+                            rs.getString("maNCC"),
+                            rs.getString("tenNCC"),
+                            rs.getString("diaChiNCC"),
+                            rs.getString("SĐT")
+                    );
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ncc;
+    }
+   
     public static String TaoMaNCC() {
         String prefix = "NCC-";
         Set<Integer> existingNumbers = new HashSet<>();  // Lưu trữ các mã nhân viên đã có

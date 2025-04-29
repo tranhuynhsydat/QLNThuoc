@@ -9,7 +9,7 @@ package Entity;
  * @author Admin
  */
 public class ChiTietPhieuNhap {
-    private String maHD;
+    private String maPN;
     private String maThuoc;
     private String tenThuoc;
     private int soLuong;
@@ -21,9 +21,9 @@ public class ChiTietPhieuNhap {
     }
 
     // Constructor đầy đủ tham số
-    public ChiTietPhieuNhap(String maHD, String maThuoc, String tenThuoc, int soLuong, double donGia,
+    public ChiTietPhieuNhap(String maPN, String maThuoc, String tenThuoc, int soLuong, double donGia,
             double thanhTien) {
-        this.maHD = maHD;
+        this.maPN = maPN;
         this.maThuoc = maThuoc;
         this.tenThuoc = tenThuoc;
         this.soLuong = soLuong;
@@ -34,11 +34,11 @@ public class ChiTietPhieuNhap {
     // Getters và Setters
 
     public String getIdPhieuNhap() {
-        return maHD;
+        return maPN;
     }
 
-    public void setIdPhieuNhap(String maHD) {
-        this.maHD = maHD;
+    public void setIdPhieuNhap(String maPN) {
+        this.maPN = maPN;
     }
 
     public String getIdThuoc() {
@@ -97,7 +97,7 @@ public class ChiTietPhieuNhap {
     @Override
     public String toString() {
         return "ChiTietPhieuNhap{" +
-                ", phieuNhapId=" + maHD +
+                ", hoaDonId=" + maPN +
                 ", maThuoc='" + maThuoc + '\'' +
                 ", tenThuoc='" + tenThuoc + '\'' +
                 ", soLuong=" + soLuong +
@@ -105,4 +105,7 @@ public class ChiTietPhieuNhap {
                 ", thanhTien=" + thanhTien +
                 '}';
     }
+
+    
+    
 }

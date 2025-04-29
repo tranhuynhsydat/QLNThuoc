@@ -15,97 +15,55 @@ import java.util.List;
  */
 public class PhieuNhap {
     private String id;
-    private String ngayLap;
+    private Date ngayLap;
     private String idNhanVien;
     private String idNhaCungCap;
     private double tongTien;
     private NhanVien nhanVien;
     private NhaCungCap nhaCungCap;
-    private boolean trangThai;
     private List<ChiTietPhieuNhap> chiTietPhieuNhap;
 
-    public PhieuNhap(String id, String ngayLap, String idNhanVien, String idNhaCungCap, double tongTien, NhanVien nhanVien,NhaCungCap nhaCungCap, boolean trangThai, List<ChiTietPhieuNhap> chiTietPhieuNhap) {
+    public PhieuNhap() {
+        this.chiTietPhieuNhap = new ArrayList<>();
+    }
+
+    public PhieuNhap(String id, Date ngayLap, String idNhanVien, String idNhaCungCap, double tongTien) {
         this.id = id;
         this.ngayLap = ngayLap;
         this.idNhanVien = idNhanVien;
         this.idNhaCungCap = idNhaCungCap;
         this.tongTien = tongTien;
-        this.nhanVien = nhanVien;
-        this.trangThai = trangThai;
-        this.chiTietPhieuNhap = chiTietPhieuNhap;
+        this.chiTietPhieuNhap = new ArrayList<>();
     }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getNgayLap() {
-        return ngayLap;
-    }
-
-    public String getIdNhanVien() {
-        return idNhanVien;
-    }
-
-    public String getIdNhaCungCap() {
-        return idNhaCungCap;
-    }
-
-    public double getTongTien() {
-        return tongTien;
-    }
-
-    public NhanVien getNhanVien() {
-        return nhanVien;
-    }
-    public NhaCungCap getNhaCungCap() {
-        return nhaCungCap;
-    }
-
-    public boolean isTrangThai() {
-        return trangThai;
-    }
-
-    public List<ChiTietPhieuNhap> getChiTietPhieuNhap() {
-        return chiTietPhieuNhap;
-    }
-
-    public void setId(String id) {
+    
+    public PhieuNhap(String id, Date ngayLap, String idNhanVien, String idNhaCungCap) {
         this.id = id;
-    }
-
-    public void setNgayLap(String ngayLap) {
         this.ngayLap = ngayLap;
-    }
-
-    public void setIdNhanVien(String idNhanVien) {
         this.idNhanVien = idNhanVien;
-    }
-
-    public void setIdNhaCungCap(String idNhaCungCap) {
         this.idNhaCungCap = idNhaCungCap;
+        this.tongTien = 0;
+        this.chiTietPhieuNhap = new ArrayList<>();
     }
 
-    public void setTongTien(double tongTien) {
-        this.tongTien = tongTien;
-    }
+    // Getters
+    public String getId() { return id; }
+    public Date getNgayLap() { return ngayLap; }
+    public String getIdNhanVien() { return idNhanVien; }
+    public String getIdNhaCungCap() { return idNhaCungCap; }
+    public double getTongTien() { return tongTien; }
+    public NhanVien getNhanVien() { return nhanVien; }
+    public NhaCungCap getNhaCungCap() { return nhaCungCap; }
+    public List<ChiTietPhieuNhap> getChiTietPhieuNhap() { return chiTietPhieuNhap; }
 
-    public void setNhanVien(NhanVien nhanVien) {
-        this.nhanVien = nhanVien;
-    }
-    public void setNhaCungCap(NhaCungCap nhaCungCap) {
-        this.nhaCungCap = nhaCungCap;
-    }
-
-    public void setTrangThai(boolean trangThai) {
-        this.trangThai = trangThai;
-    }
-
-    public void setChiTietPhieuNhap(List<ChiTietPhieuNhap> chiTietPhieuNhap) {
-        this.chiTietPhieuNhap = chiTietPhieuNhap;
-    }
-    
-    
+    // Setters
+    public void setId(String id) { this.id = id; }
+    public void setNgayLap(Date ngayLap) { this.ngayLap = ngayLap; }
+    public void setIdNhanVien(String idNhanVien) { this.idNhanVien = idNhanVien; }
+    public void setIdNhaCungCap(String idNhaCungCap) { this.idNhaCungCap = idNhaCungCap; }
+    public void setTongTien(double tongTien) { this.tongTien = tongTien; }
+    public void setNhanVien(NhanVien nhanVien) { this.nhanVien = nhanVien; }
+    public void setNhaCungCap(NhaCungCap nhaCungCap) { this.nhaCungCap = nhaCungCap; }
+    public void setChiTietPhieuNhap(List<ChiTietPhieuNhap> chiTietHoaDon) { this.chiTietPhieuNhap = chiTietHoaDon; }
 
     // Thêm chi tiết hoá đơn
     public void addChiTietPhieuNhap(ChiTietPhieuNhap chiTiet) {
@@ -124,6 +82,6 @@ public class PhieuNhap {
     
     @Override
     public String toString() {
-        return "PhieuNhap{" + "id=" + id + ", ngayLap=" + ngayLap + ", nhanVien=" + idNhanVien + ", khachHang=" + idNhaCungCap + ", tongTien=" + tongTien + '}';
+        return "PhieuNhap{" + "id=" + id + ", ngayLap=" + ngayLap + ", nhanVien=" + idNhanVien + ", nhaCungCap=" + idNhaCungCap + ", tongTien=" + tongTien + '}';
     }
 }
