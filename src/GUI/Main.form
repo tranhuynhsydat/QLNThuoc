@@ -515,7 +515,7 @@
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                       <Font name="Segoe UI" size="14" style="1"/>
                                     </Property>
-                                    <Property name="text" type="java.lang.String" value="Phi&#x1ebf;u &#x111;&#x1ed5;i tr&#x1ea3;"/>
+                                    <Property name="text" type="java.lang.String" value="Phi&#x1ebf;u &#x110;&#x1ed5;i/Tr&#x1ea3;"/>
                                     <Property name="alignmentY" type="float" value="0.0"/>
                                     <Property name="borderPainted" type="boolean" value="false"/>
                                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -528,6 +528,9 @@
                                       <Dimension value="[208, 42]"/>
                                     </Property>
                                   </Properties>
+                                  <Events>
+                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPhieuDoiTraActionPerformed"/>
+                                  </Events>
                                 </Component>
                                 <Component class="javax.swing.JButton" name="btnKhachHang">
                                   <Properties>

@@ -1,11 +1,11 @@
 // frmHoaDonCapNhat.java
 package GUI.page;
 
-import GUI.page.frmHoaDonDoiThem;
-import DAO.HoaDonDoiDAO;
+import GUI.page.frmPhieuDoiThem;
+import DAO.PhieuDoiDAO;
 import DAO.KhachHangDAO;
 import DAO.NhanVienDAO;
-import Entity.HoaDonDoi;
+import Entity.PhieuDoi;
 import Entity.KhachHang;
 import Entity.NhanVien;
 import GUI.Main;
@@ -27,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author roxan
  */
-public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
+public class frmPhieuDoiCapNhat extends javax.swing.JPanel {
 
     private int startIndex = 0;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -36,7 +36,7 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
     /**
      * Creates new form NewJPanel
      */
-    public frmHoaDonDoiCapNhat() {
+    public frmPhieuDoiCapNhat() {
         initComponents();
         configureTable();
         loadDataToTable();
@@ -78,7 +78,7 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                List<HoaDonDoi> danhSachHoaDonDoi = HoaDonDoiDAO.getAllHoaDonDoi(); // Lấy tất cả hóa đơn
+                List<PhieuDoi> danhSachHoaDonDoi = PhieuDoiDAO.getAllHoaDonDoi(); // Lấy tất cả hóa đơn
                 System.out.println("Dữ liệu nhận được từ DB: " + danhSachHoaDonDoi.size() + " dòng");
                 if (danhSachHoaDonDoi == null || danhSachHoaDonDoi.isEmpty()) {
                     System.out.println("Không có dữ liệu để tải.");
@@ -89,7 +89,7 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
 
                         int stt = 1;
                         // Thêm dữ liệu mới vào bảng
-                        for (HoaDonDoi hd : danhSachHoaDonDoi) {
+                        for (PhieuDoi hd : danhSachHoaDonDoi) {
                             KhachHang kh = hd.getKhachHang();
                             NhanVien nv = hd.getNhanVien();
 
@@ -153,7 +153,7 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Thông tin hóa đơn đổi");
+        jLabel2.setText("Thông tin phiếu đổi");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(jLabel2, java.awt.BorderLayout.CENTER);
 
@@ -163,13 +163,13 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã hóa đơn đổi", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày mua", "Tổng hóa đơn"
+                "STT", "Mã phiếu đổi", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày mua", "Tổng hóa đơn"
             }
         ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -209,7 +209,7 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             // Tạo đối tượng frmHoaDonThem
-            frmHoaDonDoiThem formThem = new frmHoaDonDoiThem();
+            frmPhieuDoiThem formThem = new frmPhieuDoiThem();
 
             // Lấy đối tượng Main (parent frame)
             Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
@@ -225,48 +225,48 @@ public class frmHoaDonDoiCapNhat extends javax.swing.JPanel {
     }// GEN-LAST:event_btnThemActionPerformed
 
     private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXemActionPerformed
-        // Kiểm tra nếu có dòng được chọn trong JTable
-        int selectedRow = jTable1.getSelectedRow();
-        if (selectedRow != -1) {
-            String maPD = jTable1.getValueAt(selectedRow, 1).toString(); // Lấy mã hóa đơn từ cột thứ hai
-
-            // Lấy thông tin hóa đơn
-            HoaDonDoi hoaDonDoi = HoaDonDoiDAO.getHoaDonByMaPD(maPD);
-
-            if (hoaDonDoi != null) {
-                // Hiển thị thông tin chi tiết hóa đơn
-                StringBuilder chiTietPD = new StringBuilder();
-                chiTietPD.append("Mã hóa đơn đổi: ").append(hoaDonDoi.getId()).append("\n");
-                chiTietPD.append("Ngày lập: ").append(dateFormat.format(hoaDonDoi.getNgayLap())).append("\n");
-                chiTietPD.append("Khách hàng: ").append(hoaDonDoi.getKhachHang().getHoTen()).append("\n"); // Sử dụng
-                                                                                                        // getHoTen()
-                chiTietPD.append("SĐT: ").append(hoaDonDoi.getKhachHang().getSdt()).append("\n"); // Sử dụng getSdt()
-                chiTietPD.append("Nhân viên: ").append(hoaDonDoi.getNhanVien().getHoTen()).append("\n\n");
-
-                chiTietPD.append("CHI TIẾT HÓA ĐƠN ĐỔI\n");
-                chiTietPD.append("-----------------------------------------\n");
-
-                hoaDonDoi.getChiTietHoaDonDoi().forEach(ct -> {
-                    chiTietPD.append(ct.getIdThuoc()).append(" - ").append(ct.getThuoc())
-                            .append(" (").append(ct.getSoLuong()).append(")")
-                            .append(" x ").append(currencyFormat.format(ct.getDonGia()))
-                            .append(" = ").append(currencyFormat.format(ct.getThanhTien()))
-                            .append("\n");
-                });
-
-                chiTietPD.append("-----------------------------------------\n");
-                chiTietPD.append("TỔNG CỘNG: ").append(currencyFormat.format(hoaDonDoi.getTongTien()));
-
-                JOptionPane.showMessageDialog(this, chiTietPD.toString(), "Chi tiết hóa đơn",
-                        JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin hóa đơn!", "Lỗi",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn để xem chi tiết!", "Thông báo",
-                    JOptionPane.WARNING_MESSAGE);
-        }
+//        // Kiểm tra nếu có dòng được chọn trong JTable
+//        int selectedRow = jTable1.getSelectedRow();
+//        if (selectedRow != -1) {
+//            String maPD = jTable1.getValueAt(selectedRow, 1).toString(); // Lấy mã hóa đơn từ cột thứ hai
+//
+//            // Lấy thông tin hóa đơn
+//            PhieuDoi hoaDonDoi = PhieuDoiDAO.getHoaDonByMaPD(maPD);
+//
+//            if (hoaDonDoi != null) {
+//                // Hiển thị thông tin chi tiết hóa đơn
+//                StringBuilder chiTietPD = new StringBuilder();
+//                chiTietPD.append("Mã hóa đơn đổi: ").append(hoaDonDoi.getId()).append("\n");
+//                chiTietPD.append("Ngày lập: ").append(dateFormat.format(hoaDonDoi.getNgayLap())).append("\n");
+//                chiTietPD.append("Khách hàng: ").append(hoaDonDoi.getKhachHang().getHoTen()).append("\n"); // Sử dụng
+//                                                                                                        // getHoTen()
+//                chiTietPD.append("SĐT: ").append(hoaDonDoi.getKhachHang().getSdt()).append("\n"); // Sử dụng getSdt()
+//                chiTietPD.append("Nhân viên: ").append(hoaDonDoi.getNhanVien().getHoTen()).append("\n\n");
+//
+//                chiTietPD.append("CHI TIẾT HÓA ĐƠN ĐỔI\n");
+//                chiTietPD.append("-----------------------------------------\n");
+//
+//                hoaDonDoi.getChiTietHoaDonDoi().forEach(ct -> {
+//                    chiTietPD.append(ct.getIdThuoc()).append(" - ").append(ct.getThuoc())
+//                            .append(" (").append(ct.getSoLuong()).append(")")
+//                            .append(" x ").append(currencyFormat.format(ct.getDonGia()))
+//                            .append(" = ").append(currencyFormat.format(ct.getThanhTien()))
+//                            .append("\n");
+//                });
+//
+//                chiTietPD.append("-----------------------------------------\n");
+//                chiTietPD.append("TỔNG CỘNG: ").append(currencyFormat.format(hoaDonDoi.getTongTien()));
+//
+//                JOptionPane.showMessageDialog(this, chiTietPD.toString(), "Chi tiết hóa đơn",
+//                        JOptionPane.INFORMATION_MESSAGE);
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin hóa đơn!", "Lỗi",
+//                        JOptionPane.ERROR_MESSAGE);
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn để xem chi tiết!", "Thông báo",
+//                    JOptionPane.WARNING_MESSAGE);
+//        }
     }// GEN-LAST:event_btnXemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
