@@ -8,8 +8,8 @@ import Entity.TaiKhoan;
 import GUI.page.ThongKe.frmThongKe;
 import GUI.page.frmHoaDonCapNhat;
 import GUI.page.frmSearchHoaDon;
-import GUI.page.frmHoaDonDoiCapNhat;
-import GUI.page.frmHoaDonTraCapNhat;
+import GUI.page.frmPhieuDoiCapNhat;
+import GUI.page.frmPhieuTraCapNhat;
 import GUI.page.frmSearchHoaDonDoi;
 import GUI.page.frmSearchHoaDonTra;
 import GUI.page.frmPhieuNhapCapNhat;
@@ -391,7 +391,7 @@ public class Main extends javax.swing.JFrame {
         });
 // Sự kiện cập nhật hóa đơn đổi
         itemCapNhatHoaDonDoi.addActionListener(e -> {
-            frmHoaDonDoiCapNhat doitra1 = new frmHoaDonDoiCapNhat();
+            frmPhieuDoiCapNhat doitra1 = new frmPhieuDoiCapNhat();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
@@ -423,7 +423,7 @@ public class Main extends javax.swing.JFrame {
 
 // Sự kiện cập nhật hóa đơn trả
         itemCapNhatHoaDonTra.addActionListener(e -> {
-            frmHoaDonTraCapNhat doitra4 = new frmHoaDonTraCapNhat();
+            frmPhieuTraCapNhat doitra4 = new frmPhieuTraCapNhat();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
@@ -800,12 +800,17 @@ public class Main extends javax.swing.JFrame {
         roundPanel9.add(btnHoaDon);
 
         btnPhieuDoiTra.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnPhieuDoiTra.setText("Phiếu đổi trả");
+        btnPhieuDoiTra.setText("Phiếu Đổi/Trả");
         btnPhieuDoiTra.setAlignmentY(0.0F);
         btnPhieuDoiTra.setBorderPainted(false);
         btnPhieuDoiTra.setMaximumSize(new java.awt.Dimension(208, 42));
         btnPhieuDoiTra.setMinimumSize(new java.awt.Dimension(208, 42));
         btnPhieuDoiTra.setPreferredSize(new java.awt.Dimension(208, 42));
+        btnPhieuDoiTra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPhieuDoiTraActionPerformed(evt);
+            }
+        });
         roundPanel9.add(btnPhieuDoiTra);
 
         btnKhachHang.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -937,7 +942,7 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1071, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -954,6 +959,10 @@ public class Main extends javax.swing.JFrame {
     private void btnHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoaDonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnHoaDonActionPerformed
+
+    private void btnPhieuDoiTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPhieuDoiTraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPhieuDoiTraActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDangXuat;
