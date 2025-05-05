@@ -1,10 +1,8 @@
 // frmHoaDonCapNhat.java
 package GUI.page;
 
-import GUI.page.frmPhieuDoiThem;
 import DAO.PhieuDoiDAO;
-import DAO.KhachHangDAO;
-import DAO.NhanVienDAO;
+import Entity.HoaDon;
 import Entity.PhieuDoi;
 import Entity.KhachHang;
 import Entity.NhanVien;
@@ -14,7 +12,6 @@ import GUI.Main;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
@@ -78,38 +75,52 @@ public class frmPhieuDoiCapNhat extends javax.swing.JPanel {
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                List<PhieuDoi> danhSachHoaDonDoi = PhieuDoiDAO.getAllHoaDonDoi(); // Lấy tất cả hóa đơn
-                System.out.println("Dữ liệu nhận được từ DB: " + danhSachHoaDonDoi.size() + " dòng");
+                List<PhieuDoi> danhSachHoaDonDoi = PhieuDoiDAO.getAllHoaDonDoi(); // Lấy tất cả phiếu đổi
+                System.out.println("Dữ liệu nhận được từ DB: "
+                        + (danhSachHoaDonDoi != null ? danhSachHoaDonDoi.size() : 0) + " dòng");
+
                 if (danhSachHoaDonDoi == null || danhSachHoaDonDoi.isEmpty()) {
                     System.out.println("Không có dữ liệu để tải.");
-                } else {
-                    SwingUtilities.invokeLater(() -> {
-                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                        model.setRowCount(0); // Xóa dữ liệu cũ trong bảng
-
-                        int stt = 1;
-                        // Thêm dữ liệu mới vào bảng
-                        for (PhieuDoi hd : danhSachHoaDonDoi) {
-                            KhachHang kh = hd.getKhachHang();
-                            NhanVien nv = hd.getNhanVien();
-
-                            Object[] rowData = {
-                                    stt++,
-                                    hd.getId(),
-                                    kh != null ? kh.getHoTen() : "N/A", // Sử dụng getHoTen() từ KhachHang
-                                    kh != null ? kh.getSdt() : "N/A", // Sử dụng getSdt() từ KhachHang
-                                    nv != null ? nv.getHoTen() : "N/A",
-                                    dateFormat.format(hd.getNgayLap()),
-                                    currencyFormat.format(hd.getTongTien())
-                            };
-                            model.addRow(rowData); // Thêm dòng vào bảng
-                        }
-
-                        model.fireTableDataChanged(); // Đảm bảo bảng được làm mới
-                        jTable1.revalidate(); // Cập nhật lại bảng
-                        jTable1.repaint(); // Vẽ lại bảng
-                    });
+                    return null;
                 }
+
+                SwingUtilities.invokeLater(() -> {
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    model.setRowCount(0); // Xóa dữ liệu cũ trong bảng
+
+                    int stt = 1;
+                    for (PhieuDoi pd : danhSachHoaDonDoi) {
+                        String maPD = pd.getId(); // Mã phiếu đổi
+                        String maHD = pd.getMaHD() != null ? pd.getMaHD() : "N/A";
+
+                        KhachHang kh = pd.getKhachHang();
+                        String tenKH = (kh != null) ? kh.getHoTen() : "N/A";
+                        String sdtKH = (kh != null) ? kh.getSdt() : "N/A";
+
+                        NhanVien nv = pd.getNhanVien();
+                        String tenNV = (nv != null) ? nv.getHoTen() : "N/A";
+
+                        String ngayLapStr = (pd.getNgayLap() != null) ? dateFormat.format(pd.getNgayLap()) : "N/A";
+                        String lyDoStr = pd.getLyDo() != null ? pd.getLyDo() : "Không rõ";
+
+                        Object[] rowData = {
+                                stt++,
+                                maPD,
+                                maHD,
+                                tenKH,
+                                sdtKH,
+                                tenNV,
+                                ngayLapStr,
+                                lyDoStr
+                        };
+                        model.addRow(rowData);
+                    }
+
+                    model.fireTableDataChanged();
+                    jTable1.revalidate();
+                    jTable1.repaint();
+                });
+
                 return null;
             }
         };
@@ -124,7 +135,8 @@ public class frmPhieuDoiCapNhat extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         tablePanel = new javax.swing.JPanel();
@@ -162,16 +174,16 @@ public class frmPhieuDoiCapNhat extends javax.swing.JPanel {
         jPanel34.setLayout(new java.awt.BorderLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "STT", "Mã phiếu đổi", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày mua", "Tổng hóa đơn"
-            }
-        ));
+                new Object[][] {
+                        { null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null }
+                },
+                new String[] {
+                        "STT", "Mã phiếu đổi", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày mua",
+                        "Lý Do"
+                }));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable1);
@@ -225,48 +237,57 @@ public class frmPhieuDoiCapNhat extends javax.swing.JPanel {
     }// GEN-LAST:event_btnThemActionPerformed
 
     private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXemActionPerformed
-//        // Kiểm tra nếu có dòng được chọn trong JTable
-//        int selectedRow = jTable1.getSelectedRow();
-//        if (selectedRow != -1) {
-//            String maPD = jTable1.getValueAt(selectedRow, 1).toString(); // Lấy mã hóa đơn từ cột thứ hai
-//
-//            // Lấy thông tin hóa đơn
-//            PhieuDoi hoaDonDoi = PhieuDoiDAO.getHoaDonByMaPD(maPD);
-//
-//            if (hoaDonDoi != null) {
-//                // Hiển thị thông tin chi tiết hóa đơn
-//                StringBuilder chiTietPD = new StringBuilder();
-//                chiTietPD.append("Mã hóa đơn đổi: ").append(hoaDonDoi.getId()).append("\n");
-//                chiTietPD.append("Ngày lập: ").append(dateFormat.format(hoaDonDoi.getNgayLap())).append("\n");
-//                chiTietPD.append("Khách hàng: ").append(hoaDonDoi.getKhachHang().getHoTen()).append("\n"); // Sử dụng
-//                                                                                                        // getHoTen()
-//                chiTietPD.append("SĐT: ").append(hoaDonDoi.getKhachHang().getSdt()).append("\n"); // Sử dụng getSdt()
-//                chiTietPD.append("Nhân viên: ").append(hoaDonDoi.getNhanVien().getHoTen()).append("\n\n");
-//
-//                chiTietPD.append("CHI TIẾT HÓA ĐƠN ĐỔI\n");
-//                chiTietPD.append("-----------------------------------------\n");
-//
-//                hoaDonDoi.getChiTietHoaDonDoi().forEach(ct -> {
-//                    chiTietPD.append(ct.getIdThuoc()).append(" - ").append(ct.getThuoc())
-//                            .append(" (").append(ct.getSoLuong()).append(")")
-//                            .append(" x ").append(currencyFormat.format(ct.getDonGia()))
-//                            .append(" = ").append(currencyFormat.format(ct.getThanhTien()))
-//                            .append("\n");
-//                });
-//
-//                chiTietPD.append("-----------------------------------------\n");
-//                chiTietPD.append("TỔNG CỘNG: ").append(currencyFormat.format(hoaDonDoi.getTongTien()));
-//
-//                JOptionPane.showMessageDialog(this, chiTietPD.toString(), "Chi tiết hóa đơn",
-//                        JOptionPane.INFORMATION_MESSAGE);
-//            } else {
-//                JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin hóa đơn!", "Lỗi",
-//                        JOptionPane.ERROR_MESSAGE);
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn để xem chi tiết!", "Thông báo",
-//                    JOptionPane.WARNING_MESSAGE);
-//        }
+        // // Kiểm tra nếu có dòng được chọn trong JTable
+        // int selectedRow = jTable1.getSelectedRow();
+        // if (selectedRow != -1) {
+        // String maPD = jTable1.getValueAt(selectedRow, 1).toString(); // Lấy mã hóa
+        // đơn từ cột thứ hai
+        //
+        // // Lấy thông tin hóa đơn
+        // PhieuDoi hoaDonDoi = PhieuDoiDAO.getHoaDonByMaPD(maPD);
+        //
+        // if (hoaDonDoi != null) {
+        // // Hiển thị thông tin chi tiết hóa đơn
+        // StringBuilder chiTietPD = new StringBuilder();
+        // chiTietPD.append("Mã hóa đơn đổi: ").append(hoaDonDoi.getId()).append("\n");
+        // chiTietPD.append("Ngày lập:
+        // ").append(dateFormat.format(hoaDonDoi.getNgayLap())).append("\n");
+        // chiTietPD.append("Khách hàng:
+        // ").append(hoaDonDoi.getKhachHang().getHoTen()).append("\n"); // Sử dụng
+        // // getHoTen()
+        // chiTietPD.append("SĐT:
+        // ").append(hoaDonDoi.getKhachHang().getSdt()).append("\n"); // Sử dụng
+        // getSdt()
+        // chiTietPD.append("Nhân viên:
+        // ").append(hoaDonDoi.getNhanVien().getHoTen()).append("\n\n");
+        //
+        // chiTietPD.append("CHI TIẾT HÓA ĐƠN ĐỔI\n");
+        // chiTietPD.append("-----------------------------------------\n");
+        //
+        // hoaDonDoi.getChiTietHoaDonDoi().forEach(ct -> {
+        // chiTietPD.append(ct.getIdThuoc()).append(" - ").append(ct.getThuoc())
+        // .append(" (").append(ct.getSoLuong()).append(")")
+        // .append(" x ").append(currencyFormat.format(ct.getDonGia()))
+        // .append(" = ").append(currencyFormat.format(ct.getThanhTien()))
+        // .append("\n");
+        // });
+        //
+        // chiTietPD.append("-----------------------------------------\n");
+        // chiTietPD.append("TỔNG CỘNG:
+        // ").append(currencyFormat.format(hoaDonDoi.getTongTien()));
+        //
+        // JOptionPane.showMessageDialog(this, chiTietPD.toString(), "Chi tiết hóa đơn",
+        // JOptionPane.INFORMATION_MESSAGE);
+        // } else {
+        // JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin hóa đơn!",
+        // "Lỗi",
+        // JOptionPane.ERROR_MESSAGE);
+        // }
+        // } else {
+        // JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn để xem chi tiết!",
+        // "Thông báo",
+        // JOptionPane.WARNING_MESSAGE);
+        // }
     }// GEN-LAST:event_btnXemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

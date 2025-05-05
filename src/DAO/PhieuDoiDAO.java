@@ -6,8 +6,6 @@ package DAO;
 import ConnectDB.DatabaseConnection;
 import Entity.ChiTietPhieuDoi;
 import Entity.PhieuDoi;
-import Entity.KhachHang;
-import Entity.NhanVien;
 import Entity.Thuoc;
 import java.sql.*;
 import java.util.ArrayList;
@@ -57,9 +55,13 @@ public class PhieuDoiDAO {
                 Date ngayLap = rs.getTimestamp("thoiGian");
                 String idNhanVien = rs.getString("maNV");
                 String idKhachHang = rs.getString("maKH");
+                String maHD = rs.getString("maHD");
+                String lyDo = rs.getString("lyDo");
 
                 // Tạo đối tượng hóa đơn
                 PhieuDoi hoaDonDoi = new PhieuDoi(maPD, ngayLap, idNhanVien, idKhachHang);
+                hoaDonDoi.setMaHD(maHD);
+                hoaDonDoi.setLyDo(lyDo);
 
                 // Lấy thông tin chi tiết từ bảng liên kết
                 hoaDonDoi.setChiTietHoaDonDoi(getChiTietHoaDonByMaPD(maPD));

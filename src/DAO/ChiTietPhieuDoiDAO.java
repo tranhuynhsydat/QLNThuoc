@@ -10,9 +10,9 @@ import java.util.List;
 public class ChiTietPhieuDoiDAO {
 
     public static boolean themChiTietHoaDonDoi(List<ChiTietPhieuDoi> chiTietList, String maPD) {
-        String sql = "INSERT INTO CTPhieuDoi (maPD, maThuocCu, soLuongCu, donGiaCu, maThuocMoi, soLuongMoi, donGiaMoi, tongTien) "
+        String sql = "INSERT INTO CTPhieuDoi (maPD, maThuocCu, soLuongCu, donGiaCu, maThuocMoi, soLuongMoi, donGiaMoi) "
                 +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             for (ChiTietPhieuDoi ct : chiTietList) {
@@ -23,7 +23,6 @@ public class ChiTietPhieuDoiDAO {
                 ps.setString(5, ct.getMaThuocMoi());
                 ps.setInt(6, ct.getSoLuongMoi());
                 ps.setDouble(7, ct.getDonGiaMoi());
-                ps.setDouble(8, ct.getTongTien());
                 ps.addBatch();
             }
             ps.executeBatch();
@@ -53,7 +52,6 @@ public class ChiTietPhieuDoiDAO {
                     chiTiet.setMaThuocMoi(rs.getString("maThuocMoi"));
                     chiTiet.setSoLuongMoi(rs.getInt("soLuongMoi"));
                     chiTiet.setDonGiaMoi(rs.getDouble("donGiaMoi"));
-                    chiTiet.setTongTien(rs.getDouble("tongTien"));
                     chiTietList.add(chiTiet);
                 }
             }
