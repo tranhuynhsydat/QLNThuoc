@@ -10,8 +10,8 @@ import GUI.page.frmHoaDonCapNhat;
 import GUI.page.frmSearchHoaDon;
 import GUI.page.frmPhieuDoiCapNhat;
 import GUI.page.frmPhieuTraCapNhat;
-import GUI.page.frmSearchHoaDonDoi;
-import GUI.page.frmSearchHoaDonTra;
+import GUI.page.frmSearchPhieuDoi;
+import GUI.page.frmSearchPhieuTra;
 import GUI.page.frmPhieuNhapCapNhat;
 import GUI.page.frmSearchPhieuNhap;
 import GUI.page.frmNhaCungCapCapNhat;
@@ -407,7 +407,7 @@ public class Main extends javax.swing.JFrame {
 
 // Sự kiện tìm kiếm hóa đơn đổi
         itemTimKiemHoaDonDoi.addActionListener(e -> {
-            frmSearchHoaDonDoi doitra2 = new frmSearchHoaDonDoi();
+            frmSearchPhieuDoi doitra2 = new frmSearchPhieuDoi();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
@@ -439,7 +439,7 @@ public class Main extends javax.swing.JFrame {
 
 // Sự kiện tìm kiếm hóa đơn trả
         itemTimKiemHoaDonTra.addActionListener(e -> {
-            frmSearchHoaDonTra doitra5 = new frmSearchHoaDonTra();
+            frmSearchPhieuTra doitra5 = new frmSearchPhieuTra();
             // Xóa tất cả các phần cũ 
             mainPanel.removeAll();
             // Đặt layout cho mainPanel

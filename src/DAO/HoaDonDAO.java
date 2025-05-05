@@ -10,11 +10,6 @@ import Entity.KhachHang;
 import Entity.NhanVien;
 import Entity.Thuoc;
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -80,39 +75,93 @@ public class HoaDonDAO {
 
         return danhSachHoaDon;
     }
+public static List<HoaDon> getHoaDonBatch(int start, int limit) {
+    List<HoaDon> danhSachHoaDon = new ArrayList<>();
+    String sql = "SELECT * FROM HoaDon ORDER BY thoiGian DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
-    public static List<HoaDon> searchHoaDon(String maHoaDon, String tenKhachHang, Date ngayMua) {
-        List<HoaDon> danhSachHoaDon = new ArrayList<>();
-        String sql = "SELECT * FROM HoaDon WHERE 1=1";
-        if (maHoaDon != null && !maHoaDon.isEmpty()) {
-            sql += " AND maHD LIKE '%" + maHoaDon + "%'";
-        }
-        if (tenKhachHang != null && !tenKhachHang.isEmpty()) {
-            sql += " AND tenKhachHang LIKE '%" + tenKhachHang + "%'";
-        }
-        if (ngayMua != null) {
-            java.sql.Date sqlDate = new java.sql.Date(ngayMua.getTime());
-            sql += " AND ngayMua = '" + sqlDate + "'";
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, start);
+        ps.setInt(2, limit);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            String maHD = rs.getString("maHD");
+            Date ngayLap = rs.getTimestamp("thoiGian");
+            String idNhanVien = rs.getString("maNV");
+            String idKhachHang = rs.getString("maKH");
+
+            HoaDon hoaDon = new HoaDon(maHD, ngayLap, idNhanVien, idKhachHang);
+            hoaDon.setChiTietHoaDon(getChiTietHoaDonByMaHD(maHD));
+            hoaDon.tinhTongTien();
+            hoaDon.setNhanVien(NhanVienDAO.getNhanVienByMaNV(idNhanVien));
+            hoaDon.setKhachHang(KhachHangDAO.getKhachHangByMaKH(idKhachHang));
+
+            danhSachHoaDon.add(hoaDon);
         }
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+    } catch (SQLException e) {
+        System.out.println("Lỗi phân trang hóa đơn: " + e.getMessage());
+    }
 
+    return danhSachHoaDon;
+}
+
+public static List<HoaDon> searchHoaDon(String maHD, String tenKH, String sdt, Date ngayLap) {
+    List<HoaDon> danhSachHoaDon = new ArrayList<>();
+    StringBuilder sql = new StringBuilder("SELECT * FROM HoaDon hd JOIN KhachHang kh ON hd.maKH = kh.maKH WHERE 1=1");
+
+    if (maHD != null && !maHD.isEmpty()) {
+        sql.append(" AND hd.maHD LIKE ?");
+    }
+    if (tenKH != null && !tenKH.isEmpty()) {
+        sql.append(" AND kh.hoTen LIKE ?");
+    }
+    if (sdt != null && !sdt.isEmpty()) {
+        sql.append(" AND kh.sdt LIKE ?");
+    }
+    if (ngayLap != null) {
+        sql.append(" AND CONVERT(DATE, hd.thoiGian) = ?");
+    }
+
+    try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+        int paramIndex = 1;
+        if (maHD != null && !maHD.isEmpty()) {
+            ps.setString(paramIndex++, "%" + maHD + "%");
+        }
+        if (tenKH != null && !tenKH.isEmpty()) {
+            ps.setString(paramIndex++, "%" + tenKH + "%");
+        }
+        if (sdt != null && !sdt.isEmpty()) {
+            ps.setString(paramIndex++, "%" + sdt + "%");
+        }
+        if (ngayLap != null) {
+            ps.setDate(paramIndex++, new java.sql.Date(ngayLap.getTime()));
+        }
+
+        try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                HoaDon hoaDon = new HoaDon();
-                hoaDon.setId(rs.getString("maHD"));
-                hoaDon.setNgayLap(rs.getDate("ngayMua"));
-                hoaDon.setIdNhanVien(rs.getString("maNV")); // Sử dụng idNhanVien
-                hoaDon.setIdKhachHang(rs.getString("maKH")); // Sử dụng idKhachHang
-                // Thêm các thông tin khác nếu cần
-
+                HoaDon hoaDon = new HoaDon(
+                        rs.getString("maHD"),
+                        rs.getTimestamp("thoiGian"),
+                        rs.getString("maNV"),
+                        rs.getString("maKH"));
+                hoaDon.setChiTietHoaDon(getChiTietHoaDonByMaHD(rs.getString("maHD")));
+                hoaDon.tinhTongTien();
+                hoaDon.setNhanVien(NhanVienDAO.getNhanVienByMaNV(rs.getString("maNV")));
+                hoaDon.setKhachHang(KhachHangDAO.getKhachHangByMaKH(rs.getString("maKH")));
                 danhSachHoaDon.add(hoaDon);
             }
-        } catch (SQLException e) {
-            System.out.println("Lỗi tìm kiếm hóa đơn: " + e.getMessage());
         }
-
-        return danhSachHoaDon;
+    } catch (SQLException e) {
+        System.out.println("Lỗi tìm kiếm hóa đơn: " + e.getMessage());
     }
+
+    return danhSachHoaDon;
+}
+
 
     // Lấy hóa đơn theo mã
     public static HoaDon getHoaDonByMaHD(String maHD) {

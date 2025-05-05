@@ -1,129 +1,20 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
 package GUI.page;
 
-import DAO.HoaDonDAO;
-import Entity.HoaDon;
-import Entity.KhachHang;
-import Entity.NhanVien;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
+/**
+ *
+ * @author Admin
+ */
+public class frmSearchPhieuDoi extends javax.swing.JPanel {
 
-public class frmSearchHoaDon extends javax.swing.JPanel {
-    private int startIndex = 0;
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-    private final DecimalFormat currencyFormat = new DecimalFormat("#,### VND");
-
-    public frmSearchHoaDon() {
+    /**
+     * Creates new form frmSearchPhieuDoiTra
+     */
+    public frmSearchPhieuDoi() {
         initComponents();
-        loadDataToTable();
-        configureTable();
-    }
-    private void configureTable() {
-        // Ngăn không cho phép người dùng chỉnh sửa bảng
-        jTable2.setDefaultEditor(Object.class, null); // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong
-                                                      // bảng.
-
-        // Căn giữa cho tất cả các cell trong bảng
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-
-        // Căn giữa cho từng cột
-        for (int i = 0; i < jTable2.getColumnCount(); i++) {
-            jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
-
-        // Ngăn không cho phép chọn nhiều dòng
-        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-    }
-    private void loadDataToTable() {
-        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                List<HoaDon> danhSachHoaDon = HoaDonDAO.getAllHoaDon();
-
-                SwingUtilities.invokeLater(() -> {
-                    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-                    model.setRowCount(0);
-
-                    int stt = 1;
-                    for (HoaDon hd : danhSachHoaDon) {
-                        KhachHang kh = hd.getKhachHang();
-                        NhanVien nv = hd.getNhanVien();
-
-                        Object[] rowData = {
-                                stt++,
-                                hd.getId(),
-                                kh != null ? kh.getHoTen() : "N/A",
-                                kh != null ? kh.getSdt() : "N/A",
-                                nv != null ? nv.getHoTen() : "N/A",
-                                dateFormat.format(hd.getNgayLap()),
-                                currencyFormat.format(hd.getTongTien())
-                        };
-                        model.addRow(rowData);
-                    }
-
-                    model.fireTableDataChanged();
-                    jTable2.revalidate();
-                    jTable2.repaint();
-                });
-                return null;
-            }
-        };
-        worker.execute();
-    }
-
-    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {
-        String maHD = txtMaHD.getText().trim();
-        String tenKH = txtTenKH.getText().trim();
-        String sdt = txtSdtKH.getText().trim();
-        Date ngayLap = dateNgayMua.getDate(); // có thể null
-
-        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                List<HoaDon> danhSachHoaDon = HoaDonDAO.searchHoaDon(maHD, tenKH, sdt, ngayLap);
-
-                SwingUtilities.invokeLater(() -> {
-                    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-                    model.setRowCount(0);
-                    int stt = 1;
-                    for (HoaDon hd : danhSachHoaDon) {
-                        KhachHang kh = hd.getKhachHang();
-                        NhanVien nv = hd.getNhanVien();
-                        Object[] rowData = {
-                                stt++,
-                                hd.getId(),
-                                kh != null ? kh.getHoTen() : "N/A",
-                                kh != null ? kh.getSdt() : "N/A",
-                                nv != null ? nv.getHoTen() : "N/A",
-                                hd.getNgayLap() != null ? dateFormat.format(hd.getNgayLap()) : "N/A",
-                                currencyFormat.format(hd.getTongTien())
-                        };
-                        model.addRow(rowData);
-                    }
-                    model.fireTableDataChanged();
-                });
-                return null;
-            }
-        };
-        worker.execute();
-    }
-
-    private void btnThem3ActionPerformed(java.awt.event.ActionEvent evt) {
-        int selectedRow = jTable2.getSelectedRow();
-        if (selectedRow >= 0) {
-            String maHD = jTable2.getValueAt(selectedRow, 1).toString();
-            javax.swing.JOptionPane.showMessageDialog(this, "Mã hóa đơn: " + maHD);
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Vui lòng chọn một hóa đơn từ bảng.");
-        }
     }
 
     /**
@@ -132,8 +23,6 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -141,41 +30,42 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel9 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
+        jPanel28 = new javax.swing.JPanel();
+        jPanel29 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel31 = new javax.swing.JPanel();
-        txtMaHD = new java.awt.TextField();
+        cboNCC1 = new javax.swing.JComboBox<>();
         jPanel14 = new javax.swing.JPanel();
         jPanel26 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel27 = new javax.swing.JPanel();
-        txtTenKH = new java.awt.TextField();
+        cboNCC = new javax.swing.JComboBox<>();
         jPanel16 = new javax.swing.JPanel();
-        jPanel32 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        jPanel35 = new javax.swing.JPanel();
-        txtSdtKH = new java.awt.TextField();
+        jPanel24 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel25 = new javax.swing.JPanel();
+        cboNV = new javax.swing.JComboBox<>();
         jPanel17 = new javax.swing.JPanel();
         jPanel22 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jPanel23 = new javax.swing.JPanel();
         dateNgayMua = new com.toedter.calendar.JDateChooser();
         jPanel18 = new javax.swing.JPanel();
-        jPanel19 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
+        jPanel19 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel34 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
         jPanel13 = new javax.swing.JPanel();
-        btnTimKiem = new javax.swing.JButton();
+        btnThem2 = new javax.swing.JButton();
         btnThem3 = new javax.swing.JButton();
 
-        setMaximumSize(new java.awt.Dimension(829, 624));
-        setMinimumSize(new java.awt.Dimension(829, 624));
         setLayout(new java.awt.BorderLayout());
 
         jPanel8.setBackground(new java.awt.Color(255, 102, 102));
@@ -199,6 +89,21 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel10.setMinimumSize(new java.awt.Dimension(829, 300));
         jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.Y_AXIS));
 
+        jPanel15.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel15.setLayout(new java.awt.BorderLayout());
+
+        jPanel28.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel28.setPreferredSize(new java.awt.Dimension(500, 38));
+        jPanel28.setLayout(new java.awt.BorderLayout());
+        jPanel15.add(jPanel28, java.awt.BorderLayout.LINE_START);
+
+        jPanel29.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel29.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel29.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+        jPanel15.add(jPanel29, java.awt.BorderLayout.CENTER);
+
+        jPanel10.add(jPanel15);
+
         jPanel21.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel21.setLayout(new java.awt.BorderLayout());
 
@@ -208,7 +113,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("Mã hóa đơn:");
+        jLabel9.setText("Mã hóa đơn đổi:");
         jLabel9.setAlignmentX(20.0F);
         jLabel9.setAlignmentY(20.0F);
         jPanel30.add(jLabel9, java.awt.BorderLayout.CENTER);
@@ -219,10 +124,9 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel31.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel31.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        txtMaHD.setMaximumSize(new java.awt.Dimension(350, 32));
-        txtMaHD.setMinimumSize(new java.awt.Dimension(350, 32));
-        txtMaHD.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel31.add(txtMaHD);
+        cboNCC1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboNCC1.setPreferredSize(new java.awt.Dimension(350, 32));
+        jPanel31.add(cboNCC1);
 
         jPanel21.add(jPanel31, java.awt.BorderLayout.CENTER);
 
@@ -248,10 +152,9 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel27.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel27.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        txtTenKH.setMaximumSize(new java.awt.Dimension(350, 32));
-        txtTenKH.setMinimumSize(new java.awt.Dimension(350, 32));
-        txtTenKH.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel27.add(txtTenKH);
+        cboNCC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboNCC.setPreferredSize(new java.awt.Dimension(350, 32));
+        jPanel27.add(cboNCC);
 
         jPanel14.add(jPanel27, java.awt.BorderLayout.CENTER);
 
@@ -260,29 +163,28 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel16.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel16.setLayout(new java.awt.BorderLayout());
 
-        jPanel32.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel32.setPreferredSize(new java.awt.Dimension(500, 38));
-        jPanel32.setLayout(new java.awt.BorderLayout());
+        jPanel24.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel24.setPreferredSize(new java.awt.Dimension(500, 38));
+        jPanel24.setLayout(new java.awt.BorderLayout());
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel10.setText("Số điện thoại:");
-        jLabel10.setAlignmentX(20.0F);
-        jLabel10.setAlignmentY(20.0F);
-        jPanel32.add(jLabel10, java.awt.BorderLayout.CENTER);
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Tên nhân viên:");
+        jLabel5.setAlignmentX(20.0F);
+        jLabel5.setAlignmentY(20.0F);
+        jPanel24.add(jLabel5, java.awt.BorderLayout.CENTER);
 
-        jPanel16.add(jPanel32, java.awt.BorderLayout.LINE_START);
+        jPanel16.add(jPanel24, java.awt.BorderLayout.LINE_START);
 
-        jPanel35.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel35.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+        jPanel25.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel25.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel25.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        txtSdtKH.setMaximumSize(new java.awt.Dimension(350, 32));
-        txtSdtKH.setMinimumSize(new java.awt.Dimension(350, 32));
-        txtSdtKH.setPreferredSize(new java.awt.Dimension(350, 30));
-        jPanel35.add(txtSdtKH);
+        cboNV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboNV.setPreferredSize(new java.awt.Dimension(350, 32));
+        jPanel25.add(cboNV);
 
-        jPanel16.add(jPanel35, java.awt.BorderLayout.CENTER);
+        jPanel16.add(jPanel25, java.awt.BorderLayout.CENTER);
 
         jPanel10.add(jPanel16);
 
@@ -295,7 +197,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("Ngày mua:");
+        jLabel6.setText("Ngày đổi:");
         jLabel6.setAlignmentX(20.0F);
         jLabel6.setAlignmentY(20.0F);
         jPanel22.add(jLabel6, java.awt.BorderLayout.CENTER);
@@ -317,14 +219,15 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel18.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel18.setLayout(new java.awt.BorderLayout());
 
-        jPanel19.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel19.setPreferredSize(new java.awt.Dimension(500, 38));
-        jPanel19.setLayout(new java.awt.BorderLayout());
-        jPanel18.add(jPanel19, java.awt.BorderLayout.LINE_START);
-
         jPanel20.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel20.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        jPanel19.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel19.setPreferredSize(new java.awt.Dimension(500, 38));
+        jPanel19.setLayout(new java.awt.BorderLayout());
+        jPanel20.add(jPanel19);
+
         jPanel18.add(jPanel20, java.awt.BorderLayout.CENTER);
 
         jPanel10.add(jPanel18);
@@ -343,29 +246,26 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Danh sách hóa đơn");
+        jLabel4.setText("Danh sách phiếu đổi");
         jPanel33.add(jLabel4, java.awt.BorderLayout.CENTER);
 
         jPanel12.add(jPanel33, java.awt.BorderLayout.PAGE_START);
 
         jPanel34.setLayout(new java.awt.BorderLayout());
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "STT", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày mua", "Tổng hóa đơn"
+                "STT", "Mã phiếu đổi", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày đổi", "Lý do", "Tổng hóa đơn"
             }
         ));
-        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable2.setShowHorizontalLines(true);
-        jScrollPane2.setViewportView(jTable2);
+        jTable3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable3.setShowHorizontalLines(true);
+        jScrollPane3.setViewportView(jTable3);
 
-        jPanel34.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        jPanel34.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
         jPanel12.add(jPanel34, java.awt.BorderLayout.CENTER);
 
@@ -374,19 +274,19 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel13.setPreferredSize(new java.awt.Dimension(829, 55));
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 10));
 
-        btnTimKiem.setBackground(new java.awt.Color(0, 120, 92));
-        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnTimKiem.setForeground(new java.awt.Color(255, 255, 255));
-        btnTimKiem.setText("Tìm kiếm");
-        btnTimKiem.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnTimKiem.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnTimKiem.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+        btnThem2.setBackground(new java.awt.Color(0, 120, 92));
+        btnThem2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThem2.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem2.setText("Tìm kiếm");
+        btnThem2.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnThem2.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnThem2.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnThem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimKiemActionPerformed(evt);
+                btnThem2ActionPerformed(evt);
             }
         });
-        jPanel13.add(btnTimKiem);
+        jPanel13.add(btnThem2);
 
         btnThem3.setBackground(new java.awt.Color(0, 120, 92));
         btnThem3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -405,13 +305,25 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         add(jPanel13, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnThem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThem2ActionPerformed
+
+    private void btnThem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThem3ActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnThem2;
     private javax.swing.JButton btnThem3;
-    private javax.swing.JButton btnTimKiem;
+    private javax.swing.JComboBox<String> cboNCC;
+    private javax.swing.JComboBox<String> cboNCC1;
+    private javax.swing.JComboBox<String> cboNV;
     private com.toedter.calendar.JDateChooser dateNgayMua;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -419,6 +331,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
@@ -427,20 +340,19 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
+    private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel31;
-    private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
-    private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
-    private java.awt.TextField txtMaHD;
-    private java.awt.TextField txtSdtKH;
-    private java.awt.TextField txtTenKH;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
 }
