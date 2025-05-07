@@ -6,13 +6,8 @@ package GUI.page;
 
 import DAO.PhieuTraDAO;
 import Entity.PhieuTra;
-import DAO.NhanVienDAO;
-import Entity.NhanVien;
-import GUI.form.formThemNCC;
-import GUI.form.formSuaNV;
-import GUI.form.formThemNV;
+import GUI.Main;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
@@ -103,42 +98,24 @@ public class frmPhieuTraCapNhat extends javax.swing.JPanel {
 
     // Event handler for "Add" button
 private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            // Tạo đối tượng frmPhieuTraThem không có tham số
-            frmPhieuTraThem dialog = new frmPhieuTraThem();
+    try {
+        // Tạo đối tượng form thêm phiếu trả
+        frmPhieuTraThem formThem = new frmPhieuTraThem();
 
-            // Nếu dialog này kế thừa từ JPanel thay vì JDialog, cần hiển thị nó trong một
-            // cửa sổ mới
-            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            JFrame dialogFrame = new JFrame("Thêm hóa đơn");
-            dialogFrame.setContentPane(dialog);
+        // Lấy đối tượng Main (parent frame)
+        Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
 
-            // Thiết lập kích thước tối đa
-            dialogFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Mở ở chế độ toàn màn hình
-            // HOẶC bạn có thể dùng một trong các cách sau
+        // Thay thế nội dung panel chính bằng form thêm
+        parentFrame.replaceMainPanel(formThem);
 
-            // Cách 1: Sử dụng kích thước cụ thể
-            // dialogFrame.setSize(1024, 768); // Đặt kích thước cố định
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this,
+            "Không thể mở form thêm phiếu trả: " + ex.getMessage(),
+            "Lỗi", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
+}
 
-            // Cách 2: Sử dụng kích thước màn hình
-            // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            // dialogFrame.setSize(screenSize.width, screenSize.height);
-
-            // Cách 3: Sử dụng một tỷ lệ nhất định của màn hình
-            // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            // dialogFrame.setSize(screenSize.width * 9/10, screenSize.height * 9/10);
-
-            dialogFrame.setLocationRelativeTo(parentFrame);
-            dialogFrame.setVisible(true);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,
-                    "Không thể mở form thêm hóa đơn: " + ex.getMessage(),
-                    "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-
-        // Sau khi đóng formThemHoaDon, gọi lại phương thức để làm mới bảng
-        loadDataToTable();
-    }// GEN-LAST:event_btnThemActionPerformed
 
     // Event handler for "Delete" button
 //    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {
