@@ -60,12 +60,12 @@ public class ChiTietPhieuNhapDAO {
         return false;
     }
 
-    private static void capNhatSoLuongThuoc(String maThuoc, int soLuongBan) {
+    private static void capNhatSoLuongThuoc(String maThuoc, int soLuongNhap) {
         // Lấy thông tin thuốc hiện tại
         Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(maThuoc);
         if (thuoc != null) {
             // Cập nhật số lượng (trừ đi số lượng bán)
-            int soLuongMoi = thuoc.getSoLuong() - soLuongBan;
+            int soLuongMoi = thuoc.getSoLuong() + soLuongNhap;
 
             // Cập nhật vào database
             String sql = "UPDATE Thuoc SET soLuong = ? WHERE maThuoc = ?";

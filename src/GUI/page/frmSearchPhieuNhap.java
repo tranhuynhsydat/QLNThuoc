@@ -4,19 +4,112 @@
  */
 package GUI.page;
 
+import DAO.NhaCungCapDAO;
+import DAO.PhieuNhapDAO;
+import Entity.NhaCungCap;
+import Entity.NhanVien;
+import Entity.PhieuNhap;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Admin
  */
 public class frmSearchPhieuNhap extends javax.swing.JPanel {
-
+    
+    private int startIndex;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private final DecimalFormat currencyFormat = new DecimalFormat("#,### VND");
     /**
      * Creates new form frmSearchPhieuNhap
      */
     public frmSearchPhieuNhap() {
         initComponents();
+         configureTable();
+         startIndex = 0;
+         loadDataToTable();
+         // Thêm sự kiện cuộn bảng
+         jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
+             JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
+             int max = vertical.getMaximum();
+             int current = vertical.getValue();
+             int visible = vertical.getVisibleAmount();
+ 
+             // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
+             if (current + visible >= max) {
+                 startIndex += 13 ; // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                 loadDataToTable();  // Tải thêm dữ liệu
+             }
+ 
+         });
     }
+    private void configureTable() {
+        // Ngăn không cho phép người dùng chỉnh sửa bảng
+        jTable1.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
 
+        // Căn giữa cho tất cả các cell trong bảng
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Căn giữa cho từng cột
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        // Ngăn không cho phép chọn nhiều dòng
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    }
+    private void loadDataToTable() {
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                List<PhieuNhap> danhSachPhieuNhap = PhieuNhapDAO.getAllPhieuNhap(); // Lấy tất cả hóa đơn
+                System.out.println("Dữ liệu nhận được từ DB: " + danhSachPhieuNhap.size() + " dòng");
+                if (danhSachPhieuNhap == null || danhSachPhieuNhap.isEmpty()) {
+                    System.out.println("Không có dữ liệu để tải.");
+                } else {
+                    SwingUtilities.invokeLater(() -> {
+                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                        model.setRowCount(0); // Xóa dữ liệu cũ trong bảng
+
+                        int stt = 1;
+                        // Thêm dữ liệu mới vào bảng
+                        for (PhieuNhap pn : danhSachPhieuNhap) {
+                            NhaCungCap ncc = pn.getNhaCungCap();
+                            NhanVien nv = pn.getNhanVien();
+
+                            Object[] rowData = {
+                                    stt++,
+                                    pn.getId(),
+                                    ncc != null ? ncc.getTenNhaCungCap(): "N/A", // Sử dụng getHoTen() từ KhachHang
+                                    ncc != null ? ncc.getSdt(): "N/A", // Sử dụng getSdt() từ KhachHang
+                                    nv != null ? nv.getHoTen() : "N/A",
+                                    dateFormat.format(pn.getNgayLap()),
+                                    currencyFormat.format(pn.getTongTien())
+                            };
+                            model.addRow(rowData); // Thêm dòng vào bảng
+                        }
+
+                        model.fireTableDataChanged(); // Đảm bảo bảng được làm mới
+                        jTable1.revalidate(); // Cập nhật lại bảng
+                        jTable1.repaint(); // Vẽ lại bảng
+                    });
+                }
+                return null;
+            }
+        };
+        worker.execute();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,33 +126,38 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
         jPanel21 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
         jPanel31 = new javax.swing.JPanel();
+        jPanel46 = new javax.swing.JPanel();
+        jPanel47 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel48 = new javax.swing.JPanel();
+        txtMaPN = new javax.swing.JTextField();
         jPanel32 = new javax.swing.JPanel();
         jPanel35 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel36 = new javax.swing.JPanel();
-        cboNCC1 = new javax.swing.JComboBox<>();
+        txtTenNCC = new javax.swing.JTextField();
         jPanel37 = new javax.swing.JPanel();
         jPanel38 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel39 = new javax.swing.JPanel();
-        cboNV1 = new javax.swing.JComboBox<>();
+        txtTenNV = new javax.swing.JTextField();
         jPanel40 = new javax.swing.JPanel();
         jPanel41 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel42 = new javax.swing.JPanel();
-        dateNgayMua1 = new com.toedter.calendar.JDateChooser();
+        dateNgayLap = new com.toedter.calendar.JDateChooser();
         jPanel43 = new javax.swing.JPanel();
         jPanel44 = new javax.swing.JPanel();
         jPanel45 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        btnThem2 = new javax.swing.JButton();
+        btnTimKiem = new javax.swing.JButton();
         btnThem3 = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel34 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setPreferredSize(new java.awt.Dimension(829, 624));
         setLayout(new java.awt.BorderLayout());
@@ -100,6 +198,33 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
 
         jPanel11.add(jPanel21);
 
+        jPanel46.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel46.setLayout(new java.awt.BorderLayout());
+
+        jPanel47.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel47.setPreferredSize(new java.awt.Dimension(500, 38));
+        jPanel47.setLayout(new java.awt.BorderLayout());
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("Mã phiếu nhập:");
+        jLabel11.setAlignmentX(20.0F);
+        jLabel11.setAlignmentY(20.0F);
+        jPanel47.add(jLabel11, java.awt.BorderLayout.CENTER);
+
+        jPanel46.add(jPanel47, java.awt.BorderLayout.LINE_START);
+
+        jPanel48.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel48.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel48.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        txtMaPN.setPreferredSize(new java.awt.Dimension(350, 32));
+        jPanel48.add(txtMaPN);
+
+        jPanel46.add(jPanel48, java.awt.BorderLayout.CENTER);
+
+        jPanel11.add(jPanel46);
+
         jPanel32.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel32.setLayout(new java.awt.BorderLayout());
 
@@ -109,7 +234,7 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("Tên nhà cung cấp");
+        jLabel9.setText("Tên nhà cung cấp:");
         jLabel9.setAlignmentX(20.0F);
         jLabel9.setAlignmentY(20.0F);
         jPanel35.add(jLabel9, java.awt.BorderLayout.CENTER);
@@ -120,9 +245,8 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
         jPanel36.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel36.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        cboNCC1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboNCC1.setPreferredSize(new java.awt.Dimension(350, 32));
-        jPanel36.add(cboNCC1);
+        txtTenNCC.setPreferredSize(new java.awt.Dimension(350, 32));
+        jPanel36.add(txtTenNCC);
 
         jPanel32.add(jPanel36, java.awt.BorderLayout.CENTER);
 
@@ -148,9 +272,8 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
         jPanel39.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel39.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        cboNV1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboNV1.setPreferredSize(new java.awt.Dimension(350, 32));
-        jPanel39.add(cboNV1);
+        txtTenNV.setPreferredSize(new java.awt.Dimension(350, 32));
+        jPanel39.add(txtTenNV);
 
         jPanel37.add(jPanel39, java.awt.BorderLayout.CENTER);
 
@@ -176,9 +299,9 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
         jPanel42.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel42.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        dateNgayMua1.setMinimumSize(new java.awt.Dimension(182, 22));
-        dateNgayMua1.setPreferredSize(new java.awt.Dimension(150, 30));
-        jPanel42.add(dateNgayMua1);
+        dateNgayLap.setMinimumSize(new java.awt.Dimension(182, 22));
+        dateNgayLap.setPreferredSize(new java.awt.Dimension(150, 30));
+        jPanel42.add(dateNgayLap);
 
         jPanel40.add(jPanel42, java.awt.BorderLayout.CENTER);
 
@@ -206,19 +329,19 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
         jPanel13.setPreferredSize(new java.awt.Dimension(829, 55));
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 10));
 
-        btnThem2.setBackground(new java.awt.Color(0, 120, 92));
-        btnThem2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem2.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem2.setText("Tìm kiếm");
-        btnThem2.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnThem2.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnThem2.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnThem2.addActionListener(new java.awt.event.ActionListener() {
+        btnTimKiem.setBackground(new java.awt.Color(0, 120, 92));
+        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnTimKiem.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnTimKiem.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnTimKiem.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThem2ActionPerformed(evt);
+                btnTimKiemActionPerformed(evt);
             }
         });
-        jPanel13.add(btnThem2);
+        jPanel13.add(btnTimKiem);
 
         btnThem3.setBackground(new java.awt.Color(0, 120, 92));
         btnThem3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -253,31 +376,72 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
 
         jPanel34.setLayout(new java.awt.BorderLayout());
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "STT", "Mã phiếu nhập", "Tên nhà cung cấp", "SĐT", "Tên nhân viên", "Ngày nhập", "Tổng hóa đơn"
             }
         ));
-        jTable3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable3.setShowHorizontalLines(true);
-        jScrollPane3.setViewportView(jTable3);
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.setShowHorizontalLines(true);
+        jScrollPane1.setViewportView(jTable1);
 
-        jPanel34.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+        jPanel34.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel12.add(jPanel34, java.awt.BorderLayout.CENTER);
 
         add(jPanel12, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnThem2ActionPerformed
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
+        String maPN = txtMaPN.getText().trim();
+    String tenNV = txtTenNV.getText().trim();
+    String tenNCC = txtTenNCC.getText().trim();
+    Date ngayLap = dateNgayLap.getDate();
+
+    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        @Override
+        protected Void doInBackground() throws Exception {
+            List<PhieuNhap> danhSachPhieuNhap = PhieuNhapDAO.searchPhieuNhap(maPN, tenNV, tenNCC, ngayLap);
+
+            SwingUtilities.invokeLater(() -> {
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
+
+                if (danhSachPhieuNhap.isEmpty()) {
+                    JOptionPane.showMessageDialog(frmSearchPhieuNhap.this, "Không tìm thấy phiếu nhập phù hợp!");
+                } else {
+                    int stt = 1;
+                    for (PhieuNhap pn : danhSachPhieuNhap) {
+                        NhaCungCap ncc = pn.getNhaCungCap();
+                        NhanVien nv = pn.getNhanVien();
+
+                        Object[] rowData = {
+                            stt++,
+                            pn.getId(),
+                            ncc != null ? ncc.getTenNhaCungCap() : "N/A",
+                            ncc != null ? ncc.getSdt() : "N/A",
+                            nv != null ? nv.getHoTen() : "N/A",
+                            dateFormat.format(pn.getNgayLap()),
+                            currencyFormat.format(pn.getTongTien())
+                        };
+                        model.addRow(rowData);
+                    }
+
+                    model.fireTableDataChanged();
+                    jTable1.revalidate();
+                    jTable1.repaint();
+                }
+            });
+
+            return null;
+        }
+    };
+
+    worker.execute();
+    }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void btnThem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem3ActionPerformed
         // TODO add your handling code here:
@@ -285,12 +449,11 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnThem2;
     private javax.swing.JButton btnThem3;
-    private javax.swing.JComboBox<String> cboNCC1;
-    private javax.swing.JComboBox<String> cboNV1;
-    private com.toedter.calendar.JDateChooser dateNgayMua1;
+    private javax.swing.JButton btnTimKiem;
+    private com.toedter.calendar.JDateChooser dateNgayLap;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
@@ -315,9 +478,15 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel43;
     private javax.swing.JPanel jPanel44;
     private javax.swing.JPanel jPanel45;
+    private javax.swing.JPanel jPanel46;
+    private javax.swing.JPanel jPanel47;
+    private javax.swing.JPanel jPanel48;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField txtMaPN;
+    private javax.swing.JTextField txtTenNCC;
+    private javax.swing.JTextField txtTenNV;
     // End of variables declaration//GEN-END:variables
 }
