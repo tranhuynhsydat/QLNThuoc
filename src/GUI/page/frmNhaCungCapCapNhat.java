@@ -236,7 +236,7 @@ private void openFormSuaNCC() {
  
              // Hiển thị hộp thoại xác nhận xóa
              int response = JOptionPane.showConfirmDialog(this,
-                     "Bạn có chắc chắn muốn xóa nhân viên này?",
+                     "Bạn có chắc chắn muốn xóa nhà cung cấp này?",
                      "Xác nhận", JOptionPane.YES_NO_OPTION);
  
              // Nếu người dùng chọn Yes, thực hiện xóa

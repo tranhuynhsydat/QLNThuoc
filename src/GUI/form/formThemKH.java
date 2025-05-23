@@ -53,7 +53,7 @@ public class formThemKH extends javax.swing.JDialog {
         jPanel12 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        txtHoTen1 = new javax.swing.JTextField();
+        txtHoTen = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -67,13 +67,13 @@ public class formThemKH extends javax.swing.JDialog {
         jPanel16 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
-        txtHoTen2 = new javax.swing.JTextField();
+        txtSDT = new javax.swing.JTextField();
         txtHoTen3 = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
-        txtHoTen4 = new javax.swing.JTextField();
+        txtTuoi = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
@@ -138,8 +138,8 @@ public class formThemKH extends javax.swing.JDialog {
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        txtHoTen1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel4.add(txtHoTen1);
+        txtHoTen.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel4.add(txtHoTen);
 
         jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);
 
@@ -198,8 +198,8 @@ public class formThemKH extends javax.swing.JDialog {
 
         jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        txtHoTen2.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel17.add(txtHoTen2);
+        txtSDT.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel17.add(txtSDT);
 
         txtHoTen3.setPreferredSize(new java.awt.Dimension(350, 22));
         jPanel17.add(txtHoTen3);
@@ -223,8 +223,8 @@ public class formThemKH extends javax.swing.JDialog {
 
         jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        txtHoTen4.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel19.add(txtHoTen4);
+        txtTuoi.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel19.add(txtTuoi);
 
         jPanel8.add(jPanel19, java.awt.BorderLayout.CENTER);
 
@@ -302,21 +302,57 @@ public class formThemKH extends javax.swing.JDialog {
     }//GEN-LAST:event_rbtnNamActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        String hoTen = txtHoTen1.getText();
-        String sdt = txtHoTen2.getText();
+        String hoTen = txtHoTen.getText().trim();
+        String sdt = txtSDT.getText().trim();
         String gioiTinh = rbtnNam.isSelected() ? "Nam" : "Nữ";
-        int tuoi = Integer.parseInt(txtHoTen4.getText());
+        String tuoiStr = txtTuoi.getText().trim();
+
+        // Kiểm tra rỗng trước
+        if (hoTen.isEmpty() ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên khách hàng!");
+            return;
+        }
+        if (sdt.isEmpty() ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số điện thoại!");
+            return;
+        }
+        if (tuoiStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tuổi!");
+            return;
+        }
+        // Kiểm tra số điện thoại có đúng 10 ký tự
+        if (sdt.length() != 10) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải có đúng 10 ký tự!");
+            return;
+        }
+
+        // Có thể thêm kiểm tra chỉ chứa số
+        if (!sdt.matches("\\d{10}")) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải gồm 10 chữ số!");
+            return;
+        }
+
+        // Kiểm tra tuổi hợp lệ
+        int tuoi;
+        try {
+            tuoi = Integer.parseInt(tuoiStr);
+            if (tuoi < 18) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Tuổi không hợp lệ!");
+            return;
+        }
 
         // Tạo mã khách hàng tự động
         String maKH = KhachHangDAO.TaoMaKhachHang();  // Tạo mã KH-001, KH-002...
         KhachHang kh = new KhachHang(maKH, hoTen, gioiTinh, sdt, tuoi);
+
         // Gọi phương thức thêm khách hàng từ KhachHangDAO
         boolean isAdded = KhachHangDAO.themKhachHang(kh);
 
         // Hiển thị thông báo cho người dùng
         if (isAdded) {
             JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");
-            dispose();
+            dispose(); // Đóng form
         } else {
             JOptionPane.showMessageDialog(this, "Thêm khách hàng thất bại!");
         }
@@ -412,9 +448,9 @@ public class formThemKH extends javax.swing.JDialog {
     private javax.swing.JRadioButton rbtnNu;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
-    private javax.swing.JTextField txtHoTen1;
-    private javax.swing.JTextField txtHoTen2;
+    private javax.swing.JTextField txtHoTen;
     private javax.swing.JTextField txtHoTen3;
-    private javax.swing.JTextField txtHoTen4;
+    private javax.swing.JTextField txtSDT;
+    private javax.swing.JTextField txtTuoi;
     // End of variables declaration//GEN-END:variables
 }

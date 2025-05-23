@@ -232,8 +232,36 @@ public class formThemNCC extends javax.swing.JDialog {
         String tenNCC = txtTenNCC.getText();
         String diaChi = txtDiaChi.getText();
         String sdt = txtSDT.getText();
-        String maNCC = NhaCungCapDAO.TaoMaNCC();
+        
+        // Kiểm tra rỗng trước
+        if (tenNCC.isEmpty() ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên nhà cung cấp!");
+            return;
+        }
+        if (sdt.isEmpty() ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số điện thoại!");
+            return;
+        }
+        if (diaChi.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập địa chỉ nhà cung cấp!");
+            return;
+        }
+        // Kiểm tra số điện thoại có đúng 10 ký tự
+        if (sdt.length() != 10) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải có đúng 10 ký tự!");
+            return;
+        }
+
+        // Có thể thêm kiểm tra chỉ chứa số
+        if (!sdt.matches("\\d{10}")) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải gồm 10 chữ số!");
+            return;
+        }
+
+        // Tạo mã nhà cung cấp tự động
+        String maNCC = NhaCungCapDAO.TaoMaNCC();  // Tạo mã KH-001, KH-002...
         NhaCungCap ncc = new NhaCungCap(maNCC, tenNCC, diaChi, sdt);
+        
         boolean isAdded = NhaCungCapDAO.Them(ncc);
         if (isAdded) {
             JOptionPane.showMessageDialog(this, "Thêm nhà cung cấp thành công!");

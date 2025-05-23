@@ -74,6 +74,37 @@ public class NhanVienDAO {
 
         return danhSachNhanVien;
     }
+    public static List<NhanVien> getAllNhanVien1() {
+    List<NhanVien> danhSachNhanVien = new ArrayList<>();
+    String sql = "SELECT * FROM NhanVien ORDER BY maNV";  // không cần OFFSET
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            NhanVien nv = new NhanVien(
+                    rs.getString("maNV"),
+                    rs.getString("hoTen"),
+                    rs.getString("sdt"),
+                    rs.getString("gioiTinh"),
+                    rs.getDate("dtSinh"),
+                    rs.getDate("ngayVaoLam"),
+                    rs.getString("chucVu"),
+                    rs.getString("cccd")
+            );
+            danhSachNhanVien.add(nv);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    System.out.println("Tổng số nhân viên: " + danhSachNhanVien.size());
+
+    return danhSachNhanVien;
+}
+
+    
 
     public static List<NhanVien> getNhanVienBatch(int start, int limit) {
         List<NhanVien> danhSachNhanVien = new ArrayList<>();
@@ -333,5 +364,7 @@ public class NhanVienDAO {
 
         return danhSachNhanVien;
     }
-
+    
 }
+
+
