@@ -65,7 +65,8 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
 
         public frmPhieuDoiThem() {
                 initComponents();
-                configureTable();
+                configureTable(); // cấu hình bảng jTable1
+                centerAlignJTable2(); // cấu hình căn giữa bảng jTable2
                 initEvent();
                 loadDataToTable();
                 addTableSelectionListener();
@@ -118,6 +119,15 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
 
                 // Ngăn không cho phép chọn nhiều dòng
                 jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        }
+
+        private void centerAlignJTable2() {
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+                for (int i = 0; i < jTable2.getColumnCount(); i++) {
+                        jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+                }
         }
 
         private void loadDataToTable() {
@@ -1232,19 +1242,17 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
                         return;
                 }
 
-                // Lấy thông tin hóa đơn từ DAO (giả sử DAO.HoaDonDAO.getHoaDonById trả về đối
-                // tượng HoaDon)
+                // Lấy thông tin hóa đơn từ DAO
                 HoaDon hoaDon = DAO.HoaDonDAO.getHoaDonByMaHD(maHD);
                 if (hoaDon == null) {
                         JOptionPane.showMessageDialog(this, "Không tìm thấy hóa đơn với mã: " + maHD);
                         return;
                 }
-                double tongTienHoaDon = hoaDon.getTongTien(); // hoặc tính lại từ danh sách chi tiết nếu getTongTien()
-                                                              // chưa có
+                double tongTienHoaDon = hoaDon.getTongTien();
                 txtTong.setText(String.format("%.0f", tongTienHoaDon));
 
                 // Hiển thị thông tin khách hàng
-                KhachHang kh = hoaDon.getKhachHang(); // Giả sử hóa đơn có liên kết với khách hàng
+                KhachHang kh = hoaDon.getKhachHang();
                 if (kh != null) {
                         txtTenKH.setText(kh.getHoTen());
                         txtSdtKH.setText(kh.getSdt());
@@ -1252,7 +1260,7 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
                         maKH = kh.getId();
                 }
 
-                // Gọi DAO để lấy danh sách chi tiết hóa đơn từ database
+                // Lấy danh sách chi tiết hóa đơn
                 List<ChiTietHoaDon> danhSachChiTiet = DAO.ChiTietHoaDonDAO.getChiTietByHoaDonId(maHD);
 
                 if (danhSachChiTiet.isEmpty()) {
@@ -1264,19 +1272,20 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
                 DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
                 model.setRowCount(0);
 
-                // Đổ dữ liệu mới vào bảng
+                // Đổ dữ liệu mới vào bảng với STT
+                int stt = 1;
                 for (ChiTietHoaDon chiTiet : danhSachChiTiet) {
                         model.addRow(new Object[] {
-                                        maHD,
+                                        stt++, // STT
                                         chiTiet.getIdThuoc(),
                                         chiTiet.getThuoc(),
                                         chiTiet.getSoLuong(),
                                         chiTiet.getDonGia(),
                                         chiTiet.getThanhTien()
                         });
-
                 }
-                // Tính và hiển thị tổng tiền hóa đơn gốc
+
+                // Tính tổng tiền và hiển thị chênh lệch
                 txtTong.setText(String.format("%.0f", tongTienHoaDon));
                 tinhTongTienPhieuDoi();
                 tinhChenhLechPhieuDoi();
@@ -1444,24 +1453,23 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
                 }
         }// GEN-LAST:event_btnThemActionPerformed
 
-        private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXoaActionPerformed
-                // Lấy model của bảng chi tiết hóa đơn (jTable2)
-                DefaultTableModel chiTietModel = (DefaultTableModel) jTable2.getModel();
+        private void btnXoaActionPerformed(java.awt.event.ActionEvent evt)// GEN-LAST:event_btnXoaActionPerformed
+        {
+                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                int rowIndex = jTable2.getSelectedRow();
 
-                // Lấy chỉ số dòng được chọn
-                int selectedRow = jTable2.getSelectedRow();
+                if (rowIndex != -1) {
+                        // Gán Tên thuốc mới = "NONE" để đánh dấu dòng bị loại
+                        model.setValueAt("NONE", rowIndex, 2);
 
-                // Kiểm tra nếu có dòng được chọn trong bảng
-                if (selectedRow != -1) {
-                        // Xóa dòng đã chọn
-                        chiTietModel.removeRow(selectedRow);
+                        // Optional: cũng có thể gán Thành tiền = 0
+                        model.setValueAt(0.0, rowIndex, 5);
 
-                        // Cập nhật tổng tiền hóa đơn sau khi xóa dòng
+                        // Cập nhật tổng tiền
                         tinhTongTienPhieuDoi();
                         tinhChenhLechPhieuDoi();
                 } else {
-                        // Nếu không có dòng nào được chọn, hiển thị thông báo
-                        JOptionPane.showMessageDialog(null, "Vui lòng chọn dòng cần xóa.");
+                        JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần xóa.");
                 }
         }// GEN-LAST:event_btnXoaActionPerformed
 
@@ -1654,37 +1662,53 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
                 List<ChiTietPhieuDoi> chiTietList = new ArrayList<>();
                 DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
 
-                // Lấy danh sách thuốc cũ từ mã hóa đơn
+                // Lấy danh sách thuốc cũ từ hóa đơn gốc
                 List<ChiTietHoaDon> thuocCuList = ChiTietHoaDonDAO.getChiTietByHoaDonId(maHD);
-                // if (thuocCuList.size() != model.getRowCount()) {
-                // JOptionPane.showMessageDialog(this, "Số lượng thuốc cũ không khớp với thuốc
-                // mới.", "Lỗi",
-                // JOptionPane.ERROR_MESSAGE);
-                // return new ArrayList<>();
-                // }
+                int maxRows = Math.max(thuocCuList.size(), model.getRowCount());
 
-                for (int i = 0; i < model.getRowCount(); i++) {
-                        // Thuốc cũ từ DB
-                        ChiTietHoaDon thuocCu = thuocCuList.get(i);
-                        String maThuocCu = thuocCu.getIdThuoc();
-                        int soLuongCu = thuocCu.getSoLuong();
-                        double donGiaCu = thuocCu.getDonGia();
-
-                        // Thuốc mới từ bảng
-                        String maThuocMoi = model.getValueAt(i, 1).toString();
-                        int soLuongMoi = Integer.parseInt(model.getValueAt(i, 3).toString());
-                        double donGiaMoi = Double.parseDouble(model.getValueAt(i, 4).toString());
-                        double tongTien = Double.parseDouble(model.getValueAt(i, 5).toString());
-
+                for (int i = 0; i < maxRows; i++) {
                         ChiTietPhieuDoi chiTiet = new ChiTietPhieuDoi();
                         chiTiet.setMaPD(maPD);
-                        chiTiet.setMaThuocCu(maThuocCu);
-                        chiTiet.setSoLuongCu(soLuongCu);
-                        chiTiet.setDonGiaCu(donGiaCu);
-                        chiTiet.setMaThuocMoi(maThuocMoi);
-                        chiTiet.setSoLuongMoi(soLuongMoi);
-                        chiTiet.setDonGiaMoi(donGiaMoi);
-                        chiTiet.setTongTien(tongTien);
+
+                        // Thuốc cũ
+                        if (i < thuocCuList.size()) {
+                                ChiTietHoaDon thuocCu = thuocCuList.get(i);
+                                chiTiet.setMaThuocCu(thuocCu.getIdThuoc());
+                                chiTiet.setSoLuongCu(thuocCu.getSoLuong());
+                                chiTiet.setDonGiaCu(thuocCu.getDonGia());
+                        } else {
+                                chiTiet.setMaThuocCu("NONE");
+                                chiTiet.setSoLuongCu(0);
+                                chiTiet.setDonGiaCu(0);
+                        }
+
+                        // Thuốc mới
+                        if (i < model.getRowCount()) {
+                                String tenThuocMoi = model.getValueAt(i, 2).toString();
+                                if (!tenThuocMoi.equalsIgnoreCase("NONE")) {
+                                        String maThuocMoi = model.getValueAt(i, 1).toString();
+                                        int soLuongMoi = Integer.parseInt(model.getValueAt(i, 3).toString());
+                                        double donGiaMoi = Double.parseDouble(model.getValueAt(i, 4).toString());
+                                        double tongTien = Double.parseDouble(model.getValueAt(i, 5).toString());
+
+                                        chiTiet.setMaThuocMoi(maThuocMoi);
+                                        chiTiet.setSoLuongMoi(soLuongMoi);
+                                        chiTiet.setDonGiaMoi(donGiaMoi);
+                                        chiTiet.setTongTien(tongTien);
+                                } else {
+                                        // Dòng thuốc mới bị loại
+                                        chiTiet.setMaThuocMoi("NONE");
+                                        chiTiet.setSoLuongMoi(0);
+                                        chiTiet.setDonGiaMoi(0);
+                                        chiTiet.setTongTien(0);
+                                }
+                        } else {
+                                // Dư thuốc cũ, không có thuốc mới tương ứng
+                                chiTiet.setMaThuocMoi("NONE");
+                                chiTiet.setSoLuongMoi(0);
+                                chiTiet.setDonGiaMoi(0);
+                                chiTiet.setTongTien(0);
+                        }
 
                         chiTietList.add(chiTiet);
                 }

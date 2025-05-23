@@ -155,7 +155,9 @@ public class PhieuDoiDAO {
     public static boolean them(PhieuDoi hoaDonDoi) {
         String sql = "INSERT INTO PhieuDoi (maPD, maNV, maKH, maHD, thoiGian, lyDo) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setString(1, hoaDonDoi.getId()); // maPD
             ps.setString(2, hoaDonDoi.getIdNhanVien()); // maNV
             ps.setString(3, hoaDonDoi.getIdKhachHang()); // maKH
@@ -166,12 +168,14 @@ public class PhieuDoiDAO {
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
-                return ChiTietPhieuDoiDAO.themChiTietHoaDonDoi(
-                        hoaDonDoi.getChiTietHoaDonDoi(),
-                        hoaDonDoi.getId());
+                boolean chiTietOK = ChiTietPhieuDoiDAO.themChiTietHoaDonDoi(
+                        hoaDonDoi.getChiTietHoaDonDoi(), hoaDonDoi.getId());
+                if (chiTietOK) {
+                    return ChiTietPhieuDoiDAO.capNhatSoLuongSauKhiDoi(hoaDonDoi.getChiTietHoaDonDoi());
+                }
             }
         } catch (SQLException e) {
-            System.out.println("Lỗi thêm hóa đơn: " + e.getMessage());
+            System.out.println("Lỗi thêm phiếu đổi: " + e.getMessage());
             e.printStackTrace();
         }
 
@@ -183,20 +187,25 @@ public class PhieuDoiDAO {
         List<ChiTietPhieuDoi> chiTietList = new ArrayList<>();
         String sql = "SELECT * FROM CTPhieuDoi WHERE maPD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maPD);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     ChiTietPhieuDoi chiTiet = new ChiTietPhieuDoi();
-                    chiTiet.setIdHoaDonDoi(rs.getString("maPD"));
-                    chiTiet.setIdThuoc(rs.getString("maThuoc"));
-                    chiTiet.setSoLuong(rs.getInt("soLuong"));
-                    chiTiet.setDonGia(rs.getDouble("donGia"));
+                    chiTiet.setMaPD(rs.getString("maPD"));
+                    chiTiet.setMaThuocCu(rs.getString("maThuocCu"));
+                    chiTiet.setSoLuongCu(rs.getInt("soLuongCu"));
+                    chiTiet.setDonGiaCu(rs.getDouble("donGiaCu"));
+                    chiTiet.setMaThuocMoi(rs.getString("maThuocMoi"));
+                    chiTiet.setSoLuongMoi(rs.getInt("soLuongMoi"));
+                    chiTiet.setDonGiaMoi(rs.getDouble("donGiaMoi"));
 
-                    // Lấy thông tin thuốc
-                    chiTiet.setThuoc(ThuocDAO.getThuocByMaThuoc(rs.getString("maThuoc")).getTenThuoc());
+                    // Tự tính tổng tiền
+                    double tongTien = chiTiet.getSoLuongMoi() * chiTiet.getDonGiaMoi();
+                    chiTiet.setTongTien(tongTien);
 
                     chiTietList.add(chiTiet);
                 }
@@ -206,30 +215,6 @@ public class PhieuDoiDAO {
         }
 
         return chiTietList;
-    }
-
-    // Cập nhật số lượng thuốc (trừ khi bán, cộng khi hủy hóa đơn)
-    private static void capNhatSoLuongThuoc(String maThuoc, int soLuongBan) {
-        // Lấy thông tin thuốc hiện tại
-        Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(maThuoc);
-        if (thuoc != null) {
-            // Cập nhật số lượng (trừ đi số lượng bán)
-            int soLuongMoi = thuoc.getSoLuong() - soLuongBan;
-
-            // Cập nhật vào database
-            String sql = "UPDATE Thuoc SET soLuong = ? WHERE maThuoc = ?";
-
-            try (Connection conn = DatabaseConnection.getConnection();
-                    PreparedStatement ps = conn.prepareStatement(sql)) {
-
-                ps.setInt(1, soLuongMoi);
-                ps.setString(2, maThuoc);
-
-                ps.executeUpdate();
-            } catch (SQLException e) {
-                System.out.println("Lỗi cập nhật số lượng thuốc: " + e.getMessage());
-            }
-        }
     }
 
     // Tìm kiếm hóa đơn theo khoảng thời gian

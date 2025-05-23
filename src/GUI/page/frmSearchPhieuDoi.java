@@ -26,47 +26,115 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel8 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
-        jPanel15 = new javax.swing.JPanel();
-        jPanel28 = new javax.swing.JPanel();
-        jPanel29 = new javax.swing.JPanel();
-        jPanel21 = new javax.swing.JPanel();
-        jPanel30 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jPanel31 = new javax.swing.JPanel();
-        cboNCC1 = new javax.swing.JComboBox<>();
-        jPanel14 = new javax.swing.JPanel();
-        jPanel26 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jPanel27 = new javax.swing.JPanel();
-        cboNCC = new javax.swing.JComboBox<>();
-        jPanel16 = new javax.swing.JPanel();
-        jPanel24 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jPanel25 = new javax.swing.JPanel();
-        cboNV = new javax.swing.JComboBox<>();
-        jPanel17 = new javax.swing.JPanel();
-        jPanel22 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jPanel23 = new javax.swing.JPanel();
-        dateNgayMua = new com.toedter.calendar.JDateChooser();
-        jPanel18 = new javax.swing.JPanel();
-        jPanel20 = new javax.swing.JPanel();
-        jPanel19 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        btnTimKiem = new javax.swing.JButton();
+        btnChiTiet = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel34 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jPanel13 = new javax.swing.JPanel();
-        btnThem2 = new javax.swing.JButton();
-        btnThem3 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jPanel8 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel36 = new javax.swing.JPanel();
+        jPanel37 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel38 = new javax.swing.JPanel();
+        txtMaPD = new java.awt.TextField();
+        jPanel21 = new javax.swing.JPanel();
+        jPanel30 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel31 = new javax.swing.JPanel();
+        txtMaHD = new java.awt.TextField();
+        jPanel14 = new javax.swing.JPanel();
+        jPanel26 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel27 = new javax.swing.JPanel();
+        txtTenKH = new java.awt.TextField();
+        jPanel16 = new javax.swing.JPanel();
+        jPanel32 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel35 = new javax.swing.JPanel();
+        txtSdtKH = new java.awt.TextField();
+        jPanel17 = new javax.swing.JPanel();
+        jPanel22 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel23 = new javax.swing.JPanel();
+        dateNgayTra = new com.toedter.calendar.JDateChooser();
+        jPanel18 = new javax.swing.JPanel();
+        jPanel19 = new javax.swing.JPanel();
+        jPanel20 = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
+
+        jPanel13.setPreferredSize(new java.awt.Dimension(829, 55));
+        jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 10));
+
+        btnTimKiem.setBackground(new java.awt.Color(0, 120, 92));
+        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnTimKiem.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnTimKiem.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnTimKiem.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
+            }
+        });
+        jPanel13.add(btnTimKiem);
+
+        btnChiTiet.setBackground(new java.awt.Color(0, 120, 92));
+        btnChiTiet.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChiTiet.setForeground(new java.awt.Color(255, 255, 255));
+        btnChiTiet.setText("Chi tiết");
+        btnChiTiet.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnChiTiet.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnChiTiet.setPreferredSize(new java.awt.Dimension(105, 35));
+        jPanel13.add(btnChiTiet);
+
+        add(jPanel13, java.awt.BorderLayout.PAGE_END);
+
+        jPanel12.setPreferredSize(new java.awt.Dimension(829, 220));
+        jPanel12.setLayout(new java.awt.BorderLayout());
+
+        jPanel33.setBackground(new java.awt.Color(0, 120, 92));
+        jPanel33.setPreferredSize(new java.awt.Dimension(829, 50));
+        jPanel33.setLayout(new java.awt.BorderLayout());
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Danh sách phiếu đổi");
+        jPanel33.add(jLabel4, java.awt.BorderLayout.CENTER);
+
+        jPanel12.add(jPanel33, java.awt.BorderLayout.PAGE_START);
+
+        jPanel34.setLayout(new java.awt.BorderLayout());
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Mã phiếu đổi", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày trả", "Lý do", "Tổng hóa đơn cũ", "Tổng phiếu đổi"
+            }
+        ));
+        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable2.setShowHorizontalLines(true);
+        jScrollPane2.setViewportView(jTable2);
+
+        jPanel34.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        jPanel12.add(jPanel34, java.awt.BorderLayout.CENTER);
+
+        add(jPanel12, java.awt.BorderLayout.CENTER);
 
         jPanel8.setBackground(new java.awt.Color(255, 102, 102));
         jPanel8.setMaximumSize(new java.awt.Dimension(829, 350));
@@ -89,20 +157,34 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         jPanel10.setMinimumSize(new java.awt.Dimension(829, 300));
         jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel15.setMinimumSize(new java.awt.Dimension(829, 38));
-        jPanel15.setLayout(new java.awt.BorderLayout());
+        jPanel36.setMinimumSize(new java.awt.Dimension(829, 38));
+        jPanel36.setLayout(new java.awt.BorderLayout());
 
-        jPanel28.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel28.setPreferredSize(new java.awt.Dimension(500, 38));
-        jPanel28.setLayout(new java.awt.BorderLayout());
-        jPanel15.add(jPanel28, java.awt.BorderLayout.LINE_START);
+        jPanel37.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel37.setPreferredSize(new java.awt.Dimension(500, 38));
+        jPanel37.setLayout(new java.awt.BorderLayout());
 
-        jPanel29.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel29.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel29.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
-        jPanel15.add(jPanel29, java.awt.BorderLayout.CENTER);
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("Mã phiếu đổi:");
+        jLabel11.setAlignmentX(20.0F);
+        jLabel11.setAlignmentY(20.0F);
+        jPanel37.add(jLabel11, java.awt.BorderLayout.CENTER);
 
-        jPanel10.add(jPanel15);
+        jPanel36.add(jPanel37, java.awt.BorderLayout.LINE_START);
+
+        jPanel38.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel38.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel38.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+
+        txtMaPD.setMaximumSize(new java.awt.Dimension(350, 32));
+        txtMaPD.setMinimumSize(new java.awt.Dimension(350, 32));
+        txtMaPD.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel38.add(txtMaPD);
+
+        jPanel36.add(jPanel38, java.awt.BorderLayout.CENTER);
+
+        jPanel10.add(jPanel36);
 
         jPanel21.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel21.setLayout(new java.awt.BorderLayout());
@@ -113,7 +195,7 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("Mã hóa đơn đổi:");
+        jLabel9.setText("Mã hóa đơn:");
         jLabel9.setAlignmentX(20.0F);
         jLabel9.setAlignmentY(20.0F);
         jPanel30.add(jLabel9, java.awt.BorderLayout.CENTER);
@@ -124,9 +206,10 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         jPanel31.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel31.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        cboNCC1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboNCC1.setPreferredSize(new java.awt.Dimension(350, 32));
-        jPanel31.add(cboNCC1);
+        txtMaHD.setMaximumSize(new java.awt.Dimension(350, 32));
+        txtMaHD.setMinimumSize(new java.awt.Dimension(350, 32));
+        txtMaHD.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel31.add(txtMaHD);
 
         jPanel21.add(jPanel31, java.awt.BorderLayout.CENTER);
 
@@ -152,9 +235,10 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         jPanel27.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel27.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        cboNCC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboNCC.setPreferredSize(new java.awt.Dimension(350, 32));
-        jPanel27.add(cboNCC);
+        txtTenKH.setMaximumSize(new java.awt.Dimension(350, 32));
+        txtTenKH.setMinimumSize(new java.awt.Dimension(350, 32));
+        txtTenKH.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel27.add(txtTenKH);
 
         jPanel14.add(jPanel27, java.awt.BorderLayout.CENTER);
 
@@ -163,28 +247,29 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         jPanel16.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel16.setLayout(new java.awt.BorderLayout());
 
-        jPanel24.setMinimumSize(new java.awt.Dimension(300, 38));
-        jPanel24.setPreferredSize(new java.awt.Dimension(500, 38));
-        jPanel24.setLayout(new java.awt.BorderLayout());
+        jPanel32.setMinimumSize(new java.awt.Dimension(300, 38));
+        jPanel32.setPreferredSize(new java.awt.Dimension(500, 38));
+        jPanel32.setLayout(new java.awt.BorderLayout());
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("Tên nhân viên:");
-        jLabel5.setAlignmentX(20.0F);
-        jLabel5.setAlignmentY(20.0F);
-        jPanel24.add(jLabel5, java.awt.BorderLayout.CENTER);
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel10.setText("Số điện thoại:");
+        jLabel10.setAlignmentX(20.0F);
+        jLabel10.setAlignmentY(20.0F);
+        jPanel32.add(jLabel10, java.awt.BorderLayout.CENTER);
 
-        jPanel16.add(jPanel24, java.awt.BorderLayout.LINE_START);
+        jPanel16.add(jPanel32, java.awt.BorderLayout.LINE_START);
 
-        jPanel25.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel25.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel25.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
+        jPanel35.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel35.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        cboNV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboNV.setPreferredSize(new java.awt.Dimension(350, 32));
-        jPanel25.add(cboNV);
+        txtSdtKH.setMaximumSize(new java.awt.Dimension(350, 32));
+        txtSdtKH.setMinimumSize(new java.awt.Dimension(350, 32));
+        txtSdtKH.setPreferredSize(new java.awt.Dimension(350, 30));
+        jPanel35.add(txtSdtKH);
 
-        jPanel16.add(jPanel25, java.awt.BorderLayout.CENTER);
+        jPanel16.add(jPanel35, java.awt.BorderLayout.CENTER);
 
         jPanel10.add(jPanel16);
 
@@ -197,7 +282,7 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("Ngày đổi:");
+        jLabel6.setText("Ngày mua:");
         jLabel6.setAlignmentX(20.0F);
         jLabel6.setAlignmentY(20.0F);
         jPanel22.add(jLabel6, java.awt.BorderLayout.CENTER);
@@ -208,9 +293,9 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         jPanel23.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel23.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
-        dateNgayMua.setMinimumSize(new java.awt.Dimension(182, 22));
-        dateNgayMua.setPreferredSize(new java.awt.Dimension(150, 30));
-        jPanel23.add(dateNgayMua);
+        dateNgayTra.setMinimumSize(new java.awt.Dimension(182, 22));
+        dateNgayTra.setPreferredSize(new java.awt.Dimension(150, 30));
+        jPanel23.add(dateNgayTra);
 
         jPanel17.add(jPanel23, java.awt.BorderLayout.CENTER);
 
@@ -219,15 +304,14 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         jPanel18.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel18.setLayout(new java.awt.BorderLayout());
 
-        jPanel20.setMinimumSize(new java.awt.Dimension(669, 38));
-        jPanel20.setPreferredSize(new java.awt.Dimension(669, 38));
-        jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
-
         jPanel19.setMinimumSize(new java.awt.Dimension(300, 38));
         jPanel19.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel19.setLayout(new java.awt.BorderLayout());
-        jPanel20.add(jPanel19);
+        jPanel18.add(jPanel19, java.awt.BorderLayout.LINE_START);
 
+        jPanel20.setMinimumSize(new java.awt.Dimension(669, 38));
+        jPanel20.setPreferredSize(new java.awt.Dimension(669, 38));
+        jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
         jPanel18.add(jPanel20, java.awt.BorderLayout.CENTER);
 
         jPanel10.add(jPanel18);
@@ -235,95 +319,21 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         jPanel8.add(jPanel10, java.awt.BorderLayout.CENTER);
 
         add(jPanel8, java.awt.BorderLayout.PAGE_START);
-
-        jPanel12.setPreferredSize(new java.awt.Dimension(829, 220));
-        jPanel12.setLayout(new java.awt.BorderLayout());
-
-        jPanel33.setBackground(new java.awt.Color(0, 120, 92));
-        jPanel33.setPreferredSize(new java.awt.Dimension(829, 50));
-        jPanel33.setLayout(new java.awt.BorderLayout());
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Danh sách phiếu đổi");
-        jPanel33.add(jLabel4, java.awt.BorderLayout.CENTER);
-
-        jPanel12.add(jPanel33, java.awt.BorderLayout.PAGE_START);
-
-        jPanel34.setLayout(new java.awt.BorderLayout());
-
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "STT", "Mã phiếu đổi", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày đổi", "Lý do", "Tổng hóa đơn"
-            }
-        ));
-        jTable3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable3.setShowHorizontalLines(true);
-        jScrollPane3.setViewportView(jTable3);
-
-        jPanel34.add(jScrollPane3, java.awt.BorderLayout.CENTER);
-
-        jPanel12.add(jPanel34, java.awt.BorderLayout.CENTER);
-
-        add(jPanel12, java.awt.BorderLayout.CENTER);
-
-        jPanel13.setPreferredSize(new java.awt.Dimension(829, 55));
-        jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 10));
-
-        btnThem2.setBackground(new java.awt.Color(0, 120, 92));
-        btnThem2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem2.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem2.setText("Tìm kiếm");
-        btnThem2.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnThem2.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnThem2.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnThem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThem2ActionPerformed(evt);
-            }
-        });
-        jPanel13.add(btnThem2);
-
-        btnThem3.setBackground(new java.awt.Color(0, 120, 92));
-        btnThem3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem3.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem3.setText("Chi tiết");
-        btnThem3.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnThem3.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnThem3.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnThem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThem3ActionPerformed(evt);
-            }
-        });
-        jPanel13.add(btnThem3);
-
-        add(jPanel13, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem2ActionPerformed
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnThem2ActionPerformed
-
-    private void btnThem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnThem3ActionPerformed
+    }//GEN-LAST:event_btnTimKiemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnThem2;
-    private javax.swing.JButton btnThem3;
-    private javax.swing.JComboBox<String> cboNCC;
-    private javax.swing.JComboBox<String> cboNCC1;
-    private javax.swing.JComboBox<String> cboNV;
-    private com.toedter.calendar.JDateChooser dateNgayMua;
+    private javax.swing.JButton btnChiTiet;
+    private javax.swing.JButton btnTimKiem;
+    private com.toedter.calendar.JDateChooser dateNgayTra;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -331,7 +341,6 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
@@ -340,19 +349,24 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
-    private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
-    private javax.swing.JPanel jPanel28;
-    private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel31;
+    private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable3;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable2;
+    private java.awt.TextField txtMaHD;
+    private java.awt.TextField txtMaPD;
+    private java.awt.TextField txtSdtKH;
+    private java.awt.TextField txtTenKH;
     // End of variables declaration//GEN-END:variables
 }

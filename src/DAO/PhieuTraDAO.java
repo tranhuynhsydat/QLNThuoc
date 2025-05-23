@@ -2,110 +2,226 @@ package DAO;
 
 import ConnectDB.DatabaseConnection;
 import Entity.PhieuTra;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import Entity.ChiTietPhieuTra;
+import java.sql.*;
+import java.util.*;
+import java.util.Date;
 
 public class PhieuTraDAO {
+    public static boolean them(PhieuTra pt) {
+        String sql = "INSERT INTO PhieuTra (maPT, maNV, maKH, maHD, thoiGian, lyDo) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, pt.getMaPT());
+            ps.setString(2, pt.getMaNV());
+            ps.setString(3, pt.getMaKH());
+            ps.setString(4, pt.getMaHD());
+            ps.setTimestamp(5, new Timestamp(pt.getNgayLap().getTime()));
+            ps.setString(6, pt.getLyDo());
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                for (ChiTietPhieuTra ct : pt.getChiTietPhieuTra()) {
+                    ChiTietPhieuTraDAO.themChiTietPhieuTra(ct);
+                    capNhatSoLuongKho(ct.getMaThuoc(), ct.getSoLuong());
+                }
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi thêm phiếu trả: " + e.getMessage());
+        }
+        return false;
+    }
 
-    // Get a batch of CTPhieuTra (pagination)
-    public static List<PhieuTra> getHoaDonTraBatch(int startIndex, int batchSize) {
-        List<PhieuTra> danhSachHoaDonTra = new ArrayList<>();
-        String sql = "SELECT * FROM CTPhieuTra ORDER BY maPT OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    public static List<PhieuTra> getPhieuTraBatch(int start, int limit) {
+        List<PhieuTra> list = new ArrayList<>();
+        String sql = "SELECT * FROM PhieuTra ORDER BY thoiGian DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, startIndex);  // Start index for pagination
-            ps.setInt(2, batchSize);    // Number of records to fetch
+            ps.setInt(1, start);
+            ps.setInt(2, limit);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                PhieuTra pt = new PhieuTra();
+                pt.setMaPT(rs.getString("maPT"));
+                pt.setMaNV(rs.getString("maNV"));
+                pt.setMaKH(rs.getString("maKH"));
+                pt.setMaHD(rs.getString("maHD"));
+                pt.setNgayLap(rs.getTimestamp("thoiGian"));
+                pt.setLyDo(rs.getString("lyDo"));
+
+                pt.setNhanVien(NhanVienDAO.getNhanVienByMaNV(pt.getMaNV()));
+                pt.setKhachHang(KhachHangDAO.getKhachHangByMaKH(pt.getMaKH()));
+                pt.setChiTietPhieuTra(ChiTietPhieuTraDAO.getChiTietByPhieuTra(pt.getMaPT()));
+
+                list.add(pt);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Lỗi lấy danh sách phiếu trả: " + e.getMessage());
+        }
+
+        return list;
+    }
+
+    public static void capNhatSoLuongKho(String maThuoc, int soLuongTraVe) {
+        String sql = "UPDATE Thuoc SET soLuong = soLuong + ? WHERE maThuoc = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, soLuongTraVe);
+            ps.setString(2, maThuoc);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Lỗi cập nhật kho trả thuốc: " + e.getMessage());
+        }
+    }
+
+    public static boolean daTraHang(String maHD) {
+        String sql = "SELECT COUNT(*) FROM PhieuTra WHERE maHD = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, maHD);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi kiểm tra hóa đơn đã trả: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public static List<PhieuTra> searchPhieuTra(String maPT, String maHD, String tenKH, String sdt, Date ngayTra) {
+        List<PhieuTra> danhSachPhieuTra = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+                "SELECT * FROM PhieuTra pt JOIN KhachHang kh ON pt.maKH = kh.maKH WHERE 1=1");
+
+        if (maPT != null && !maPT.isEmpty()) {
+            sql.append(" AND pt.maPT LIKE ?");
+        }
+        if (maHD != null && !maHD.isEmpty()) {
+            sql.append(" AND pt.maHD LIKE ?");
+        }
+        if (tenKH != null && !tenKH.isEmpty()) {
+            sql.append(" AND kh.tenKH LIKE ?");
+        }
+        if (sdt != null && !sdt.isEmpty()) {
+            sql.append(" AND kh.sdt LIKE ?");
+        }
+        if (ngayTra != null) {
+            sql.append(" AND CONVERT(DATE, pt.thoiGian) = ?");
+        }
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+            int paramIndex = 1;
+            if (maPT != null && !maPT.isEmpty()) {
+                ps.setString(paramIndex++, "%" + maPT + "%");
+            }
+            if (maHD != null && !maHD.isEmpty()) {
+                ps.setString(paramIndex++, "%" + maHD + "%");
+            }
+            if (tenKH != null && !tenKH.isEmpty()) {
+                ps.setString(paramIndex++, "%" + tenKH + "%");
+            }
+            if (sdt != null && !sdt.isEmpty()) {
+                ps.setString(paramIndex++, "%" + sdt + "%");
+            }
+            if (ngayTra != null) {
+                ps.setDate(paramIndex++, new java.sql.Date(ngayTra.getTime()));
+            }
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    PhieuTra hoaDonTra = new PhieuTra();
-                    hoaDonTra.setMaPT(rs.getString("maPT"));
-                    hoaDonTra.setTenKhachHang(rs.getString("tenKhachHang"));
-                    hoaDonTra.setSdt(rs.getString("sdt"));
-                    hoaDonTra.setTenNhanVien(rs.getString("tenNhanVien"));
-                    hoaDonTra.setNgayDoi(rs.getString("ngayDoi"));
-                    hoaDonTra.setLyDo(rs.getString("lyDo"));
-                    hoaDonTra.setTongTien(rs.getFloat("tongTien"));
+                    PhieuTra pt = new PhieuTra();
+                    pt.setMaPT(rs.getString("maPT"));
+                    pt.setNgayLap(rs.getTimestamp("thoiGian"));
+                    pt.setMaNV(rs.getString("maNV"));
+                    pt.setMaKH(rs.getString("maKH"));
+                    pt.setMaHD(rs.getString("maHD"));
+                    pt.setLyDo(rs.getString("lyDo"));
 
-                    danhSachHoaDonTra.add(hoaDonTra);
+                    pt.setChiTietPhieuTra(ChiTietPhieuTraDAO.getChiTietByPhieuTra(pt.getMaPT()));
+                    pt.setNhanVien(NhanVienDAO.getNhanVienByMaNV(pt.getMaNV()));
+                    pt.setKhachHang(KhachHangDAO.getKhachHangByMaKH(pt.getMaKH()));
+                    pt.tinhTongTien();
+
+                    danhSachPhieuTra.add(pt);
                 }
             }
+
         } catch (SQLException e) {
-            System.out.println("Lỗi lấy danh sách hóa đơn trả từ CTPhieuTra: " + e.getMessage());
+            System.out.println("Lỗi tìm kiếm phiếu trả: " + e.getMessage());
         }
 
-        return danhSachHoaDonTra;
+        return danhSachPhieuTra;
     }
 
-    // Insert a new PhieuTra (Return Invoice)
-    public static boolean themHoaDonTra(PhieuTra hoaDonTra) {
-        String sql = "INSERT INTO CTPhieuTra (maPT, tenKhachHang, sdt, tenNhanVien, ngayDoi, lyDo, tongTien) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public static List<PhieuTra> getAllPhieuTra() {
+        List<PhieuTra> danhSachPhieuTra = new ArrayList<>();
+        String sql = "SELECT * FROM PhieuTra";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
-            ps.setString(1, hoaDonTra.getMaPT());
-            ps.setString(2, hoaDonTra.getTenKhachHang());
-            ps.setString(3, hoaDonTra.getSdt());
-            ps.setString(4, hoaDonTra.getTenNhanVien());
-            ps.setString(5, hoaDonTra.getNgayDoi());
-            ps.setString(6, hoaDonTra.getLyDo());
-            ps.setFloat(7, hoaDonTra.getTongTien());
+            while (rs.next()) {
+                String maPT = rs.getString("MaPT");
+                Timestamp ngayLap = rs.getTimestamp("ThoiGian");
+                String maNV = rs.getString("MaNV");
+                String maKH = rs.getString("MaKH");
+                String maHD = rs.getString("MaHD");
+                String lyDo = rs.getString("LyDo");
 
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0;
+                // Tạo đối tượng phiếu trả
+                PhieuTra phieuTra = new PhieuTra();
+                phieuTra.setMaPT(maPT);
+                phieuTra.setNgayLap(ngayLap);
+                phieuTra.setMaNV(maNV);
+                phieuTra.setMaKH(maKH);
+                phieuTra.setMaHD(maHD);
+                phieuTra.setLyDo(lyDo);
+
+
+                // Lấy thông tin chi tiết từ bảng liên kết
+                phieuTra.setChiTietPhieuTra(ChiTietPhieuTraDAO.getChiTietByPhieuTra(maPT));
+
+                // Tính tổng tiền từ chi tiết
+                phieuTra.tinhTongTien();
+
+                // Lấy thông tin nhân viên và khách hàng
+                phieuTra.setNhanVien(NhanVienDAO.getNhanVienByMaNV(maNV));
+                phieuTra.setKhachHang(KhachHangDAO.getKhachHangByMaKH(maKH));
+
+                danhSachPhieuTra.add(phieuTra);
+            }
         } catch (SQLException e) {
-            System.out.println("Lỗi thêm hóa đơn trả vào CTPhieuTra: " + e.getMessage());
+            System.out.println("Lỗi lấy danh sách phiếu trả: " + e.getMessage());
         }
 
-        return false;
+        return danhSachPhieuTra;
     }
 
-    // Update a PhieuTra (Return Invoice)
-    public static boolean suaHoaDonTra(PhieuTra hoaDonTra) {
-        String sql = "UPDATE CTPhieuTra SET tenKhachHang = ?, sdt = ?, tenNhanVien = ?, ngayDoi = ?, lyDo = ?, tongTien = ? WHERE maPT = ?";
+    public static String taoMaPhieuTra() {
+        String prefix = "PT-";
+        int maxNumber = 0;
+        String sql = "SELECT maPT FROM PhieuTra WHERE maPT LIKE 'PT-%' ORDER BY maPT DESC";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, hoaDonTra.getTenKhachHang());
-            ps.setString(2, hoaDonTra.getSdt());
-            ps.setString(3, hoaDonTra.getTenNhanVien());
-            ps.setString(4, hoaDonTra.getNgayDoi());
-            ps.setString(5, hoaDonTra.getLyDo());
-            ps.setFloat(6, hoaDonTra.getTongTien());
-            ps.setString(7, hoaDonTra.getMaPT());
-
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0;
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                String lastMaPT = rs.getString("maPT");
+                int lastNumber = Integer.parseInt(lastMaPT.substring(3));
+                maxNumber = lastNumber + 1;
+            }
         } catch (SQLException e) {
-            System.out.println("Lỗi cập nhật hóa đơn trả trong CTPhieuTra: " + e.getMessage());
+            e.printStackTrace();
         }
 
-        return false;
-    }
-
-    // Delete a PhieuTra (Return Invoice)
-    public static boolean xoaHoaDonTra(String maPT) {
-        String sql = "DELETE FROM CTPhieuTra WHERE maPT = ?";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, maPT);
-
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            System.out.println("Lỗi xóa hóa đơn trả trong CTPhieuTra: " + e.getMessage());
-        }
-
-        return false;
+        return prefix + String.format("%03d", maxNumber);
     }
 }

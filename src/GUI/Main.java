@@ -65,10 +65,11 @@ public class Main extends javax.swing.JFrame {
 
         initComponents();
         setLocationRelativeTo(null);
-        addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat, btnPhieuDoiTra));
+        addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhieuNhap,
+                btnTaiKhoan, btnThuoc, btnDangXuat, btnPhieuDoiTra));
         jScrollPane1.getVerticalScrollBar().setPreferredSize(new java.awt.Dimension(3, 0));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-// Menu thuốc
+        // Menu thuốc
         popupMenuThuoc = new RoundedPopupMenu();
         RoundedMenuItem itemThuoc1 = new RoundedMenuItem("Cập nhật");
         popupMenuThuoc.add(itemThuoc1);
@@ -79,8 +80,8 @@ public class Main extends javax.swing.JFrame {
         popupMenuThuoc.add(new JSeparator());
 
         btnThuoc.addActionListener(e -> popupMenuThuoc.show(btnThuoc, btnThuoc.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemThuoc1, itemThuoc2});
-// Menu hóa đơn
+        setFontForMenuItems(new RoundedMenuItem[] { itemThuoc1, itemThuoc2 });
+        // Menu hóa đơn
         popupMenuHoaDon = new RoundedPopupMenu();
         RoundedMenuItem itemHoaDon1 = new RoundedMenuItem("Cập Nhật");
         popupMenuHoaDon.add(itemHoaDon1);
@@ -91,34 +92,34 @@ public class Main extends javax.swing.JFrame {
         popupMenuHoaDon.add(new JSeparator());
 
         btnHoaDon.addActionListener(e -> popupMenuHoaDon.show(btnHoaDon, btnHoaDon.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemHoaDon1, itemHoaDon2});
+        setFontForMenuItems(new RoundedMenuItem[] { itemHoaDon1, itemHoaDon2 });
         // Menu hóa đơn đổi trả với cách hiển thị thay thế
         popupMenuHoaDonDoiTra = new RoundedPopupMenu();
         RoundedPopupMenu popupMenuHoaDonDoi = new RoundedPopupMenu();
         RoundedPopupMenu popupMenuHoaDonTra = new RoundedPopupMenu();
 
         // Tạo menu chính với 2 mục
-        RoundedMenuItem menuHoaDonDoi = new RoundedMenuItem("Hóa Đơn Đổi");
+        RoundedMenuItem menuHoaDonDoi = new RoundedMenuItem("Phiếu Đổi");
         popupMenuHoaDonDoiTra.add(menuHoaDonDoi);
         popupMenuHoaDonDoiTra.add(new JSeparator());
 
-        RoundedMenuItem menuHoaDonTra = new RoundedMenuItem("Hóa Đơn Trả");
+        RoundedMenuItem menuHoaDonTra = new RoundedMenuItem("Phiếu Trả");
         popupMenuHoaDonDoiTra.add(menuHoaDonTra);
 
         // Tạo menu phụ Hóa Đơn Đổi
-        RoundedMenuItem itemCapNhatHoaDonDoi = new RoundedMenuItem("Cập nhật hóa đơn");
+        RoundedMenuItem itemCapNhatHoaDonDoi = new RoundedMenuItem("Cập nhật phiếu đổi");
         popupMenuHoaDonDoi.add(itemCapNhatHoaDonDoi);
         popupMenuHoaDonDoi.add(new JSeparator());
 
-        RoundedMenuItem itemTimKiemHoaDonDoi = new RoundedMenuItem("Tìm kiếm hóa đơn");
+        RoundedMenuItem itemTimKiemHoaDonDoi = new RoundedMenuItem("Tìm kiếm phiếu đổi");
         popupMenuHoaDonDoi.add(itemTimKiemHoaDonDoi);
 
         // Tạo menu phụ Hóa Đơn Trả
-        RoundedMenuItem itemCapNhatHoaDonTra = new RoundedMenuItem("Cập nhật hóa đơn");
+        RoundedMenuItem itemCapNhatHoaDonTra = new RoundedMenuItem("Cập nhật phiếu trả");
         popupMenuHoaDonTra.add(itemCapNhatHoaDonTra);
         popupMenuHoaDonTra.add(new JSeparator());
 
-        RoundedMenuItem itemTimKiemHoaDonTra = new RoundedMenuItem("Tìm kiếm hóa đơn");
+        RoundedMenuItem itemTimKiemHoaDonTra = new RoundedMenuItem("Tìm kiếm phiếu trả");
         popupMenuHoaDonTra.add(itemTimKiemHoaDonTra);
 
         // Thiết lập sự kiện cho menu cấp 1
@@ -142,10 +143,10 @@ public class Main extends javax.swing.JFrame {
         btnPhieuDoiTra.addActionListener(e -> popupMenuHoaDonDoiTra.show(btnPhieuDoiTra, btnPhieuDoiTra.getWidth(), 2));
 
         // Thiết lập font
-        setFontForMenuItems(new RoundedMenuItem[]{menuHoaDonDoi, menuHoaDonTra});
-        setFontForMenuItems(new RoundedMenuItem[]{itemCapNhatHoaDonDoi, itemTimKiemHoaDonDoi,
-            itemCapNhatHoaDonTra, itemTimKiemHoaDonTra});
-// Menu phiếu nhập
+        setFontForMenuItems(new RoundedMenuItem[] { menuHoaDonDoi, menuHoaDonTra });
+        setFontForMenuItems(new RoundedMenuItem[] { itemCapNhatHoaDonDoi, itemTimKiemHoaDonDoi,
+                itemCapNhatHoaDonTra, itemTimKiemHoaDonTra });
+        // Menu phiếu nhập
         popupMenuPhieuNhap = new RoundedPopupMenu();
         RoundedMenuItem itemPhieuNhap1 = new RoundedMenuItem("Cập nhật");
         popupMenuPhieuNhap.add(itemPhieuNhap1);
@@ -156,8 +157,8 @@ public class Main extends javax.swing.JFrame {
         popupMenuPhieuNhap.add(new JSeparator());
 
         btnPhieuNhap.addActionListener(e -> popupMenuPhieuNhap.show(btnPhieuNhap, btnPhieuNhap.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemPhieuNhap1, itemPhieuNhap2});
-// Menu nhà cung cấp
+        setFontForMenuItems(new RoundedMenuItem[] { itemPhieuNhap1, itemPhieuNhap2 });
+        // Menu nhà cung cấp
         popupMenuNCC = new RoundedPopupMenu();
         RoundedMenuItem itemNCC1 = new RoundedMenuItem("Cập nhật");
         popupMenuNCC.add(itemNCC1);
@@ -168,9 +169,9 @@ public class Main extends javax.swing.JFrame {
         popupMenuNCC.add(new JSeparator());
 
         btnNhaCungCap.addActionListener(e -> popupMenuNCC.show(btnNhaCungCap, btnNhaCungCap.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemNCC1, itemNCC2});
+        setFontForMenuItems(new RoundedMenuItem[] { itemNCC1, itemNCC2 });
 
-// Menu khách hàng
+        // Menu khách hàng
         popupMenuKhachHang = new RoundedPopupMenu();
         RoundedMenuItem itemKH1 = new RoundedMenuItem("Cập nhật");
         popupMenuKhachHang.add(itemKH1);
@@ -181,9 +182,9 @@ public class Main extends javax.swing.JFrame {
         popupMenuKhachHang.add(new JSeparator());
 
         btnKhachHang.addActionListener(e -> popupMenuKhachHang.show(btnKhachHang, btnKhachHang.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemKH1, itemKH2});
+        setFontForMenuItems(new RoundedMenuItem[] { itemKH1, itemKH2 });
 
-// Menu nhân viên
+        // Menu nhân viên
         popupMenuNhanVien = new RoundedPopupMenu();
         RoundedMenuItem itemNV1 = new RoundedMenuItem("Cập nhật");
         popupMenuNhanVien.add(itemNV1);
@@ -194,9 +195,9 @@ public class Main extends javax.swing.JFrame {
         popupMenuNhanVien.add(new JSeparator());
 
         btnNhanVien.addActionListener(e -> popupMenuNhanVien.show(btnNhanVien, btnNhanVien.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemNV1, itemNV2});
+        setFontForMenuItems(new RoundedMenuItem[] { itemNV1, itemNV2 });
 
-// Menu tài khoản
+        // Menu tài khoản
         popupMenuTaiKhoan = new RoundedPopupMenu();
         RoundedMenuItem itemTK1 = new RoundedMenuItem("Cập nhật");
         popupMenuTaiKhoan.add(itemTK1);
@@ -207,12 +208,12 @@ public class Main extends javax.swing.JFrame {
         popupMenuTaiKhoan.add(new JSeparator());
 
         btnTaiKhoan.addActionListener(e -> popupMenuTaiKhoan.show(btnTaiKhoan, btnTaiKhoan.getWidth(), 2));
-        setFontForMenuItems(new RoundedMenuItem[]{itemTK1, itemTK2});
+        setFontForMenuItems(new RoundedMenuItem[] { itemTK1, itemTK2 });
 
-//sự kiện cập nhật nhân viên
+        // sự kiện cập nhật nhân viên
         itemNV1.addActionListener(e -> {
             frmNhanVienCapNhat nv = new frmNhanVienCapNhat();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -224,10 +225,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện tìm kiếm nhân viên
+        // sự kiện tìm kiếm nhân viên
         itemNV2.addActionListener(e -> {
             frmSearchNhanVien nv = new frmSearchNhanVien();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -239,10 +240,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện tìm kiếm nhà cung cấp
+        // sự kiện tìm kiếm nhà cung cấp
         itemNCC1.addActionListener(e -> {
             frmNhaCungCapCapNhat ncc = new frmNhaCungCapCapNhat();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -254,10 +255,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//Sự kiện tìm kiếm nhà cung cấp
+        // Sự kiện tìm kiếm nhà cung cấp
         itemNCC2.addActionListener(e -> {
             frmSearchNhaCungCap ncc = new frmSearchNhaCungCap();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -269,10 +270,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện cập nhật khách hàng
+        // sự kiện cập nhật khách hàng
         itemKH1.addActionListener(e -> {
             frmKhachHangCapNhat kh = new frmKhachHangCapNhat();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -284,10 +285,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện tìm kiếm khách hàng
+        // sự kiện tìm kiếm khách hàng
         itemKH2.addActionListener(e -> {
             frmSearchKhachHang kh = new frmSearchKhachHang();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -299,10 +300,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện cập nhật thuốc
+        // sự kiện cập nhật thuốc
         itemThuoc1.addActionListener(e -> {
             frmThuocCapNhat thuoc = new frmThuocCapNhat();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -314,10 +315,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện tìm kiếm thuốc
+        // sự kiện tìm kiếm thuốc
         itemThuoc2.addActionListener(e -> {
             frmSearchThuoc thuoc2 = new frmSearchThuoc();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -329,10 +330,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện cập nhật phiếu nhập
+        // sự kiện cập nhật phiếu nhập
         itemPhieuNhap1.addActionListener(e -> {
             frmPhieuNhapCapNhat pn1 = new frmPhieuNhapCapNhat();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -344,10 +345,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện tìm kiếm phiếu nhập
+        // sự kiện tìm kiếm phiếu nhập
         itemPhieuNhap2.addActionListener(e -> {
             frmSearchPhieuNhap pn2 = new frmSearchPhieuNhap();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -359,10 +360,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện cập nhật hóa đơn
+        // sự kiện cập nhật hóa đơn
         itemHoaDon1.addActionListener(e -> {
             frmHoaDonCapNhat hoadon1 = new frmHoaDonCapNhat();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -374,10 +375,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-//sự kiện tìm kiếm hóa đơn
+        // sự kiện tìm kiếm hóa đơn
         itemHoaDon2.addActionListener(e -> {
             frmSearchHoaDon hoadon2 = new frmSearchHoaDon();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -389,10 +390,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-// Sự kiện cập nhật hóa đơn đổi
+        // Sự kiện cập nhật hóa đơn đổi
         itemCapNhatHoaDonDoi.addActionListener(e -> {
             frmPhieuDoiCapNhat doitra1 = new frmPhieuDoiCapNhat();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -405,10 +406,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.repaint();
         });
 
-// Sự kiện tìm kiếm hóa đơn đổi
+        // Sự kiện tìm kiếm hóa đơn đổi
         itemTimKiemHoaDonDoi.addActionListener(e -> {
             frmSearchPhieuDoi doitra2 = new frmSearchPhieuDoi();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -421,10 +422,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.repaint();
         });
 
-// Sự kiện cập nhật hóa đơn trả
+        // Sự kiện cập nhật hóa đơn trả
         itemCapNhatHoaDonTra.addActionListener(e -> {
             frmPhieuTraCapNhat doitra4 = new frmPhieuTraCapNhat();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -437,10 +438,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.repaint();
         });
 
-// Sự kiện tìm kiếm hóa đơn trả
+        // Sự kiện tìm kiếm hóa đơn trả
         itemTimKiemHoaDonTra.addActionListener(e -> {
             frmSearchPhieuTra doitra5 = new frmSearchPhieuTra();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -452,10 +453,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-        //sự kiện cập nhật tài khoản
+        // sự kiện cập nhật tài khoản
         itemTK1.addActionListener(e -> {
             frmTaiKhoanCapNhat tk = new frmTaiKhoanCapNhat();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -467,10 +468,10 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-        //sự kiện tìm kiếm tài khoản
+        // sự kiện tìm kiếm tài khoản
         itemTK2.addActionListener(e -> {
             frmSearchTaiKhoan tk = new frmSearchTaiKhoan();
-            // Xóa tất cả các phần cũ 
+            // Xóa tất cả các phần cũ
             mainPanel.removeAll();
             // Đặt layout cho mainPanel
             mainPanel.setLayout(new java.awt.BorderLayout());
@@ -482,7 +483,7 @@ public class Main extends javax.swing.JFrame {
             mainPanel.revalidate();
             mainPanel.repaint();
         });
-// sựu kiện thống kê
+        // sựu kiện thống kê
         btnThongKe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 // Mở trang thống kê khi nhấn nút "Thống kê"
@@ -515,7 +516,8 @@ public class Main extends javax.swing.JFrame {
         this.tk = tk;
         initComponents();
         setLocationRelativeTo(null);
-        addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhieuNhap, btnTaiKhoan, btnThuoc, btnDangXuat));
+        addActionListeners(Arrays.asList(btnThongKe, btnHoaDon, btnKhachHang, btnNhaCungCap, btnNhanVien, btnPhieuNhap,
+                btnTaiKhoan, btnThuoc, btnDangXuat));
     }
 
     private void changeButtonColor(ActionEvent e) {
@@ -578,7 +580,8 @@ public class Main extends javax.swing.JFrame {
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         roundedPopupMenu1 = new Swing.RoundedPopupMenu();
@@ -663,21 +666,22 @@ public class Main extends javax.swing.JFrame {
         javax.swing.GroupLayout roundPanel5Layout = new javax.swing.GroupLayout(roundPanel5);
         roundPanel5.setLayout(roundPanel5Layout);
         roundPanel5Layout.setHorizontalGroup(
-            roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblRole, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(roundPanel5Layout.createSequentialGroup()
-                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+                roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblRole, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(roundPanel5Layout.createSequentialGroup()
+                                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 130,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)));
         roundPanel5Layout.setVerticalGroup(
-            roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel5Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(lblName)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblRole, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(29, 29, 29))
-        );
+                roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(roundPanel5Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(lblName)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblRole, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(29, 29, 29)));
 
         roundPanel2.add(roundPanel5, java.awt.BorderLayout.CENTER);
 
@@ -879,47 +883,47 @@ public class Main extends javax.swing.JFrame {
         javax.swing.GroupLayout roundPanel8Layout = new javax.swing.GroupLayout(roundPanel8);
         roundPanel8.setLayout(roundPanel8Layout);
         roundPanel8Layout.setHorizontalGroup(
-            roundPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-        );
+                roundPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE));
         roundPanel8Layout.setVerticalGroup(
-            roundPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
-        );
+                roundPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE));
 
         roundPanel3.add(roundPanel8, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
         roundPanel1.setLayout(roundPanel1Layout);
         roundPanel1Layout.setHorizontalGroup(
-            roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         roundPanel1Layout.setVerticalGroup(
-            roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel1Layout.createSequentialGroup()
-                .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(roundPanel1Layout.createSequentialGroup()
+                                .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 73,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap()));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap()));
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.LINE_START);
 
@@ -928,41 +932,39 @@ public class Main extends javax.swing.JFrame {
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 841, Short.MAX_VALUE)
-        );
+                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 841, Short.MAX_VALUE));
         mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 624, Short.MAX_VALUE)
-        );
+                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 624, Short.MAX_VALUE));
 
         jPanel1.add(mainPanel, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThuocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThuocActionPerformed
+    private void btnThuocActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnThuocActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnThuocActionPerformed
+    }// GEN-LAST:event_btnThuocActionPerformed
 
-    private void btnHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoaDonActionPerformed
+    private void btnHoaDonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHoaDonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnHoaDonActionPerformed
+    }// GEN-LAST:event_btnHoaDonActionPerformed
 
-    private void btnPhieuDoiTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPhieuDoiTraActionPerformed
+    private void btnPhieuDoiTraActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPhieuDoiTraActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnPhieuDoiTraActionPerformed
+    }// GEN-LAST:event_btnPhieuDoiTraActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDangXuat;

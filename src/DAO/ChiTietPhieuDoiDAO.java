@@ -34,6 +34,34 @@ public class ChiTietPhieuDoiDAO {
         return false;
     }
 
+    public static boolean capNhatSoLuongSauKhiDoi(List<ChiTietPhieuDoi> list) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            for (ChiTietPhieuDoi ct : list) {
+                if (!"NONE".equals(ct.getMaThuocCu())) {
+                    String sqlAdd = "UPDATE Thuoc SET soLuong = soLuong + ? WHERE maThuoc = ?";
+                    try (PreparedStatement ps = conn.prepareStatement(sqlAdd)) {
+                        ps.setInt(1, ct.getSoLuongCu());
+                        ps.setString(2, ct.getMaThuocCu());
+                        ps.executeUpdate();
+                    }
+                }
+
+                if (!"NONE".equals(ct.getMaThuocMoi())) {
+                    String sqlSub = "UPDATE Thuoc SET soLuong = soLuong - ? WHERE maThuoc = ?";
+                    try (PreparedStatement ps = conn.prepareStatement(sqlSub)) {
+                        ps.setInt(1, ct.getSoLuongMoi());
+                        ps.setString(2, ct.getMaThuocMoi());
+                        ps.executeUpdate();
+                    }
+                }
+            }
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Lỗi cập nhật số lượng sau khi đổi: " + e.getMessage());
+            return false;
+        }
+    }    
+
     public static List<ChiTietPhieuDoi> getChiTietByHoaDoiId(String hoaDonDoiId) {
         List<ChiTietPhieuDoi> chiTietList = new ArrayList<>();
         String sql = "SELECT * FROM CTPhieuDoi WHERE maPD = ?";

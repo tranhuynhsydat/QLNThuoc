@@ -67,7 +67,8 @@ public class frmHoaDonThem extends javax.swing.JPanel {
 
         public frmHoaDonThem() {
                 initComponents();
-                configureTable();
+                configureTable(); // cấu hình bảng jTable1
+                centerAlignJTable2(); // cấu hình căn giữa bảng jTable2
                 initEvent();
                 loadDataToTable();
                 addTableSelectionListener();
@@ -122,6 +123,15 @@ public class frmHoaDonThem extends javax.swing.JPanel {
 
                 // Ngăn không cho phép chọn nhiều dòng
                 jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        }
+
+        private void centerAlignJTable2() {
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+                for (int i = 0; i < jTable2.getColumnCount(); i++) {
+                        jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+                }
         }
 
         private void loadDataToTable() {
@@ -325,74 +335,6 @@ public class frmHoaDonThem extends javax.swing.JPanel {
                         });
                 }
         }
-
-        // Phương thức thêm thuốc vào chi tiết hóa đơn
-        private void themThuocVaoChiTietHoaDon(String maThuoc, String tenThuoc, int soLuong, double donGia) {
-                try {
-                        // Lấy model của bảng chi tiết hóa đơn
-                        DefaultTableModel chiTietModel = (DefaultTableModel) jTable2.getModel();
-
-                        // Kiểm tra thuốc đã có trong hóa đơn chưa
-                        boolean daTonTai = false;
-                        int rowIndex = -1;
-
-                        for (int i = 0; i < chiTietModel.getRowCount(); i++) {
-                                Object maThuocObj = chiTietModel.getValueAt(i, 1);
-                                if (maThuocObj != null && maThuoc.equals(maThuocObj.toString())) {
-                                        daTonTai = true;
-                                        rowIndex = i;
-                                        break;
-                                }
-                        }
-
-                        if (daTonTai) {
-                                // Nếu thuốc đã tồn tại, cập nhật số lượng
-                                Object soLuongObj = chiTietModel.getValueAt(rowIndex, 3);
-                                int soLuongCu = 0;
-
-                                if (soLuongObj != null) {
-                                        try {
-                                                soLuongCu = Integer.parseInt(soLuongObj.toString());
-                                        } catch (NumberFormatException e) {
-                                                System.err.println("Lỗi chuyển đổi số lượng: " + e.getMessage());
-                                        }
-                                }
-
-                                int soLuongMoi = soLuongCu + soLuong;
-
-                                // Cập nhật số lượng mới
-                                chiTietModel.setValueAt(soLuongMoi, rowIndex, 3);
-
-                                // Tính và cập nhật thành tiền mới
-                                double thanhTien = soLuongMoi * donGia;
-                                chiTietModel.setValueAt(thanhTien, rowIndex, 5);
-                        } else {
-                                // Nếu thuốc chưa có trong hóa đơn, thêm mới
-                                int stt = chiTietModel.getRowCount() + 1;
-                                double thanhTien = soLuong * donGia;
-
-                                // Thêm dòng mới vào bảng
-                                chiTietModel.addRow(new Object[] {
-                                                stt, // STT
-                                                maThuoc, // Mã thuốc
-                                                tenThuoc, // Tên thuốc
-                                                soLuong, // Số lượng
-                                                donGia, // Giá bán
-                                                thanhTien // Thành tiền
-                                });
-                        }
-
-                        // Cập nhật tổng tiền hóa đơn
-                        tinhTongTienHoaDon();
-
-                } catch (Exception e) {
-                        System.err.println("Lỗi khi thêm thuốc vào chi tiết hóa đơn: " + e.getMessage());
-                        e.printStackTrace();
-                        JOptionPane.showMessageDialog(this,
-                                        "Lỗi khi thêm thuốc vào chi tiết hóa đơn: " + e.getMessage(),
-                                        "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
-        }
         // Phương thức tính tổng tiền hóa đơn
 
         private void tinhTongTienHoaDon() {
@@ -419,28 +361,6 @@ public class frmHoaDonThem extends javax.swing.JPanel {
 
                 // Cập nhật tổng tiền vào txtTong
                 txtTong.setText(String.format("%.0f", tongTien)); // Hiển thị tổng tiền, định dạng theo số nguyên
-        }
-
-        // Phương thức tính tiền thừa
-        private void tinhTienThua() {
-                try {
-                        double tongTien = Double.parseDouble(txtTong.getText().replace(",", ""));
-                        double tienKhachDua = Double.parseDouble(txtTienKhachDua.getText().replace(",", ""));
-
-                        double tienThua = tienKhachDua - tongTien;
-
-                        // Hiển thị tiền thừa
-                        txtTienThua.setText(String.format("%.0f", tienThua));
-
-                        // Đổi màu nếu tiền thừa âm (khách đưa thiếu)
-                        // if (tienThua < 0) {
-                        // txtTienThua.setForeground(Color.RED);
-                        // } else {
-                        // txtTienThua.setForeground(Color.BLACK);
-                        // }
-                } catch (NumberFormatException e) {
-                        txtTienThua.setText("");
-                }
         }
 
         // Make sure to also remove any references to FlatSVGIcon in your button setup
@@ -1364,14 +1284,14 @@ public class frmHoaDonThem extends javax.swing.JPanel {
                         boolean isAdded = HoaDonDAO.them(hoaDon);
 
                         if (isAdded) {
-                            JOptionPane.showMessageDialog(this, "Thanh toán thành công", "Thông báo",
-                                    JOptionPane.INFORMATION_MESSAGE);
-                            resetForm();
+                                JOptionPane.showMessageDialog(this, "Thanh toán thành công", "Thông báo",
+                                                JOptionPane.INFORMATION_MESSAGE);
+                                resetForm();
 
-                            // Quay lại giao diện cập nhật hóa đơn
-                            frmHoaDonCapNhat formCapNhat = new frmHoaDonCapNhat();
-                            Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
-                            parentFrame.replaceMainPanel(formCapNhat);
+                                // Quay lại giao diện cập nhật hóa đơn
+                                frmHoaDonCapNhat formCapNhat = new frmHoaDonCapNhat();
+                                Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
+                                parentFrame.replaceMainPanel(formCapNhat);
                         } else {
                                 JOptionPane.showMessageDialog(this, "Không thể lưu hóa đơn", "Lỗi",
                                                 JOptionPane.ERROR_MESSAGE);
