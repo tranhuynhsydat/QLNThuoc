@@ -153,9 +153,6 @@
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="lblAvatar">
                           <Properties>
-                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                              <Connection code="new FlatSVGIcon(&quot;./icon/man.svg&quot;)" type="code"/>
-                            </Property>
                             <Property name="horizontalTextPosition" type="int" value="0"/>
                             <Property name="name" type="java.lang.String" value="" noResource="true"/>
                           </Properties>
@@ -283,6 +280,9 @@
                                   <Dimension value="[208, 42]"/>
                                 </Property>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDangXuatActionPerformed"/>
+                              </Events>
                               <AuxValues>
                                 <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="Main_jButton1"/>
                               </AuxValues>

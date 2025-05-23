@@ -221,4 +221,44 @@ public class TaiKhoanDAO {
         return taiKhoanList;
     }
 
+    public TaiKhoan dangNhap(String tenDangNhap, String matKhau) {
+        TaiKhoan tk = null;
+
+        String sql = "SELECT tk.maTK AS id, tk.UserName, tk.Password, "
+                + "nv.maNV AS MaNV, nv.HoTen, nv.ChucVu, nv.GioiTinh "
+                + // thêm GioiTinh
+                "FROM TaiKhoan tk "
+                + "JOIN NhanVien nv ON tk.maNV = nv.maNV "
+                + "WHERE tk.UserName = ? AND tk.Password = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, tenDangNhap);
+            ps.setString(2, matKhau);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                NhanVien nv = new NhanVien(
+                        rs.getString("MaNV"),
+                        rs.getString("HoTen"),
+                        rs.getString("ChucVu")
+                );
+                nv.setGioiTinh(rs.getString("GioiTinh"));
+                
+                tk = new TaiKhoan(
+                        rs.getString("id"),
+                        rs.getString("UserName"),
+                        rs.getString("Password"),
+                        nv
+                );
+            }
+
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tk;
+    }
 }
