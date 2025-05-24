@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -25,6 +26,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         loadDataToTable();
         configureTable();
     }
+
     private void configureTable() {
         // Ngăn không cho phép người dùng chỉnh sửa bảng
         jTable2.setDefaultEditor(Object.class, null); // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong
@@ -42,6 +44,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         // Ngăn không cho phép chọn nhiều dòng
         jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
     }
+
     private void loadDataToTable() {
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
@@ -80,11 +83,20 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
     }
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {
+        // Lấy dữ liệu từ các trường nhập liệu
         String maHD = txtMaHD.getText().trim();
         String tenKH = txtTenKH.getText().trim();
         String sdt = txtSdtKH.getText().trim();
-        Date ngayLap = dateNgayMua.getDate(); // có thể null
+        Date ngayLap = dateNgayMua.getDate(); // Có thể null
 
+        // Kiểm tra dữ liệu đầu vào
+        if (maHD.isEmpty() && tenKH.isEmpty() && sdt.isEmpty() && ngayLap == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập ít nhất một tiêu chí tìm kiếm!", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Thực hiện tìm kiếm bất đồng bộ
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
@@ -109,6 +121,14 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
                         model.addRow(rowData);
                     }
                     model.fireTableDataChanged();
+                    jTable2.revalidate();
+                    jTable2.repaint();
+
+                    // Thông báo nếu không tìm thấy kết quả
+                    if (danhSachHoaDon.isEmpty()) {
+                        JOptionPane.showMessageDialog(frmSearchHoaDon.this, "Không tìm thấy hóa đơn nào phù hợp!",
+                                "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 });
                 return null;
             }
@@ -134,7 +154,8 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel8 = new javax.swing.JPanel();
@@ -351,16 +372,15 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel34.setLayout(new java.awt.BorderLayout());
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "STT", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày mua", "Tổng hóa đơn"
-            }
-        ));
+                new Object[][] {
+                        { null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null }
+                },
+                new String[] {
+                        "STT", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày mua", "Tổng hóa đơn"
+                }));
         jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable2.setShowHorizontalLines(true);
         jScrollPane2.setViewportView(jTable2);

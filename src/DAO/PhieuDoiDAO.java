@@ -55,23 +55,31 @@ public class PhieuDoiDAO {
     }
 
     // Tìm kiếm phiếu đổi với điều kiện động, tránh SQL injection
-    public static List<PhieuDoi> searchHoaDonDoi(String maHoaDonDoi, String tenKhachHang, Date ngayMua) {
+    public static List<PhieuDoi> searchHoaDonDoi(String maPD, String maHD, String tenKH, String sdtKH, Date ngayTra) {
         List<PhieuDoi> danhSach = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
                 "SELECT pd.* FROM PhieuDoi pd LEFT JOIN KhachHang kh ON pd.maKH = kh.maKH WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
-        if (maHoaDonDoi != null && !maHoaDonDoi.trim().isEmpty()) {
+        if (maPD != null && !maPD.trim().isEmpty()) {
             sql.append(" AND pd.maPD LIKE ?");
-            params.add("%" + maHoaDonDoi.trim() + "%");
+            params.add("%" + maPD.trim() + "%");
         }
-        if (tenKhachHang != null && !tenKhachHang.trim().isEmpty()) {
-            sql.append(" AND kh.tenKhachHang LIKE ?");
-            params.add("%" + tenKhachHang.trim() + "%");
+        if (maHD != null && !maHD.trim().isEmpty()) {
+            sql.append(" AND pd.maHD LIKE ?");
+            params.add("%" + maHD.trim() + "%");
         }
-        if (ngayMua != null) {
-            sql.append(" AND DATE(pd.thoiGian) = ?");
-            params.add(new java.sql.Date(ngayMua.getTime()));
+        if (tenKH != null && !tenKH.trim().isEmpty()) {
+            sql.append(" AND kh.hoTen LIKE ?");
+            params.add("%" + tenKH.trim() + "%");
+        }
+        if (sdtKH != null && !sdtKH.trim().isEmpty()) {
+            sql.append(" AND kh.sdt LIKE ?");
+            params.add("%" + sdtKH.trim() + "%");
+        }
+        if (ngayTra != null) {
+            sql.append(" AND CONVERT(DATE, pd.thoiGian) = ?");
+            params.add(new java.sql.Date(ngayTra.getTime()));
         }
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -113,6 +121,7 @@ public class PhieuDoiDAO {
 
         return null;
     }
+
     public static boolean daTraHang(String maHD) {
         String sql = "SELECT COUNT(*) FROM PhieuDoi WHERE maHD = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -127,6 +136,7 @@ public class PhieuDoiDAO {
         }
         return false;
     }
+
     // Thêm phiếu đổi và chi tiết
     public static boolean them(PhieuDoi pd) {
         String sql = "INSERT INTO PhieuDoi (maPD, maNV, maKH, maHD, thoiGian, lyDo) VALUES (?, ?, ?, ?, ?, ?)";
@@ -269,6 +279,13 @@ public class PhieuDoiDAO {
         pd.setNhanVien(NhanVienDAO.getNhanVienByMaNV(idNhanVien));
         pd.setKhachHang(KhachHangDAO.getKhachHangByMaKH(idKhachHang));
 
+        // Lấy tổng tiền hóa đơn gốc và lưu vào 1 biến tạm hoặc mở rộng PhieuDoi
+        double tongTienHoaDon = HoaDonDAO.getTongTienHoaDon(maHD);
+        // Nếu muốn lưu, bạn có thể thêm biến mới vào PhieuDoi hoặc trả về cùng.
+        // Ví dụ, tạm thời dùng setter tạm (nên thêm biến trong entity)
+        pd.setTongTienHoaDon(tongTienHoaDon);
+
         return pd;
     }
+
 }
