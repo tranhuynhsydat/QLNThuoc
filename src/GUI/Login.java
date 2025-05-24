@@ -4,10 +4,13 @@
  */
 package GUI;
 
+import DAO.TaiKhoanDAO;
+import Entity.TaiKhoan;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -55,9 +58,9 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             initFlatlaf();
-//            new Login().setVisible(true);
+            new Login().setVisible(true);
 
-            new Main().setVisible(true);
+//            new Main().setVisible(true);
 
         });
     }
@@ -96,7 +99,6 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(1000, 630));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 102));
@@ -131,7 +133,7 @@ public class Login extends javax.swing.JFrame {
 
         txtUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtUser.setForeground(new java.awt.Color(51, 51, 51));
-        txtUser.setText("admin");
+        txtUser.setText("DiHao");
         txtUser.setSelectionColor(new java.awt.Color(0, 153, 153));
         txtUser.setSelectionEnd(7);
         txtUser.setSelectionStart(7);
@@ -139,12 +141,17 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("Mật Khẩu");
 
-        txtPassword.setText("123123");
+        txtPassword.setText("12345678");
 
         btnLog.setBackground(new java.awt.Color(0, 102, 102));
         btnLog.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnLog.setForeground(new java.awt.Color(255, 255, 255));
         btnLog.setText("ĐĂNG NHẬP");
+        btnLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -199,6 +206,22 @@ public class Login extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogActionPerformed
+String user = txtUser.getText().trim();
+        String pass = new String(txtPassword.getPassword()).trim();
+
+        TaiKhoanDAO dao = new TaiKhoanDAO();
+        TaiKhoan tk = dao.dangNhap(user, pass);
+
+        if (tk != null) {
+            new Main(tk).setVisible(true);  // truyền tk sang Main.java
+            this.dispose(); // đóng form đăng nhập
+        } else {
+            JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu!");
+        }
+
+    }//GEN-LAST:event_btnLogActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLog;

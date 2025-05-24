@@ -81,38 +81,104 @@ public class PhieuNhapDAO {
 
         return danhSachPhieuNhap;
     }
-    public static List<PhieuNhap> searchPhieuNhap(String maPhieuNhap, String tenNhaCungCap, Date ngayLap) {
-        List<PhieuNhap> danhSachPhieuNhap = new ArrayList<>();
-        String sql = "SELECT * FROM PhieuNhap WHERE 1=1";
-        if (maPhieuNhap != null && !maPhieuNhap.isEmpty()) {
-            sql += " AND maPN LIKE '%" + maPhieuNhap + "%'";
-        }
-        if (tenNhaCungCap != null && !tenNhaCungCap.isEmpty()) {
-            sql += " AND tenNhaCungCap LIKE '%" + tenNhaCungCap + "%'";
-        }
-        if (ngayLap != null) {
-            java.sql.Date sqlDate = new java.sql.Date(ngayLap.getTime());
-            sql += " AND ngayLap = '" + sqlDate + "'";
-        }
+    public static List<PhieuNhap> getAllPhieuNhap(int startIndex, int limit) {
+    List<PhieuNhap> danhSachPhieuNhap = new ArrayList<>();
+    String sql = "SELECT * FROM PhieuNhap ORDER BY thoiGian DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
 
+        ps.setInt(1, startIndex);
+        ps.setInt(2, limit);
+
+        try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                PhieuNhap phieuNhap = new PhieuNhap();
-                phieuNhap.setId(rs.getString("maPN"));
-                phieuNhap.setNgayLap(rs.getDate("ngayLap"));
-                phieuNhap.setIdNhanVien(rs.getString("maNV")); // Sử dụng idNhanVien
-                phieuNhap.setIdNhaCungCap(rs.getString("maNCC")); // Sử dụng idKhachHang
-                // Thêm các thông tin khác nếu cần
+                String maPN = rs.getString("maPN");
+                Date ngayLap = rs.getTimestamp("thoiGian");
+                String idNhanVien = rs.getString("maNV");
+                String idNhaCungCap = rs.getString("maNCC");
+
+                PhieuNhap phieuNhap = new PhieuNhap(maPN, ngayLap, idNhanVien, idNhaCungCap);
+
+                phieuNhap.setChiTietPhieuNhap(getChiTietPhieuNhapByMaPN(maPN));
+                phieuNhap.tinhTongTien();
+
+                phieuNhap.setNhanVien(NhanVienDAO.getNhanVienByMaNV(idNhanVien));
+                phieuNhap.setNhaCungCap(NhaCungCapDAO.getNhaCungCapByMaNCC(idNhaCungCap));
 
                 danhSachPhieuNhap.add(phieuNhap);
             }
-        } catch (SQLException e) {
-            System.out.println("Lỗi tìm kiếm phiếu nhập: " + e.getMessage());
         }
 
-        return danhSachPhieuNhap;
+    } catch (SQLException e) {
+        System.out.println("Lỗi lấy danh sách phiếu nhập: " + e.getMessage());
     }
+
+    return danhSachPhieuNhap;
+}
+
+    public static List<PhieuNhap> searchPhieuNhap(String maPN,String tenNV, String tenNCC, Date ngayNhap) {
+    List<PhieuNhap> danhSachPhieuNhap = new ArrayList<>();
+
+    StringBuilder sql = new StringBuilder(
+        "SELECT * FROM PhieuNhap pn " +
+        "JOIN NhanVien nv ON pn.maNV = nv.maNV " +
+        "JOIN NhaCungCap ncc ON pn.maNCC = ncc.maNCC " +
+        "WHERE 1=1"
+    );
+    if (tenNV != null && !tenNV.isEmpty()) {
+        sql.append(" AND maPN LIKE ?");
+    }
+    if (tenNV != null && !tenNV.isEmpty()) {
+        sql.append(" AND nv.hoTen LIKE ?");
+    }
+    if (tenNCC != null && !tenNCC.isEmpty()) {
+        sql.append(" AND ncc.tenNCC LIKE ?");
+    }
+    if (ngayNhap != null) {
+        sql.append(" AND CONVERT(DATE, pn.thoiGian) = ?");
+    }
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+        int paramIndex = 1;
+        if (tenNV != null && !tenNV.isEmpty()) {
+            ps.setString(paramIndex++, "%" + tenNV + "%");
+        }
+        if (tenNCC != null && !tenNCC.isEmpty()) {
+            ps.setString(paramIndex++, "%" + tenNCC + "%");
+        }
+        if (ngayNhap != null) {
+            ps.setDate(paramIndex++, new java.sql.Date(ngayNhap.getTime()));
+        }
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                PhieuNhap pn = new PhieuNhap();
+                pn.setId(rs.getString("maPN"));
+                pn.setNgayLap(rs.getTimestamp("thoiGian"));
+                pn.setIdNhanVien(rs.getString("maNV"));
+                pn.setIdNhaCungCap(rs.getString("maNCC"));
+
+                // Gọi thêm các DAO nếu cần hiển thị thông tin chi tiết
+                pn.setNhanVien(NhanVienDAO.getNhanVienByMaNV(pn.getIdNhanVien()));
+                pn.setNhaCungCap(NhaCungCapDAO.getNhaCungCapByMaNCC(pn.getIdNhaCungCap()));
+                pn.setChiTietPhieuNhap(ChiTietPhieuNhapDAO.getChiTietByPhieuNhapId(pn.getId()));
+                pn.tinhTongTien();
+
+                danhSachPhieuNhap.add(pn);
+            }
+        }
+
+    } catch (SQLException e) {
+        System.out.println("Lỗi tìm kiếm phiếu nhập: " + e.getMessage());
+    }
+
+    return danhSachPhieuNhap;
+}
+
+
     // Lấy hóa đơn theo mã
     public static PhieuNhap getPhieuNhapByMaPN(String maPN) {
         String sql = "SELECT * FROM PhieuNhap WHERE maPN = ?";

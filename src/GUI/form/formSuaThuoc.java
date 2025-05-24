@@ -632,67 +632,115 @@ public class formSuaThuoc extends javax.swing.JDialog {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         try {
-            // Kiểm tra xem các trường không để trống
-            if (txtTenThuoc.getText().isEmpty() || txtGiaNhap.getText().isEmpty() || txtGiaBan.getText().isEmpty() || txtSoLuong.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin thuốc.");
-                return;
-            }
-
-            // Lấy thông tin từ form
-            String tenThuoc = txtTenThuoc.getText();
-            String thanhPhan = txtThanhPhan.getText();
-            double giaNhap = Double.parseDouble(txtGiaNhap.getText());
-            double giaBan = Double.parseDouble(txtGiaBan.getText());
-            Date hsd = DateHSD.getDate();  // Lấy hạn sử dụng
-            String danhMuc = (String) cboDanhMuc.getSelectedItem();
-            String donViTinh = (String) cboDVT.getSelectedItem();
-            String xuatXu = (String) cboXX.getSelectedItem();
-            int soLuong = Integer.parseInt(txtSoLuong.getText());
-
-            // Kiểm tra giá trị nhập vào hợp lệ
-            if (giaNhap <= 0 || giaBan <= 0 || soLuong <= 0) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập giá trị hợp lệ cho giá nhập, giá bán và số lượng.");
-                return;
-            }
-
-            // Lấy mã danh mục, đơn vị tính và xuất xứ từ cơ sở dữ liệu
-            String maDanhMuc = DanhMucDAO.getMaDanhMucByTen(danhMuc);
-            String maDVT = DonViTinhDAO.getMaDonViTinhByTen(donViTinh);
-            String maXuatXu = XuatXuDAO.getMaXuatXuByTen(xuatXu);
-
-            // Nếu người dùng thay đổi ảnh, lấy ảnh dưới dạng byte[]
-//            byte[] imageData = null;  // Bạn có thể lấy ảnh nếu có thay đổi
-
-            // Tạo đối tượng Thuoc để cập nhật
-            Thuoc thuoc = new Thuoc(
-                    this.maThuoc, // Mã thuốc (được truyền từ constructor)
-                    tenThuoc,
-                    imageData, // Lưu ảnh dưới dạng byte[]
-                    thanhPhan,
-                    new DanhMuc(maDanhMuc, danhMuc),
-                    new DonViTinh(maDVT, donViTinh),
-                    new XuatXu(maXuatXu, xuatXu),
-                    soLuong,
-                    giaNhap,
-                    giaBan,
-                    hsd
-            );
-
-            // Cập nhật thông tin thuốc vào cơ sở dữ liệu
-            if (ThuocDAO.sua(thuoc)) {
-                JOptionPane.showMessageDialog(this, "Sửa thuốc thành công!");
-                dispose();  // Đóng form sửa thuốc
-            } else {
-                JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi sửa thuốc.");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá trị hợp lệ cho giá nhập, giá bán và số lượng.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi sửa thuốc. Vui lòng kiểm tra lại dữ liệu.");
+        // Kiểm tra xem các trường không để trống
+        if (txtTenThuoc.getText().isEmpty() || txtGiaNhap.getText().isEmpty() || txtGiaBan.getText().isEmpty() || txtSoLuong.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin thuốc.");
+            return;
         }
 
+        // Lấy thông tin từ form
+        String tenThuoc = txtTenThuoc.getText();
+        String thanhPhan = txtThanhPhan.getText();
+        String giaNhapStr = txtGiaNhap.getText();
+        String giaBanStr = txtGiaBan.getText();
+        String soLuongStr = txtSoLuong.getText();
+        Date hsd = DateHSD.getDate();  // Lấy hạn sử dụng
+        String danhMuc = (String) cboDanhMuc.getSelectedItem();
+        String donViTinh = (String) cboDVT.getSelectedItem();
+        String xuatXu = (String) cboXX.getSelectedItem();
 
+        // --- Bắt đầu chèn biểu thức chính quy và kiểm tra ---
+        // Kiểm tra tên thuốc (ví dụ: không rỗng, chỉ chứa chữ, số, dấu cách, dấu gạch nối)
+        if (tenThuoc.isEmpty() ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên thuốc!");
+            return;
+        }
+
+        // Kiểm tra thành phần (cho phép chữ, số, dấu phẩy, dấu chấm, khoảng trắng)
+        if (thanhPhan.isEmpty() ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập thành phần thuốc!");
+            return;
+        }
+
+        // Kiểm tra giá nhập và giá bán là số thực hợp lệ dương
+        if (giaNhapStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá nhập của thuốc!");
+            return;
+        }
+        if (giaBanStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá bán của thuốc!");
+            return;
+        }
+
+        // Chuyển chuỗi thành số sau khi kiểm tra
+        double giaNhap = Double.parseDouble(giaNhapStr);
+        double giaBan = Double.parseDouble(giaBanStr);
+        if (giaNhap >  giaBan ) {
+            JOptionPane.showMessageDialog(this, "Giá nhập phải thấp hơn giá bán!");
+            return;
+        }
+
+        if (giaNhap < 0 || giaBan < 0) {
+            JOptionPane.showMessageDialog(this, "Giá nhập và giá bán phải lớn hơn hoặc bằng 0!");
+            return;
+        }
+
+        // Kiểm tra số lượng là số nguyên dương
+        if (soLuongStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số lượng của thuốc!");
+            return;
+        }
+        int soLuong = Integer.parseInt(soLuongStr);
+        if (soLuong < 0) {
+            JOptionPane.showMessageDialog(this, "Số lượng phải lớn hơn hoặc bằng 0!");
+            return;
+        }
+
+        // Kiểm tra hạn sử dụng không được để trống và phải là ngày trong tương lai
+        if (hsd == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hạn sử dụng!");
+            return;
+        }
+        Date today = new Date();
+        if (!hsd.after(today)) {
+            JOptionPane.showMessageDialog(this, "Hạn sử dụng phải là ngày sau hôm nay!");
+            return;
+        }
+        // --- Kết thúc chèn biểu thức chính quy và kiểm tra ---
+
+        // Lấy mã danh mục, đơn vị tính và xuất xứ từ cơ sở dữ liệu
+        String maDanhMuc = DanhMucDAO.getMaDanhMucByTen(danhMuc);
+        String maDVT = DonViTinhDAO.getMaDonViTinhByTen(donViTinh);
+        String maXuatXu = XuatXuDAO.getMaXuatXuByTen(xuatXu);
+
+        // Tạo đối tượng Thuoc để cập nhật
+        Thuoc thuoc = new Thuoc(
+                this.maThuoc, // Mã thuốc (được truyền từ constructor)
+                tenThuoc,
+                imageData, // Lưu ảnh dưới dạng byte[]
+                thanhPhan,
+                new DanhMuc(maDanhMuc, danhMuc),
+                new DonViTinh(maDVT, donViTinh),
+                new XuatXu(maXuatXu, xuatXu),
+                soLuong,
+                giaNhap,
+                giaBan,
+                hsd
+        );
+
+        // Cập nhật thông tin thuốc vào cơ sở dữ liệu
+        if (ThuocDAO.sua(thuoc)) {
+            JOptionPane.showMessageDialog(this, "Sửa thuốc thành công!");
+            dispose();  // Đóng form sửa thuốc
+        } else {
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi sửa thuốc.");
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập giá trị hợp lệ cho giá nhập, giá bán và số lượng.");
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi sửa thuốc. Vui lòng kiểm tra lại dữ liệu.");
+    }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnThemAnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemAnhActionPerformed

@@ -244,6 +244,32 @@ public class formSuaNCC extends javax.swing.JDialog {
          String diaChi = txtDiaChiNCC.getText();
          String sdt = txtSDT.getText();
          // Tạo đối tượng nhân viên mới, không cần thay đổi maNV
+         
+         // Kiểm tra rỗng trước
+        if (tenNCC.isEmpty() ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên nhà cung cấp!");
+            return;
+        }
+        if (sdt.isEmpty() ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số điện thoại!");
+            return;
+        }
+        if (diaChi.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập địa chỉ nhà cung cấp!");
+            return;
+        }
+        // Kiểm tra số điện thoại có đúng 10 ký tự
+        if (sdt.length() != 10) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải có đúng 10 ký tự!");
+            return;
+        }
+
+        // Có thể thêm kiểm tra chỉ chứa số
+        if (!sdt.matches("\\d{10}")) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải gồm 10 chữ số!");
+            return;
+        }
+  // Tạo mã KH-001, KH-002...
          NhaCungCap ncc = new NhaCungCap(maNCC, tenNCC, diaChi, sdt);
  
          // Gọi hàm sửa nhân viên trong DAO

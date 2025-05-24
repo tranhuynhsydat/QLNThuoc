@@ -1215,15 +1215,22 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
                 return;
             }
 
-            // Lưu hóa đơn vào cơ sở dữ liệu
-            boolean isAdded = PhieuNhapDAO.them(phieuNhap);
+            // Lưu Phiếu nhập vào cơ sở dữ liệu
+                        boolean isAdded =PhieuNhapDAO.them(phieuNhap);
 
-            if (isAdded) {
-                JOptionPane.showMessageDialog(this, "Thanh toán thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                resetForm();
-            } else {
-                JOptionPane.showMessageDialog(this, "Không thể lưu phiếu nhập", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
+                        if (isAdded) {
+                                JOptionPane.showMessageDialog(this, "Thanh toán thành công", "Thông báo",
+                                                JOptionPane.INFORMATION_MESSAGE);
+                                resetForm();
+
+                                // Quay lại giao diện cập nhật hóa đơn
+                                frmPhieuNhapCapNhat formCapNhat = new frmPhieuNhapCapNhat();
+                                Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
+                                parentFrame.replaceMainPanel(formCapNhat);
+                        } else {
+                                JOptionPane.showMessageDialog(this, "Không thể lưu hóa đơn", "Lỗi",
+                                                JOptionPane.ERROR_MESSAGE);
+                        }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi khi thanh toán: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -1250,23 +1257,25 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnSearchNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchNVActionPerformed
-        String sdt = txtNV.getText().trim();
+        String input = txtNV.getText().trim();
 
-        if (!sdt.isEmpty()) {
-            NhanVien nv = NhanVienDAO.getNhanVienBySdt(sdt);
+        if (!input.isEmpty()) {
+    // Tìm nhân viên theo mã, tên hoặc số điện thoại
+            NhanVien nv = NhanVienDAO.getNhanVienByHoTen(input);
 
-            if (nv != null) {
-                // Hiển thị tên và chức vụ nhân viên
-                txtNV.setText(nv.getHoTen());
+        if (nv != null) {
+        // Hiển thị tên nhân viên
+            txtNV.setText(nv.getHoTen());
 
-                // Lưu maNV vào biến tạm để sử dụng sau khi thanh toán
-                maNV = nv.getId();
+        // Lưu mã nhân viên để sử dụng sau khi thanh toán
+        maNV = nv.getId();
             } else {
                 JOptionPane.showMessageDialog(this, "Không tìm thấy nhân viên!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập số điện thoại nhân viên!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin nhân viên!", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
+
     }//GEN-LAST:event_btnSearchNVActionPerformed
 
     private void txtNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNVActionPerformed

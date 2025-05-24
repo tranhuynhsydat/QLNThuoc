@@ -344,13 +344,65 @@ public class formThemNV extends javax.swing.JDialog {
     }//GEN-LAST:event_txtSDTActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        String hoTen = txtHoTen.getText();
-        String sdt = txtSDT.getText();
+        String hoTen = txtHoTen.getText().trim();
+        String sdt = txtSDT.getText().trim();
         Date dtSinh = (Date) jDateChooser1.getDate(); // Lấy ngày sinh
         Date ngayVaoLam = (Date) jDateChooser2.getDate(); // Lấy ngày vào làm
-        String cccd = txtCCCD.getText();
+        String cccd = txtCCCD.getText().trim();
         String chucVu = rbtnQuanLy.isSelected() ? "Quản lý" : "Nhân viên";
         String gioiTinh = rbtnNam.isSelected() ? "Nam" : "Nữ";
+
+        // Kiểm tra regex
+        if (hoTen.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập họ tên!");
+        return;
+        }
+        if (sdt.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số điện thoại!");
+            return;
+        }
+        if (cccd.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập CCCD!");
+            return;
+        }
+        if (cccd.length() != 12) {
+            JOptionPane.showMessageDialog(this, "CCCC phải có đúng 12 ký tự!");
+            return;
+        }
+        if (!cccd.matches("\\d{12}")) {
+            JOptionPane.showMessageDialog(this, "CCCC phải gồm 12 chữ số!");
+            return;
+        }
+        if (dtSinh == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày sinh!");
+            return;
+        }
+
+        if (ngayVaoLam == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày vào làm!");
+            return;
+        }
+
+        Date today = new Date();
+        if (!dtSinh.before(today)) {
+            JOptionPane.showMessageDialog(this, "Ngày sinh phải là ngày trước hôm nay!");
+            return;
+        }
+
+        if (!ngayVaoLam.after(dtSinh)) {
+            JOptionPane.showMessageDialog(this, "Ngày vào làm phải sau ngày sinh!");
+            return;
+        }
+        if (sdt.length() != 10) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải có đúng 10 ký tự!");
+            return;
+        }
+
+        // Có thể thêm kiểm tra chỉ chứa số
+        if (!sdt.matches("\\d{10}")) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải gồm 10 chữ số!");
+            return;
+        }
         String maNV = NhanVienDAO.TaoMaNhanVien();
 
         NhanVien nv = new NhanVien(maNV, hoTen, sdt, gioiTinh, dtSinh, ngayVaoLam, cccd, chucVu);
@@ -365,6 +417,7 @@ public class formThemNV extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(this, "Thêm nhân viên thất bại!");
         }
+
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed

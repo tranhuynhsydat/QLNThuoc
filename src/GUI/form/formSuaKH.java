@@ -100,7 +100,7 @@ public class formSuaKH extends javax.swing.JDialog {
         jPanel21 = new javax.swing.JPanel();
         bottomRoundedPanel2 = new Swing.BottomRoundedPanel();
         btnHuy = new javax.swing.JButton();
-        btnThem = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 0, 0));
@@ -277,17 +277,17 @@ public class formSuaKH extends javax.swing.JDialog {
         });
         bottomRoundedPanel2.add(btnHuy);
 
-        btnThem.setBackground(new java.awt.Color(15, 204, 102));
-        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem.setText("Sửa");
-        btnThem.setPreferredSize(new java.awt.Dimension(90, 35));
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
+        btnSua.setBackground(new java.awt.Color(15, 204, 102));
+        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSua.setForeground(new java.awt.Color(255, 255, 255));
+        btnSua.setText("Sửa");
+        btnSua.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
+                btnSuaActionPerformed(evt);
             }
         });
-        bottomRoundedPanel2.add(btnThem);
+        bottomRoundedPanel2.add(btnSua);
 
         bottomRoundedPanel1.add(bottomRoundedPanel2, java.awt.BorderLayout.PAGE_END);
 
@@ -319,12 +319,48 @@ public class formSuaKH extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_rbtnNamActionPerformed
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        String hoTen = txtHoTen.getText();
-        String gioiTinh = rbtnNam.isSelected() ? "Nam" : "Nữ";  // Lấy giới tính từ JRadioButton
-        String sdt = txtSDT.getText();
-        int tuoi = Integer.parseInt(txtTuoi.getText()); // ✅ Đúng
+        String hoTen = txtHoTen.getText().trim();
+        String sdt = txtSDT.getText().trim();
+        String gioiTinh = rbtnNam.isSelected() ? "Nam" : "Nữ";
+        String tuoiStr = txtTuoi.getText().trim();
+        
+        // Kiểm tra rỗng trước
+        if (hoTen.isEmpty() ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên khách hàng!");
+            return;
+        }
+        if (sdt.isEmpty() ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số điện thoại!");
+            return;
+        }
+        if (tuoiStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tuổi!");
+            return;
+        }
+        // Kiểm tra số điện thoại có đúng 10 ký tự
+        if (sdt.length() != 10) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải có đúng 10 ký tự!");
+            return;
+        }
+
+        // Có thể thêm kiểm tra chỉ chứa số
+        if (!sdt.matches("\\d{10}")) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải gồm 10 chữ số!");
+            return;
+        }
+
+        // Kiểm tra tuổi hợp lệ
+        int tuoi;
+        try {
+            tuoi = Integer.parseInt(tuoiStr);
+            if (tuoi < 18) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Tuổi không hợp lệ!");
+            return;
+        }
+        
         // Tạo đối tượng nhân viên mới, không cần thay đổi maNV
         KhachHang kh = new KhachHang(maKH,hoTen, gioiTinh, sdt, tuoi);
 
@@ -338,7 +374,7 @@ public class formSuaKH extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(this, "Sửa thông tin khách hàng thất bại!");
         }
-    }//GEN-LAST:event_btnThemActionPerformed
+    }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
@@ -392,7 +428,7 @@ public class formSuaKH extends javax.swing.JDialog {
     private Swing.BottomRoundedPanel bottomRoundedPanel1;
     private Swing.BottomRoundedPanel bottomRoundedPanel2;
     private javax.swing.JButton btnHuy;
-    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnSua;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

@@ -392,7 +392,59 @@ public class formSuaNV extends javax.swing.JDialog {
         String cccd = txtCCCD.getText();
         String chucVu = rbtnQuanLy.isSelected() ? "Quản lý" : "Nhân viên";  // Lấy chức vụ từ JRadioButton
         String gioiTinh = rbtnNam.isSelected() ? "Nam" : "Nữ";  // Lấy giới tính từ JRadioButton
+        
+        // Kiểm tra regex
+        if (hoTen.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập họ tên!");
+        return;
+        }
+        if (sdt.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số điện thoại!");
+            return;
+        }
+        if (cccd.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập CCCD!");
+            return;
+        }
+        if (cccd.length() != 12) {
+            JOptionPane.showMessageDialog(this, "CCCC phải có đúng 12 ký tự!");
+            return;
+        }
+        if (!cccd.matches("\\d{12}")) {
+            JOptionPane.showMessageDialog(this, "CCCC phải gồm 12 chữ số!");
+            return;
+        }
+        if (dtSinh == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày sinh!");
+            return;
+        }
 
+        if (ngayVaoLam == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày vào làm!");
+            return;
+        }
+
+        Date today = new Date();
+        if (!dtSinh.before(today)) {
+            JOptionPane.showMessageDialog(this, "Ngày sinh phải là ngày trước hôm nay!");
+            return;
+        }
+
+        if (!ngayVaoLam.after(dtSinh)) {
+            JOptionPane.showMessageDialog(this, "Ngày vào làm phải sau ngày sinh!");
+            return;
+        }
+        if (sdt.length() != 10) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải có đúng 10 ký tự!");
+            return;
+        }
+
+        // Có thể thêm kiểm tra chỉ chứa số
+        if (!sdt.matches("\\d{10}")) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải gồm 10 chữ số!");
+            return;
+        }
+        
         // Tạo đối tượng nhân viên mới, không cần thay đổi maNV
         NhanVien nv = new NhanVien(maNV, hoTen, sdt, gioiTinh, dtSinh, ngayVaoLam, cccd, chucVu);
 
