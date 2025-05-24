@@ -1361,9 +1361,9 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
                         // 4. Kiểm tra hóa đơn đã đổi chưa
                         String maHD = txtMaHD.getText().trim();
                         if (PhieuDoiDAO.daTraHang(maHD)) {
-                            JOptionPane.showMessageDialog(this, "Hóa đơn này đã được đổi trước đó!",
-                                    "Thông báo", JOptionPane.WARNING_MESSAGE);
-                            return;
+                                JOptionPane.showMessageDialog(this, "Hóa đơn này đã được đổi trước đó!",
+                                                "Thông báo", JOptionPane.WARNING_MESSAGE);
+                                return;
                         }
                         // 5. Chuẩn bị dữ liệu phiếu đổi
                         String maPD = PhieuDoiDAO.taoMaHoaDonDoi();
@@ -1842,7 +1842,7 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
                                 txtChenhLech.setText("Hoàn lại khách: "
                                                 + String.format("%,.0f VND", Math.abs(chenhLech)));
                         } else {
-                                txtChenhLech.setText("Không có chênh lệch");
+                                txtChenhLech.setText("Không chênh lệch");
                         }
                 } catch (NumberFormatException e) {
                         // JOptionPane.showMessageDialog(this, "Lỗi định dạng số tiền!", "Lỗi",

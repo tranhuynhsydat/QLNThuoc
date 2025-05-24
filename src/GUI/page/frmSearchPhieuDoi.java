@@ -4,17 +4,120 @@
  */
 package GUI.page;
 
+import DAO.PhieuDoiDAO;
+import Entity.KhachHang;
+import Entity.NhanVien;
+import Entity.PhieuDoi;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Admin
  */
 public class frmSearchPhieuDoi extends javax.swing.JPanel {
+    private int startIndex = 0;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private final DecimalFormat currencyFormat = new DecimalFormat("#,### VND");
 
     /**
      * Creates new form frmSearchPhieuDoiTra
      */
     public frmSearchPhieuDoi() {
         initComponents();
+        configureTable();
+        loadDataToTable();
+    }
+
+    private void configureTable() {
+        // Ngăn không cho phép người dùng chỉnh sửa bảng
+        jTable2.setDefaultEditor(Object.class, null); // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong
+                                                      // bảng.
+
+        // Căn giữa cho tất cả các cell trong bảng
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Căn giữa cho từng cột
+        for (int i = 0; i < jTable2.getColumnCount(); i++) {
+            jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        // Ngăn không cho phép chọn nhiều dòng
+        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    private void loadDataToTable() {
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                List<PhieuDoi> danhSachHoaDonDoi = PhieuDoiDAO.getAllHoaDonDoi(); // Lấy tất cả phiếu đổi
+                System.out.println("Dữ liệu nhận được từ DB: "
+                        + (danhSachHoaDonDoi != null ? danhSachHoaDonDoi.size() : 0) + " dòng");
+
+                if (danhSachHoaDonDoi == null || danhSachHoaDonDoi.isEmpty()) {
+                    System.out.println("Không có dữ liệu để tải.");
+                    return null;
+                }
+
+                SwingUtilities.invokeLater(() -> {
+                    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                    model.setRowCount(0); // Xóa dữ liệu cũ trong bảng
+
+                    int stt = 1;
+                    for (PhieuDoi pd : danhSachHoaDonDoi) {
+                        String maPD = pd.getId();
+                        String maHD = pd.getMaHD() != null ? pd.getMaHD() : "N/A";
+                        KhachHang kh = pd.getKhachHang();
+                        String tenKH = (kh != null) ? kh.getHoTen() : "N/A";
+                        String sdtKH = (kh != null) ? kh.getSdt() : "N/A";
+                        NhanVien nv = pd.getNhanVien();
+                        String tenNV = (nv != null) ? nv.getHoTen() : "N/A";
+                        String ngayLapStr = (pd.getNgayLap() != null) ? dateFormat.format(pd.getNgayLap()) : "N/A";
+                        String lyDo = pd.getLyDo() != null ? pd.getLyDo() : "N/A";
+                        double tongTienHoaDon = pd.getTongTienHoaDon();
+                        double tongTienPhieuDoi = pd.getTongTien();
+                        double chenhLech = tongTienPhieuDoi - tongTienHoaDon;
+
+                        Object[] rowData = {
+                                stt++,
+                                maPD,
+                                maHD,
+                                tenKH,
+                                sdtKH,
+                                tenNV,
+                                ngayLapStr,
+                                lyDo,
+                                String.format("%,.0f VND", tongTienHoaDon),
+                                String.format("%,.0f VND", tongTienPhieuDoi),
+                                (chenhLech > 0) ? "Khách trả thêm: " + String.format("%,.0f VND", chenhLech)
+                                        : (chenhLech < 0)
+                                                ? "Hoàn lại khách: " + String.format("%,.0f VND", Math.abs(chenhLech))
+                                                : "Không chênh lệch"
+                        };
+                        model.addRow(rowData);
+                    }
+
+                    model.fireTableDataChanged();
+                    jTable2.revalidate();
+                    jTable2.repaint();
+                });
+
+                return null;
+            }
+        };
+        worker.execute();
     }
 
     /**
@@ -23,7 +126,9 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel13 = new javax.swing.JPanel();
@@ -116,16 +221,16 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         jPanel34.setLayout(new java.awt.BorderLayout());
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "STT", "Mã phiếu đổi", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày trả", "Lý do", "Tổng hóa đơn cũ", "Tổng phiếu đổi"
-            }
-        ));
+                new Object[][] {
+                        { null, null, null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null, null, null }
+                },
+                new String[] {
+                        "STT", "Mã phiếu đổi", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày trả",
+                        "Lý do", "Tổng hóa đơn cũ", "Tổng phiếu đổi", "Chênh lệch"
+                }));
         jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable2.setShowHorizontalLines(true);
         jScrollPane2.setViewportView(jTable2);
@@ -321,10 +426,82 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         add(jPanel8, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnTimKiemActionPerformed
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {
+        // Lấy dữ liệu từ các trường nhập liệu
+        String maPD = txtMaPD.getText().trim();
+        String maHD = txtMaHD.getText().trim();
+        String tenKH = txtTenKH.getText().trim();
+        String sdtKH = txtSdtKH.getText().trim();
+        Date ngayTra = dateNgayTra.getDate();
 
+        // // Kiểm tra dữ liệu đầu vào
+        // if (maPD.isEmpty() && maHD.isEmpty() && tenKH.isEmpty() && sdtKH.isEmpty() &&
+        // ngayTra == null) {
+        // JOptionPane.showMessageDialog(this, "Vui lòng nhập ít nhất một tiêu chí tìm
+        // kiếm!", "Thông báo",
+        // JOptionPane.WARNING_MESSAGE);
+        // return;
+        // }
+
+        // Thực hiện tìm kiếm bất đồng bộ
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                List<PhieuDoi> danhSachPhieuDoi = PhieuDoiDAO.searchHoaDonDoi(
+                        maPD, maHD, tenKH, sdtKH, ngayTra);
+
+                SwingUtilities.invokeLater(() -> {
+                    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                    model.setRowCount(0); // Xóa dữ liệu cũ
+
+                    int stt = 1;
+                    for (PhieuDoi pd : danhSachPhieuDoi) {
+                        String maPDResult = pd.getId();
+                        String maHDResult = pd.getMaHD() != null ? pd.getMaHD() : "N/A";
+                        String tenKhachHang = pd.getKhachHang() != null ? pd.getKhachHang().getHoTen() : "N/A";
+                        String sdtKhachHang = pd.getKhachHang() != null ? pd.getKhachHang().getSdt() : "N/A";
+                        String tenNhanVien = pd.getNhanVien() != null ? pd.getNhanVien().getHoTen() : "N/A";
+                        String ngayLapStr = pd.getNgayLap() != null ? dateFormat.format(pd.getNgayLap()) : "N/A";
+                        String lyDo = pd.getLyDo() != null ? pd.getLyDo() : "N/A";
+                        double tongTienHoaDon = pd.getTongTienHoaDon();
+                        double tongTienPhieuDoi = pd.getTongTien();
+                        double chenhLech = tongTienPhieuDoi - tongTienHoaDon;
+
+                        Object[] rowData = {
+                                stt++,
+                                maPDResult,
+                                maHDResult,
+                                tenKhachHang,
+                                sdtKhachHang,
+                                tenNhanVien,
+                                ngayLapStr,
+                                lyDo,
+                                currencyFormat.format(tongTienHoaDon), // Đồng nhất định dạng với PhieuTra
+                                currencyFormat.format(tongTienPhieuDoi),
+                                (chenhLech > 0) ? "Khách trả thêm: " + currencyFormat.format(chenhLech)
+                                        : (chenhLech < 0)
+                                                ? "Hoàn lại khách: " + currencyFormat.format(Math.abs(chenhLech))
+                                                : "Không chênh lệch"
+                        };
+                        model.addRow(rowData);
+                    }
+
+                    model.fireTableDataChanged();
+                    jTable2.revalidate();
+                    jTable2.repaint();
+
+                    // Thông báo nếu không tìm thấy kết quả
+                    if (danhSachPhieuDoi.isEmpty()) {
+                        JOptionPane.showMessageDialog(frmSearchPhieuDoi.this, "Không tìm thấy phiếu đổi nào phù hợp!",
+                                "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                });
+
+                return null;
+            }
+        };
+        worker.execute();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChiTiet;

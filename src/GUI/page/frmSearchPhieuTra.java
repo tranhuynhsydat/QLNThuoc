@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -89,12 +90,23 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
     }
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {
+        // Lấy dữ liệu từ các trường nhập liệu
         String maPT = txtMaPT.getText().trim();
         String maHD = txtMaHD.getText().trim();
         String tenKH = txtTenKH.getText().trim();
         String sdt = txtSdtKH.getText().trim();
         Date ngayTra = dateNgayTra.getDate();
 
+        // // Kiểm tra dữ liệu đầu vào
+        // if (maPT.isEmpty() && maHD.isEmpty() && tenKH.isEmpty() && sdt.isEmpty() &&
+        // ngayTra == null) {
+        // JOptionPane.showMessageDialog(this, "Vui lòng nhập ít nhất một tiêu chí tìm
+        // kiếm!", "Thông báo",
+        // JOptionPane.WARNING_MESSAGE);
+        // return;
+        // }
+
+        // Thực hiện tìm kiếm bất đồng bộ
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
@@ -123,6 +135,14 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
                     }
 
                     model.fireTableDataChanged();
+                    jTable2.revalidate();
+                    jTable2.repaint();
+
+                    // Thông báo nếu không tìm thấy kết quả
+                    if (danhSachPhieuTra.isEmpty()) {
+                        JOptionPane.showMessageDialog(frmSearchPhieuTra.this, "Không tìm thấy phiếu trả nào phù hợp!",
+                                "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 });
 
                 return null;
@@ -151,7 +171,8 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel13 = new javax.swing.JPanel();
@@ -244,16 +265,16 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
         jPanel34.setLayout(new java.awt.BorderLayout());
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "STT", "Mã phiếu trả", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày trả", "Lý do", "Tổng phiếu trả"
-            }
-        ));
+                new Object[][] {
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null }
+                },
+                new String[] {
+                        "STT", "Mã phiếu trả", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày trả",
+                        "Lý do", "Tổng phiếu trả"
+                }));
         jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable2.setShowHorizontalLines(true);
         jScrollPane2.setViewportView(jTable2);

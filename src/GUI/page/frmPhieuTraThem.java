@@ -23,8 +23,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 //import utils.Formatter;
@@ -44,6 +46,7 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
 
     public frmPhieuTraThem() {
         initComponents();
+        centerAlignJTable2();
                 // Tạo và hiển thị mã hóa đơn mới
                 String maPhieuTra =PhieuTraDAO.taoMaPhieuTra(); // Lấy mã hóa đơn mới
                 txtMaPhieuTra.setText(maPhieuTra); // Gán vào ô txtMaHoaDon
@@ -58,7 +61,14 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"); // Định dạng thời gian
         return now.format(formatter); // Trả về thời gian đã định dạng
     }
+       private void centerAlignJTable2() {
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
+                for (int i = 0; i < jTable2.getColumnCount(); i++) {
+                        jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+                }
+        }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -530,16 +540,19 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
 
-        for (ChiTietHoaDon chiTiet : danhSachChiTiet) {
-            model.addRow(new Object[] {
-                    maHD,
-                    chiTiet.getIdThuoc(),
-                    chiTiet.getThuoc(),
-                    chiTiet.getSoLuong(),
-                    chiTiet.getDonGia(),
-                    chiTiet.getThanhTien()
-            });
-        }
+                // Đổ dữ liệu mới vào bảng với STT
+                int stt = 1;
+                for (ChiTietHoaDon chiTiet : danhSachChiTiet) {
+                        model.addRow(new Object[] {
+                                        stt++, // STT
+                                        chiTiet.getIdThuoc(),
+                                        chiTiet.getThuoc(),
+                                        chiTiet.getSoLuong(),
+                                        chiTiet.getDonGia(),
+                                        chiTiet.getThanhTien()
+                        });
+                }
+
 
         txtTong.setText(String.format("%.0f", tongTienHoaDon));
         JOptionPane.showMessageDialog(this, "Đã tải thông tin hóa đơn thành công!");
