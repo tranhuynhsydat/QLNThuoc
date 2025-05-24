@@ -135,8 +135,6 @@ public class Login extends javax.swing.JFrame {
         txtUser.setForeground(new java.awt.Color(51, 51, 51));
         txtUser.setText("DiHao");
         txtUser.setSelectionColor(new java.awt.Color(0, 153, 153));
-        txtUser.setSelectionEnd(7);
-        txtUser.setSelectionStart(7);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("Mật Khẩu");

@@ -5,23 +5,29 @@ import GUI.page.frmHoaDonThem;
 import DAO.HoaDonDAO;
 import DAO.KhachHangDAO;
 import DAO.NhanVienDAO;
+import DAO.ThuocDAO;
 import Entity.HoaDon;
 import Entity.KhachHang;
 import Entity.NhanVien;
+import Entity.Thuoc;
 import GUI.Main;
 // Bỏ comment dòng import dưới đây nếu class này tồn tại trong dự án của bạn
 // import GUI.frmHoaDon;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -75,45 +81,43 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
     }
 
     private void loadDataToTable() {
+        // Tạo một worker để tải dữ liệu trong nền
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                List<HoaDon> danhSachHoaDon = HoaDonDAO.getAllHoaDon(); // Lấy tất cả hóa đơn
-                System.out.println("Dữ liệu nhận được từ DB: " + danhSachHoaDon.size() + " dòng");
-                if (danhSachHoaDon == null || danhSachHoaDon.isEmpty()) {
-                    System.out.println("Không có dữ liệu để tải.");
-                } else {
+                // Lấy danh sách thuốc từ cơ sở dữ liệu
+                List<HoaDon> HoaDonList = HoaDonDAO.getHoaDonBatch(startIndex, 10);  // startIndex là chỉ mục bắt đầu
+                if (HoaDonList != null && !HoaDonList.isEmpty()) {
                     SwingUtilities.invokeLater(() -> {
                         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                        model.setRowCount(0); // Xóa dữ liệu cũ trong bảng
-
-                        int stt = 1;
-                        // Thêm dữ liệu mới vào bảng
-                        for (HoaDon hd : danhSachHoaDon) {
-                            KhachHang kh = hd.getKhachHang();
-                            NhanVien nv = hd.getNhanVien();
-
-                            Object[] rowData = {
-                                    stt++,
-                                    hd.getId(),
-                                    kh != null ? kh.getHoTen() : "N/A", // Sử dụng getHoTen() từ KhachHang
-                                    kh != null ? kh.getSdt() : "N/A", // Sử dụng getSdt() từ KhachHang
-                                    nv != null ? nv.getHoTen() : "N/A",
-                                    dateFormat.format(hd.getNgayLap()),
-                                    currencyFormat.format(hd.getTongTien())
-                            };
-                            model.addRow(rowData); // Thêm dòng vào bảng
+                        if (startIndex == 0) {
+                            model.setRowCount(0);  // Xóa tất cả dữ liệu hiện tại trong bảng khi tải lại từ đầu
                         }
 
-                        model.fireTableDataChanged(); // Đảm bảo bảng được làm mới
-                        jTable1.revalidate(); // Cập nhật lại bảng
-                        jTable1.repaint(); // Vẽ lại bảng
+                        // Thêm dữ liệu mới vào bảng
+                        for (HoaDon hoaDon : HoaDonList) {
+                            Object[] rowData = {
+                                hoaDon.getId(),
+                                hoaDon.getKhachHang().getHoTen(),
+                                hoaDon.getKhachHang().getSdt(),
+                                hoaDon.getNhanVien().getHoTen(),
+                                hoaDon.getNgayLap(),
+                                hoaDon.getTongTien(),
+                               
+                            };
+                            model.addRow(rowData);  // Thêm dòng vào bảng
+                        }
+
+                        // Sắp xếp lại bảng sau khi dữ liệu được thêm vào
+                        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel) jTable1.getModel());
+                        jTable1.setRowSorter(sorter);
+                        sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));  // Sắp xếp theo cột đầu tiên (Mã thuốc)
                     });
                 }
                 return null;
             }
         };
-        worker.execute();
+        worker.execute();  // Chạy worker
     }
 
     /**
@@ -162,13 +166,10 @@ public class frmHoaDonCapNhat extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "STT", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày mua", "Tổng hóa đơn"
+                "Mã hóa đơn", "Tên khách hàng", "SĐT khách", "Tên nhân viên", "Ngày mua", "Tổng hóa đơn"
             }
         ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
