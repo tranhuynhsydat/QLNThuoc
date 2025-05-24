@@ -12,6 +12,7 @@ public class PhieuDoi {
     private String maHD; // Mã hóa đơn gốc
     private String lyDo; // Lý do đổi
     private double tongTien;
+    private double tongTienHoaDon;
 
     private NhanVien nhanVien;
     private KhachHang khachHang;
@@ -82,6 +83,10 @@ public class PhieuDoi {
         return chiTietHoaDonDoi;
     }
 
+    public double getTongTienHoaDon() {
+        return tongTienHoaDon;
+    }
+
     // Setters
     public void setId(String id) {
         this.id = id;
@@ -121,6 +126,10 @@ public class PhieuDoi {
 
     public void setChiTietHoaDonDoi(List<ChiTietPhieuDoi> chiTietHoaDonDoi) {
         this.chiTietHoaDonDoi = chiTietHoaDonDoi;
+    }
+
+    public void setTongTienHoaDon(double tongTienHoaDon) {
+        this.tongTienHoaDon = tongTienHoaDon;
     }
 
     // Thêm chi tiết hoá đơn
