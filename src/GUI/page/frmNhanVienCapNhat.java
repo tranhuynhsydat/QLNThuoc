@@ -9,16 +9,20 @@ import Entity.NhanVien;
 import GUI.form.formThemNCC;
 import GUI.form.formSuaNV;
 import GUI.form.formThemNV;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -26,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class frmNhanVienCapNhat extends javax.swing.JPanel {
 
-    private int startIndex =0 ;
+    private int startIndex = 0;
     private boolean loading = false;
 
     /**
@@ -35,7 +39,6 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
     public frmNhanVienCapNhat() {
         initComponents();
         configureTable();
-        startIndex = 0;
         loadDataToTable();
         // Thêm sự kiện cuộn bảng
         jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
@@ -45,12 +48,13 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
             int visible = vertical.getVisibleAmount();
 
             if (current + visible >= max) {
+                startIndex += 13;
                 loadDataToTable();  // Tải thêm khi cuộn đến cuối
             }
         });
 
-
     }
+
     private void configureTable() {
         // Ngăn không cho phép người dùng chỉnh sửa bảng
         jTable1.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
@@ -66,85 +70,61 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
 
         // Ngăn không cho phép chọn nhiều dòng
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-   }
+    }
 
-//    private void loadDataToTable() {
-//        // Lấy dữ liệu thuốc với batch tiếp theo (10 dòng)
-//        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-//           @Override
-//            protected Void doInBackground() throws Exception {
-//                // Lấy danh sách NCC từ cơ sở dữ liệu (10 dòng bắt đầu từ startIndex)
-//                List<NhanVien> nvList = NhanVienDAO.getNhanVienBatch(startIndex, 13);  // startIndex là chỉ mục bắt đầu
-//                SwingUtilities.invokeLater(() -> {
-//                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-//
-//                    // Chỉ thêm dữ liệu mới vào bảng, không xóa dữ liệu cũ
-//                    for (NhanVien nv : nvList) {
-//                        model.addRow(new Object[]{
-//                            nv.getId(),
-//                            nv.getHoTen(),
-//                            nv.getSdt(),
-//                            nv.getGioiTinh(),
-//                            nv.getDtSinh(),
-//                            nv.getNgayVaoLam(),
-//                            nv.getCccd(),
-//                            nv.getChucVu()
-//                        });
-//                    }
-//                });
-//               return null;
-//            }
-//        };
-//        worker.execute();
-//    }
     private void loadDataToTable() {
-    if (loading) return;  // Ngăn việc gọi nhiều lần cùng lúc
 
-    loading = true; // Đang tải
-    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-        @Override
-        protected Void doInBackground() throws Exception {
-            List<NhanVien> nvList = NhanVienDAO.getNhanVienBatch(startIndex, 13);  // Lấy batch 13 nhân viên
-            if (nvList == null || nvList.isEmpty()) return null;
-
-            SwingUtilities.invokeLater(() -> {
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                for (NhanVien nv : nvList) {
-                    model.addRow(new Object[]{
-                        nv.getId(),
-                        nv.getHoTen(),
-                        nv.getSdt(),
-                        nv.getGioiTinh(),
-                        nv.getDtSinh(),
-                        nv.getNgayVaoLam(),
-                        nv.getCccd(),
-                        nv.getChucVu()
-                    });
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                List<NhanVien> nvList = NhanVienDAO.getNhanVienBatch(startIndex, 13);  // Lấy batch 13 nhân viên
+                if (nvList == null || nvList.isEmpty()) {
+                    return null;
                 }
-                startIndex += nvList.size();  // Cập nhật chỉ số bắt đầu
-            });
 
-            return null;
-        }
+                SwingUtilities.invokeLater(() -> {
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    if (startIndex == 0) {
+                        model.setRowCount(0);  // Xóa tất cả dữ liệu hiện tại trong bảng khi tải lại từ đầu
+                    }
+                    for (NhanVien nv : nvList) {
+                        model.addRow(new Object[]{
+                            nv.getId(),
+                            nv.getHoTen(),
+                            nv.getSdt(),
+                            nv.getGioiTinh(),
+                            nv.getDtSinh(),
+                            nv.getNgayVaoLam(),
+                            nv.getCccd(),
+                            nv.getChucVu()
+                        });
+                    }
+                    // Sắp xếp lại bảng sau khi dữ liệu được thêm vào
+                    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel) jTable1.getModel());
+                    jTable1.setRowSorter(sorter);
+                    sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));  // Sắp xếp theo cột đầu tiên
+                });
 
-        @Override
-        protected void done() {
-            loading = false; // Cho phép tải tiếp khi cuộn nữa
-        }
-    };
-    worker.execute();
-}
+                return null;
+            }
 
-
+            @Override
+            protected void done() {
+                loading = false; // Cho phép tải tiếp khi cuộn nữa
+            }
+        };
+        worker.execute();
+    }
 
 // Khi reset bảng (ví dụ sửa/xóa)
-private void resetAndLoad() {
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0);
-    startIndex = 0;
-    loading = false;
-    loadDataToTable();
-}
+    private void resetAndLoad() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        startIndex = 0;
+        loading = false;
+        loadDataToTable();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -187,17 +167,14 @@ private void resetAndLoad() {
 
         tablePanel.add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(600, 402));
-
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Mã NV", "Họ tên", "SĐT", "Giới tính", "Ngày sinh", "Ngày vào làm", "Chức vụ", "CCCD"
+                "Mã nhân viên", "Họ và tên", "SĐT", "Giới tính", "Ngày sinh", "Ngày vào làm", "Chức vụ", "CCCD"
             }
         ));
-        jTable1.setPreferredSize(new java.awt.Dimension(600, 402));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable1);
@@ -279,27 +256,27 @@ private void resetAndLoad() {
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // Kiểm tra nếu có dòng được chọn trong JTable
         int selectedRow = jTable1.getSelectedRow();
-         if (selectedRow != -1) {
-             String maNV = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
- 
-             // Hiển thị hộp thoại xác nhận xóa
-             int response = JOptionPane.showConfirmDialog(this,
-                     "Bạn có chắc chắn muốn xóa nhân viên này?",
-                     "Xác nhận", JOptionPane.YES_NO_OPTION);
- 
-             // Nếu người dùng chọn Yes, thực hiện xóa
-             if (response == JOptionPane.YES_OPTION) {
-                 // Gọi hàm xóa nhân viên trong DAO
-                 if (NhanVienDAO.xoa(maNV)) {
-                     JOptionPane.showMessageDialog(this, "Xóa nhân viên thành công!");
-                     loadDataToTable();  // Làm mới bảng sau khi xóa
-                 } else {
-                     JOptionPane.showMessageDialog(this, "Xóa nhân viên thất bại!");
-                 }
-             }
-         } else {
-             JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên để xóa!");
-         }
+        if (selectedRow != -1) {
+            String maNV = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
+
+            // Hiển thị hộp thoại xác nhận xóa
+            int response = JOptionPane.showConfirmDialog(this,
+                    "Bạn có chắc chắn muốn xóa nhân viên này?",
+                    "Xác nhận", JOptionPane.YES_NO_OPTION);
+
+            // Nếu người dùng chọn Yes, thực hiện xóa
+            if (response == JOptionPane.YES_OPTION) {
+                // Gọi hàm xóa nhân viên trong DAO
+                if (NhanVienDAO.xoa(maNV)) {
+                    JOptionPane.showMessageDialog(this, "Xóa nhân viên thành công!");
+                    loadDataToTable();  // Làm mới bảng sau khi xóa
+                } else {
+                    JOptionPane.showMessageDialog(this, "Xóa nhân viên thất bại!");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên để xóa!");
+        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed

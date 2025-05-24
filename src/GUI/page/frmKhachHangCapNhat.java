@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -22,6 +23,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class frmKhachHangCapNhat extends javax.swing.JPanel {
 
+    private int startIndex = 0;
+
     /**
      * Creates new form frmKhachHangCapNhat
      */
@@ -30,49 +33,64 @@ public class frmKhachHangCapNhat extends javax.swing.JPanel {
         btnThem.addActionListener(evt -> openFormThemKH());
         btnSua.addActionListener(evt -> openFormSuaKH());
         loadTableData();
-    }
-private void openFormThemKH() {
-    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-    formThemKH dialog = new formThemKH(parentFrame, true);
-    dialog.setLocationRelativeTo(this); 
-    dialog.setVisible(false); 
-}
+        jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
+            JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
+            int max = vertical.getMaximum();
+            int current = vertical.getValue();
+            int visible = vertical.getVisibleAmount();
 
-private void openFormSuaKH() {
-    JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-    formSuaKH dialog = new formSuaKH(parentFrame, true);
-    dialog.setLocationRelativeTo(this); 
-    dialog.setVisible(false); 
-}
+            // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
+            if (current + visible >= max) {
+                startIndex += 13;  // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                loadTableData();  // Tải thêm dữ liệu
+            }
+        });
+    }
+
+    private void openFormThemKH() {
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        formThemKH dialog = new formThemKH(parentFrame, true);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(false);
+    }
+
+    private void openFormSuaKH() {
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        formSuaKH dialog = new formSuaKH(parentFrame, true);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(false);
+    }
+
     private void loadTableData() {
-         // Lấy tất cả nhân viên từ cơ sở dữ liệu
-         List<KhachHang> danhSachKhachHang = KhachHangDAO.getAllKhachHang();
- 
-         // Tạo DefaultTableModel với các cột
-         String[] columnNames = {"Mã KH", "Họ Tên KH","Giới tính", "SĐT", "Tuổi"};
-         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
- 
-         // Thêm từng nhân viên vào bảng
-         for (KhachHang kh : danhSachKhachHang) {
-             Object[] rowData = {
-                 kh.getId(),
-                 kh.getHoTen(),
-                 kh.getGioiTinh(),
-                 kh.getSdt(),
-                 kh.getTuoi()
-             };
-             model.addRow(rowData);  // Thêm dòng vào model
-         }
-         jTable1.setDefaultEditor(Object.class, null);
- 
-         // Gán DefaultTableModel cho JTable
-         jTable1.setModel(model);  // jTable1 là JTable trên form của bạn
-         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-         for (int i = 0; i < jTable1.getColumnCount(); i++) {
-             jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-         }
-     }
+        // Lấy tất cả nhân viên từ cơ sở dữ liệu
+        List<KhachHang> danhSachKhachHang = KhachHangDAO.getAllKhachHang();
+
+        // Tạo DefaultTableModel với các cột
+        String[] columnNames = {"Mã KH", "Họ Tên KH", "Giới tính", "SĐT", "Tuổi"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        // Thêm từng nhân viên vào bảng
+        for (KhachHang kh : danhSachKhachHang) {
+            Object[] rowData = {
+                kh.getId(),
+                kh.getHoTen(),
+                kh.getGioiTinh(),
+                kh.getSdt(),
+                kh.getTuoi()
+            };
+            model.addRow(rowData);  // Thêm dòng vào model
+        }
+        jTable1.setDefaultEditor(Object.class, null);
+
+        // Gán DefaultTableModel cho JTable
+        jTable1.setModel(model);  // jTable1 là JTable trên form của bạn
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -193,55 +211,55 @@ private void openFormSuaKH() {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
         JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-         formThemKH dialog = new formThemKH(parentFrame, true);  // Mở formThemNV
-         dialog.setLocationRelativeTo(this);
-         dialog.setVisible(true);
- 
-         // Sau khi đóng formThemNV, gọi lại phương thức để làm mới bảng
-         loadTableData();
+        formThemKH dialog = new formThemKH(parentFrame, true);  // Mở formThemNV
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+
+        // Sau khi đóng formThemNV, gọi lại phương thức để làm mới bảng
+        loadTableData();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
         int selectedRow = jTable1.getSelectedRow();
-         if (selectedRow != -1) {
-             String maKH = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
- 
-             // Mở form sửa nhân viên và truyền mã nhân viên vào constructor
-             JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-             formSuaKH dialog = new formSuaKH(parentFrame, true, maKH);  // Truyền mã nhân viên vào constructor
-             dialog.setLocationRelativeTo(this);
-             dialog.setVisible(true);
-             loadTableData();
-         } else {
-             JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để sửa!");
-         }
+        if (selectedRow != -1) {
+            String maKH = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
+
+            // Mở form sửa nhân viên và truyền mã nhân viên vào constructor
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            formSuaKH dialog = new formSuaKH(parentFrame, true, maKH);  // Truyền mã nhân viên vào constructor
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+            loadTableData();
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để sửa!");
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
         int selectedRow = jTable1.getSelectedRow();
-         if (selectedRow != -1) {
-             String maKH = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
- 
-             // Hiển thị hộp thoại xác nhận xóa
-             int response = JOptionPane.showConfirmDialog(this,
-                     "Bạn có chắc chắn muốn xóa khách hàng này?",
-                     "Xác nhận", JOptionPane.YES_NO_OPTION);
- 
-             // Nếu người dùng chọn Yes, thực hiện xóa
-             if (response == JOptionPane.YES_OPTION) {
-                 // Gọi hàm xóa nhân viên trong DAO
-                 if (KhachHangDAO.xoa(maKH)) {
-                     JOptionPane.showMessageDialog(this, "Xóa khách hàng thành công!");
-                     loadTableData();  // Làm mới bảng sau khi xóa
-                 } else {
-                     JOptionPane.showMessageDialog(this, "Xóa khách hàng thất bại!");
-                 }
-             }
-         } else {
-             JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để xóa!");
-         }
+        if (selectedRow != -1) {
+            String maKH = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
+
+            // Hiển thị hộp thoại xác nhận xóa
+            int response = JOptionPane.showConfirmDialog(this,
+                    "Bạn có chắc chắn muốn xóa khách hàng này?",
+                    "Xác nhận", JOptionPane.YES_NO_OPTION);
+
+            // Nếu người dùng chọn Yes, thực hiện xóa
+            if (response == JOptionPane.YES_OPTION) {
+                // Gọi hàm xóa nhân viên trong DAO
+                if (KhachHangDAO.xoa(maKH)) {
+                    JOptionPane.showMessageDialog(this, "Xóa khách hàng thành công!");
+                    loadTableData();  // Làm mới bảng sau khi xóa
+                } else {
+                    JOptionPane.showMessageDialog(this, "Xóa khách hàng thất bại!");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để xóa!");
+        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
 
