@@ -140,13 +140,13 @@ public class PhieuDoi {
 
     @Override
     public String toString() {
-        return "HoaDonDoi{" +
-                "id=" + id +
+        return "PhieuDoi{" +
+                "id='" + id + '\'' +
                 ", ngayLap=" + ngayLap +
-                ", nhanVien=" + idNhanVien +
-                ", khachHang=" + idKhachHang +
-                ", maHD=" + maHD +
-                ", lyDo=" + lyDo +
+                ", idNhanVien='" + idNhanVien + '\'' +
+                ", idKhachHang='" + idKhachHang + '\'' +
+                ", maHD='" + maHD + '\'' +
+                ", lyDo='" + lyDo + '\'' +
                 ", tongTien=" + tongTien +
                 '}';
     }

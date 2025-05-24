@@ -1,12 +1,8 @@
-/*
- * DAO/HoaDonDAO.java
- */
 package DAO;
 
 import ConnectDB.DatabaseConnection;
 import Entity.ChiTietPhieuDoi;
 import Entity.PhieuDoi;
-import Entity.Thuoc;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,36 +10,34 @@ import java.util.List;
 
 public class PhieuDoiDAO {
 
-    // Tạo mã hoá đơn
+    // Tạo mã hoá đơn đổi mới
     public static String taoMaHoaDonDoi() {
-        String prefix = "PD-"; // Tiền tố của mã hóa đơn
+        String prefix = "PD-"; // Tiền tố mã phiếu đổi
         int maxNumber = 0;
 
-        // Truy vấn để lấy mã hóa đơn mới nhất
-        String sql = "SELECT maPD FROM PhieuDoi WHERE maPD LIKE 'PD-%' ORDER BY maPD DESC";
+        String sql = "SELECT maPD FROM PhieuDoi WHERE maPD LIKE ? ORDER BY maPD DESC";
 
         try (Connection conn = DatabaseConnection.getConnection();
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // Kiểm tra mã hóa đơn mới nhất
-            if (rs.next()) {
-                String lastMaPD = rs.getString("maPD");
-                // Lấy số từ mã cuối cùng và tăng lên 1
-                int lastNumber = Integer.parseInt(lastMaPD.substring(3)); // Lấy số sau tiền tố "HD-"
-                maxNumber = lastNumber + 1;
+            ps.setString(1, prefix + "%");
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String lastMaPD = rs.getString("maPD");
+                    int lastNumber = Integer.parseInt(lastMaPD.substring(prefix.length()));
+                    maxNumber = lastNumber + 1;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        // Tạo mã hóa đơn mới với số có 3 chữ số
-        return prefix + String.format("%03d", maxNumber); // Đảm bảo mã hóa đơn có 3 chữ số
+        return prefix + String.format("%03d", maxNumber);
     }
 
-    // Lấy tất cả hóa đơn
+    // Lấy tất cả phiếu đổi
     public static List<PhieuDoi> getAllHoaDonDoi() {
-        List<PhieuDoi> danhSachHoaDonDoi = new ArrayList<>();
+        List<PhieuDoi> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM PhieuDoi";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -51,138 +45,115 @@ public class PhieuDoiDAO {
                 ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                String maPD = rs.getString("maPD");
-                Date ngayLap = rs.getTimestamp("thoiGian");
-                String idNhanVien = rs.getString("maNV");
-                String idKhachHang = rs.getString("maKH");
-                String maHD = rs.getString("maHD");
-                String lyDo = rs.getString("lyDo");
-
-                // Tạo đối tượng hóa đơn
-                PhieuDoi hoaDonDoi = new PhieuDoi(maPD, ngayLap, idNhanVien, idKhachHang);
-                hoaDonDoi.setMaHD(maHD);
-                hoaDonDoi.setLyDo(lyDo);
-
-                // Lấy thông tin chi tiết từ bảng liên kết
-                hoaDonDoi.setChiTietHoaDonDoi(getChiTietHoaDonByMaPD(maPD));
-
-                // Tính tổng tiền dựa trên chi tiết
-                hoaDonDoi.tinhTongTien();
-
-                // Lấy thông tin nhân viên và khách hàng
-                hoaDonDoi.setNhanVien(NhanVienDAO.getNhanVienByMaNV(idNhanVien));
-                hoaDonDoi.setKhachHang(KhachHangDAO.getKhachHangByMaKH(idKhachHang));
-
-                danhSachHoaDonDoi.add(hoaDonDoi);
+                PhieuDoi pd = mapResultSetToPhieuDoi(rs);
+                danhSach.add(pd);
             }
         } catch (SQLException e) {
-            System.out.println("Lỗi lấy danh sách hóa đơn đổi: " + e.getMessage());
+            System.out.println("Lỗi lấy danh sách phiếu đổi: " + e.getMessage());
         }
-
-        return danhSachHoaDonDoi;
+        return danhSach;
     }
 
+    // Tìm kiếm phiếu đổi với điều kiện động, tránh SQL injection
     public static List<PhieuDoi> searchHoaDonDoi(String maHoaDonDoi, String tenKhachHang, Date ngayMua) {
-        List<PhieuDoi> danhSachHoaDonDoi = new ArrayList<>();
-        String sql = "SELECT * FROM PhieuDoi WHERE 1=1";
-        if (maHoaDonDoi != null && !maHoaDonDoi.isEmpty()) {
-            sql += " AND maPD LIKE '%" + maHoaDonDoi + "%'";
+        List<PhieuDoi> danhSach = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+                "SELECT pd.* FROM PhieuDoi pd LEFT JOIN KhachHang kh ON pd.maKH = kh.maKH WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        if (maHoaDonDoi != null && !maHoaDonDoi.trim().isEmpty()) {
+            sql.append(" AND pd.maPD LIKE ?");
+            params.add("%" + maHoaDonDoi.trim() + "%");
         }
-        if (tenKhachHang != null && !tenKhachHang.isEmpty()) {
-            sql += " AND tenKhachHang LIKE '%" + tenKhachHang + "%'";
+        if (tenKhachHang != null && !tenKhachHang.trim().isEmpty()) {
+            sql.append(" AND kh.tenKhachHang LIKE ?");
+            params.add("%" + tenKhachHang.trim() + "%");
         }
         if (ngayMua != null) {
-            java.sql.Date sqlDate = new java.sql.Date(ngayMua.getTime());
-            sql += " AND ngayMua = '" + sqlDate + "'";
+            sql.append(" AND DATE(pd.thoiGian) = ?");
+            params.add(new java.sql.Date(ngayMua.getTime()));
         }
 
         try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
-            while (rs.next()) {
-                PhieuDoi hoaDonDoi = new PhieuDoi();
-                hoaDonDoi.setId(rs.getString("maPD"));
-                hoaDonDoi.setNgayLap(rs.getDate("ngayMua"));
-                hoaDonDoi.setIdNhanVien(rs.getString("maNV")); // Sử dụng idNhanVien
-                hoaDonDoi.setIdKhachHang(rs.getString("maKH")); // Sử dụng idKhachHang
-                // Thêm các thông tin khác nếu cần
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
 
-                danhSachHoaDonDoi.add(hoaDonDoi);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    PhieuDoi pd = mapResultSetToPhieuDoi(rs);
+                    danhSach.add(pd);
+                }
             }
         } catch (SQLException e) {
-            System.out.println("Lỗi tìm kiếm hóa đơn đổi: " + e.getMessage());
+            System.out.println("Lỗi tìm kiếm phiếu đổi: " + e.getMessage());
         }
 
-        return danhSachHoaDonDoi;
+        return danhSach;
     }
 
-    // Lấy hóa đơn theo mã
+    // Lấy phiếu đổi theo mã
     public static PhieuDoi getHoaDonByMaPD(String maPD) {
         String sql = "SELECT * FROM PhieuDoi WHERE maPD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, maPD);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    Date ngayLap = rs.getTimestamp("thoiGian");
-                    String idNhanVien = rs.getString("maNV");
-                    String idKhachHang = rs.getString("maKH");
-
-                    // Tạo đối tượng hóa đơn
-                    PhieuDoi hoaDonDoi = new PhieuDoi(maPD, ngayLap, idNhanVien, idKhachHang);
-
-                    // Lấy thông tin chi tiết
-                    hoaDonDoi.setChiTietHoaDonDoi(getChiTietHoaDonByMaPD(maPD));
-                    hoaDonDoi.tinhTongTien();
-
-                    // Lấy thông tin nhân viên và khách hàng
-                    hoaDonDoi.setNhanVien(NhanVienDAO.getNhanVienByMaNV(idNhanVien));
-                    hoaDonDoi.setKhachHang(KhachHangDAO.getKhachHangByMaKH(idKhachHang));
-
-                    return hoaDonDoi;
+                    return mapResultSetToPhieuDoi(rs);
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Lỗi lấy hóa đơn đổi theo mã: " + e.getMessage());
+            System.out.println("Lỗi lấy phiếu đổi theo mã: " + e.getMessage());
         }
 
         return null;
     }
-
-    public static boolean them(PhieuDoi hoaDonDoi) {
+    public static boolean daTraHang(String maHD) {
+        String sql = "SELECT COUNT(*) FROM PhieuDoi WHERE maHD = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, maHD);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi kiểm tra hóa đơn đã đổi: " + e.getMessage());
+        }
+        return false;
+    }
+    // Thêm phiếu đổi và chi tiết
+    public static boolean them(PhieuDoi pd) {
         String sql = "INSERT INTO PhieuDoi (maPD, maNV, maKH, maHD, thoiGian, lyDo) VALUES (?, ?, ?, ?, ?, ?)";
-
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, hoaDonDoi.getId()); // maPD
-            ps.setString(2, hoaDonDoi.getIdNhanVien()); // maNV
-            ps.setString(3, hoaDonDoi.getIdKhachHang()); // maKH
-            ps.setString(4, hoaDonDoi.getMaHD()); // maHD
-            ps.setTimestamp(5, new Timestamp(hoaDonDoi.getNgayLap().getTime())); // thoiGian
-            ps.setString(6, hoaDonDoi.getLyDo()); // lyDo
+            ps.setString(1, pd.getId());
+            ps.setString(2, pd.getIdNhanVien());
+            ps.setString(3, pd.getIdKhachHang());
+            ps.setString(4, pd.getMaHD());
+            ps.setTimestamp(5, new Timestamp(pd.getNgayLap().getTime()));
+            ps.setString(6, pd.getLyDo());
 
-            int rowsAffected = ps.executeUpdate();
-
-            if (rowsAffected > 0) {
-                boolean chiTietOK = ChiTietPhieuDoiDAO.themChiTietHoaDonDoi(
-                        hoaDonDoi.getChiTietHoaDonDoi(), hoaDonDoi.getId());
-                if (chiTietOK) {
-                    return ChiTietPhieuDoiDAO.capNhatSoLuongSauKhiDoi(hoaDonDoi.getChiTietHoaDonDoi());
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                boolean ok = ChiTietPhieuDoiDAO.themChiTietHoaDonDoi(pd.getChiTietHoaDonDoi(), pd.getId());
+                if (ok) {
+                    return ChiTietPhieuDoiDAO.capNhatSoLuongSauKhiDoi(pd.getId(), pd.getMaHD());
                 }
             }
         } catch (SQLException e) {
             System.out.println("Lỗi thêm phiếu đổi: " + e.getMessage());
-            e.printStackTrace();
         }
-
         return false;
     }
 
-    // Lấy danh sách chi tiết hóa đơn theo mã hóa đơn
+    // Lấy chi tiết phiếu đổi theo mã
     public static List<ChiTietPhieuDoi> getChiTietHoaDonByMaPD(String maPD) {
         List<ChiTietPhieuDoi> chiTietList = new ArrayList<>();
         String sql = "SELECT * FROM CTPhieuDoi WHERE maPD = ?";
@@ -194,138 +165,110 @@ public class PhieuDoiDAO {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    ChiTietPhieuDoi chiTiet = new ChiTietPhieuDoi();
-                    chiTiet.setMaPD(rs.getString("maPD"));
-                    chiTiet.setMaThuocCu(rs.getString("maThuocCu"));
-                    chiTiet.setSoLuongCu(rs.getInt("soLuongCu"));
-                    chiTiet.setDonGiaCu(rs.getDouble("donGiaCu"));
-                    chiTiet.setMaThuocMoi(rs.getString("maThuocMoi"));
-                    chiTiet.setSoLuongMoi(rs.getInt("soLuongMoi"));
-                    chiTiet.setDonGiaMoi(rs.getDouble("donGiaMoi"));
+                    ChiTietPhieuDoi ct = new ChiTietPhieuDoi();
+                    ct.setMaPD(rs.getString("maPD"));
+                    ct.setMaThuocMoi(rs.getString("maThuocMoi"));
+                    ct.setSoLuongMoi(rs.getInt("soLuongMoi"));
+                    ct.setDonGiaMoi(rs.getDouble("donGiaMoi"));
 
-                    // Tự tính tổng tiền
-                    double tongTien = chiTiet.getSoLuongMoi() * chiTiet.getDonGiaMoi();
-                    chiTiet.setTongTien(tongTien);
-
-                    chiTietList.add(chiTiet);
+                    chiTietList.add(ct);
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Lỗi lấy chi tiết hóa đơn: " + e.getMessage());
+            System.out.println("Lỗi lấy chi tiết phiếu đổi: " + e.getMessage());
         }
 
         return chiTietList;
     }
 
-    // Tìm kiếm hóa đơn theo khoảng thời gian
+    // Tìm kiếm phiếu đổi theo khoảng thời gian
     public static List<PhieuDoi> timHoaDonDoiTheoThoiGian(Date tuNgay, Date denNgay) {
-        List<PhieuDoi> danhSachHoaDonDoi = new ArrayList<>();
+        List<PhieuDoi> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM PhieuDoi WHERE thoiGian BETWEEN ? AND ?";
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setTimestamp(1, new Timestamp(tuNgay.getTime()));
             ps.setTimestamp(2, new Timestamp(denNgay.getTime()));
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    String maPD = rs.getString("maPD");
-                    Date ngayLap = rs.getTimestamp("thoiGian");
-                    String idNhanVien = rs.getString("maNV");
-                    String idKhachHang = rs.getString("maKH");
-
-                    // Tạo đối tượng hóa đơn
-                    PhieuDoi hoaDonDoi = new PhieuDoi(maPD, ngayLap, idNhanVien, idKhachHang);
-
-                    // Lấy thông tin chi tiết
-                    hoaDonDoi.setChiTietHoaDonDoi(getChiTietHoaDonByMaPD(maPD));
-                    hoaDonDoi.tinhTongTien();
-
-                    // Lấy thông tin nhân viên và khách hàng
-                    hoaDonDoi.setNhanVien(NhanVienDAO.getNhanVienByMaNV(idNhanVien));
-                    hoaDonDoi.setKhachHang(KhachHangDAO.getKhachHangByMaKH(idKhachHang));
-
-                    danhSachHoaDonDoi.add(hoaDonDoi);
+                    PhieuDoi pd = mapResultSetToPhieuDoi(rs);
+                    danhSach.add(pd);
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Lỗi tìm kiếm hóa đơn theo thời gian: " + e.getMessage());
+            System.out.println("Lỗi tìm kiếm phiếu đổi theo thời gian: " + e.getMessage());
         }
 
-        return danhSachHoaDonDoi;
+        return danhSach;
     }
 
-    // Tìm kiếm hóa đơn theo khách hàng
+    // Tìm kiếm phiếu đổi theo khách hàng
     public static List<PhieuDoi> timHoaDonDoiTheoKhachHang(String maKH) {
-        List<PhieuDoi> danhSachHoaDonDoi = new ArrayList<>();
+        List<PhieuDoi> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM PhieuDoi WHERE maKH = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maKH);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    String maPD = rs.getString("maPD");
-                    Date ngayLap = rs.getTimestamp("thoiGian");
-                    String idNhanVien = rs.getString("maNV");
-                    String idKhachHang = rs.getString("maKH");
-
-                    // Tạo đối tượng hóa đơn
-                    PhieuDoi hoaDonDoi = new PhieuDoi(maPD, ngayLap, idNhanVien, idKhachHang);
-
-                    // Lấy thông tin chi tiết
-                    hoaDonDoi.setChiTietHoaDonDoi(getChiTietHoaDonByMaPD(maPD));
-                    hoaDonDoi.tinhTongTien();
-
-                    // Lấy thông tin nhân viên và khách hàng
-                    hoaDonDoi.setNhanVien(NhanVienDAO.getNhanVienByMaNV(idNhanVien));
-                    hoaDonDoi.setKhachHang(KhachHangDAO.getKhachHangByMaKH(idKhachHang));
-
-                    danhSachHoaDonDoi.add(hoaDonDoi);
+                    PhieuDoi pd = mapResultSetToPhieuDoi(rs);
+                    danhSach.add(pd);
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Lỗi tìm kiếm hóa đơn theo khách hàng: " + e.getMessage());
+            System.out.println("Lỗi tìm kiếm phiếu đổi theo khách hàng: " + e.getMessage());
         }
 
-        return danhSachHoaDonDoi;
+        return danhSach;
     }
 
-    // Tìm kiếm hóa đơn theo nhân viên
+    // Tìm kiếm phiếu đổi theo nhân viên
     public static List<PhieuDoi> timHoaDonDoiTheoNhanVien(String maNV) {
-        List<PhieuDoi> danhSachHoaDonDoi = new ArrayList<>();
+        List<PhieuDoi> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM PhieuDoi WHERE maNV = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maNV);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    String maPD = rs.getString("maPD");
-                    Date ngayLap = rs.getTimestamp("thoiGian");
-                    String idNhanVien = rs.getString("maNV");
-                    String idKhachHang = rs.getString("maKH");
-
-                    // Tạo đối tượng hóa đơn
-                    PhieuDoi hoaDonDoi = new PhieuDoi(maPD, ngayLap, idNhanVien, idKhachHang);
-
-                    // Lấy thông tin chi tiết
-                    hoaDonDoi.setChiTietHoaDonDoi(getChiTietHoaDonByMaPD(maPD));
-                    hoaDonDoi.tinhTongTien();
-
-                    // Lấy thông tin nhân viên và khách hàng
-                    hoaDonDoi.setNhanVien(NhanVienDAO.getNhanVienByMaNV(idNhanVien));
-                    hoaDonDoi.setKhachHang(KhachHangDAO.getKhachHangByMaKH(idKhachHang));
-
-                    danhSachHoaDonDoi.add(hoaDonDoi);
+                    PhieuDoi pd = mapResultSetToPhieuDoi(rs);
+                    danhSach.add(pd);
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Lỗi tìm kiếm hóa đơn theo nhân viên: " + e.getMessage());
+            System.out.println("Lỗi tìm kiếm phiếu đổi theo nhân viên: " + e.getMessage());
         }
 
-        return danhSachHoaDonDoi;
+        return danhSach;
+    }
+
+    // Hàm tiện ích chuyển ResultSet sang PhieuDoi và set thêm chi tiết, nhân viên,
+    // khách hàng
+    private static PhieuDoi mapResultSetToPhieuDoi(ResultSet rs) throws SQLException {
+        String maPD = rs.getString("maPD");
+        Date ngayLap = rs.getTimestamp("thoiGian");
+        String idNhanVien = rs.getString("maNV");
+        String idKhachHang = rs.getString("maKH");
+        String maHD = rs.getString("maHD");
+        String lyDo = rs.getString("lyDo");
+
+        PhieuDoi pd = new PhieuDoi(maPD, ngayLap, idNhanVien, idKhachHang);
+        pd.setMaHD(maHD);
+        pd.setLyDo(lyDo);
+        pd.setChiTietHoaDonDoi(getChiTietHoaDonByMaPD(maPD));
+        pd.tinhTongTien();
+        pd.setNhanVien(NhanVienDAO.getNhanVienByMaNV(idNhanVien));
+        pd.setKhachHang(KhachHangDAO.getKhachHangByMaKH(idKhachHang));
+
+        return pd;
     }
 }

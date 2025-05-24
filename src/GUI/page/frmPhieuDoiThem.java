@@ -8,6 +8,7 @@ import DAO.ChiTietHoaDonDAO;
 import DAO.DanhMucDAO;
 import DAO.PhieuDoiDAO;
 import DAO.NhanVienDAO;
+import DAO.PhieuTraDAO;
 import DAO.ThuocDAO;
 import Entity.ChiTietHoaDon;
 import Entity.Thuoc;
@@ -1291,6 +1292,7 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
                 tinhChenhLechPhieuDoi();
 
                 JOptionPane.showMessageDialog(this, "Đã tải thông tin hóa đơn thành công!");
+
         }// GEN-LAST:event_btnAddHoaDonActionPerformed
 
         private void txtTongActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtTongActionPerformed
@@ -1356,11 +1358,16 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
                                                 "Thông báo", JOptionPane.WARNING_MESSAGE);
                                 return;
                         }
-
+                        // 4. Kiểm tra hóa đơn đã đổi chưa
+                        String maHD = txtMaHD.getText().trim();
+                        if (PhieuDoiDAO.daTraHang(maHD)) {
+                            JOptionPane.showMessageDialog(this, "Hóa đơn này đã được đổi trước đó!",
+                                    "Thông báo", JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
                         // 5. Chuẩn bị dữ liệu phiếu đổi
                         String maPD = PhieuDoiDAO.taoMaHoaDonDoi();
                         String thoiGian = getCurrentTime();
-                        String maHD = txtMaHD.getText().trim();
 
                         PhieuDoi phieuDoi = new PhieuDoi();
                         phieuDoi.setId(maPD);
@@ -1384,6 +1391,11 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
                                 JOptionPane.showMessageDialog(this, "Thanh toán phiếu đổi thành công!", "Thông báo",
                                                 JOptionPane.INFORMATION_MESSAGE);
                                 resetForm();
+
+                                // Quay lại giao diện cập nhật hóa đơn
+                                frmPhieuDoiCapNhat formCapNhat = new frmPhieuDoiCapNhat();
+                                Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
+                                parentFrame.replaceMainPanel(formCapNhat);
                         } else {
                                 JOptionPane.showMessageDialog(this, "Không thể lưu phiếu đổi!", "Lỗi",
                                                 JOptionPane.ERROR_MESSAGE);
@@ -1453,25 +1465,20 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
                 }
         }// GEN-LAST:event_btnThemActionPerformed
 
-        private void btnXoaActionPerformed(java.awt.event.ActionEvent evt)// GEN-LAST:event_btnXoaActionPerformed
-        {
+        private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {
                 DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
                 int rowIndex = jTable2.getSelectedRow();
 
                 if (rowIndex != -1) {
-                        // Gán Tên thuốc mới = "NONE" để đánh dấu dòng bị loại
-                        model.setValueAt("NONE", rowIndex, 2);
+                        model.removeRow(rowIndex); // XÓA LUÔN DÒNG
 
-                        // Optional: cũng có thể gán Thành tiền = 0
-                        model.setValueAt(0.0, rowIndex, 5);
-
-                        // Cập nhật tổng tiền
+                        // Cập nhật tổng tiền sau khi xóa
                         tinhTongTienPhieuDoi();
                         tinhChenhLechPhieuDoi();
                 } else {
                         JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần xóa.");
                 }
-        }// GEN-LAST:event_btnXoaActionPerformed
+        }
 
         private void btnSearchNVActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSearchNVActionPerformed
                 String manv = txtNV.getText().trim();
@@ -1657,58 +1664,30 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
 
         }
 
-        // Phương thức để lấy chi tiết hóa đơn từ bảng hiển thị
         private List<ChiTietPhieuDoi> layChiTietHoaDonDoiTuBang(String maPD, String maHD) {
                 List<ChiTietPhieuDoi> chiTietList = new ArrayList<>();
                 DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
 
-                // Lấy danh sách thuốc cũ từ hóa đơn gốc
-                List<ChiTietHoaDon> thuocCuList = ChiTietHoaDonDAO.getChiTietByHoaDonId(maHD);
-                int maxRows = Math.max(thuocCuList.size(), model.getRowCount());
+                // Lấy số lượng dòng từ bảng jTable2
+                int rowCount = model.getRowCount();
 
-                for (int i = 0; i < maxRows; i++) {
+                for (int i = 0; i < rowCount; i++) {
                         ChiTietPhieuDoi chiTiet = new ChiTietPhieuDoi();
                         chiTiet.setMaPD(maPD);
 
-                        // Thuốc cũ
-                        if (i < thuocCuList.size()) {
-                                ChiTietHoaDon thuocCu = thuocCuList.get(i);
-                                chiTiet.setMaThuocCu(thuocCu.getIdThuoc());
-                                chiTiet.setSoLuongCu(thuocCu.getSoLuong());
-                                chiTiet.setDonGiaCu(thuocCu.getDonGia());
-                        } else {
-                                chiTiet.setMaThuocCu("NONE");
-                                chiTiet.setSoLuongCu(0);
-                                chiTiet.setDonGiaCu(0);
-                        }
+                        // Lấy thông tin thuốc mới từ bảng
+                        String maThuocMoi = model.getValueAt(i, 1) != null ? model.getValueAt(i, 1).toString() : "";
+                        int soLuongMoi = model.getValueAt(i, 3) != null
+                                        ? Integer.parseInt(model.getValueAt(i, 3).toString())
+                                        : 0;
+                        double donGiaMoi = model.getValueAt(i, 4) != null
+                                        ? Double.parseDouble(model.getValueAt(i, 4).toString())
+                                        : 0.0;
 
-                        // Thuốc mới
-                        if (i < model.getRowCount()) {
-                                String tenThuocMoi = model.getValueAt(i, 2).toString();
-                                if (!tenThuocMoi.equalsIgnoreCase("NONE")) {
-                                        String maThuocMoi = model.getValueAt(i, 1).toString();
-                                        int soLuongMoi = Integer.parseInt(model.getValueAt(i, 3).toString());
-                                        double donGiaMoi = Double.parseDouble(model.getValueAt(i, 4).toString());
-                                        double tongTien = Double.parseDouble(model.getValueAt(i, 5).toString());
-
-                                        chiTiet.setMaThuocMoi(maThuocMoi);
-                                        chiTiet.setSoLuongMoi(soLuongMoi);
-                                        chiTiet.setDonGiaMoi(donGiaMoi);
-                                        chiTiet.setTongTien(tongTien);
-                                } else {
-                                        // Dòng thuốc mới bị loại
-                                        chiTiet.setMaThuocMoi("NONE");
-                                        chiTiet.setSoLuongMoi(0);
-                                        chiTiet.setDonGiaMoi(0);
-                                        chiTiet.setTongTien(0);
-                                }
-                        } else {
-                                // Dư thuốc cũ, không có thuốc mới tương ứng
-                                chiTiet.setMaThuocMoi("NONE");
-                                chiTiet.setSoLuongMoi(0);
-                                chiTiet.setDonGiaMoi(0);
-                                chiTiet.setTongTien(0);
-                        }
+                        // Gán thông tin thuốc mới
+                        chiTiet.setMaThuocMoi(maThuocMoi);
+                        chiTiet.setSoLuongMoi(soLuongMoi);
+                        chiTiet.setDonGiaMoi(donGiaMoi);
 
                         chiTietList.add(chiTiet);
                 }

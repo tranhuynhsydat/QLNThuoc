@@ -2,117 +2,64 @@ package Entity;
 
 public class ChiTietPhieuDoi {
     private String maPD;
-    private String maThuocCu;
-    private int soLuongCu;
-    private double donGiaCu;
-
     private String maThuocMoi;
     private int soLuongMoi;
     private double donGiaMoi;
 
-    private double tongTien;
+    public ChiTietPhieuDoi() {
+    }
 
-    // Getters
+    public ChiTietPhieuDoi(String maPD, String maThuocMoi, int soLuongMoi, double donGiaMoi) {
+        this.maPD = maPD;
+        this.maThuocMoi = maThuocMoi;
+        this.soLuongMoi = soLuongMoi;
+        this.donGiaMoi = donGiaMoi;
+    }
+
     public String getMaPD() {
         return maPD;
     }
 
-    public String getMaThuocCu() {
-        return maThuocCu;
-    }
-
-    public int getSoLuongCu() {
-        return soLuongCu;
-    }
-
-    public double getDonGiaCu() {
-        return donGiaCu;
+    public void setMaPD(String maPD) {
+        this.maPD = maPD;
     }
 
     public String getMaThuocMoi() {
         return maThuocMoi;
     }
 
-    public int getSoLuongMoi() {
-        return soLuongMoi;
-    }
-
-    public double getDonGiaMoi() {
-        return donGiaMoi;
-    }
-
-    public double getTongTien() {
-        return tongTien;
-    }
-
-    public double getThanhTien() {
-        return tongTien;
-    } // alias
-
-    // Setters
-    public void setMaPD(String maPD) {
-        this.maPD = maPD;
-    }
-
-    public void setMaThuocCu(String maThuocCu) {
-        this.maThuocCu = maThuocCu;
-    }
-
-    public void setSoLuongCu(int soLuongCu) {
-        this.soLuongCu = soLuongCu;
-    }
-
-    public void setDonGiaCu(double donGiaCu) {
-        this.donGiaCu = donGiaCu;
-    }
-
     public void setMaThuocMoi(String maThuocMoi) {
         this.maThuocMoi = maThuocMoi;
+    }
+
+    public int getSoLuongMoi() {
+        return soLuongMoi;
     }
 
     public void setSoLuongMoi(int soLuongMoi) {
         this.soLuongMoi = soLuongMoi;
     }
 
+    public double getDonGiaMoi() {
+        return donGiaMoi;
+    }
+
     public void setDonGiaMoi(double donGiaMoi) {
         this.donGiaMoi = donGiaMoi;
     }
 
-    public void setTongTien(double tongTien) {
-        this.tongTien = tongTien;
+    public double getThanhTien() {
+        return soLuongMoi * donGiaMoi;
     }
-
-    // Aliases cho tương thích
-    public void setIdHoaDonDoi(String maPD) {
-        setMaPD(maPD);
-    }
-
-    public void setIdThuoc(String maThuocCu) {
-        setMaThuocCu(maThuocCu);
-    }
-
-    public void setSoLuong(int soLuongCu) {
-        setSoLuongCu(soLuongCu);
-    }
-
-    public void setDonGia(double donGiaCu) {
-        setDonGiaCu(donGiaCu);
-    }
-
-    public void setThuoc(String tenThuoc) {
-    } // giả lập (nếu bạn cần hiện text thì gán tạm)
 
     @Override
     public String toString() {
         return "ChiTietPhieuDoi{" +
                 "maPD='" + maPD + '\'' +
-                ", maThuocCu='" + maThuocCu + '\'' +
-                ", soLuongCu=" + soLuongCu +
-                ", donGiaCu=" + donGiaCu +
                 ", maThuocMoi='" + maThuocMoi + '\'' +
                 ", soLuongMoi=" + soLuongMoi +
                 ", donGiaMoi=" + donGiaMoi +
-                ", tongTien=" + tongTien +
+                ", thanhTien=" + getThanhTien() +
                 '}';
     }
 }
