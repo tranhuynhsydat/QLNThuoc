@@ -91,7 +91,7 @@ public class frmThongKeDoanhThuTheoThangPage extends javax.swing.JPanel {
     private void loadDataset() {
         chart.clear();
         int year = txtYear.getValue();
-        listTK = thongKeDAO.selectMounthsByYear(year);  // Truy vấn trực tiếp trong DAO
+        listTK = thongKeDAO.selectMonthsByYear(year);  // Truy vấn trực tiếp trong DAO
         loadChart();
         loadTable();
         chart.start();
@@ -196,7 +196,7 @@ private boolean isValidFilterFields() {
     private void btnStatisticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStatisticActionPerformed
         if (isValidFilterFields()) {
             int year =txtYear.getValue();
-            listTK = thongKeDAO.selectMounthsByYear(year); // Truy vấn trực tiếp trong DAO
+            listTK = thongKeDAO.selectMonthsByYear(year); // Truy vấn trực tiếp trong DAO
             loadDataset();
         }
     }//GEN-LAST:event_btnStatisticActionPerformed

@@ -111,7 +111,7 @@ public class frmThongKeDoanhThuTungNgayTrongThangPage extends javax.swing.JPanel
         chart.clear();
 
         // Lấy dữ liệu từ ThongKeDAO thay vì ThongKeController
-        listTK = thongKeDAO.selectDaysByMonthYear(currentMonth, currentYear);
+        listTK = thongKeDAO.select3DaysByMonthYear(currentMonth, currentYear);
 
         loadChart();
         loadTable();
@@ -224,7 +224,7 @@ public class frmThongKeDoanhThuTungNgayTrongThangPage extends javax.swing.JPanel
             int mounth = txtMonth.getMonth() + 1;
             int year = txtYear.getValue();
 
-            listTK = thongKeDAO.selectDaysByMonthYear(mounth, year);
+            listTK = thongKeDAO.select3DaysByMonthYear(mounth, year);
             loadDataset();
         }
     }//GEN-LAST:event_btnStatisticActionPerformed
