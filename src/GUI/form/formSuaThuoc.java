@@ -574,6 +574,11 @@ public class formSuaThuoc extends javax.swing.JDialog {
         btnHuy.setForeground(new java.awt.Color(255, 255, 255));
         btnHuy.setText("Huỷ");
         btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
         bottomRoundedPanel2.add(btnHuy);
 
         btnSua.setBackground(new java.awt.Color(15, 204, 102));
@@ -786,6 +791,11 @@ public class formSuaThuoc extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_btnThemAnhActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnHuyActionPerformed
 
     /**
      * @param args the command line arguments

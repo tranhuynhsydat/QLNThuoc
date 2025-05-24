@@ -83,7 +83,7 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
         String maPhieuNhap = PhieuNhapDAO.taoMaPhieuNhap(); // Lấy mã hóa đơn mới
         txtMaPhieuNhap.setText(maPhieuNhap); // Gán vào ô txtMaPhieuNhap
 
-        // Tạo và hiển thị thời gian hiện tại
+        // Tạo và hiển thị thời gian hiện tại 
         String thoiGian = getCurrentTime(); // Lấy thời gian hiện tại
         txtThoiGian.setText(thoiGian); // Gán vào ô txtThoiGian
 
@@ -857,19 +857,18 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
         jPanel40.setPreferredSize(new java.awt.Dimension(470, 362));
         jPanel40.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(470, 217));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(470, 217));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(200, 452));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Mã thuốc", "Tên thuốc", "Thành phần", "Giá nhập", "Giá bán", "HSD", "Danh mục", "Đơn vị", "Xuất xứ", "Số lượng"
+                "Mã thuốc", "Tên thuốc", "Thành phần", "Giá nhập", "Giá bán", "HSD", "Danh mục", "Đơn vị tính", "Xuất xứ", "Số lượng"
             }
         ));
-        jTable1.setMinimumSize(new java.awt.Dimension(470, 217));
-        jTable1.setPreferredSize(new java.awt.Dimension(470, 217));
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable1);
 
         jPanel40.add(jScrollPane1, java.awt.BorderLayout.CENTER);
