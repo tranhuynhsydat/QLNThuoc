@@ -38,6 +38,50 @@ public class frmThongKeDoanhThuTheoThangPage extends javax.swing.JPanel {
         chartLayout();
         tableLayout();
         loadDataset();
+        tinhTong();
+    }
+
+    private void tinhTong() {
+        int colDoanhThu = 1;
+        int colChiPhi = 2;
+        long tongDoanhThu = 0;
+        long tongChiPhi = 0;
+
+        for (int i = 0; i < table.getRowCount(); i++) {
+            // Tính doanh thu
+            Object valDT = table.getValueAt(i, colDoanhThu);
+            if (valDT != null) {
+                String sDT = valDT.toString().trim().replaceAll("[^0-9]", "");
+                if (!sDT.isEmpty()) {
+                    try {
+                        tongDoanhThu += Long.parseLong(sDT);
+                    } catch (NumberFormatException e) {
+                    }
+                }
+            }
+
+            // Tính chi phí
+            Object valCP = table.getValueAt(i, colChiPhi);
+            if (valCP != null) {
+                String sCP = valCP.toString().trim().replaceAll("[^0-9]", "");
+                if (!sCP.isEmpty()) {
+                    try {
+                        tongChiPhi += Long.parseLong(sCP);
+                    } catch (NumberFormatException e) {
+                    }
+                }
+            }
+        }
+
+        // Lợi nhuận
+        long loiNhuan = tongDoanhThu - tongChiPhi;
+
+        // Định dạng số với dấu phân cách và đính kèm "đ"
+        java.text.NumberFormat nf = java.text.NumberFormat.getInstance(new java.util.Locale("vi", "VN"));
+
+        jLabel4.setText(nf.format(tongDoanhThu) + "đ");
+        jLabel5.setText(nf.format(tongChiPhi) + "đ");
+        jLabel7.setText(nf.format(loiNhuan) + "đ");
     }
 
     // Thiết lập biểu đồ
@@ -91,7 +135,7 @@ public class frmThongKeDoanhThuTheoThangPage extends javax.swing.JPanel {
     private void loadDataset() {
         chart.clear();
         int year = txtYear.getValue();
-        listTK = thongKeDAO.selectMounthsByYear(year);  // Truy vấn trực tiếp trong DAO
+        listTK = thongKeDAO.selectMonthsByYear(year);  // Truy vấn trực tiếp trong DAO
         loadChart();
         loadTable();
         chart.start();
@@ -110,12 +154,25 @@ public class frmThongKeDoanhThuTheoThangPage extends javax.swing.JPanel {
         lblChart1 = new javax.swing.JLabel();
         txtYear = new com.toedter.components.JSpinField();
         btnStatistic = new javax.swing.JButton();
+        chart = new GUI.barchart.chart();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        chart = new GUI.barchart.chart();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(1130, 800));
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel5.setBackground(new java.awt.Color(247, 247, 247));
         jPanel5.setPreferredSize(new java.awt.Dimension(1188, 30));
@@ -142,7 +199,8 @@ public class frmThongKeDoanhThuTheoThangPage extends javax.swing.JPanel {
         });
         jPanel5.add(btnStatistic);
 
-        add(jPanel5, java.awt.BorderLayout.PAGE_START);
+        add(jPanel5);
+        add(chart);
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(456, 300));
 
@@ -175,8 +233,64 @@ public class frmThongKeDoanhThuTheoThangPage extends javax.swing.JPanel {
         table.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(table);
 
-        add(jScrollPane1, java.awt.BorderLayout.SOUTH);
-        add(chart, java.awt.BorderLayout.CENTER);
+        add(jScrollPane1);
+
+        jPanel2.setPreferredSize(new java.awt.Dimension(100, 30));
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
+
+        jPanel3.setMaximumSize(new java.awt.Dimension(230, 30));
+        jPanel3.setMinimumSize(new java.awt.Dimension(230, 30));
+        jPanel3.setPreferredSize(new java.awt.Dimension(230, 30));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel3.setText("TỔNG:");
+        jLabel3.setMaximumSize(new java.awt.Dimension(60, 25));
+        jLabel3.setMinimumSize(new java.awt.Dimension(60, 25));
+        jLabel3.setPreferredSize(new java.awt.Dimension(60, 25));
+        jLabel3.setRequestFocusEnabled(false);
+        jPanel3.add(jLabel3);
+
+        jPanel2.add(jPanel3);
+
+        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.X_AXIS));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Doanh thu:");
+        jPanel6.add(jLabel2);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
+        jPanel6.add(jLabel4);
+
+        jPanel4.add(jPanel6);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setText("Chi phí:");
+        jPanel7.add(jLabel6);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel5.setMaximumSize(new java.awt.Dimension(72, 20));
+        jLabel5.setMinimumSize(new java.awt.Dimension(72, 20));
+        jLabel5.setPreferredSize(new java.awt.Dimension(72, 20));
+        jPanel7.add(jLabel5);
+
+        jPanel4.add(jPanel7);
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setText("Lợi nhuận:");
+        jPanel8.add(jLabel8);
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(102, 102, 102));
+        jPanel8.add(jLabel7);
+
+        jPanel4.add(jPanel8);
+
+        jPanel2.add(jPanel4);
+
+        add(jPanel2);
     }// </editor-fold>//GEN-END:initComponents
 private boolean isValidFilterFields() {
         int year = txtYear.getValue();
@@ -195,8 +309,8 @@ private boolean isValidFilterFields() {
     }
     private void btnStatisticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStatisticActionPerformed
         if (isValidFilterFields()) {
-            int year =txtYear.getValue();
-            listTK = thongKeDAO.selectMounthsByYear(year); // Truy vấn trực tiếp trong DAO
+            int year = txtYear.getValue();
+            listTK = thongKeDAO.selectMonthsByYear(year); // Truy vấn trực tiếp trong DAO
             loadDataset();
         }
     }//GEN-LAST:event_btnStatisticActionPerformed
@@ -205,7 +319,20 @@ private boolean isValidFilterFields() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnStatistic;
     private GUI.barchart.chart chart;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblChart1;
     private javax.swing.JTable table;

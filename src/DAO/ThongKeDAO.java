@@ -12,101 +12,228 @@ import java.util.List;
 
 public class ThongKeDAO {
 
-    // Truy vấn doanh thu và chi phí trong 7 ngày qua
-    private final String SELECT_7_DAYS_AGO = """
-                                        WITH dates AS (
-                                            SELECT DATEADD(DAY, -6, GETDATE()) AS date
-                                            UNION ALL
-                                            SELECT DATEADD(DAY, 1, date)
-                                            FROM dates
-                                            WHERE date < CAST(GETDATE() AS DATE)
-                                        )
-                                        SELECT 
-                                            dates.date AS ngay,
-                                            COALESCE(SUM(CTHoaDon.soLuong * Thuoc.donGia), 0) AS doanhthu,
-                                            COALESCE(SUM(CTHoaDon.soLuong * Thuoc.giaNhap), 0) AS chiphi
-                                        FROM dates
-                                        LEFT JOIN HoaDon ON CONVERT(DATE, HoaDon.thoiGian) = CONVERT(DATE, dates.date)
-                                        LEFT JOIN CTHoaDon ON CTHoaDon.maHD = HoaDon.maHD
-                                        LEFT JOIN Thuoc ON Thuoc.maThuoc = CTHoaDon.maThuoc
-                                        GROUP BY dates.date
-                                        ORDER BY dates.date;
-                                        """;
+    
 
     // Truy vấn doanh thu, chi phí theo ngày trong tháng và năm
-    private final String SELECT_DAYS_BY_MONTH_YEAR = """
-                                                     DECLARE @thang INT = ?;
-                                                     DECLARE @nam INT = ?;
-                                                     
-                                                     DECLARE @ngayString NVARCHAR(10) = CONVERT(NVARCHAR(10), @nam) + '-' + RIGHT('0' + CONVERT(NVARCHAR(2), @thang), 2) + '-01';
-                                                     
-                                                     WITH numbers AS (
-                                                         SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) - 1 AS number
-                                                         FROM master..spt_values
-                                                     )
-                                                     SELECT dates.date AS ngay,
-                                                     	COALESCE(SUM(CTHoaDon.soLuong * Thuoc.donGia), 0) AS doanhthu,
-                                                     	COALESCE(SUM(CTHoaDon.soLuong * Thuoc.giaNhap), 0) AS chiphi
-                                                     FROM (
-                                                         SELECT DATEADD(DAY, c.number, @ngayString) AS date
-                                                         FROM numbers c
-                                                         WHERE DATEADD(DAY, c.number, @ngayString) <= DATEADD(DAY, -1, DATEADD(MONTH, DATEDIFF(MONTH, 0, @ngayString) + 1, 0))
-                                                     ) AS dates
-                                                         LEFT JOIN HoaDon ON CONVERT(DATE, HoaDon.thoiGian) = CONVERT(DATE, dates.date)
-                                                         LEFT JOIN CTHoaDon ON CTHoaDon.maHD = HoaDon.maHD
-                                                         LEFT JOIN Thuoc ON Thuoc.maThuoc = CTHoaDon.maThuoc
-                                                     GROUP BY dates.date
-                                                     ORDER BY dates.date;
+    private final String SELECT_3_DAYS_BY_MONTH_YEAR = """
+                                                    DECLARE @thang INT = ?;
+                                                    DECLARE @nam INT = ?;
+                                                    
+                                                    DECLARE @ngayString NVARCHAR(10) = CONVERT(NVARCHAR(10), @nam) + '-' + RIGHT('0' + CONVERT(NVARCHAR(2), @thang), 2) + '-01';
+                                                    
+                                                    WITH numbers AS (
+                                                        SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) - 1 AS number
+                                                        FROM master..spt_values
+                                                    ),
+                                                    
+                                                    dates AS (
+                                                        SELECT DATEADD(DAY, number, @ngayString) AS ngay
+                                                        FROM numbers
+                                                        WHERE DATEADD(DAY, number, @ngayString) <= EOMONTH(@ngayString)
+                                                    ),
+                                                    
+                                                    HoaDonKhongBiDoi AS (
+                                                        SELECT hd.*
+                                                        FROM HoaDon hd
+                                                        LEFT JOIN PhieuDoi pd ON pd.maHD = hd.maHD
+                                                        WHERE pd.maHD IS NULL
+                                                    ),
+                                                    
+                                                    DoanhThuHoaDon AS (
+                                                        SELECT CONVERT(DATE, hd.thoiGian) AS ngay,
+                                                               SUM(cthd.soLuong * t.donGia) AS doanhThu
+                                                        FROM HoaDonKhongBiDoi hd
+                                                        JOIN CTHoaDon cthd ON hd.maHD = cthd.maHD
+                                                        JOIN Thuoc t ON t.maThuoc = cthd.maThuoc
+                                                        WHERE YEAR(hd.thoiGian) = @nam AND MONTH(hd.thoiGian) = @thang
+                                                        GROUP BY CONVERT(DATE, hd.thoiGian)
+                                                    ),
+                                                    
+                                                    DoanhThuPhieuDoi AS (
+                                                        SELECT CONVERT(DATE, pd.thoiGian) AS ngay,
+                                                               SUM(ctpd.soLuongMoi * t.donGia) AS doanhThu
+                                                        FROM PhieuDoi pd
+                                                        JOIN CTPhieuDoi ctpd ON pd.maPD = ctpd.maPD
+                                                        JOIN Thuoc t ON t.maThuoc = ctpd.maThuocMoi
+                                                        WHERE YEAR(pd.thoiGian) = @nam AND MONTH(pd.thoiGian) = @thang
+                                                        GROUP BY CONVERT(DATE, pd.thoiGian)
+                                                    ),
+                                                    
+                                                    DoanhThuPhieuTra AS (
+                                                        SELECT CONVERT(DATE, pt.thoiGian) AS ngay,
+                                                               SUM(ctpt.soLuong * t.donGia) AS doanhThu
+                                                        FROM PhieuTra pt
+                                                        JOIN CTPhieuTra ctpt ON pt.maPT = ctpt.maPT
+                                                        JOIN Thuoc t ON t.maThuoc = ctpt.maThuoc
+                                                        WHERE YEAR(pt.thoiGian) = @nam AND MONTH(pt.thoiGian) = @thang
+                                                        GROUP BY CONVERT(DATE, pt.thoiGian)
+                                                    ),
+                                                    
+                                                    ChiPhiHoaDon AS (
+                                                        SELECT CONVERT(DATE, hd.thoiGian) AS ngay,
+                                                               SUM(cthd.soLuong * t.giaNhap) AS chiPhi
+                                                        FROM HoaDonKhongBiDoi hd
+                                                        JOIN CTHoaDon cthd ON hd.maHD = cthd.maHD
+                                                        JOIN Thuoc t ON t.maThuoc = cthd.maThuoc
+                                                        WHERE YEAR(hd.thoiGian) = @nam AND MONTH(hd.thoiGian) = @thang
+                                                        GROUP BY CONVERT(DATE, hd.thoiGian)
+                                                    )
+                                                    
+                                                    SELECT
+                                                        d.ngay,
+                                                        COALESCE(dhdo.doanhThu, 0) + COALESCE(dpdoi.doanhThu, 0) - COALESCE(dptra.doanhThu, 0) AS doanhThu,
+                                                        COALESCE(chiphihd.chiPhi, 0) AS chiPhi
+                                                    FROM dates d
+                                                    LEFT JOIN DoanhThuHoaDon dhdo ON dhdo.ngay = d.ngay
+                                                    LEFT JOIN DoanhThuPhieuDoi dpdoi ON dpdoi.ngay = d.ngay
+                                                    LEFT JOIN DoanhThuPhieuTra dptra ON dptra.ngay = d.ngay
+                                                    LEFT JOIN ChiPhiHoaDon chiphihd ON chiphihd.ngay = d.ngay
+                                                    ORDER BY d.ngay;
                                                      """;
 
     // Truy vấn doanh thu, chi phí từ năm này sang năm khác
     private final String SELECT_FROM_YEAR_TO_YEAR = """
                                                     DECLARE @start_year INT = ?;
                                                     DECLARE @end_year INT = ?;
-                                                                                                        
+                                                    
                                                     WITH years(year) AS (
                                                         SELECT @start_year
                                                         UNION ALL
-                                                        SELECT year + 1
-                                                        FROM years
-                                                        WHERE year < @end_year
+                                                        SELECT year + 1 FROM years WHERE year < @end_year
+                                                    ),
+                                                    
+                                                    HoaDonKhongBiDoi AS (
+                                                        SELECT hd.*
+                                                        FROM HoaDon hd
+                                                        LEFT JOIN PhieuDoi pd ON pd.maHD = hd.maHD
+                                                        WHERE pd.maHD IS NULL
+                                                    ),
+                                                    
+                                                    DoanhThuHoaDon AS (
+                                                        SELECT YEAR(hd.thoiGian) AS nam,
+                                                               SUM(cthd.soLuong * t.donGia) AS doanhthu
+                                                        FROM HoaDonKhongBiDoi hd
+                                                        JOIN CTHoaDon cthd ON hd.maHD = cthd.maHD
+                                                        JOIN Thuoc t ON t.maThuoc = cthd.maThuoc
+                                                        GROUP BY YEAR(hd.thoiGian)
+                                                    ),
+                                                    
+                                                    DoanhThuPhieuDoi AS (
+                                                        SELECT YEAR(pd.thoiGian) AS nam,
+                                                               SUM(ctpd.soLuongMoi * t.donGia) AS doanhthu
+                                                        FROM PhieuDoi pd
+                                                        JOIN CTPhieuDoi ctpd ON pd.maPD = ctpd.maPD
+                                                        JOIN Thuoc t ON t.maThuoc = ctpd.maThuocMoi
+                                                        GROUP BY YEAR(pd.thoiGian)
+                                                    ),
+                                                    
+                                                    DoanhThuPhieuTra AS (
+                                                        SELECT YEAR(pt.thoiGian) AS nam,
+                                                               SUM(ctpt.soLuong * t.donGia) AS doanhthu
+                                                        FROM PhieuTra pt
+                                                        JOIN CTPhieuTra ctpt ON pt.maPT = ctpt.maPT
+                                                        JOIN Thuoc t ON t.maThuoc = ctpt.maThuoc
+                                                        GROUP BY YEAR(pt.thoiGian)
+                                                    ),
+                                                    
+                                                    ChiPhiHoaDon AS (
+                                                        SELECT YEAR(hd.thoiGian) AS nam,
+                                                               SUM(cthd.soLuong * t.giaNhap) AS chiphi
+                                                        FROM HoaDonKhongBiDoi hd
+                                                        JOIN CTHoaDon cthd ON hd.maHD = cthd.maHD
+                                                        JOIN Thuoc t ON t.maThuoc = cthd.maThuoc
+                                                        GROUP BY YEAR(hd.thoiGian)
                                                     )
-                                                    SELECT 
-                                                        years.year AS nam,
-                                                        COALESCE(SUM(CTHoaDon.soLuong * Thuoc.donGia), 0) AS doanhthu,
-                                                        COALESCE(SUM(CTHoaDon.soLuong * Thuoc.giaNhap), 0) AS chiphi
-                                                    FROM years
-                                                    LEFT JOIN HoaDon ON YEAR(HoaDon.thoiGian) = years.year
-                                                    LEFT JOIN CTHoaDon ON HoaDon.maHD = CTHoaDon.maHD
-                                                    LEFT JOIN Thuoc ON Thuoc.maThuoc = CTHoaDon.maThuoc
-                                                    GROUP BY years.year
-                                                    ORDER BY years.year;
+                                                    
+                                                    SELECT
+                                                        y.year AS nam,
+                                                        COALESCE(dhdo.doanhthu, 0) + COALESCE(dpdoi.doanhthu, 0) - COALESCE(dptra.doanhthu, 0) AS doanhThu,
+                                                        COALESCE(chiphihd.chiphi, 0) AS chiPhi
+                                                    FROM years y
+                                                    LEFT JOIN DoanhThuHoaDon dhdo ON dhdo.nam = y.year
+                                                    LEFT JOIN DoanhThuPhieuDoi dpdoi ON dpdoi.nam = y.year
+                                                    LEFT JOIN DoanhThuPhieuTra dptra ON dptra.nam = y.year
+                                                    LEFT JOIN ChiPhiHoaDon chiphihd ON chiphihd.nam = y.year
+                                                    ORDER BY y.year
+                                                    OPTION (MAXRECURSION 0);
                                                     """;
 
     // Truy vấn doanh thu, chi phí theo tháng trong năm
-    private final String SELECT_MOUNTH_BY_YEAR = """
+    private final String SELECT_MONTH_BY_YEAR = """
                                           DECLARE @year INT = ?;
                                           
-                                          SELECT 
-                                          	months.month AS thang,
-                                          	COALESCE(SUM(CTHoaDon.soLuong * Thuoc.donGia), 0) AS doanhthu,
-                                          	COALESCE(SUM(CTHoaDon.soLuong * Thuoc.giaNhap), 0) AS chiphi
-                                          FROM (
-                                                 VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12)
-                                               ) AS months(month)
-                                          LEFT JOIN HoaDon ON MONTH(HoaDon.thoiGian) = months.month AND YEAR(HoaDon.thoiGian) = @year
-                                          LEFT JOIN CTHoaDon ON CTHoaDon.maHD = HoaDon.maHD
-                                          LEFT JOIN Thuoc ON Thuoc.maThuoc = CTHoaDon.maThuoc
-                                          GROUP BY months.month
-                                          ORDER BY months.month;
+                                          WITH Months AS (
+                                              SELECT 1 AS thang
+                                              UNION ALL
+                                              SELECT thang + 1 FROM Months WHERE thang < 12
+                                          ),
+                                          
+                                          HoaDonKhongBiDoi AS (
+                                              SELECT hd.*
+                                              FROM HoaDon hd
+                                              LEFT JOIN PhieuDoi pd ON pd.maHD = hd.maHD
+                                              WHERE pd.maHD IS NULL
+                                          ),
+                                          
+                                          DoanhThuHoaDon AS (
+                                              SELECT MONTH(hd.thoiGian) AS thang,
+                                                     SUM(cthd.soLuong * t.donGia) AS doanhThu
+                                              FROM HoaDonKhongBiDoi hd
+                                              JOIN CTHoaDon cthd ON hd.maHD = cthd.maHD
+                                              JOIN Thuoc t ON t.maThuoc = cthd.maThuoc
+                                              WHERE YEAR(hd.thoiGian) = @year
+                                              GROUP BY MONTH(hd.thoiGian)
+                                          ),
+                                          
+                                          DoanhThuPhieuDoi AS (
+                                              SELECT MONTH(pd.thoiGian) AS thang,
+                                                     SUM(ctpd.soLuongMoi * t.donGia) AS doanhThu
+                                              FROM PhieuDoi pd
+                                              JOIN CTPhieuDoi ctpd ON pd.maPD = ctpd.maPD
+                                              JOIN Thuoc t ON t.maThuoc = ctpd.maThuocMoi
+                                              WHERE YEAR(pd.thoiGian) = @year
+                                              GROUP BY MONTH(pd.thoiGian)
+                                          ),
+                                          
+                                          DoanhThuPhieuTra AS (
+                                              SELECT MONTH(pt.thoiGian) AS thang,
+                                                     SUM(ctpt.soLuong * t.donGia) AS doanhThu
+                                              FROM PhieuTra pt
+                                              JOIN CTPhieuTra ctpt ON pt.maPT = ctpt.maPT
+                                              JOIN Thuoc t ON t.maThuoc = ctpt.maThuoc
+                                              WHERE YEAR(pt.thoiGian) = @year
+                                              GROUP BY MONTH(pt.thoiGian)
+                                          ),
+                                          
+                                          ChiPhiHoaDon AS (
+                                              SELECT MONTH(hd.thoiGian) AS thang,
+                                                     SUM(cthd.soLuong * t.giaNhap) AS chiPhi
+                                              FROM HoaDonKhongBiDoi hd
+                                              JOIN CTHoaDon cthd ON hd.maHD = cthd.maHD
+                                              JOIN Thuoc t ON t.maThuoc = cthd.maThuoc
+                                              WHERE YEAR(hd.thoiGian) = @year
+                                              GROUP BY MONTH(hd.thoiGian)
+                                          )
+                                          
+                                          SELECT
+                                              m.thang,
+                                              COALESCE(dhdo.doanhThu, 0) + COALESCE(dpdoi.doanhThu, 0) - COALESCE(dptra.doanhThu, 0) AS doanhThu,
+                                              COALESCE(chiphihd.chiPhi, 0) AS chiPhi
+                                          FROM Months m
+                                          LEFT JOIN DoanhThuHoaDon dhdo ON dhdo.thang = m.thang
+                                          LEFT JOIN DoanhThuPhieuDoi dpdoi ON dpdoi.thang = m.thang
+                                          LEFT JOIN DoanhThuPhieuTra dptra ON dptra.thang = m.thang
+                                          LEFT JOIN ChiPhiHoaDon chiphihd ON chiphihd.thang = m.thang
+                                          ORDER BY m.thang
+                                          OPTION (MAXRECURSION 12);
                                           """;
 
     // Phương thức truy vấn doanh thu theo ngày trong tháng và năm
-    public List<ThongKe> selectDaysByMonthYear(int month, int year) {
+    public List<ThongKe> select3DaysByMonthYear(int month, int year) {
         List<ThongKe> listE = new ArrayList<>();
         try (Connection con = DatabaseConnection.getConnection()) {
             // Sử dụng PreparedStatement để thay thế tham số vào câu lệnh SQL
-            PreparedStatement stmt = con.prepareStatement(SELECT_DAYS_BY_MONTH_YEAR);
+            PreparedStatement stmt = con.prepareStatement(SELECT_3_DAYS_BY_MONTH_YEAR);
             stmt.setInt(1, month);  // Thay thế tham số tháng
             stmt.setInt(2, year);   // Thay thế tham số năm
 
@@ -128,10 +255,7 @@ public class ThongKeDAO {
         }
     }
 
-    // Phương thức truy vấn doanh thu và chi phí trong 7 ngày qua
-    public List<ThongKe> select7DaysAgo() {
-        return this.selectBySql(SELECT_7_DAYS_AGO);
-    }
+
 
     // Phương thức truy vấn doanh thu, chi phí từ năm này sang năm khác
     public List<ThongKeTheoNam> selectFromYearToYear(int fromYear, int toYear) {
@@ -139,8 +263,8 @@ public class ThongKeDAO {
     }
 
     // Phương thức truy vấn doanh thu theo tháng trong năm
-    public List<ThongKeTheoThang> selectMounthsByYear(int year) {
-        return this.selectBySqlTheoThang(SELECT_MOUNTH_BY_YEAR, year);
+    public List<ThongKeTheoThang> selectMonthsByYear(int year) {
+        return this.selectBySqlTheoThang(SELECT_MONTH_BY_YEAR, year);
     }
 
     // Truy vấn và chuyển đổi kết quả thành danh sách ThongKe

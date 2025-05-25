@@ -180,8 +180,6 @@
                 <Property name="selectionColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="99" green="99" red="0" type="rgb"/>
                 </Property>
-                <Property name="selectionEnd" type="int" value="7"/>
-                <Property name="selectionStart" type="int" value="7"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
