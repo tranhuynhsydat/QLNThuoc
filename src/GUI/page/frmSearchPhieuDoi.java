@@ -128,12 +128,13 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel13 = new javax.swing.JPanel();
         btnTimKiem = new javax.swing.JButton();
         btnChiTiet = new javax.swing.JButton();
+        btnPDF = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -199,7 +200,21 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         btnChiTiet.setMaximumSize(new java.awt.Dimension(85, 35));
         btnChiTiet.setMinimumSize(new java.awt.Dimension(85, 35));
         btnChiTiet.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnChiTiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChiTietActionPerformed(evt);
+            }
+        });
         jPanel13.add(btnChiTiet);
+
+        btnPDF.setBackground(new java.awt.Color(0, 120, 92));
+        btnPDF.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnPDF.setForeground(new java.awt.Color(255, 255, 255));
+        btnPDF.setText("Xuất PDF");
+        btnPDF.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnPDF.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnPDF.setPreferredSize(new java.awt.Dimension(105, 35));
+        jPanel13.add(btnPDF);
 
         add(jPanel13, java.awt.BorderLayout.PAGE_END);
 
@@ -221,16 +236,16 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         jPanel34.setLayout(new java.awt.BorderLayout());
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null, null, null }
-                },
-                new String[] {
-                        "STT", "Mã phiếu đổi", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày trả",
-                        "Lý do", "Tổng hóa đơn cũ", "Tổng phiếu đổi", "Chênh lệch"
-                }));
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Mã phiếu đổi", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày trả", "Lý do", "Tổng hóa đơn cũ", "Tổng phiếu đổi", "Chênh lệch"
+            }
+        ));
         jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable2.setShowHorizontalLines(true);
         jScrollPane2.setViewportView(jTable2);
@@ -426,6 +441,10 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         add(jPanel8, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnChiTietActionPerformed
+
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {
         // Lấy dữ liệu từ các trường nhập liệu
         String maPD = txtMaPD.getText().trim();
@@ -505,6 +524,7 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChiTiet;
+    private javax.swing.JButton btnPDF;
     private javax.swing.JButton btnTimKiem;
     private com.toedter.calendar.JDateChooser dateNgayTra;
     private javax.swing.JLabel jLabel10;

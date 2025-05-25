@@ -47,28 +47,30 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
     public frmPhieuTraThem() {
         initComponents();
         centerAlignJTable2();
-                // Tạo và hiển thị mã hóa đơn mới
-                String maPhieuTra =PhieuTraDAO.taoMaPhieuTra(); // Lấy mã hóa đơn mới
-                txtMaPhieuTra.setText(maPhieuTra); // Gán vào ô txtMaHoaDon
+        // Tạo và hiển thị mã hóa đơn mới
+        String maPhieuTra = PhieuTraDAO.taoMaPhieuTra(); // Lấy mã hóa đơn mới
+        txtMaPhieuTra.setText(maPhieuTra); // Gán vào ô txtMaHoaDon
 
-                // Tạo và hiển thị thời gian hiện tại
-                String thoiGian = getCurrentTime(); // Lấy thời gian hiện tại
-                txtThoiGian.setText(thoiGian); // Gán vào ô txtThoiGian
+        // Tạo và hiển thị thời gian hiện tại
+        String thoiGian = getCurrentTime(); // Lấy thời gian hiện tại
+        txtThoiGian.setText(thoiGian); // Gán vào ô txtThoiGian
     }
-    
+
     private String getCurrentTime() {
         LocalDateTime now = LocalDateTime.now(); // Lấy thời gian hiện tại
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"); // Định dạng thời gian
         return now.format(formatter); // Trả về thời gian đã định dạng
     }
-       private void centerAlignJTable2() {
-                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-                centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
-                for (int i = 0; i < jTable2.getColumnCount(); i++) {
-                        jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-                }
+    private void centerAlignJTable2() {
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        for (int i = 0; i < jTable2.getColumnCount(); i++) {
+            jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,7 +78,8 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         label1 = new java.awt.Label();
@@ -157,13 +160,12 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
         jPanel43.setLayout(new java.awt.BorderLayout());
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][] {
 
-            },
-            new String [] {
-                "STT", "Mã thuốc", "Tên thuốc", "Số lượng", "Giá bán", "Thành tiền"
-            }
-        ));
+                },
+                new String[] {
+                        "STT", "Mã thuốc", "Tên thuốc", "Số lượng", "Giá bán", "Thành tiền"
+                }));
         jScrollPane3.setViewportView(jTable2);
 
         jPanel43.add(jScrollPane3, java.awt.BorderLayout.CENTER);
@@ -424,9 +426,9 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
         add(billPanel);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtTongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTongActionPerformed
+    private void txtTongActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtTongActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTongActionPerformed
+    }// GEN-LAST:event_txtTongActionPerformed
 
     private void btnTaoPhieuActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnTaoPhieuActionPerformed
         try {
@@ -506,7 +508,6 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
         }
     }// GEN-LAST:event_btnTaoPhieuActionPerformed
 
-
     private void btnAddHoaDonActionPerformed(java.awt.event.ActionEvent evt) {
         String maHD = txtMaHD.getText().trim(); // Lấy mã hóa đơn từ ô nhập
 
@@ -540,23 +541,23 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
 
-                // Đổ dữ liệu mới vào bảng với STT
-                int stt = 1;
-                for (ChiTietHoaDon chiTiet : danhSachChiTiet) {
-                        model.addRow(new Object[] {
-                                        stt++, // STT
-                                        chiTiet.getIdThuoc(),
-                                        chiTiet.getThuoc(),
-                                        chiTiet.getSoLuong(),
-                                        chiTiet.getDonGia(),
-                                        chiTiet.getThanhTien()
-                        });
-                }
-
+        // Đổ dữ liệu mới vào bảng với STT
+        int stt = 1;
+        for (ChiTietHoaDon chiTiet : danhSachChiTiet) {
+            model.addRow(new Object[] {
+                    stt++, // STT
+                    chiTiet.getIdThuoc(),
+                    chiTiet.getThuoc(),
+                    chiTiet.getSoLuong(),
+                    chiTiet.getDonGia(),
+                    chiTiet.getThanhTien()
+            });
+        }
 
         txtTong.setText(String.format("%.0f", tongTienHoaDon));
         JOptionPane.showMessageDialog(this, "Đã tải thông tin hóa đơn thành công!");
     }// GEN-LAST:event_btnAddHoaDonActionPerformed
+
     private void txtSdtKHActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtSdtKHActionPerformed
         // TODO add your handling code here:
     }// GEN-LAST:event_txtSdtKHActionPerformed
@@ -566,45 +567,46 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
     }// GEN-LAST:event_txtTenKHActionPerformed
 
     private void btnSearchNVActionPerformed(java.awt.event.ActionEvent evt) {
-                String manv = txtNV.getText().trim();
+        String manv = txtNV.getText().trim();
 
-                if (!manv.isEmpty()) {
-                        NhanVien nv = NhanVienDAO.getNhanVienByMaNV(manv);
+        if (!manv.isEmpty()) {
+            NhanVien nv = NhanVienDAO.getNhanVienByMaNV(manv);
 
-                        if (nv != null) {
-                                // Hiển thị tên và chức vụ nhân viên
-                                txtNV.setText(nv.getHoTen());
+            if (nv != null) {
+                // Hiển thị tên và chức vụ nhân viên
+                txtNV.setText(nv.getHoTen());
 
-                                // Lưu maNV vào biến tạm để sử dụng sau khi thanh toán
-                                maNV = nv.getId();
-                        } else {
-                                JOptionPane.showMessageDialog(this, "Không tìm thấy nhân viên!", "Thông báo",
-                                                JOptionPane.WARNING_MESSAGE);
-                        }
-                } else {
-                        JOptionPane.showMessageDialog(this, "Vui lòng nhập mã nhân viên!", "Thông báo",
-                                        JOptionPane.WARNING_MESSAGE);
-                }
+                // Lưu maNV vào biến tạm để sử dụng sau khi thanh toán
+                maNV = nv.getId();
+            } else {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy nhân viên!", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã nhân viên!", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
 
     // GEN-LAST:event_btnSearchNVActionPerformed
-        private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHuyActionPerformed
-                try {
-                        // Tạo đối tượng frmHoaDonCapNhat
-                        frmPhieuDoiCapNhat formCapNhat = new frmPhieuDoiCapNhat();
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHuyActionPerformed
+        try {
+            // Tạo đối tượng frmHoaDonCapNhat
+            frmPhieuDoiCapNhat formCapNhat = new frmPhieuDoiCapNhat();
 
-                        // Lấy đối tượng Main (parent frame)
-                        Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
+            // Lấy đối tượng Main (parent frame)
+            Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
 
-                        // Gọi phương thức replaceMainPanel để thay thế nội dung trong mainPanel
-                        parentFrame.replaceMainPanel(formCapNhat);
+            // Gọi phương thức replaceMainPanel để thay thế nội dung trong mainPanel
+            parentFrame.replaceMainPanel(formCapNhat);
 
-                } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(this,
-                                        "Không thể quay lại form cập nhật hóa đơn: " + ex.getMessage(),
-                                        "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
-        }// GEN-LAST:event_btnHuyActionPerformed
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Không thể quay lại form cập nhật hóa đơn: " + ex.getMessage(),
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }// GEN-LAST:event_btnHuyActionPerformed
+
     private void txtLyDoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtLyDoActionPerformed
         // TODO add your handling code here:
     }// GEN-LAST:event_txtLyDoActionPerformed
@@ -630,7 +632,7 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
 
         return chiTietList;
     }
-    
+
     private void resetForm() {
         try {
             // Reset text fields

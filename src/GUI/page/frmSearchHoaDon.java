@@ -155,7 +155,7 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel8 = new javax.swing.JPanel();
@@ -193,7 +193,8 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jTable2 = new javax.swing.JTable();
         jPanel13 = new javax.swing.JPanel();
         btnTimKiem = new javax.swing.JButton();
-        btnThem3 = new javax.swing.JButton();
+        btnChiTiet = new javax.swing.JButton();
+        btnPDF = new javax.swing.JButton();
 
         setMaximumSize(new java.awt.Dimension(829, 624));
         setMinimumSize(new java.awt.Dimension(829, 624));
@@ -372,15 +373,16 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel34.setLayout(new java.awt.BorderLayout());
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null }
-                },
-                new String[] {
-                        "STT", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày mua", "Tổng hóa đơn"
-                }));
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày mua", "Tổng hóa đơn"
+            }
+        ));
         jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable2.setShowHorizontalLines(true);
         jScrollPane2.setViewportView(jTable2);
@@ -408,25 +410,39 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         });
         jPanel13.add(btnTimKiem);
 
-        btnThem3.setBackground(new java.awt.Color(0, 120, 92));
-        btnThem3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem3.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem3.setText("Chi tiết");
-        btnThem3.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnThem3.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnThem3.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnThem3.addActionListener(new java.awt.event.ActionListener() {
+        btnChiTiet.setBackground(new java.awt.Color(0, 120, 92));
+        btnChiTiet.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChiTiet.setForeground(new java.awt.Color(255, 255, 255));
+        btnChiTiet.setText("Chi tiết");
+        btnChiTiet.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnChiTiet.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnChiTiet.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnChiTiet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThem3ActionPerformed(evt);
+                btnChiTietActionPerformed(evt);
             }
         });
-        jPanel13.add(btnThem3);
+        jPanel13.add(btnChiTiet);
+
+        btnPDF.setBackground(new java.awt.Color(0, 120, 92));
+        btnPDF.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnPDF.setForeground(new java.awt.Color(255, 255, 255));
+        btnPDF.setText("Xuất PDF");
+        btnPDF.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnPDF.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnPDF.setPreferredSize(new java.awt.Dimension(105, 35));
+        jPanel13.add(btnPDF);
 
         add(jPanel13, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnChiTietActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnThem3;
+    private javax.swing.JButton btnChiTiet;
+    private javax.swing.JButton btnPDF;
     private javax.swing.JButton btnTimKiem;
     private com.toedter.calendar.JDateChooser dateNgayMua;
     private javax.swing.JLabel jLabel10;
