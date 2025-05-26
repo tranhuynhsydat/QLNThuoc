@@ -4,15 +4,20 @@
  */
 package GUI.page;
 
+import DAO.ChiTietPhieuNhapDAO;
 import DAO.NhaCungCapDAO;
 import DAO.PhieuNhapDAO;
+import Entity.ChiTietPhieuNhap;
 import Entity.NhaCungCap;
 import Entity.NhanVien;
 import Entity.PhieuNhap;
+import GUI.form.formChiTietPhieuNhap;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
@@ -26,7 +31,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Admin
  */
 public class frmSearchPhieuNhap extends javax.swing.JPanel {
-    
+    private List<PhieuNhap> phieuNhapList = new ArrayList<>(); 
     private int startIndex;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     private final DecimalFormat currencyFormat = new DecimalFormat("#,### VND");
@@ -151,7 +156,7 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
         jPanel45 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         btnTimKiem = new javax.swing.JButton();
-        btnThem3 = new javax.swing.JButton();
+        btnChiTiet = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -343,19 +348,19 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
         });
         jPanel13.add(btnTimKiem);
 
-        btnThem3.setBackground(new java.awt.Color(0, 120, 92));
-        btnThem3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem3.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem3.setText("Chi tiết");
-        btnThem3.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnThem3.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnThem3.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnThem3.addActionListener(new java.awt.event.ActionListener() {
+        btnChiTiet.setBackground(new java.awt.Color(0, 120, 92));
+        btnChiTiet.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChiTiet.setForeground(new java.awt.Color(255, 255, 255));
+        btnChiTiet.setText("Chi tiết");
+        btnChiTiet.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnChiTiet.setMinimumSize(new java.awt.Dimension(85, 35));
+        btnChiTiet.setPreferredSize(new java.awt.Dimension(105, 35));
+        btnChiTiet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThem3ActionPerformed(evt);
+                btnChiTietActionPerformed(evt);
             }
         });
-        jPanel13.add(btnThem3);
+        jPanel13.add(btnChiTiet);
 
         add(jPanel13, java.awt.BorderLayout.PAGE_END);
 
@@ -443,13 +448,35 @@ public class frmSearchPhieuNhap extends javax.swing.JPanel {
     worker.execute();
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
-    private void btnThem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem3ActionPerformed
+    private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnThem3ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một phiếu nhập!");
+            return;
+        }
+
+        String maPN = jTable1.getValueAt(selectedRow, 1).toString(); // Cột 0 là mã phiếu nhập
+
+        // Lấy danh sách chi tiết phiếu nhập từ DAO
+        ChiTietPhieuNhapDAO ctpnDAO = new ChiTietPhieuNhapDAO();
+        List<ChiTietPhieuNhap> listCTPN = ctpnDAO.getChiTietByPhieuNhapId(maPN);
+
+        if (listCTPN == null || listCTPN.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Phiếu nhập không có chi tiết!");
+            return;
+        }
+
+        // Mở form chi tiết
+        formChiTietPhieuNhap form = new formChiTietPhieuNhap(null, true, listCTPN);
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
+
+    }//GEN-LAST:event_btnChiTietActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnThem3;
+    private javax.swing.JButton btnChiTiet;
     private javax.swing.JButton btnTimKiem;
     private com.toedter.calendar.JDateChooser dateNgayLap;
     private javax.swing.JLabel jLabel10;
