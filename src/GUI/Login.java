@@ -226,8 +226,8 @@ public class Login extends javax.swing.JFrame {
         }
 
         // Kiểm tra mật khẩu ít nhất 8 ký tự
-        if (pass.length() < 8) {
-            JOptionPane.showMessageDialog(this, "Mật khẩu phải có ít nhất 8 ký tự!");
+        if (pass.length() < 8 && pass.length() > 16) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu phải từ 8-16 ký tự!");
             txtPassword.requestFocus();
             return;
         }

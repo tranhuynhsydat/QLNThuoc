@@ -322,8 +322,8 @@ public class formDoiMkTK extends javax.swing.JDialog {
         }
 
         // Kiểm tra độ dài mật khẩu (ví dụ từ 6 ký tự)
-        if (!newPass.matches("^.{0,9}$")) {
-            JOptionPane.showMessageDialog(this, "Mật khẩu phải có ít nhất 6 ký tự!");
+        if (!newPass.matches("^.{8,16}$")) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu từ 8-16 ký tự!");
             return;
         }
 
