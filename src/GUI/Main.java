@@ -519,7 +519,7 @@ public class Main extends javax.swing.JFrame {
             btnHoaDon.setEnabled(false);
             btnKhachHang.setEnabled(false);
             btnNhaCungCap.setEnabled(false);
-            btnThuoc.setVisible(false);
+            btnThuoc.setEnabled(false);
             btnPhieuDoiTra.setEnabled(false);
             btnPhieuNhap.setEnabled(false);
         }
@@ -629,6 +629,7 @@ public class Main extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         mainPanel = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -939,17 +940,11 @@ public class Main extends javax.swing.JFrame {
         jPanel1.add(jPanel2, java.awt.BorderLayout.LINE_START);
 
         mainPanel.setBackground(new java.awt.Color(0, 51, 51));
+        mainPanel.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
-        mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 841, Short.MAX_VALUE)
-        );
-        mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 624, Short.MAX_VALUE)
-        );
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/resized_output.jpg"))); // NOI18N
+        jLabel6.setPreferredSize(new java.awt.Dimension(1024, 1024));
+        mainPanel.add(jLabel6, java.awt.BorderLayout.CENTER);
 
         jPanel1.add(mainPanel, java.awt.BorderLayout.CENTER);
 
@@ -1001,6 +996,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
