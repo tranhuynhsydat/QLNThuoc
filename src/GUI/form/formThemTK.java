@@ -290,15 +290,20 @@ public class formThemTK extends javax.swing.JDialog {
         // Tìm đối tượng NhanVien từ tên nhân viên
         NhanVien maNV = nhanVienMap.get(nvName);  // Tìm đối tượng NhanVien dựa trên tên
 
-        // Kiểm tra null trước khi tiếp tục
-        if (maNV == null) {
-            JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin nhân viên!");
-            return;
-        }
-
-        // Kiểm tra nếu các trường không rỗng và mật khẩu trùng khớp
+        // Kiểm tra nếu nhân viên đã có tài khoản
+        // Kiểm tra thông tin nhập
         if (userName.isEmpty() || passWord.isEmpty() || rePassWord.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin tài khoản!");
+            return;
+        }
+        // Kiểm tra tài khoản đã tồn tại
+        if (TaiKhoanDAO.kiemTraTenTaiKhoanTonTai(userName)) {
+            JOptionPane.showMessageDialog(this, "Tên tài khoản đã tồn tại. Vui lòng chọn tên khác!");
+            return;
+        }
+        // Kiểm tra nếu nhân viên đã có tài khoản
+        if (TaiKhoanDAO.kiemTraNhanVienDaCoTaiKhoan(maNV.getId())) {
+            JOptionPane.showMessageDialog(this, "Nhân viên này đã có tài khoản!");
             return;
         }
 
@@ -306,6 +311,15 @@ public class formThemTK extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Mật khẩu không khớp. Vui lòng nhập lại!");
             return;
         }
+
+        // Kiểm tra độ mạnh của mật khẩu
+        String pattern = "^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-={}\\[\\]:;\"'<>,.?/~`]).{8,}$";
+        if (!passWord.matches(pattern)) {
+            JOptionPane.showMessageDialog(this,
+                "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất một chữ in hoa, một chữ số và một ký tự đặc biệt!");
+            return;
+        }
+
 
         // Tạo đối tượng tài khoản
         TaiKhoan tk = new TaiKhoan(
@@ -320,7 +334,7 @@ public class formThemTK extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công!");
             dispose();  // Đóng form thêm tài khoản
         } else {
-            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi thêm tài khoản.");
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi sửa tài khoản.");
         }
     }//GEN-LAST:event_btnThemActionPerformed
 

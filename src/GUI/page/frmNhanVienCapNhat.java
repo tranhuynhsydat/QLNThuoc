@@ -5,6 +5,7 @@
 package GUI.page;
 
 import DAO.NhanVienDAO;
+import DAO.TaiKhoanDAO;
 import Entity.NhanVien;
 import GUI.form.formThemNCC;
 import GUI.form.formSuaNV;
@@ -257,19 +258,34 @@ public class frmNhanVienCapNhat extends javax.swing.JPanel {
         // Kiểm tra nếu có dòng được chọn trong JTable
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
-            String maNV = jTable1.getValueAt(selectedRow, 0).toString();  // Lấy mã nhân viên từ cột đầu tiên
+            String maNV = jTable1.getValueAt(selectedRow, 0).toString(); // Lấy mã nhân viên từ bảng
 
-            // Hiển thị hộp thoại xác nhận xóa
+            // Kiểm tra nếu nhân viên có tài khoản
+            if (TaiKhoanDAO.kiemTraNhanVienDaCoTaiKhoan(maNV)) {
+                int confirm = JOptionPane.showConfirmDialog(this,
+                    "Nhân viên này đang có tài khoản.\nBạn có muốn xóa tài khoản trước khi xóa nhân viên không?",
+                    "Xác nhận xóa tài khoản và nhân viên", JOptionPane.YES_NO_OPTION);
+
+                if (confirm == JOptionPane.YES_OPTION) {
+                    // Xóa tài khoản trước
+                    if (!TaiKhoanDAO.xoaTaiKhoanTheoMaNV(maNV)) {
+                        JOptionPane.showMessageDialog(this, "Không thể xóa tài khoản của nhân viên này!");
+                        return;
+                    }
+                } else {
+                    return; // Không xóa nếu người dùng chọn No
+                }
+            }
+
+            // Hỏi xác nhận xóa nhân viên
             int response = JOptionPane.showConfirmDialog(this,
-                    "Bạn có chắc chắn muốn xóa nhân viên này?",
-                    "Xác nhận", JOptionPane.YES_NO_OPTION);
+                "Bạn có chắc chắn muốn xóa nhân viên này?",
+                "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
 
-            // Nếu người dùng chọn Yes, thực hiện xóa
             if (response == JOptionPane.YES_OPTION) {
-                // Gọi hàm xóa nhân viên trong DAO
                 if (NhanVienDAO.xoa(maNV)) {
                     JOptionPane.showMessageDialog(this, "Xóa nhân viên thành công!");
-                    loadDataToTable();  // Làm mới bảng sau khi xóa
+                    loadDataToTable(); // Làm mới bảng
                 } else {
                     JOptionPane.showMessageDialog(this, "Xóa nhân viên thất bại!");
                 }

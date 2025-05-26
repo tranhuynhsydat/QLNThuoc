@@ -261,4 +261,69 @@ public class TaiKhoanDAO {
 
         return tk;
     }
+    public static boolean kiemTraTenTaiKhoanTonTai(String userName) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean exists = false;
+
+        try {
+            conn = DatabaseConnection.getConnection(); // hoặc kết nối bạn đang dùng
+            String sql = "SELECT * FROM TaiKhoan WHERE UserName = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, userName);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                exists = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try { if (rs != null) rs.close(); } catch (Exception e) {}
+            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
+            try { if (conn != null) conn.close(); } catch (Exception e) {}
+        }
+
+        return exists;
+    }
+    public static boolean kiemTraNhanVienDaCoTaiKhoan(String maNV) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean exists = false;
+
+        try {
+            conn = DatabaseConnection.getConnection(); // hoặc tên phương thức kết nối DB của bạn
+            String sql = "SELECT * FROM TaiKhoan WHERE maNV = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, maNV);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                exists = true; // Nhân viên này đã có tài khoản
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try { if (rs != null) rs.close(); } catch (Exception e) {}
+            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
+            try { if (conn != null) conn.close(); } catch (Exception e) {}
+        }
+
+        return exists;
+    }
+    public static boolean xoaTaiKhoanTheoMaNV(String maNV) {
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement("DELETE FROM TaiKhoan WHERE maNV = ?")) {
+        stmt.setString(1, maNV);
+        int rows = stmt.executeUpdate();
+        return rows > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+
 }

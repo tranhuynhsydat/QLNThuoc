@@ -37,11 +37,11 @@ public class formSuaTK extends javax.swing.JDialog {
         // Lưu đối tượng taiKhoan vào một biến trong form
         this.taiKhoan = taiKhoan;  // Biến taiKhoan sẽ được sử dụng sau này
         // Hiển thị thông tin tài khoản lên các trường nhập liệu
-        jTextField1.setText(taiKhoan.getUsername());  // Tài khoản
-        jTextField2.setText(taiKhoan.getPassword());  // Mật khẩu
-        jTextField3.setText(taiKhoan.getPassword());  // Nhập lại mật khẩu (hoặc trường khác nếu cần)
+        txtUserName.setText(taiKhoan.getUsername());  // Tài khoản
+        txtPassword.setText(taiKhoan.getPassword());  // Mật khẩu
+        txtRePassword.setText(taiKhoan.getPassword());  // Nhập lại mật khẩu (hoặc trường khác nếu cần)
         // Nếu có thông tin nhân viên, bạn có thể điền thêm
-        jComboBox1.setSelectedItem(taiKhoan.getNhanVien().getHoTen());  // Chọn nhân viên
+        cboNhanVien.setSelectedItem(taiKhoan.getNhanVien().getHoTen());  // Chọn nhân viên
         loadComboboxData();
     }
 
@@ -49,14 +49,14 @@ public class formSuaTK extends javax.swing.JDialog {
         // Lấy danh sách nhân viên từ cơ sở dữ liệu
         List<NhanVien> nhanVienList = NhanVienDAO.getAllNhanVien();
         for (NhanVien nv : nhanVienList) {
-            jComboBox1.addItem(nv.getHoTen());  // Thêm tên nhân viên vào ComboBox
+            cboNhanVien.addItem(nv.getHoTen());  // Thêm tên nhân viên vào ComboBox
             nhanVienMap.put(nv.getHoTen(), nv);  // Lưu ánh xạ giữa tên và đối tượng NhanVien vào Map
         }
 
         // Chọn nhân viên hiện tại của tài khoản cần sửa trong ComboBox
         if (taiKhoan != null && taiKhoan.getNhanVien() != null) {
             NhanVien nvHienTai = taiKhoan.getNhanVien();
-            jComboBox1.setSelectedItem(nvHienTai.getHoTen());  // Chọn nhân viên hiện tại trong ComboBox
+            cboNhanVien.setSelectedItem(nvHienTai.getHoTen());  // Chọn nhân viên hiện tại trong ComboBox
         }
     }
 
@@ -82,22 +82,22 @@ public class formSuaTK extends javax.swing.JDialog {
         jPanel12 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtUserName = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
+        txtRePassword = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cboNhanVien = new javax.swing.JComboBox<>();
         jPanel9 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
@@ -160,8 +160,8 @@ public class formSuaTK extends javax.swing.JDialog {
 
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel13.add(jTextField1);
+        txtUserName.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel13.add(txtUserName);
 
         jPanel5.add(jPanel13, java.awt.BorderLayout.CENTER);
 
@@ -182,8 +182,8 @@ public class formSuaTK extends javax.swing.JDialog {
 
         jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jTextField2.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel15.add(jTextField2);
+        txtPassword.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel15.add(txtPassword);
 
         jPanel6.add(jPanel15, java.awt.BorderLayout.CENTER);
 
@@ -204,8 +204,8 @@ public class formSuaTK extends javax.swing.JDialog {
 
         jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jTextField3.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel17.add(jTextField3);
+        txtRePassword.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel17.add(txtRePassword);
 
         jPanel7.add(jPanel17, java.awt.BorderLayout.CENTER);
 
@@ -226,8 +226,8 @@ public class formSuaTK extends javax.swing.JDialog {
 
         jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 17));
 
-        jComboBox1.setPreferredSize(new java.awt.Dimension(350, 22));
-        jPanel19.add(jComboBox1);
+        cboNhanVien.setPreferredSize(new java.awt.Dimension(350, 22));
+        jPanel19.add(cboNhanVien);
 
         jPanel8.add(jPanel19, java.awt.BorderLayout.CENTER);
 
@@ -255,6 +255,11 @@ public class formSuaTK extends javax.swing.JDialog {
         btnHuy.setForeground(new java.awt.Color(255, 255, 255));
         btnHuy.setText("Huỷ");
         btnHuy.setPreferredSize(new java.awt.Dimension(90, 35));
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
         bottomRoundedPanel2.add(btnHuy);
 
         btnSua.setBackground(new java.awt.Color(15, 204, 102));
@@ -297,22 +302,47 @@ public class formSuaTK extends javax.swing.JDialog {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // Lấy thông tin từ form nhập liệu
-        String username = jTextField1.getText();
-        String password = jTextField2.getText();
-        String confirmPassword = jTextField3.getText();
+        String userName = txtUserName.getText();
+        String passWord = txtPassword.getText();
+        String rePassWord = txtRePassword.getText();
+        String nvName = (String) cboNhanVien.getSelectedItem();
 
         // Kiểm tra mật khẩu có khớp hay không
-        if (!password.equals(confirmPassword)) {
-            JOptionPane.showMessageDialog(this, "Mật khẩu không khớp!");
+        NhanVien maNV = nhanVienMap.get(nvName); 
+        if (userName.isEmpty() || passWord.isEmpty() || rePassWord.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin tài khoản!");
+            return;
+        }
+        // Kiểm tra tài khoản đã tồn tại
+        if (TaiKhoanDAO.kiemTraTenTaiKhoanTonTai(userName)) {
+            JOptionPane.showMessageDialog(this, "Tên tài khoản đã tồn tại. Vui lòng chọn tên khác!");
+            return;
+        }
+        // Kiểm tra nếu nhân viên đã có tài khoản
+        if (TaiKhoanDAO.kiemTraNhanVienDaCoTaiKhoan(maNV.getId())) {
+            JOptionPane.showMessageDialog(this, "Nhân viên này đã có tài khoản!");
+            return;
+        }
+
+        if (!passWord.equals(rePassWord)) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu không khớp. Vui lòng nhập lại!");
+            return;
+        }
+
+        // Kiểm tra độ mạnh của mật khẩu
+        String pattern = "^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-={}\\[\\]:;\"'<>,.?/~`]).{8,}$";
+        if (!passWord.matches(pattern)) {
+            JOptionPane.showMessageDialog(this,
+                "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất một chữ in hoa, một chữ số và một ký tự đặc biệt!");
             return;
         }
 
         // Lấy nhân viên đã chọn từ ComboBox
-        String selectedNhanVien = (String) jComboBox1.getSelectedItem();
+        String selectedNhanVien = (String) cboNhanVien.getSelectedItem();
         NhanVien nv = NhanVienDAO.getNhanVienByHoTen(selectedNhanVien);
 
         // Cập nhật tài khoản
-        TaiKhoan taiKhoanMoi = new TaiKhoan(taiKhoan.getId(), username, password, nv);  // Dùng lại id của tài khoản cũ
+        TaiKhoan taiKhoanMoi = new TaiKhoan(taiKhoan.getId(), userName, passWord, nv);  // Dùng lại id của tài khoản cũ
         boolean isUpdated = TaiKhoanDAO.sua(taiKhoanMoi);  // Gọi phương thức sửa tài khoản trong DAO
 
         if (isUpdated) {
@@ -322,6 +352,11 @@ public class formSuaTK extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi sửa tài khoản!");
         }
     }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnHuyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -370,7 +405,7 @@ public class formSuaTK extends javax.swing.JDialog {
     private Swing.BottomRoundedPanel bottomRoundedPanel2;
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnSua;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cboNhanVien;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -395,11 +430,11 @@ public class formSuaTK extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lblThemTk;
     private Swing.RoundPanel roundPanel1;
     private Swing.TopRoundedPanel topRoundedPanel1;
+    private javax.swing.JTextField txtPassword;
+    private javax.swing.JTextField txtRePassword;
+    private javax.swing.JTextField txtUserName;
     // End of variables declaration//GEN-END:variables
 }

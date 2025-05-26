@@ -656,52 +656,63 @@ public class formSuaThuoc extends javax.swing.JDialog {
 
         // --- Bắt đầu chèn biểu thức chính quy và kiểm tra ---
         // Kiểm tra tên thuốc (ví dụ: không rỗng, chỉ chứa chữ, số, dấu cách, dấu gạch nối)
-        if (tenThuoc.isEmpty() ) {
+        if (tenThuoc.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập tên thuốc!");
             return;
         }
 
-        // Kiểm tra thành phần (cho phép chữ, số, dấu phẩy, dấu chấm, khoảng trắng)
-        if (thanhPhan.isEmpty() ) {
+        if (thanhPhan.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập thành phần thuốc!");
             return;
         }
 
-        // Kiểm tra giá nhập và giá bán là số thực hợp lệ dương
         if (giaNhapStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập giá nhập của thuốc!");
             return;
         }
+        if (!giaNhapStr.matches("^\\d+(\\.\\d+)?$")) {
+            JOptionPane.showMessageDialog(this, "Giá nhập chỉ được nhập số và không chứa chữ hoặc ký tự đặc biệt!");
+            return;
+        }
+
         if (giaBanStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập giá bán của thuốc!");
             return;
         }
-
-        // Chuyển chuỗi thành số sau khi kiểm tra
-        double giaNhap = Double.parseDouble(giaNhapStr);
-        double giaBan = Double.parseDouble(giaBanStr);
-        if (giaNhap >  giaBan ) {
-            JOptionPane.showMessageDialog(this, "Giá nhập phải thấp hơn giá bán!");
+        if (!giaBanStr.matches("^\\d+(\\.\\d+)?$")) {
+            JOptionPane.showMessageDialog(this, "Giá bán chỉ được nhập số và không chứa chữ hoặc ký tự đặc biệt!");
             return;
         }
+
+        double giaNhap = Double.parseDouble(giaNhapStr);
+        double giaBan = Double.parseDouble(giaBanStr);
 
         if (giaNhap < 0 || giaBan < 0) {
             JOptionPane.showMessageDialog(this, "Giá nhập và giá bán phải lớn hơn hoặc bằng 0!");
             return;
         }
+        if (giaNhap > giaBan) {
+            JOptionPane.showMessageDialog(this, "Giá nhập phải thấp hơn giá bán!");
+            return;
+        }
 
-        // Kiểm tra số lượng là số nguyên dương
         if (soLuongStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập số lượng của thuốc!");
             return;
         }
+        // Chỉ chấp nhận số nguyên không âm
+        if (!soLuongStr.matches("^\\d+$")) {
+            JOptionPane.showMessageDialog(this, "Số lượng phải là số nguyên không âm và không được chứa chữ hoặc dấu thập phân!");
+            return;
+        }
+
         int soLuong = Integer.parseInt(soLuongStr);
+
         if (soLuong < 0) {
             JOptionPane.showMessageDialog(this, "Số lượng phải lớn hơn hoặc bằng 0!");
             return;
         }
 
-        // Kiểm tra hạn sử dụng không được để trống và phải là ngày trong tương lai
         if (hsd == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn hạn sử dụng!");
             return;

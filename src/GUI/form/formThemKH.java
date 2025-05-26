@@ -308,6 +308,41 @@ public class formThemKH extends javax.swing.JDialog {
         String tuoiStr = txtTuoi.getText().trim();
 
         // Kiểm tra rỗng trước
+        if (hoTen.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên khách hàng!");
+            return;
+        }
+
+        // Kiểm tra họ tên chỉ gồm chữ cái và khoảng trắng (tiếng Việt có dấu)
+        if (!hoTen.matches("^[\\p{L} ]+$")) {
+            JOptionPane.showMessageDialog(this, "Họ tên chỉ được chứa chữ cái và khoảng trắng, không chứa số hoặc ký tự đặc biệt!");
+            return;
+        }
+
+        // Chuẩn hóa họ tên: viết hoa chữ cái đầu mỗi từ
+        String[] words = hoTen.trim().toLowerCase().split("\\s+");
+        StringBuilder formattedName = new StringBuilder();
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                formattedName.append(Character.toUpperCase(word.charAt(0)))
+                             .append(word.substring(1)).append(" ");
+            }
+        }
+        String hoTenChuanHoa = formattedName.toString().trim();
+
+        // Nếu tên người dùng nhập không đúng định dạng viết hoa, cảnh báo hoặc tự động sửa
+        if (!hoTen.equals(hoTenChuanHoa)) {
+            int option = JOptionPane.showConfirmDialog(this,
+                "Tên khách hàng nên được viết hoa chữ cái đầu mỗi từ.\n"
+                + "Bạn có muốn tự động sửa thành: \"" + hoTenChuanHoa + "\" không?",
+                "Chuẩn hóa tên", JOptionPane.YES_NO_OPTION);
+            if (option == JOptionPane.YES_OPTION) {
+                hoTen = hoTenChuanHoa;
+            } else {
+                return;
+            }
+        }
+
         if (hoTen.isEmpty() ) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập tên khách hàng!");
             return;
@@ -336,7 +371,7 @@ public class formThemKH extends javax.swing.JDialog {
         int tuoi;
         try {
             tuoi = Integer.parseInt(tuoiStr);
-            if (tuoi < 18) throw new NumberFormatException();
+            if (tuoi < 10) throw new NumberFormatException();
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Tuổi không hợp lệ!");
             return;

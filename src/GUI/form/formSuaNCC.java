@@ -250,6 +250,10 @@ public class formSuaNCC extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập tên nhà cung cấp!");
             return;
         }
+        if (!tenNCC.matches("^[\\p{L} ]+$")) {
+            JOptionPane.showMessageDialog(this, "Họ tên chỉ được chứa chữ cái và khoảng trắng, không chứa số hoặc ký tự đặc biệt!");
+            return;
+        }
         if (sdt.isEmpty() ) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập số điện thoại!");
             return;

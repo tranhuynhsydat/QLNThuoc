@@ -357,6 +357,35 @@ public class formThemNV extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(this, "Vui lòng nhập họ tên!");
         return;
         }
+        // Kiểm tra họ tên chỉ gồm chữ cái và khoảng trắng (tiếng Việt có dấu)
+        if (!hoTen.matches("^[\\p{L} ]+$")) {
+            JOptionPane.showMessageDialog(this, "Họ tên chỉ được chứa chữ cái và khoảng trắng, không chứa số hoặc ký tự đặc biệt!");
+            return;
+        }
+
+        // Chuẩn hóa họ tên: viết hoa chữ cái đầu mỗi từ
+        String[] words = hoTen.trim().toLowerCase().split("\\s+");
+        StringBuilder formattedName = new StringBuilder();
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                formattedName.append(Character.toUpperCase(word.charAt(0)))
+                             .append(word.substring(1)).append(" ");
+            }
+        }
+        String hoTenChuanHoa = formattedName.toString().trim();
+
+        // Nếu tên người dùng nhập không đúng định dạng viết hoa, cảnh báo hoặc tự động sửa
+        if (!hoTen.equals(hoTenChuanHoa)) {
+            int option = JOptionPane.showConfirmDialog(this,
+                "Tên nhân viên nên được viết hoa chữ cái đầu mỗi từ.\n"
+                + "Bạn có muốn tự động sửa thành: \"" + hoTenChuanHoa + "\" không?",
+                "Chuẩn hóa tên", JOptionPane.YES_NO_OPTION);
+            if (option == JOptionPane.YES_OPTION) {
+                hoTen = hoTenChuanHoa;
+            } else {
+                return;
+            }
+        }
         if (sdt.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập số điện thoại!");
             return;

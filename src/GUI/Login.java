@@ -206,19 +206,46 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogActionPerformed
-String user = txtUser.getText().trim();
+        String user = txtUser.getText().trim();
         String pass = new String(txtPassword.getPassword()).trim();
 
         TaiKhoanDAO dao = new TaiKhoanDAO();
         TaiKhoan tk = dao.dangNhap(user, pass);
 
+        // Kiểm tra để trống
+        if (user.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tài khoản để trống. Vui lòng nhập tên tài khoản!");
+            txtUser.requestFocus();
+            return;
+        }
+
+        if (pass.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu để trống. Vui lòng nhập mật khẩu!");
+            txtPassword.requestFocus();
+            return;
+        }
+
+        // Kiểm tra mật khẩu ít nhất 8 ký tự
+        if (pass.length() < 8) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu phải có ít nhất 8 ký tự!");
+            txtPassword.requestFocus();
+            return;
+        }
+
+        // Nếu cần regex thêm như kiểm tra user chỉ có chữ cái/số:
+        if (!user.matches("^[a-zA-Z0-9_]{3,}$")) {
+            JOptionPane.showMessageDialog(this, "Tên tài khoản không hợp lệ. Chỉ chứa chữ, số, hoặc dấu gạch dưới và ít nhất 3 ký tự!");
+            txtUser.requestFocus();
+            return;
+        }
+
         if (tk != null) {
-            new Main(tk).setVisible(true);  // truyền tk sang Main.java
-            this.dispose(); // đóng form đăng nhập
+            new Main(tk).setVisible(true);
+            this.dispose(); // Đóng form đăng nhập
         } else {
             JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu!");
         }
-
+        
     }//GEN-LAST:event_btnLogActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
