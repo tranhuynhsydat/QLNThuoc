@@ -280,7 +280,7 @@ public class PhieuNhapDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Lỗi lấy chi tiết phie: " + e.getMessage());
+            System.out.println("Lỗi lấy chi tiết phiếu nhập: " + e.getMessage());
         }
 
         return chiTietList;

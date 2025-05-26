@@ -1,6 +1,8 @@
 package GUI.page;
 
+import DAO.ChiTietHoaDonDAO;
 import DAO.HoaDonDAO;
+import Entity.ChiTietHoaDon;
 import Entity.HoaDon;
 import Entity.KhachHang;
 import Entity.NhanVien;
@@ -194,7 +196,6 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         jPanel13 = new javax.swing.JPanel();
         btnTimKiem = new javax.swing.JButton();
         btnChiTiet = new javax.swing.JButton();
-        btnPDF = new javax.swing.JButton();
 
         setMaximumSize(new java.awt.Dimension(829, 624));
         setMinimumSize(new java.awt.Dimension(829, 624));
@@ -424,25 +425,36 @@ public class frmSearchHoaDon extends javax.swing.JPanel {
         });
         jPanel13.add(btnChiTiet);
 
-        btnPDF.setBackground(new java.awt.Color(0, 120, 92));
-        btnPDF.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnPDF.setForeground(new java.awt.Color(255, 255, 255));
-        btnPDF.setText("Xuất PDF");
-        btnPDF.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnPDF.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnPDF.setPreferredSize(new java.awt.Dimension(105, 35));
-        jPanel13.add(btnPDF);
-
         add(jPanel13, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
         // TODO add your handling code here:
+        int selectedRow = jTable2.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một hóa đơn!");
+            return;
+        }
+
+        String maHD = jTable2.getValueAt(selectedRow, 1).toString(); // Cột 0 là mã phiếu nhập
+
+        // Lấy danh sách chi tiết phiếu nhập từ DAO
+        ChiTietHoaDonDAO ctpnDAO = new ChiTietHoaDonDAO();
+        List<ChiTietHoaDon> listCTHD = ctpnDAO.getChiTietByHoaDonId(maHD);
+
+        if (listCTHD == null || listCTHD.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hóa đơn không có chi tiết!");
+            return;
+        }
+
+        // Mở form chi tiết
+        formChiTietHoaDon form = new formChiTietHoaDon(null, true, listCTHD);
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
     }//GEN-LAST:event_btnChiTietActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChiTiet;
-    private javax.swing.JButton btnPDF;
     private javax.swing.JButton btnTimKiem;
     private com.toedter.calendar.JDateChooser dateNgayMua;
     private javax.swing.JLabel jLabel10;
