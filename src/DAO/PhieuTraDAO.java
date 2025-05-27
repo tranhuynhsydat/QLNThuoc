@@ -8,10 +8,10 @@ import java.util.*;
 import java.util.Date;
 
 public class PhieuTraDAO {
+
     public static boolean them(PhieuTra pt) {
         String sql = "INSERT INTO PhieuTra (maPT, maNV, maKH, maHD, thoiGian, lyDo) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, pt.getMaPT());
             ps.setString(2, pt.getMaNV());
             ps.setString(3, pt.getMaKH());
@@ -36,8 +36,7 @@ public class PhieuTraDAO {
         List<PhieuTra> list = new ArrayList<>();
         String sql = "SELECT * FROM PhieuTra ORDER BY thoiGian DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, start);
             ps.setInt(2, limit);
@@ -68,8 +67,7 @@ public class PhieuTraDAO {
 
     public static void capNhatSoLuongKho(String maThuoc, int soLuongTraVe) {
         String sql = "UPDATE Thuoc SET soLuong = soLuong + ? WHERE maThuoc = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, soLuongTraVe);
             ps.setString(2, maThuoc);
             ps.executeUpdate();
@@ -80,8 +78,7 @@ public class PhieuTraDAO {
 
     public static boolean daTraHang(String maHD) {
         String sql = "SELECT COUNT(*) FROM PhieuTra WHERE maHD = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, maHD);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -120,8 +117,7 @@ public class PhieuTraDAO {
             params.add(new java.sql.Date(ngayTra.getTime()));
         }
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
             for (int i = 0; i < params.size(); i++) {
                 ps.setObject(i + 1, params.get(i));
@@ -144,9 +140,7 @@ public class PhieuTraDAO {
         List<PhieuTra> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM PhieuTra";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 PhieuTra pd = mapResultSetToPhieuDoi(rs);
@@ -163,9 +157,7 @@ public class PhieuTraDAO {
         int maxNumber = 0;
         String sql = "SELECT maPT FROM PhieuTra WHERE maPT LIKE 'PT-%' ORDER BY maPT DESC";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             if (rs.next()) {
                 String lastMaPT = rs.getString("maPT");
                 int lastNumber = Integer.parseInt(lastMaPT.substring(3));
@@ -177,13 +169,13 @@ public class PhieuTraDAO {
 
         return prefix + String.format("%03d", maxNumber);
     }
+
     // Lấy chi tiết phiếu đổi theo mã
     public static List<ChiTietPhieuTra> getChiTietHoaDonByMaPD(String maPD) {
         List<ChiTietPhieuTra> chiTietList = new ArrayList<>();
         String sql = "SELECT * FROM CTPhieuTra WHERE maPT = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maPD);
 
@@ -204,13 +196,13 @@ public class PhieuTraDAO {
 
         return chiTietList;
     }
+
     // Tìm kiếm phiếu đổi theo khoảng thời gian
     public static List<PhieuTra> timHoaDonDoiTheoThoiGian(Date tuNgay, Date denNgay) {
         List<PhieuTra> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM PhieuTra WHERE thoiGian BETWEEN ? AND ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setTimestamp(1, new Timestamp(tuNgay.getTime()));
             ps.setTimestamp(2, new Timestamp(denNgay.getTime()));
@@ -227,11 +219,11 @@ public class PhieuTraDAO {
 
         return danhSach;
     }
+
     public static PhieuTra getHoaDonByMaPD(String maPD) {
         String sql = "SELECT * FROM PhieuTra WHERE maPT = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, maPD);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -245,13 +237,13 @@ public class PhieuTraDAO {
 
         return null;
     }
+
     // Tìm kiếm phiếu đổi theo khách hàng
     public static List<PhieuTra> timHoaDonDoiTheoKhachHang(String maKH) {
         List<PhieuTra> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM PhieuDoi WHERE maKH = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maKH);
 
@@ -267,13 +259,13 @@ public class PhieuTraDAO {
 
         return danhSach;
     }
+
     // Tìm kiếm phiếu đổi theo nhân viên
     public static List<PhieuTra> timHoaDonDoiTheoNhanVien(String maNV) {
         List<PhieuTra> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM PhieuTra WHERE maNV = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maNV);
 
@@ -289,6 +281,7 @@ public class PhieuTraDAO {
 
         return danhSach;
     }
+
     private static PhieuTra mapResultSetToPhieuDoi(ResultSet rs) throws SQLException {
         String maPT = rs.getString("maPT");
         Date ngayLap = rs.getTimestamp("thoiGian");
@@ -313,4 +306,44 @@ public class PhieuTraDAO {
 
         return pd;
     }
+
+
+    public static PhieuTra getPhieuTraByMaPT(String maPT) {
+        String sql = "SELECT * FROM PhieuTra WHERE maPT = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, maPT);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    java.util.Date thoiGian = rs.getTimestamp("thoiGian");
+                    String maNV = rs.getString("maNV");
+                    String maKH = rs.getString("maKH");
+                    String maHD = rs.getString("maHD");
+                    String ghiChu = null;
+                    try {
+                        ghiChu = rs.getString("ghiChu");
+                    } catch (Exception e) {
+                    }
+
+                    // Tạo đối tượng phiếu trả
+                    PhieuTra phieuTra = new PhieuTra(maPT, thoiGian, maNV, maKH, maHD, ghiChu);
+
+                    // Set nhân viên, khách hàng nếu có hàm DAO và phương thức set trong class
+                    if (phieuTra.getNhanVien() == null && NhanVienDAO.getNhanVienByMaNV(maNV) != null) {
+                        phieuTra.setNhanVien(NhanVienDAO.getNhanVienByMaNV(maNV));
+                    }
+                    if (phieuTra.getKhachHang() == null && KhachHangDAO.getKhachHangByMaKH(maKH) != null) {
+                        phieuTra.setKhachHang(KhachHangDAO.getKhachHangByMaKH(maKH));
+                    }
+
+                    return phieuTra;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi lấy phiếu trả theo mã: " + e.getMessage());
+        }
+        return null;
+    }
+
 }

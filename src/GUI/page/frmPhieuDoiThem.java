@@ -5,6 +5,7 @@
 package GUI.page;
 
 import DAO.ChiTietHoaDonDAO;
+import DAO.ChiTietPhieuDoiDAO;
 import DAO.DanhMucDAO;
 import DAO.PhieuDoiDAO;
 import DAO.NhanVienDAO;
@@ -19,6 +20,7 @@ import Entity.KhachHang;
 import Entity.PhieuDoi;
 import Entity.NhanVien;
 import GUI.Main;
+import Utils.WritePDF;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -54,334 +56,334 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class frmPhieuDoiThem extends javax.swing.JPanel {
 
-        private String maKH; // Mã khách hàng
-        private String maNV; // Mã nhân viên
+    private String maKH; // Mã khách hàng
+    private String maNV; // Mã nhân viên
 
-        /**
-         * Creates new form frmHoaDonCapNhat
-         */
-        private int startIndex = 0; // Track the starting index for data loading
-        private JLabel lblThongTinThuoc;
-        private boolean isSearching = false;
+    /**
+     * Creates new form frmHoaDonCapNhat
+     */
+    private int startIndex = 0; // Track the starting index for data loading
+    private JLabel lblThongTinThuoc;
+    private boolean isSearching = false;
 
-        public frmPhieuDoiThem() {
-                initComponents();
-                configureTable(); // cấu hình bảng jTable1
-                centerAlignJTable2(); // cấu hình căn giữa bảng jTable2
-                initEvent();
-                loadDataToTable();
-                addTableSelectionListener();
-                // Tạo và hiển thị mã hóa đơn mới
-                String maHoaDonDoi = PhieuDoiDAO.taoMaHoaDonDoi(); // Lấy mã hóa đơn mới
-                txtMaHoaDonDoi.setText(maHoaDonDoi); // Gán vào ô txtMaHoaDon
-                // Tạo và hiển thị thời gian hiện tại
-                String thoiGian = getCurrentTime(); // Lấy thời gian hiện tại
-                txtThoiGian.setText(thoiGian); // Gán vào ô txtThoiGian
+    public frmPhieuDoiThem() {
+        initComponents();
+        configureTable(); // cấu hình bảng jTable1
+        centerAlignJTable2(); // cấu hình căn giữa bảng jTable2
+        initEvent();
+        loadDataToTable();
+        addTableSelectionListener();
+        // Tạo và hiển thị mã hóa đơn mới
+        String maHoaDonDoi = PhieuDoiDAO.taoMaHoaDonDoi(); // Lấy mã hóa đơn mới
+        txtMaHoaDonDoi.setText(maHoaDonDoi); // Gán vào ô txtMaHoaDon
+        // Tạo và hiển thị thời gian hiện tại
+        String thoiGian = getCurrentTime(); // Lấy thời gian hiện tại
+        txtThoiGian.setText(thoiGian); // Gán vào ô txtThoiGian
 
-                jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
-                        // Nếu đang tìm kiếm thì không tải thêm dữ liệu
-                        if (isSearching) {
-                                return;
-                        }
+        jScrollPane1.getVerticalScrollBar().addAdjustmentListener(e -> {
+            // Nếu đang tìm kiếm thì không tải thêm dữ liệu
+            if (isSearching) {
+                return;
+            }
 
-                        JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
-                        int max = vertical.getMaximum();
-                        int current = vertical.getValue();
-                        int visible = vertical.getVisibleAmount();
+            JScrollBar vertical = jScrollPane1.getVerticalScrollBar();
+            int max = vertical.getMaximum();
+            int current = vertical.getValue();
+            int visible = vertical.getVisibleAmount();
 
-                        // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
-                        if (current + visible >= max) {
-                                startIndex += 13; // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
-                                loadDataToTable(); // Tải thêm dữ liệu
-                        }
-                });
-        }
-        // Phương thức lấy thời gian hiện tại và định dạng theo yêu cầu
+            // Kiểm tra nếu người dùng đã cuộn đến cuối bảng
+            if (current + visible >= max) {
+                startIndex += 13; // Tăng chỉ mục bắt đầu để tải dữ liệu tiếp theo
+                loadDataToTable(); // Tải thêm dữ liệu
+            }
+        });
+    }
+    // Phương thức lấy thời gian hiện tại và định dạng theo yêu cầu
 
-        private String getCurrentTime() {
-                LocalDateTime now = LocalDateTime.now(); // Lấy thời gian hiện tại
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"); // Định dạng thời gian
-                return now.format(formatter); // Trả về thời gian đã định dạng
-        }
+    private String getCurrentTime() {
+        LocalDateTime now = LocalDateTime.now(); // Lấy thời gian hiện tại
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"); // Định dạng thời gian
+        return now.format(formatter); // Trả về thời gian đã định dạng
+    }
 
-        private void configureTable() {
-                // Ngăn không cho phép người dùng chỉnh sửa bảng
-                jTable1.setDefaultEditor(Object.class, null); // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô
-                                                              // nào trong bảng.
+    private void configureTable() {
+        // Ngăn không cho phép người dùng chỉnh sửa bảng
+        jTable1.setDefaultEditor(Object.class, null); // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô
+        // nào trong bảng.
 
-                // Căn giữa cho tất cả các cell trong bảng
-                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-                centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        // Căn giữa cho tất cả các cell trong bảng
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
-                // Căn giữa cho từng cột
-                for (int i = 0; i < jTable1.getColumnCount(); i++) {
-                        jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-                }
-
-                // Ngăn không cho phép chọn nhiều dòng
-                jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        // Căn giữa cho từng cột
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        private void centerAlignJTable2() {
-                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-                centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        // Ngăn không cho phép chọn nhiều dòng
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    }
 
-                for (int i = 0; i < jTable2.getColumnCount(); i++) {
-                        jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-                }
+    private void centerAlignJTable2() {
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        for (int i = 0; i < jTable2.getColumnCount(); i++) {
+            jTable2.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
+    }
 
-        private void loadDataToTable() {
-                // Lấy dữ liệu thuốc với batch tiếp theo (10 dòng)
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-                        @Override
-                        protected Void doInBackground() throws Exception {
-                                // Lấy danh sách NCC từ cơ sở dữ liệu (10 dòng bắt đầu từ startIndex)
-                                List<Thuoc> thuocList = ThuocDAO.getThuocBatch(startIndex, 13); // startIndex là chỉ mục
-                                                                                                // bắt đầu
-                                SwingUtilities.invokeLater(() -> {
-                                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    private void loadDataToTable() {
+        // Lấy dữ liệu thuốc với batch tiếp theo (10 dòng)
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                // Lấy danh sách NCC từ cơ sở dữ liệu (10 dòng bắt đầu từ startIndex)
+                List<Thuoc> thuocList = ThuocDAO.getThuocBatch(startIndex, 13); // startIndex là chỉ mục
+                // bắt đầu
+                SwingUtilities.invokeLater(() -> {
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-                                        // Chỉ thêm dữ liệu mới vào bảng, không xóa dữ liệu cũ
-                                        for (Thuoc thuoc : thuocList) {
-                                                model.addRow(new Object[] {
-                                                                thuoc.getId(),
-                                                                thuoc.getTenThuoc(),
-                                                                thuoc.getThanhPhan(),
-                                                                thuoc.getGiaNhap(),
-                                                                thuoc.getDonGia(),
-                                                                thuoc.getHsd(),
-                                                                thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen()
-                                                                                : null,
-                                                                thuoc.getDonViTinh() != null
-                                                                                ? thuoc.getDonViTinh().getTen()
-                                                                                : null,
-                                                                thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen()
-                                                                                : null,
-                                                                thuoc.getSoLuong()
-                                                });
-                                        }
-                                });
-                                return null;
-                        }
-                };
-                worker.execute();
-        }
-
-        private void addTableSelectionListener() {
-                // Thêm listener xử lý sự kiện khi chọn dòng trong bảng
-                jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-                        @Override
-                        public void valueChanged(ListSelectionEvent e) {
-                                if (!e.getValueIsAdjusting()) { // Chỉ xử lý khi sự kiện chọn đã hoàn tất
-                                        int selectedRow = jTable1.getSelectedRow();
-                                        if (selectedRow != -1) {
-                                                // Lấy mã thuốc từ dòng đã chọn
-                                                String maThuoc = jTable1.getValueAt(selectedRow, 0) != null
-                                                                ? jTable1.getValueAt(selectedRow, 0).toString()
-                                                                : "";
-
-                                                // Tìm thông tin thuốc theo mã thuốc
-                                                Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(maThuoc);
-
-                                                if (thuoc != null) {
-                                                        // Cập nhật các trường thông tin với dữ liệu thuốc đã chọn
-                                                        txtMaThuoc.setText(thuoc.getId());
-                                                        txtTenThuoc.setText(thuoc.getTenThuoc());
-                                                        txtThanhPhan.setText(thuoc.getThanhPhan());
-                                                        txtDonGia.setText(String.valueOf(thuoc.getDonGia()));
-
-                                                        // Hiển thị ảnh thuốc
-                                                        byte[] anhThuoc = thuoc.getHinhAnh();
-                                                        if (anhThuoc != null && anhThuoc.length > 0) {
-                                                                ImageIcon icon = new ImageIcon(anhThuoc);
-                                                                lblAnh.setIcon(icon); // Cập nhật ảnh vào lblAnh
-                                                        } else {
-                                                                // Nếu không có ảnh, hiển thị ảnh mặc định
-                                                                lblAnh.setIcon(new FlatSVGIcon("./icon/image.svg"));
-                                                        }
-                                                }
-                                        }
-                                }
-                        }
-                });
-        }
-
-        private void setupCategoryComboBox() {
-                // Tạo model cho ComboBox
-                DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
-
-                // Thêm tùy chọn "Tất cả" vào đầu danh sách
-                comboBoxModel.addElement("Tất cả");
-
-                try {
-                        // Lấy danh sách các danh mục từ cơ sở dữ liệu
-                        List<DanhMuc> danhMucList = DanhMucDAO.getDanhMucList();
-
-                        // Thêm tên các danh mục vào ComboBox
-                        for (DanhMuc danhMuc : danhMucList) {
-                                comboBoxModel.addElement(danhMuc.getTen());
-                        }
-                } catch (Exception ex) {
-                        System.err.println("Lỗi khi tải danh mục: " + ex.getMessage());
-                        ex.printStackTrace();
-
-                        // Thêm một số danh mục mặc định nếu không thể tải từ cơ sở dữ liệu
-                        comboBoxModel.addElement("Thuốc đau đầu");
-                        comboBoxModel.addElement("Thuốc tim mạch");
-                        comboBoxModel.addElement("Thuốc kháng sinh");
-                        comboBoxModel.addElement("Thuốc bổ");
-                        comboBoxModel.addElement("Thuốc da dày");
-                }
-
-                // Cập nhật model cho ComboBox
-                jComboBox1.setModel(comboBoxModel);
-
-                // Đặt lựa chọn mặc định là "Tất cả"
-                jComboBox1.setSelectedItem("Tất cả");
-        }
-        // 3. Thêm phương thức lọc theo danh mục - phải được đặt bên trong lớp, ngang
-        // hàng với các phương thức khác
-
-        private void filterByCategory(String category) {
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                model.setRowCount(0);
-                model.addRow(new Object[] { "Đang lọc...", "", "", "", "", "", "", "", "", "" });
-
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-                        private List<Thuoc> filteredList = new ArrayList<>();
-
-                        @Override
-                        protected Void doInBackground() throws Exception {
-                                // Lấy tất cả thuốc từ cơ sở dữ liệu
-                                List<Thuoc> allThuoc = ThuocDAO.getAllThuoc();
-
-                                // Lọc danh sách thuốc theo danh mục
-                                for (Thuoc thuoc : allThuoc) {
-                                        if (thuoc.getDanhMuc() != null
-                                                        && thuoc.getDanhMuc().getTen().equals(category)) {
-                                                filteredList.add(thuoc);
-                                        }
-                                }
-
-                                return null;
-                        }
-
-                        @Override
-                        protected void done() {
-                                SwingUtilities.invokeLater(() -> {
-                                        model.setRowCount(0);
-
-                                        if (filteredList.isEmpty()) {
-                                                model.addRow(new Object[] { "Không có dữ liệu", "", "", "", "", "", "",
-                                                                "", "", "" });
-                                                return;
-                                        }
-
-                                        // Thêm dữ liệu đã lọc vào bảng theo cấu trúc mới
-                                        for (Thuoc thuoc : filteredList) {
-                                                model.addRow(new Object[] {
-                                                                thuoc.getId(),
-                                                                thuoc.getTenThuoc(),
-                                                                thuoc.getThanhPhan(),
-                                                                thuoc.getGiaNhap(),
-                                                                thuoc.getDonGia(),
-                                                                thuoc.getHsd(),
-                                                                thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen()
-                                                                                : null,
-                                                                thuoc.getDonViTinh() != null
-                                                                                ? thuoc.getDonViTinh().getTen()
-                                                                                : null,
-                                                                thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen()
-                                                                                : null,
-                                                                thuoc.getSoLuong()
-                                                });
-                                        }
-
-                                        // Cập nhật giao diện
-                                        jTable1.revalidate();
-                                        jTable1.repaint();
-                                });
-                        }
-                };
-
-                worker.execute();
-        }
-
-        private void searchThuoc(String keyword) {
-                // Tạo câu lệnh SQL để tìm thuốc có tên chứa từ khóa
-                List<Thuoc> thuocList = ThuocDAO.getThuocByKeyword(keyword); // Tìm thuốc qua ThuocDAO
-
-                // Lấy model của bảng
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                model.setRowCount(0); // Xóa hết dữ liệu cũ trong bảng
-
-                // Thêm các kết quả tìm kiếm vào bảng
-                for (Thuoc thuoc : thuocList) {
-                        model.addRow(new Object[] {
-                                        thuoc.getId(),
-                                        thuoc.getTenThuoc(),
-                                        thuoc.getThanhPhan(),
-                                        thuoc.getGiaNhap(),
-                                        thuoc.getDonGia(),
-                                        thuoc.getHsd(),
-                                        thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen() : null,
-                                        thuoc.getDonViTinh() != null ? thuoc.getDonViTinh().getTen() : null,
-                                        thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen() : null,
-                                        thuoc.getSoLuong()
+                    // Chỉ thêm dữ liệu mới vào bảng, không xóa dữ liệu cũ
+                    for (Thuoc thuoc : thuocList) {
+                        model.addRow(new Object[]{
+                            thuoc.getId(),
+                            thuoc.getTenThuoc(),
+                            thuoc.getThanhPhan(),
+                            thuoc.getGiaNhap(),
+                            thuoc.getDonGia(),
+                            thuoc.getHsd(),
+                            thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen()
+                            : null,
+                            thuoc.getDonViTinh() != null
+                            ? thuoc.getDonViTinh().getTen()
+                            : null,
+                            thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen()
+                            : null,
+                            thuoc.getSoLuong()
                         });
-                }
-        }
+                    }
+                });
+                return null;
+            }
+        };
+        worker.execute();
+    }
 
-        private void tinhTongTienPhieuDoi() {
-                DefaultTableModel chiTietModel = (DefaultTableModel) jTable2.getModel();
-                double tongTienPhieuDoi = 0.0;
+    private void addTableSelectionListener() {
+        // Thêm listener xử lý sự kiện khi chọn dòng trong bảng
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) { // Chỉ xử lý khi sự kiện chọn đã hoàn tất
+                    int selectedRow = jTable1.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Lấy mã thuốc từ dòng đã chọn
+                        String maThuoc = jTable1.getValueAt(selectedRow, 0) != null
+                                ? jTable1.getValueAt(selectedRow, 0).toString()
+                                : "";
 
-                // Lặp qua tất cả các dòng trong bảng để tính tổng thành tiền
-                for (int i = 0; i < chiTietModel.getRowCount(); i++) {
-                        // Lấy giá trị cột "Thành tiền" (giả sử là cột thứ 5, index = 4)
-                        Object thanhTienObj = chiTietModel.getValueAt(i, 5); // Cột Thành tiền (index = 5)
+                        // Tìm thông tin thuốc theo mã thuốc
+                        Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(maThuoc);
 
-                        if (thanhTienObj != null) {
-                                try {
-                                        double thanhTien = Double.parseDouble(thanhTienObj.toString()); // Chuyển giá
-                                                                                                        // trị thành số
-                                                                                                        // thực
-                                        tongTienPhieuDoi += thanhTien; // Cộng dồn vào tổng
-                                } catch (NumberFormatException e) {
-                                        System.err.println("Lỗi khi chuyển đổi thành tiền ở dòng " + i + ": "
-                                                        + e.getMessage());
-                                }
+                        if (thuoc != null) {
+                            // Cập nhật các trường thông tin với dữ liệu thuốc đã chọn
+                            txtMaThuoc.setText(thuoc.getId());
+                            txtTenThuoc.setText(thuoc.getTenThuoc());
+                            txtThanhPhan.setText(thuoc.getThanhPhan());
+                            txtDonGia.setText(String.valueOf(thuoc.getDonGia()));
+
+                            // Hiển thị ảnh thuốc
+                            byte[] anhThuoc = thuoc.getHinhAnh();
+                            if (anhThuoc != null && anhThuoc.length > 0) {
+                                ImageIcon icon = new ImageIcon(anhThuoc);
+                                lblAnh.setIcon(icon); // Cập nhật ảnh vào lblAnh
+                            } else {
+                                // Nếu không có ảnh, hiển thị ảnh mặc định
+                                lblAnh.setIcon(new FlatSVGIcon("./icon/image.svg"));
+                            }
                         }
+                    }
                 }
+            }
+        });
+    }
 
-                // Cập nhật tổng tiền vào txtTong
-                txtTongTienPhieuDoi.setText(String.format("%.0f", tongTienPhieuDoi)); // Hiển thị tổng tiền, định dạng
-                                                                                      // theo số
-                // nguyên
+    private void setupCategoryComboBox() {
+        // Tạo model cho ComboBox
+        DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+
+        // Thêm tùy chọn "Tất cả" vào đầu danh sách
+        comboBoxModel.addElement("Tất cả");
+
+        try {
+            // Lấy danh sách các danh mục từ cơ sở dữ liệu
+            List<DanhMuc> danhMucList = DanhMucDAO.getDanhMucList();
+
+            // Thêm tên các danh mục vào ComboBox
+            for (DanhMuc danhMuc : danhMucList) {
+                comboBoxModel.addElement(danhMuc.getTen());
+            }
+        } catch (Exception ex) {
+            System.err.println("Lỗi khi tải danh mục: " + ex.getMessage());
+            ex.printStackTrace();
+
+            // Thêm một số danh mục mặc định nếu không thể tải từ cơ sở dữ liệu
+            comboBoxModel.addElement("Thuốc đau đầu");
+            comboBoxModel.addElement("Thuốc tim mạch");
+            comboBoxModel.addElement("Thuốc kháng sinh");
+            comboBoxModel.addElement("Thuốc bổ");
+            comboBoxModel.addElement("Thuốc da dày");
         }
 
-        // Make sure to also remove any references to FlatSVGIcon in your button setup
-        // code
-        // For example, replace:
-        // btnSearchKH.setIcon(new FlatSVGIcon("./icon/search.svg"));
-        // with just:
-        // btnSearchKH.setText("Search"); // or whatever text you want
-        /**
-         * This method is called from within the constructor to initialize the form.
-         * WARNING: Do NOT modify this code. The content of this method is always
-         * regenerated by the Form Editor.
-         */
-        @SuppressWarnings("unchecked")
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
+        // Cập nhật model cho ComboBox
+        jComboBox1.setModel(comboBoxModel);
+
+        // Đặt lựa chọn mặc định là "Tất cả"
+        jComboBox1.setSelectedItem("Tất cả");
+    }
+    // 3. Thêm phương thức lọc theo danh mục - phải được đặt bên trong lớp, ngang
+    // hàng với các phương thức khác
+
+    private void filterByCategory(String category) {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        model.addRow(new Object[]{"Đang lọc...", "", "", "", "", "", "", "", "", ""});
+
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            private List<Thuoc> filteredList = new ArrayList<>();
+
+            @Override
+            protected Void doInBackground() throws Exception {
+                // Lấy tất cả thuốc từ cơ sở dữ liệu
+                List<Thuoc> allThuoc = ThuocDAO.getAllThuoc();
+
+                // Lọc danh sách thuốc theo danh mục
+                for (Thuoc thuoc : allThuoc) {
+                    if (thuoc.getDanhMuc() != null
+                            && thuoc.getDanhMuc().getTen().equals(category)) {
+                        filteredList.add(thuoc);
+                    }
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                SwingUtilities.invokeLater(() -> {
+                    model.setRowCount(0);
+
+                    if (filteredList.isEmpty()) {
+                        model.addRow(new Object[]{"Không có dữ liệu", "", "", "", "", "", "",
+                            "", "", ""});
+                        return;
+                    }
+
+                    // Thêm dữ liệu đã lọc vào bảng theo cấu trúc mới
+                    for (Thuoc thuoc : filteredList) {
+                        model.addRow(new Object[]{
+                            thuoc.getId(),
+                            thuoc.getTenThuoc(),
+                            thuoc.getThanhPhan(),
+                            thuoc.getGiaNhap(),
+                            thuoc.getDonGia(),
+                            thuoc.getHsd(),
+                            thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen()
+                            : null,
+                            thuoc.getDonViTinh() != null
+                            ? thuoc.getDonViTinh().getTen()
+                            : null,
+                            thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen()
+                            : null,
+                            thuoc.getSoLuong()
+                        });
+                    }
+
+                    // Cập nhật giao diện
+                    jTable1.revalidate();
+                    jTable1.repaint();
+                });
+            }
+        };
+
+        worker.execute();
+    }
+
+    private void searchThuoc(String keyword) {
+        // Tạo câu lệnh SQL để tìm thuốc có tên chứa từ khóa
+        List<Thuoc> thuocList = ThuocDAO.getThuocByKeyword(keyword); // Tìm thuốc qua ThuocDAO
+
+        // Lấy model của bảng
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Xóa hết dữ liệu cũ trong bảng
+
+        // Thêm các kết quả tìm kiếm vào bảng
+        for (Thuoc thuoc : thuocList) {
+            model.addRow(new Object[]{
+                thuoc.getId(),
+                thuoc.getTenThuoc(),
+                thuoc.getThanhPhan(),
+                thuoc.getGiaNhap(),
+                thuoc.getDonGia(),
+                thuoc.getHsd(),
+                thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen() : null,
+                thuoc.getDonViTinh() != null ? thuoc.getDonViTinh().getTen() : null,
+                thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen() : null,
+                thuoc.getSoLuong()
+            });
+        }
+    }
+
+    private void tinhTongTienPhieuDoi() {
+        DefaultTableModel chiTietModel = (DefaultTableModel) jTable2.getModel();
+        double tongTienPhieuDoi = 0.0;
+
+        // Lặp qua tất cả các dòng trong bảng để tính tổng thành tiền
+        for (int i = 0; i < chiTietModel.getRowCount(); i++) {
+            // Lấy giá trị cột "Thành tiền" (giả sử là cột thứ 5, index = 4)
+            Object thanhTienObj = chiTietModel.getValueAt(i, 5); // Cột Thành tiền (index = 5)
+
+            if (thanhTienObj != null) {
+                try {
+                    double thanhTien = Double.parseDouble(thanhTienObj.toString()); // Chuyển giá
+                    // trị thành số
+                    // thực
+                    tongTienPhieuDoi += thanhTien; // Cộng dồn vào tổng
+                } catch (NumberFormatException e) {
+                    System.err.println("Lỗi khi chuyển đổi thành tiền ở dòng " + i + ": "
+                            + e.getMessage());
+                }
+            }
+        }
+
+        // Cập nhật tổng tiền vào txtTong
+        txtTongTienPhieuDoi.setText(String.format("%.0f", tongTienPhieuDoi)); // Hiển thị tổng tiền, định dạng
+        // theo số
+        // nguyên
+    }
+
+    // Make sure to also remove any references to FlatSVGIcon in your button setup
+    // code
+    // For example, replace:
+    // btnSearchKH.setIcon(new FlatSVGIcon("./icon/search.svg"));
+    // with just:
+    // btnSearchKH.setText("Search"); // or whatever text you want
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
         // Code">//GEN-BEGIN:initComponents
         private void initComponents() {
 
@@ -1223,499 +1225,514 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
                 add(billPanel);
         }// </editor-fold>//GEN-END:initComponents
 
-        private void txtTongTienPhieuDoiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtTongTienPhieuDoiActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtTongTienPhieuDoiActionPerformed
+    private void txtTongTienPhieuDoiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtTongTienPhieuDoiActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtTongTienPhieuDoiActionPerformed
 
-        private void txtTenKHActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtTenKHActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtTenKHActionPerformed
+    private void txtTenKHActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtTenKHActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtTenKHActionPerformed
 
-        private void txtLyDoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtLyDoActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtLyDoActionPerformed
+    private void txtLyDoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtLyDoActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtLyDoActionPerformed
 
-        private void btnAddHoaDonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAddHoaDonActionPerformed
-                String maHD = txtMaHD.getText().trim(); // Lấy mã hóa đơn từ ô nhập
+    private void btnAddHoaDonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAddHoaDonActionPerformed
+        String maHD = txtMaHD.getText().trim(); // Lấy mã hóa đơn từ ô nhập
 
-                if (maHD.isEmpty()) {
-                        JOptionPane.showMessageDialog(this, "Vui lòng nhập mã hóa đơn!");
-                        return;
+        if (maHD.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã hóa đơn!");
+            return;
+        }
+
+        // Lấy thông tin hóa đơn từ DAO
+        HoaDon hoaDon = DAO.HoaDonDAO.getHoaDonByMaHD(maHD);
+        if (hoaDon == null) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy hóa đơn với mã: " + maHD);
+            return;
+        }
+        double tongTienHoaDon = hoaDon.getTongTien();
+        txtTong.setText(String.format("%.0f", tongTienHoaDon));
+
+        // Hiển thị thông tin khách hàng
+        KhachHang kh = hoaDon.getKhachHang();
+        if (kh != null) {
+            txtTenKH.setText(kh.getHoTen());
+            txtSdtKH.setText(kh.getSdt());
+            txtGioiTinh.setText(kh.getGioiTinh());
+            maKH = kh.getId();
+        }
+
+        // Lấy danh sách chi tiết hóa đơn
+        List<ChiTietHoaDon> danhSachChiTiet = DAO.ChiTietHoaDonDAO.getChiTietByHoaDonId(maHD);
+
+        if (danhSachChiTiet.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy chi tiết hóa đơn với mã: " + maHD);
+            return;
+        }
+
+        // Xóa dữ liệu cũ trên bảng
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+
+        // Đổ dữ liệu mới vào bảng với STT
+        int stt = 1;
+        for (ChiTietHoaDon chiTiet : danhSachChiTiet) {
+            model.addRow(new Object[]{
+                stt++, // STT
+                chiTiet.getIdThuoc(),
+                chiTiet.getThuoc(),
+                chiTiet.getSoLuong(),
+                chiTiet.getDonGia(),
+                chiTiet.getThanhTien()
+            });
+        }
+
+        // Tính tổng tiền và hiển thị chênh lệch
+        txtTong.setText(String.format("%.0f", tongTienHoaDon));
+        tinhTongTienPhieuDoi();
+        tinhChenhLechPhieuDoi();
+
+        JOptionPane.showMessageDialog(this, "Đã tải thông tin hóa đơn thành công!");
+
+    }// GEN-LAST:event_btnAddHoaDonActionPerformed
+
+    private void txtTongActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtTongActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtTongActionPerformed
+
+    private void txtSoLuongActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtSoLuongActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtSoLuongActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHuyActionPerformed
+        try {
+            // Tạo đối tượng frmHoaDonCapNhat
+            frmPhieuDoiCapNhat formCapNhat = new frmPhieuDoiCapNhat();
+
+            // Lấy đối tượng Main (parent frame)
+            Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
+
+            // Gọi phương thức replaceMainPanel để thay thế nội dung trong mainPanel
+            parentFrame.replaceMainPanel(formCapNhat);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Không thể quay lại form cập nhật hóa đơn: " + ex.getMessage(),
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }// GEN-LAST:event_btnHuyActionPerformed
+
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnThanhToanActionPerformed
+        try {
+            // 1. Kiểm tra bảng chi tiết
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            if (model.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng thêm sản phẩm vào phiếu đổi.",
+                        "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // 2. Kiểm tra các trường cần thiết
+            if (txtTenKH.getText().trim().isEmpty() || txtTongTienPhieuDoi.getText().trim().isEmpty()
+                    || txtMaHD.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Vui lòng nhập đầy đủ thông tin khách hàng, hóa đơn gốc và tiền khách đưa.",
+                        "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // // 3. Kiểm tra tiền khách đưa đủ chưa
+            // double tongTien = Double.parseDouble(txtTong.getText().replace(",", ""));
+            // double tongTienPhieuDoi =
+            // Double.parseDouble(txtTongTienPhieuDoi.getText().replace(",", ""));
+            // if (tongTienPhieuDoi < tongTien) {
+            // JOptionPane.showMessageDialog(this, "Tiền khách đưa không đủ.", "Thông báo",
+            // JOptionPane.WARNING_MESSAGE);
+            // return;
+            // }
+            // txtChenhLech.setText(String.format("%,.0f", tongTienPhieuDoi - tongTien));
+            // 4. Kiểm tra mã khách hàng và nhân viên
+            if (maKH == null || maNV == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Vui lòng tìm kiếm khách hàng và nhân viên trước khi thanh toán!",
+                        "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            // 4. Kiểm tra hóa đơn đã đổi chưa
+            String maHD = txtMaHD.getText().trim();
+            if (PhieuDoiDAO.daTraHang(maHD)) {
+                JOptionPane.showMessageDialog(this, "Hóa đơn này đã được đổi trước đó!",
+                        "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            // 5. Chuẩn bị dữ liệu phiếu đổi
+            String maPD = PhieuDoiDAO.taoMaHoaDonDoi();
+            String thoiGian = getCurrentTime();
+
+            PhieuDoi phieuDoi = new PhieuDoi();
+            phieuDoi.setId(maPD);
+            phieuDoi.setMaHD(maHD.toUpperCase());
+            phieuDoi.setNgayLap(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(thoiGian));
+            phieuDoi.setIdKhachHang(maKH);
+            phieuDoi.setIdNhanVien(maNV);
+            phieuDoi.setLyDo(txtLyDo.getText().trim());
+
+            // 6. Lấy chi tiết phiếu đổi
+            List<ChiTietPhieuDoi> chiTietList = layChiTietHoaDonDoiTuBang(maPD, maHD);
+            if (chiTietList.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Không lấy được chi tiết phiếu đổi.", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            phieuDoi.setChiTietHoaDonDoi(chiTietList);
+
+            // 7. Lưu phiếu đổi + cập nhật kho
+            if (PhieuDoiDAO.them(phieuDoi)) {
+                int chon = JOptionPane.showConfirmDialog(
+                        this,
+                        "Bạn có muốn in phiếu đổi không?",
+                        "In phiếu đổi",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                if (chon == JOptionPane.YES_OPTION) {
+                    // Lấy lại phiếu đổi vừa tạo từ database
+                    PhieuDoi phieuDoiMoi = PhieuDoiDAO.getPhieuDoiByMaPD(maPD);
+
+                    // Lấy danh sách chi tiết phiếu đổi từ database
+                    List<ChiTietPhieuDoi> dsCTPD = ChiTietPhieuDoiDAO.getDSChiTietPhieuDoiTheoMa(maPD);
+
+                    // Gọi hàm in phiếu đổi ra PDF (giả sử bạn có class WritePDF, hoặc in giống formChiTietPhieuDoi)
+                    new WritePDF().printPhieuDoi(phieuDoiMoi, dsCTPD);
                 }
 
-                // Lấy thông tin hóa đơn từ DAO
-                HoaDon hoaDon = DAO.HoaDonDAO.getHoaDonByMaHD(maHD);
-                if (hoaDon == null) {
-                        JOptionPane.showMessageDialog(this, "Không tìm thấy hóa đơn với mã: " + maHD);
-                        return;
+                resetForm();
+
+                // Quay lại giao diện cập nhật hóa đơn
+                frmPhieuDoiCapNhat formCapNhat = new frmPhieuDoiCapNhat();
+                Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
+                parentFrame.replaceMainPanel(formCapNhat);
+            } else {
+                JOptionPane.showMessageDialog(this, "Không thể lưu phiếu đổi!", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi thanh toán: " + e.getMessage(), "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }// GEN-LAST:event_btnThanhToanActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnThemActionPerformed
+        int selectedRow = jTable1.getSelectedRow(); // Lấy dòng đã chọn từ bảng jTable1
+        if (selectedRow != -1) { // Kiểm tra xem có dòng nào được chọn không
+            // Lấy dữ liệu từ dòng đã chọn
+            String maThuoc = jTable1.getValueAt(selectedRow, 0).toString(); // Mã thuốc
+            String tenThuoc = jTable1.getValueAt(selectedRow, 1).toString(); // Tên thuốc
+            double donGia = Double.parseDouble(jTable1.getValueAt(selectedRow, 4).toString()); // Giá bán
+            int soLuong = Integer.parseInt(txtSoLuong.getText().trim()); // Số lượng từ ô nhập
+
+            // Tính thành tiền
+            double thanhTien = donGia * soLuong;
+
+            // Lấy model của bảng chi tiết hóa đơn (jTable2)
+            DefaultTableModel chiTietModel = (DefaultTableModel) jTable2.getModel();
+
+            // Kiểm tra nếu thuốc đã có trong bảng chi tiết hóa đơn
+            boolean daTonTai = false;
+            int rowIndex = -1;
+            for (int i = 0; i < chiTietModel.getRowCount(); i++) {
+                if (chiTietModel.getValueAt(i, 1).toString().equals(maThuoc)) {
+                    daTonTai = true;
+                    rowIndex = i;
+                    break;
                 }
-                double tongTienHoaDon = hoaDon.getTongTien();
-                txtTong.setText(String.format("%.0f", tongTienHoaDon));
+            }
 
-                // Hiển thị thông tin khách hàng
-                KhachHang kh = hoaDon.getKhachHang();
-                if (kh != null) {
-                        txtTenKH.setText(kh.getHoTen());
-                        txtSdtKH.setText(kh.getSdt());
-                        txtGioiTinh.setText(kh.getGioiTinh());
-                        maKH = kh.getId();
-                }
+            if (daTonTai) {
+                // Nếu thuốc đã có trong bảng, cập nhật số lượng và thành tiền
+                int soLuongCu = Integer.parseInt(chiTietModel.getValueAt(rowIndex, 3).toString());
+                soLuongCu += soLuong; // Cập nhật số lượng mới
+                chiTietModel.setValueAt(soLuongCu, rowIndex, 3); // Cập nhật số lượng trong bảng
 
-                // Lấy danh sách chi tiết hóa đơn
-                List<ChiTietHoaDon> danhSachChiTiet = DAO.ChiTietHoaDonDAO.getChiTietByHoaDonId(maHD);
+                // Cập nhật lại thành tiền
+                thanhTien = soLuongCu * donGia;
+                chiTietModel.setValueAt(thanhTien, rowIndex, 5); // Cập nhật thành tiền
+            } else {
+                // Nếu thuốc chưa có trong bảng, thêm mới
+                int stt = chiTietModel.getRowCount() + 1; // Số thứ tự (STT)
+                chiTietModel.addRow(new Object[]{
+                    stt, // STT
+                    maThuoc, // Mã thuốc
+                    tenThuoc, // Tên thuốc
+                    soLuong, // Số lượng
+                    donGia, // Giá bán
+                    thanhTien // Thành tiền
+                });
+            }
 
-                if (danhSachChiTiet.isEmpty()) {
-                        JOptionPane.showMessageDialog(this, "Không tìm thấy chi tiết hóa đơn với mã: " + maHD);
-                        return;
-                }
+            // Cập nhật tổng tiền hóa đơn
+            tinhTongTienPhieuDoi();
+            tinhChenhLechPhieuDoi();
+        } else {
+            // Nếu không có dòng nào được chọn, hiển thị thông báo
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn thuốc để thêm vào hóa đơn.");
+        }
+    }// GEN-LAST:event_btnThemActionPerformed
 
-                // Xóa dữ liệu cũ trên bảng
-                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-                model.setRowCount(0);
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        int rowIndex = jTable2.getSelectedRow();
 
-                // Đổ dữ liệu mới vào bảng với STT
-                int stt = 1;
-                for (ChiTietHoaDon chiTiet : danhSachChiTiet) {
-                        model.addRow(new Object[] {
-                                        stt++, // STT
-                                        chiTiet.getIdThuoc(),
-                                        chiTiet.getThuoc(),
-                                        chiTiet.getSoLuong(),
-                                        chiTiet.getDonGia(),
-                                        chiTiet.getThanhTien()
+        if (rowIndex != -1) {
+            model.removeRow(rowIndex); // XÓA LUÔN DÒNG
+
+            // Cập nhật tổng tiền sau khi xóa
+            tinhTongTienPhieuDoi();
+            tinhChenhLechPhieuDoi();
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần xóa.");
+        }
+    }
+
+    private void btnSearchNVActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSearchNVActionPerformed
+        String manv = txtNV.getText().trim();
+
+        if (!manv.isEmpty()) {
+            NhanVien nv = NhanVienDAO.getNhanVienByMaNV(manv);
+
+            if (nv != null) {
+                // Hiển thị tên và chức vụ nhân viên
+                txtNV.setText(nv.getHoTen());
+
+                // Lưu maNV vào biến tạm để sử dụng sau khi thanh toán
+                maNV = nv.getId();
+            } else {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy nhân viên!", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã nhân viên!", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }// GEN-LAST:event_btnSearchNVActionPerformed
+
+    private void txtThuocKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtThuocKeyReleased
+        String keyword = txtThuoc.getText().trim(); // Lấy từ khóa tìm kiếm từ ô txtThuoc
+
+        if (keyword.isEmpty()) {
+            // Nếu ô tìm kiếm rỗng, tải lại toàn bộ dữ liệu trong bảng
+            loadDataToTable(); // Gọi lại hàm để tải toàn bộ dữ liệu vào bảng
+        } else {
+            // Nếu có từ khóa, tìm kiếm và hiển thị kết quả
+            searchThuoc(keyword);
+        }
+    }// GEN-LAST:event_txtThuocKeyReleased
+
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnTimKiemActionPerformed
+    }// GEN-LAST:event_btnTimKiemActionPerformed
+
+    // 1. Cập nhật phương thức initEvent() hiện có
+    private void initEvent() {
+
+        // Sự kiện tìm kiếm theo mã thuốc (giữ nguyên)
+        btnTimKiem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String maThuoc = txtThuoc.getText().trim();
+
+                if (!maThuoc.isEmpty()) {
+                    Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(maThuoc);
+                    if (thuoc != null) {
+                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                        model.setRowCount(0);
+                        model.addRow(new Object[]{
+                            1,
+                            thuoc.getId(),
+                            thuoc.getTenThuoc(),
+                            thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen()
+                            : "",
+                            thuoc.getDonViTinh() != null
+                            ? thuoc.getDonViTinh().getTen()
+                            : "",
+                            thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen()
+                            : "",
+                            thuoc.getSoLuong(),
+                            thuoc.getGiaNhap()
                         });
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                "Không tìm thấy thuốc với mã: " + maThuoc);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập mã thuốc cần tìm");
                 }
+            }
+        });
+        setupCategoryComboBox();
+        // THÊM MỚI: Sự kiện lọc dữ liệu khi thay đổi giá trị ComboBox
+        final boolean[] hasFiltered = {false};
 
-                // Tính tổng tiền và hiển thị chênh lệch
-                txtTong.setText(String.format("%.0f", tongTienHoaDon));
-                tinhTongTienPhieuDoi();
-                tinhChenhLechPhieuDoi();
+        // Thêm listener cho ComboBox
+        jComboBox1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (jComboBox1.getSelectedItem() != null) {
+                    String selectedCategory = jComboBox1.getSelectedItem().toString();
+                    System.out.println("Đã chọn danh mục: " + selectedCategory);
 
-                JOptionPane.showMessageDialog(this, "Đã tải thông tin hóa đơn thành công!");
+                    // Nếu chọn "Tất cả", hiển thị tất cả dữ liệu
+                    if (selectedCategory.equals("Tất cả")) {
+                        // Chỉ reset bảng nếu trước đó đã thực hiện lọc
+                        if (hasFiltered[0]) {
+                            System.out.println("Reset bảng và tải lại tất cả dữ liệu");
+                            resetAndLoadAllData();
+                            hasFiltered[0] = false;
+                        }
+                        return;
+                    }
 
-        }// GEN-LAST:event_btnAddHoaDonActionPerformed
+                    // Đánh dấu đã lọc
+                    hasFiltered[0] = true;
 
-        private void txtTongActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtTongActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtTongActionPerformed
-
-        private void txtSoLuongActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtSoLuongActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtSoLuongActionPerformed
-
-        private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHuyActionPerformed
-                try {
-                        // Tạo đối tượng frmHoaDonCapNhat
-                        frmPhieuDoiCapNhat formCapNhat = new frmPhieuDoiCapNhat();
-
-                        // Lấy đối tượng Main (parent frame)
-                        Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
-
-                        // Gọi phương thức replaceMainPanel để thay thế nội dung trong mainPanel
-                        parentFrame.replaceMainPanel(formCapNhat);
-
-                } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(this,
-                                        "Không thể quay lại form cập nhật hóa đơn: " + ex.getMessage(),
-                                        "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    // Lọc dữ liệu theo danh mục đã chọn
+                    filterByCategory(selectedCategory);
                 }
-        }// GEN-LAST:event_btnHuyActionPerformed
+            }
+        });
+    }
 
-        private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnThanhToanActionPerformed
+    private void resetAndLoadAllData() {
+        // Lấy model hiện tại của bảng
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        // Xóa tất cả dữ liệu hiện tại
+        model.setRowCount(0);
+
+        // Thêm thông báo đang tải
+        model.addRow(new Object[]{"Đang tải lại tất cả dữ liệu...", "", "", "", "", "", "", "", "", ""});
+        jTable1.repaint();
+
+        // Tải lại tất cả dữ liệu
+        SwingWorker<List<Thuoc>, Void> worker = new SwingWorker<List<Thuoc>, Void>() {
+            @Override
+            protected List<Thuoc> doInBackground() throws Exception {
+                return ThuocDAO.getAllThuoc();
+            }
+
+            @Override
+            protected void done() {
                 try {
-                        // 1. Kiểm tra bảng chi tiết
-                        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-                        if (model.getRowCount() == 0) {
-                                JOptionPane.showMessageDialog(this, "Vui lòng thêm sản phẩm vào phiếu đổi.",
-                                                "Thông báo", JOptionPane.WARNING_MESSAGE);
-                                return;
+                    List<Thuoc> thuocList = get();
+                    System.out.println("Đã tải lại: " + (thuocList != null ? thuocList.size() : 0)
+                            + " dòng");
+
+                    SwingUtilities.invokeLater(() -> {
+                        model.setRowCount(0);
+
+                        if (thuocList == null || thuocList.isEmpty()) {
+                            model.addRow(new Object[]{"Không có dữ liệu", "", "", "", "",
+                                "", "", "", "", ""});
+                            return;
                         }
 
-                        // 2. Kiểm tra các trường cần thiết
-                        if (txtTenKH.getText().trim().isEmpty() || txtTongTienPhieuDoi.getText().trim().isEmpty()
-                                        || txtMaHD.getText().trim().isEmpty()) {
-                                JOptionPane.showMessageDialog(this,
-                                                "Vui lòng nhập đầy đủ thông tin khách hàng, hóa đơn gốc và tiền khách đưa.",
-                                                "Thông báo", JOptionPane.WARNING_MESSAGE);
-                                return;
+                        // Thêm dữ liệu vào bảng
+                        for (Thuoc thuoc : thuocList) {
+                            model.addRow(new Object[]{
+                                thuoc.getId(),
+                                thuoc.getTenThuoc(),
+                                thuoc.getThanhPhan(),
+                                thuoc.getGiaNhap(),
+                                thuoc.getDonGia(),
+                                thuoc.getHsd(),
+                                thuoc.getDanhMuc() != null
+                                ? thuoc.getDanhMuc().getTen()
+                                : null,
+                                thuoc.getDonViTinh() != null
+                                ? thuoc.getDonViTinh().getTen()
+                                : null,
+                                thuoc.getXuatXu() != null
+                                ? thuoc.getXuatXu().getTen()
+                                : null,
+                                thuoc.getSoLuong()
+                            });
                         }
 
-                        // // 3. Kiểm tra tiền khách đưa đủ chưa
-                        // double tongTien = Double.parseDouble(txtTong.getText().replace(",", ""));
-                        // double tongTienPhieuDoi =
-                        // Double.parseDouble(txtTongTienPhieuDoi.getText().replace(",", ""));
-                        // if (tongTienPhieuDoi < tongTien) {
-                        // JOptionPane.showMessageDialog(this, "Tiền khách đưa không đủ.", "Thông báo",
-                        // JOptionPane.WARNING_MESSAGE);
-                        // return;
-                        // }
-                        // txtChenhLech.setText(String.format("%,.0f", tongTienPhieuDoi - tongTien));
-
-                        // 4. Kiểm tra mã khách hàng và nhân viên
-                        if (maKH == null || maNV == null) {
-                                JOptionPane.showMessageDialog(this,
-                                                "Vui lòng tìm kiếm khách hàng và nhân viên trước khi thanh toán!",
-                                                "Thông báo", JOptionPane.WARNING_MESSAGE);
-                                return;
-                        }
-                        // 4. Kiểm tra hóa đơn đã đổi chưa
-                        String maHD = txtMaHD.getText().trim();
-                        if (PhieuDoiDAO.daTraHang(maHD)) {
-                                JOptionPane.showMessageDialog(this, "Hóa đơn này đã được đổi trước đó!",
-                                                "Thông báo", JOptionPane.WARNING_MESSAGE);
-                                return;
-                        }
-                        // 5. Chuẩn bị dữ liệu phiếu đổi
-                        String maPD = PhieuDoiDAO.taoMaHoaDonDoi();
-                        String thoiGian = getCurrentTime();
-
-                        PhieuDoi phieuDoi = new PhieuDoi();
-                        phieuDoi.setId(maPD);
-                        phieuDoi.setMaHD(maHD.toUpperCase());
-                        phieuDoi.setNgayLap(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(thoiGian));
-                        phieuDoi.setIdKhachHang(maKH);
-                        phieuDoi.setIdNhanVien(maNV);
-                        phieuDoi.setLyDo(txtLyDo.getText().trim());
-
-                        // 6. Lấy chi tiết phiếu đổi
-                        List<ChiTietPhieuDoi> chiTietList = layChiTietHoaDonDoiTuBang(maPD, maHD);
-                        if (chiTietList.isEmpty()) {
-                                JOptionPane.showMessageDialog(this, "Không lấy được chi tiết phiếu đổi.", "Lỗi",
-                                                JOptionPane.ERROR_MESSAGE);
-                                return;
-                        }
-                        phieuDoi.setChiTietHoaDonDoi(chiTietList);
-
-                        // 7. Lưu phiếu đổi + cập nhật kho
-                        if (PhieuDoiDAO.them(phieuDoi)) {
-                                JOptionPane.showMessageDialog(this, "Thanh toán phiếu đổi thành công!", "Thông báo",
-                                                JOptionPane.INFORMATION_MESSAGE);
-                                resetForm();
-
-                                // Quay lại giao diện cập nhật hóa đơn
-                                frmPhieuDoiCapNhat formCapNhat = new frmPhieuDoiCapNhat();
-                                Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
-                                parentFrame.replaceMainPanel(formCapNhat);
-                        } else {
-                                JOptionPane.showMessageDialog(this, "Không thể lưu phiếu đổi!", "Lỗi",
-                                                JOptionPane.ERROR_MESSAGE);
-                        }
-
+                        // Cập nhật giao diện
+                        model.fireTableDataChanged();
+                        jTable1.revalidate();
+                        jTable1.repaint();
+                        jScrollPane1.revalidate();
+                    });
                 } catch (Exception e) {
-                        JOptionPane.showMessageDialog(this, "Lỗi khi thanh toán: " + e.getMessage(), "Lỗi",
-                                        JOptionPane.ERROR_MESSAGE);
-                        e.printStackTrace();
+                    e.printStackTrace();
+                    SwingUtilities.invokeLater(() -> {
+                        model.setRowCount(0);
+                        model.addRow(new Object[]{"Lỗi: " + e.getMessage(), "", "", "", "",
+                            "", "", "", "", ""});
+                    });
                 }
-        }// GEN-LAST:event_btnThanhToanActionPerformed
+            }
+        };
 
-        private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnThemActionPerformed
-                int selectedRow = jTable1.getSelectedRow(); // Lấy dòng đã chọn từ bảng jTable1
-                if (selectedRow != -1) { // Kiểm tra xem có dòng nào được chọn không
-                        // Lấy dữ liệu từ dòng đã chọn
-                        String maThuoc = jTable1.getValueAt(selectedRow, 0).toString(); // Mã thuốc
-                        String tenThuoc = jTable1.getValueAt(selectedRow, 1).toString(); // Tên thuốc
-                        double donGia = Double.parseDouble(jTable1.getValueAt(selectedRow, 4).toString()); // Giá bán
-                        int soLuong = Integer.parseInt(txtSoLuong.getText().trim()); // Số lượng từ ô nhập
+        worker.execute();
 
-                        // Tính thành tiền
-                        double thanhTien = donGia * soLuong;
+    }
 
-                        // Lấy model của bảng chi tiết hóa đơn (jTable2)
-                        DefaultTableModel chiTietModel = (DefaultTableModel) jTable2.getModel();
+    private List<ChiTietPhieuDoi> layChiTietHoaDonDoiTuBang(String maPD, String maHD) {
+        List<ChiTietPhieuDoi> chiTietList = new ArrayList<>();
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
 
-                        // Kiểm tra nếu thuốc đã có trong bảng chi tiết hóa đơn
-                        boolean daTonTai = false;
-                        int rowIndex = -1;
-                        for (int i = 0; i < chiTietModel.getRowCount(); i++) {
-                                if (chiTietModel.getValueAt(i, 1).toString().equals(maThuoc)) {
-                                        daTonTai = true;
-                                        rowIndex = i;
-                                        break;
-                                }
-                        }
+        // Lấy số lượng dòng từ bảng jTable2
+        int rowCount = model.getRowCount();
 
-                        if (daTonTai) {
-                                // Nếu thuốc đã có trong bảng, cập nhật số lượng và thành tiền
-                                int soLuongCu = Integer.parseInt(chiTietModel.getValueAt(rowIndex, 3).toString());
-                                soLuongCu += soLuong; // Cập nhật số lượng mới
-                                chiTietModel.setValueAt(soLuongCu, rowIndex, 3); // Cập nhật số lượng trong bảng
+        for (int i = 0; i < rowCount; i++) {
+            ChiTietPhieuDoi chiTiet = new ChiTietPhieuDoi();
+            chiTiet.setMaPD(maPD);
 
-                                // Cập nhật lại thành tiền
-                                thanhTien = soLuongCu * donGia;
-                                chiTietModel.setValueAt(thanhTien, rowIndex, 5); // Cập nhật thành tiền
-                        } else {
-                                // Nếu thuốc chưa có trong bảng, thêm mới
-                                int stt = chiTietModel.getRowCount() + 1; // Số thứ tự (STT)
-                                chiTietModel.addRow(new Object[] {
-                                                stt, // STT
-                                                maThuoc, // Mã thuốc
-                                                tenThuoc, // Tên thuốc
-                                                soLuong, // Số lượng
-                                                donGia, // Giá bán
-                                                thanhTien // Thành tiền
-                                });
-                        }
+            // Lấy thông tin thuốc mới từ bảng
+            String maThuocMoi = model.getValueAt(i, 1) != null ? model.getValueAt(i, 1).toString() : "";
+            int soLuongMoi = model.getValueAt(i, 3) != null
+                    ? Integer.parseInt(model.getValueAt(i, 3).toString())
+                    : 0;
+            double donGiaMoi = model.getValueAt(i, 4) != null
+                    ? Double.parseDouble(model.getValueAt(i, 4).toString())
+                    : 0.0;
 
-                        // Cập nhật tổng tiền hóa đơn
-                        tinhTongTienPhieuDoi();
-                        tinhChenhLechPhieuDoi();
-                } else {
-                        // Nếu không có dòng nào được chọn, hiển thị thông báo
-                        JOptionPane.showMessageDialog(null, "Vui lòng chọn thuốc để thêm vào hóa đơn.");
-                }
-        }// GEN-LAST:event_btnThemActionPerformed
+            // Gán thông tin thuốc mới
+            chiTiet.setMaThuocMoi(maThuocMoi);
+            chiTiet.setSoLuongMoi(soLuongMoi);
+            chiTiet.setDonGiaMoi(donGiaMoi);
 
-        private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {
-                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-                int rowIndex = jTable2.getSelectedRow();
-
-                if (rowIndex != -1) {
-                        model.removeRow(rowIndex); // XÓA LUÔN DÒNG
-
-                        // Cập nhật tổng tiền sau khi xóa
-                        tinhTongTienPhieuDoi();
-                        tinhChenhLechPhieuDoi();
-                } else {
-                        JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần xóa.");
-                }
+            chiTietList.add(chiTiet);
         }
 
-        private void btnSearchNVActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSearchNVActionPerformed
-                String manv = txtNV.getText().trim();
+        return chiTietList;
+    }
 
-                if (!manv.isEmpty()) {
-                        NhanVien nv = NhanVienDAO.getNhanVienByMaNV(manv);
+    // Phương thức reset form sau khi thanh toán
+    private void resetForm() {
+        // Xóa thông tin khách hàng
+        txtTenKH.setText("");
+        txtSdtKH.setText("");
+        txtNV.setText("");
 
-                        if (nv != null) {
-                                // Hiển thị tên và chức vụ nhân viên
-                                txtNV.setText(nv.getHoTen());
+        // Xóa thông tin thanh toán
+        txtTongTienPhieuDoi.setText("");
+        tinhChenhLechPhieuDoi(); // Tự động tính chênh lệch sau khi cập nhật tổng tiền đổi("");
+        txtChenhLech.setText("");
+        txtTong.setText("0");
 
-                                // Lưu maNV vào biến tạm để sử dụng sau khi thanh toán
-                                maNV = nv.getId();
-                        } else {
-                                JOptionPane.showMessageDialog(this, "Không tìm thấy nhân viên!", "Thông báo",
-                                                JOptionPane.WARNING_MESSAGE);
-                        }
-                } else {
-                        JOptionPane.showMessageDialog(this, "Vui lòng nhập mã nhân viên!", "Thông báo",
-                                        JOptionPane.WARNING_MESSAGE);
-                }
-        }// GEN-LAST:event_btnSearchNVActionPerformed
+        // Xóa bảng chi tiết hóa đơn
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+    }
 
-        private void txtThuocKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtThuocKeyReleased
-                String keyword = txtThuoc.getText().trim(); // Lấy từ khóa tìm kiếm từ ô txtThuoc
-
-                if (keyword.isEmpty()) {
-                        // Nếu ô tìm kiếm rỗng, tải lại toàn bộ dữ liệu trong bảng
-                        loadDataToTable(); // Gọi lại hàm để tải toàn bộ dữ liệu vào bảng
-                } else {
-                        // Nếu có từ khóa, tìm kiếm và hiển thị kết quả
-                        searchThuoc(keyword);
-                }
-        }// GEN-LAST:event_txtThuocKeyReleased
-
-        private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnTimKiemActionPerformed
-        }// GEN-LAST:event_btnTimKiemActionPerformed
-
-        // 1. Cập nhật phương thức initEvent() hiện có
-        private void initEvent() {
-
-                // Sự kiện tìm kiếm theo mã thuốc (giữ nguyên)
-                btnTimKiem.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                                String maThuoc = txtThuoc.getText().trim();
-
-                                if (!maThuoc.isEmpty()) {
-                                        Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(maThuoc);
-                                        if (thuoc != null) {
-                                                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                                                model.setRowCount(0);
-                                                model.addRow(new Object[] {
-                                                                1,
-                                                                thuoc.getId(),
-                                                                thuoc.getTenThuoc(),
-                                                                thuoc.getDanhMuc() != null ? thuoc.getDanhMuc().getTen()
-                                                                                : "",
-                                                                thuoc.getDonViTinh() != null
-                                                                                ? thuoc.getDonViTinh().getTen()
-                                                                                : "",
-                                                                thuoc.getXuatXu() != null ? thuoc.getXuatXu().getTen()
-                                                                                : "",
-                                                                thuoc.getSoLuong(),
-                                                                thuoc.getGiaNhap()
-                                                });
-                                        } else {
-                                                JOptionPane.showMessageDialog(null,
-                                                                "Không tìm thấy thuốc với mã: " + maThuoc);
-                                        }
-                                } else {
-                                        JOptionPane.showMessageDialog(null, "Vui lòng nhập mã thuốc cần tìm");
-                                }
-                        }
-                });
-                setupCategoryComboBox();
-                // THÊM MỚI: Sự kiện lọc dữ liệu khi thay đổi giá trị ComboBox
-                final boolean[] hasFiltered = { false };
-
-                // Thêm listener cho ComboBox
-                jComboBox1.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                                if (jComboBox1.getSelectedItem() != null) {
-                                        String selectedCategory = jComboBox1.getSelectedItem().toString();
-                                        System.out.println("Đã chọn danh mục: " + selectedCategory);
-
-                                        // Nếu chọn "Tất cả", hiển thị tất cả dữ liệu
-                                        if (selectedCategory.equals("Tất cả")) {
-                                                // Chỉ reset bảng nếu trước đó đã thực hiện lọc
-                                                if (hasFiltered[0]) {
-                                                        System.out.println("Reset bảng và tải lại tất cả dữ liệu");
-                                                        resetAndLoadAllData();
-                                                        hasFiltered[0] = false;
-                                                }
-                                                return;
-                                        }
-
-                                        // Đánh dấu đã lọc
-                                        hasFiltered[0] = true;
-
-                                        // Lọc dữ liệu theo danh mục đã chọn
-                                        filterByCategory(selectedCategory);
-                                }
-                        }
-                });
-        }
-
-        private void resetAndLoadAllData() {
-                // Lấy model hiện tại của bảng
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
-                // Xóa tất cả dữ liệu hiện tại
-                model.setRowCount(0);
-
-                // Thêm thông báo đang tải
-                model.addRow(new Object[] { "Đang tải lại tất cả dữ liệu...", "", "", "", "", "", "", "", "", "" });
-                jTable1.repaint();
-
-                // Tải lại tất cả dữ liệu
-                SwingWorker<List<Thuoc>, Void> worker = new SwingWorker<List<Thuoc>, Void>() {
-                        @Override
-                        protected List<Thuoc> doInBackground() throws Exception {
-                                return ThuocDAO.getAllThuoc();
-                        }
-
-                        @Override
-                        protected void done() {
-                                try {
-                                        List<Thuoc> thuocList = get();
-                                        System.out.println("Đã tải lại: " + (thuocList != null ? thuocList.size() : 0)
-                                                        + " dòng");
-
-                                        SwingUtilities.invokeLater(() -> {
-                                                model.setRowCount(0);
-
-                                                if (thuocList == null || thuocList.isEmpty()) {
-                                                        model.addRow(new Object[] { "Không có dữ liệu", "", "", "", "",
-                                                                        "", "", "", "", "" });
-                                                        return;
-                                                }
-
-                                                // Thêm dữ liệu vào bảng
-                                                for (Thuoc thuoc : thuocList) {
-                                                        model.addRow(new Object[] {
-                                                                        thuoc.getId(),
-                                                                        thuoc.getTenThuoc(),
-                                                                        thuoc.getThanhPhan(),
-                                                                        thuoc.getGiaNhap(),
-                                                                        thuoc.getDonGia(),
-                                                                        thuoc.getHsd(),
-                                                                        thuoc.getDanhMuc() != null
-                                                                                        ? thuoc.getDanhMuc().getTen()
-                                                                                        : null,
-                                                                        thuoc.getDonViTinh() != null
-                                                                                        ? thuoc.getDonViTinh().getTen()
-                                                                                        : null,
-                                                                        thuoc.getXuatXu() != null
-                                                                                        ? thuoc.getXuatXu().getTen()
-                                                                                        : null,
-                                                                        thuoc.getSoLuong()
-                                                        });
-                                                }
-
-                                                // Cập nhật giao diện
-                                                model.fireTableDataChanged();
-                                                jTable1.revalidate();
-                                                jTable1.repaint();
-                                                jScrollPane1.revalidate();
-                                        });
-                                } catch (Exception e) {
-                                        e.printStackTrace();
-                                        SwingUtilities.invokeLater(() -> {
-                                                model.setRowCount(0);
-                                                model.addRow(new Object[] { "Lỗi: " + e.getMessage(), "", "", "", "",
-                                                                "", "", "", "", "" });
-                                        });
-                                }
-                        }
-                };
-
-                worker.execute();
-
-        }
-
-        private List<ChiTietPhieuDoi> layChiTietHoaDonDoiTuBang(String maPD, String maHD) {
-                List<ChiTietPhieuDoi> chiTietList = new ArrayList<>();
-                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-
-                // Lấy số lượng dòng từ bảng jTable2
-                int rowCount = model.getRowCount();
-
-                for (int i = 0; i < rowCount; i++) {
-                        ChiTietPhieuDoi chiTiet = new ChiTietPhieuDoi();
-                        chiTiet.setMaPD(maPD);
-
-                        // Lấy thông tin thuốc mới từ bảng
-                        String maThuocMoi = model.getValueAt(i, 1) != null ? model.getValueAt(i, 1).toString() : "";
-                        int soLuongMoi = model.getValueAt(i, 3) != null
-                                        ? Integer.parseInt(model.getValueAt(i, 3).toString())
-                                        : 0;
-                        double donGiaMoi = model.getValueAt(i, 4) != null
-                                        ? Double.parseDouble(model.getValueAt(i, 4).toString())
-                                        : 0.0;
-
-                        // Gán thông tin thuốc mới
-                        chiTiet.setMaThuocMoi(maThuocMoi);
-                        chiTiet.setSoLuongMoi(soLuongMoi);
-                        chiTiet.setDonGiaMoi(donGiaMoi);
-
-                        chiTietList.add(chiTiet);
-                }
-
-                return chiTietList;
-        }
-
-        // Phương thức reset form sau khi thanh toán
-        private void resetForm() {
-                // Xóa thông tin khách hàng
-                txtTenKH.setText("");
-                txtSdtKH.setText("");
-                txtNV.setText("");
-
-                // Xóa thông tin thanh toán
-                txtTongTienPhieuDoi.setText("");
-                tinhChenhLechPhieuDoi(); // Tự động tính chênh lệch sau khi cập nhật tổng tiền đổi("");
-                txtChenhLech.setText("");
-                txtTong.setText("0");
-
-                // Xóa bảng chi tiết hóa đơn
-                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-                model.setRowCount(0);
-        }
-
-        private void txtSdtKHActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtSdtKHActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtSdtKHActionPerformed
+    private void txtSdtKHActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtSdtKHActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtSdtKHActionPerformed
 
         // Variables declaration - do not modify//GEN-BEGIN:variables
         private javax.swing.JPanel JPanhThuoc;
@@ -1824,30 +1841,30 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
         private javax.swing.JTextField txtTongTienPhieuDoi;
         // End of variables declaration//GEN-END:variables
 
-        public void refreshData() {
-                startIndex = 0; // Reset to first page
-                loadDataToTable(); // Reload data
-        }
+    public void refreshData() {
+        startIndex = 0; // Reset to first page
+        loadDataToTable(); // Reload data
+    }
 
-        private void tinhChenhLechPhieuDoi() {
-                try {
-                        double tongTien = Double.parseDouble(txtTong.getText().replace(",", "").trim());
-                        double tongTienPhieuDoi = Double
-                                        .parseDouble(txtTongTienPhieuDoi.getText().replace(",", "").trim());
-                        double chenhLech = tongTienPhieuDoi - tongTien;
+    private void tinhChenhLechPhieuDoi() {
+        try {
+            double tongTien = Double.parseDouble(txtTong.getText().replace(",", "").trim());
+            double tongTienPhieuDoi = Double
+                    .parseDouble(txtTongTienPhieuDoi.getText().replace(",", "").trim());
+            double chenhLech = tongTienPhieuDoi - tongTien;
 
-                        if (chenhLech > 0) {
-                                txtChenhLech.setText("Khách trả thêm: " + String.format("%,.0f VND", chenhLech));
-                        } else if (chenhLech < 0) {
-                                txtChenhLech.setText("Hoàn lại khách: "
-                                                + String.format("%,.0f VND", Math.abs(chenhLech)));
-                        } else {
-                                txtChenhLech.setText("Không chênh lệch");
-                        }
-                } catch (NumberFormatException e) {
-                        // JOptionPane.showMessageDialog(this, "Lỗi định dạng số tiền!", "Lỗi",
-                        // JOptionPane.ERROR_MESSAGE);
-                }
+            if (chenhLech > 0) {
+                txtChenhLech.setText("Khách trả thêm: " + String.format("%,.0f VND", chenhLech));
+            } else if (chenhLech < 0) {
+                txtChenhLech.setText("Hoàn lại khách: "
+                        + String.format("%,.0f VND", Math.abs(chenhLech)));
+            } else {
+                txtChenhLech.setText("Không chênh lệch");
+            }
+        } catch (NumberFormatException e) {
+            // JOptionPane.showMessageDialog(this, "Lỗi định dạng số tiền!", "Lỗi",
+            // JOptionPane.ERROR_MESSAGE);
         }
+    }
 
 }

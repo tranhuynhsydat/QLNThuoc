@@ -4,6 +4,7 @@
  */
 package GUI.page;
 
+import DAO.ChiTietPhieuTraDAO;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import DAO.NhanVienDAO;
@@ -18,6 +19,7 @@ import Entity.NhanVien;
 import Entity.PhieuDoi;
 import Entity.PhieuTra;
 import GUI.Main;
+import Utils.WritePDF;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -489,8 +491,19 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
             boolean thanhCong = PhieuTraDAO.them(phieuTra);
 
             if (thanhCong) {
-                JOptionPane.showMessageDialog(this, "Thanh toán phiếu trả thành công!", "Thông báo",
-                        JOptionPane.INFORMATION_MESSAGE);
+                int chon = JOptionPane.showConfirmDialog(
+                        this,
+                        "Bạn có muốn in phiếu trả không?",
+                        "In phiếu trả",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                if (chon == JOptionPane.YES_OPTION) {
+                    PhieuTra phieuTraMoi = PhieuTraDAO.getPhieuTraByMaPT(maPT);
+                    List<ChiTietPhieuTra> dsCTPT = ChiTietPhieuTraDAO.getDSChiTietPhieuTraTheoMa(maPT);
+                    new WritePDF().printPhieuTra(phieuTraMoi, dsCTPT); // Giả sử bạn có class xuất PDF phiếu trả tương tự phiếu đổi
+                }
+
                 resetForm();
                 // Quay lại giao diện cập nhật hóa đơn
                 frmPhieuTraCapNhat formCapNhat = new frmPhieuTraCapNhat();
@@ -544,13 +557,13 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
         // Đổ dữ liệu mới vào bảng với STT
         int stt = 1;
         for (ChiTietHoaDon chiTiet : danhSachChiTiet) {
-            model.addRow(new Object[] {
-                    stt++, // STT
-                    chiTiet.getIdThuoc(),
-                    chiTiet.getThuoc(),
-                    chiTiet.getSoLuong(),
-                    chiTiet.getDonGia(),
-                    chiTiet.getThanhTien()
+            model.addRow(new Object[]{
+                stt++, // STT
+                chiTiet.getIdThuoc(),
+                chiTiet.getThuoc(),
+                chiTiet.getSoLuong(),
+                chiTiet.getDonGia(),
+                chiTiet.getThanhTien()
             });
         }
 

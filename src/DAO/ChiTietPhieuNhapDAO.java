@@ -20,6 +20,7 @@ import java.util.List;
  * @author Admin
  */
 public class ChiTietPhieuNhapDAO {
+
     public static boolean themChiTietPhieuNhap(List<ChiTietPhieuNhap> chiTietList, String maPN) {
         if (chiTietList == null || chiTietList.isEmpty()) {
             return true;  // Không có chi tiết để thêm
@@ -199,4 +200,26 @@ public class ChiTietPhieuNhapDAO {
             return 0;
         }
     }
+
+    public static List<ChiTietPhieuNhap> getDSChiTietPhieuNhapTheoMa(String maPN) {
+        List<ChiTietPhieuNhap> ds = new ArrayList<>();
+        String sql = "SELECT * FROM CTPhieuNhap WHERE maPN = ?";
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, maPN);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ChiTietPhieuNhap ct = new ChiTietPhieuNhap();
+                    ct.setIdPhieuNhap(rs.getString("maPN"));
+                    ct.setIdThuoc(rs.getString("maThuoc"));
+                    ct.setSoLuong(rs.getInt("soLuong"));
+                    ct.setDonGia(rs.getDouble("donGia"));
+                    ds.add(ct);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi lấy chi tiết phiếu nhập: " + e.getMessage());
+        }
+        return ds;
+    }
+
 }

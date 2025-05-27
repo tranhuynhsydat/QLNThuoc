@@ -17,8 +17,7 @@ public class PhieuDoiDAO {
 
         String sql = "SELECT maPD FROM PhieuDoi WHERE maPD LIKE ? ORDER BY maPD DESC";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, prefix + "%");
             try (ResultSet rs = ps.executeQuery()) {
@@ -40,9 +39,7 @@ public class PhieuDoiDAO {
         List<PhieuDoi> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM PhieuDoi";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 PhieuDoi pd = mapResultSetToPhieuDoi(rs);
@@ -82,8 +79,7 @@ public class PhieuDoiDAO {
             params.add(new java.sql.Date(ngayTra.getTime()));
         }
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
             for (int i = 0; i < params.size(); i++) {
                 ps.setObject(i + 1, params.get(i));
@@ -106,8 +102,7 @@ public class PhieuDoiDAO {
     public static PhieuDoi getHoaDonByMaPD(String maPD) {
         String sql = "SELECT * FROM PhieuDoi WHERE maPD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, maPD);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -124,8 +119,7 @@ public class PhieuDoiDAO {
 
     public static boolean daTraHang(String maHD) {
         String sql = "SELECT COUNT(*) FROM PhieuDoi WHERE maHD = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, maHD);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -140,8 +134,7 @@ public class PhieuDoiDAO {
     // Thêm phiếu đổi và chi tiết
     public static boolean them(PhieuDoi pd) {
         String sql = "INSERT INTO PhieuDoi (maPD, maNV, maKH, maHD, thoiGian, lyDo) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, pd.getId());
             ps.setString(2, pd.getIdNhanVien());
@@ -168,8 +161,7 @@ public class PhieuDoiDAO {
         List<ChiTietPhieuDoi> chiTietList = new ArrayList<>();
         String sql = "SELECT * FROM CTPhieuDoi WHERE maPD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maPD);
 
@@ -196,8 +188,7 @@ public class PhieuDoiDAO {
         List<PhieuDoi> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM PhieuDoi WHERE thoiGian BETWEEN ? AND ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setTimestamp(1, new Timestamp(tuNgay.getTime()));
             ps.setTimestamp(2, new Timestamp(denNgay.getTime()));
@@ -220,8 +211,7 @@ public class PhieuDoiDAO {
         List<PhieuDoi> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM PhieuDoi WHERE maKH = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maKH);
 
@@ -243,8 +233,7 @@ public class PhieuDoiDAO {
         List<PhieuDoi> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM PhieuDoi WHERE maNV = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, maNV);
 
@@ -286,6 +275,49 @@ public class PhieuDoiDAO {
         pd.setTongTienHoaDon(tongTienHoaDon);
 
         return pd;
+    }
+
+    public static PhieuDoi getPhieuDoiByMaPD(String maPD) {
+        String sql = "SELECT * FROM PhieuDoi WHERE maPD = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, maPD);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    java.util.Date thoiGian = rs.getTimestamp("thoiGian");
+                    String maNV = rs.getString("maNV");
+                    String maKH = rs.getString("maKH");
+                    String maHD = rs.getString("maHD");
+                    String ghiChu = null;
+                    try {
+                        ghiChu = rs.getString("ghiChu");
+                    } catch (Exception e) {
+                    }
+
+                    // Tạo đối tượng phiếu đổi, bạn chỉnh lại constructor nếu class PhieuDoi khác
+                    PhieuDoi phieuDoi = new PhieuDoi(maPD, thoiGian, maNV, maKH, maHD, ghiChu);
+
+                    // Lấy danh sách chi tiết phiếu đổi
+                    phieuDoi.setChiTietHoaDonDoi(ChiTietPhieuDoiDAO.getDSChiTietPhieuDoiTheoMa(maPD));
+
+                    // Lấy thông tin nhân viên và khách hàng từ DAO nếu có
+                    if (phieuDoi.getNhanVien() == null && NhanVienDAO.getNhanVienByMaNV(maNV) != null) {
+                        phieuDoi.setNhanVien(NhanVienDAO.getNhanVienByMaNV(maNV));
+                    }
+                    if (phieuDoi.getKhachHang() == null && KhachHangDAO.getKhachHangByMaKH(maKH) != null) {
+                        phieuDoi.setKhachHang(KhachHangDAO.getKhachHangByMaKH(maKH));
+                    }
+
+                    return phieuDoi;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi lấy phiếu đổi theo mã: " + e.getMessage());
+        }
+
+        return null;
     }
 
 }

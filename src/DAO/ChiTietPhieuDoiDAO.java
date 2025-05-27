@@ -12,8 +12,7 @@ public class ChiTietPhieuDoiDAO {
     public static boolean themChiTietHoaDonDoi(List<ChiTietPhieuDoi> chiTietList, String maPD) {
         String sql = "INSERT INTO CTPhieuDoi (maPD, maThuocMoi, soLuongMoi, donGiaMoi) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             for (ChiTietPhieuDoi ct : chiTietList) {
                 ps.setString(1, maPD);
                 ps.setString(2, ct.getMaThuocMoi());
@@ -29,12 +28,34 @@ public class ChiTietPhieuDoiDAO {
         return false;
     }
 
+    public static List<ChiTietPhieuDoi> getDSChiTietPhieuDoiTheoMa(String maPD) {
+        List<ChiTietPhieuDoi> ds = new ArrayList<>();
+        String sql = "SELECT * FROM CTPhieuDoi WHERE maPD = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, maPD);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ChiTietPhieuDoi ct = new ChiTietPhieuDoi();
+                    ct.setMaPD(rs.getString("maPD"));
+                    ct.setMaThuocMoi(rs.getString("maThuocMoi"));
+                    ct.setSoLuongMoi(rs.getInt("soLuongMoi"));
+                    ct.setDonGiaMoi(rs.getDouble("donGiaMoi"));
+                    ds.add(ct);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi lấy chi tiết phiếu đổi theo mã: " + e.getMessage());
+        }
+        return ds;
+    }
+
     public static List<ChiTietPhieuDoi> getChiTietByHoaDoiId(String maPD) {
         List<ChiTietPhieuDoi> chiTietList = new ArrayList<>();
         String sql = "SELECT * FROM CTPhieuDoi WHERE maPD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, maPD);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -96,8 +117,7 @@ public class ChiTietPhieuDoiDAO {
     public static boolean xoaChiTietTheoHoaDonDoi(String hoaDonDoiId) {
         String sql = "DELETE FROM CTPhieuDoi WHERE maPD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, hoaDonDoiId);
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -111,8 +131,7 @@ public class ChiTietPhieuDoiDAO {
     public static double tinhTongTienHoaDonDoi(String hoaDonDoiId) {
         String sql = "SELECT SUM(soLuongMoi * donGiaMoi) AS tong_tien FROM CTPhieuDoi WHERE maPD = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, hoaDonDoiId);
 
             try (ResultSet rs = stmt.executeQuery()) {

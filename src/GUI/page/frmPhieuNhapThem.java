@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package GUI.page;
+
+import DAO.ChiTietPhieuNhapDAO;
 import DAO.DanhMucDAO;
 import DAO.NhaCungCapDAO;
 import DAO.NhanVienDAO;
@@ -17,6 +19,7 @@ import Entity.Thuoc;
 import GUI.Main;
 import GUI.form.formThemNCC;
 import GUI.page.frmPhieuNhapCapNhat;
+import Utils.WritePDF;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 //import controller.ChiTietPhieuNhapController;
@@ -58,11 +61,13 @@ import javax.swing.table.DefaultTableModel;
 //import utils.TableSorter;
 //import utils.Validation;
 //import utils.WritePDF;
+
 /**
  *
  * @author Admin
  */
 public class frmPhieuNhapThem extends javax.swing.JPanel {
+
     private String maNCC;  // Mã khách hàng
     private String maNV;  // Mã nhân viên
 
@@ -129,7 +134,7 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
         // Ngăn không cho phép chọn nhiều dòng
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
     }
-    
+
     private void loadDataToTable() {
         // Lấy dữ liệu thuốc với batch tiếp theo (10 dòng)
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
@@ -161,7 +166,7 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
         };
         worker.execute();
     }
-    
+
     private void addTableSelectionListener() {
         // Thêm listener xử lý sự kiện khi chọn dòng trong bảng
         jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -199,7 +204,7 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
             }
         });
     }
-    
+
     private void setupCategoryComboBox() {
         // Tạo model cho ComboBox
         DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
@@ -233,7 +238,7 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
         // Đặt lựa chọn mặc định là "Tất cả"
         jComboBox1.setSelectedItem("Tất cả");
     }
-    
+
     private void filterByCategory(String category) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
@@ -293,7 +298,7 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
 
         worker.execute();
     }
-   
+
     private void searchThuoc(String keyword) {
         // Tạo câu lệnh SQL để tìm thuốc có tên chứa từ khóa
         List<Thuoc> thuocList = ThuocDAO.getThuocByKeyword(keyword);  // Tìm thuốc qua ThuocDAO
@@ -318,6 +323,7 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
             });
         }
     }
+
     // Phương thức thêm thuốc vào chi tiết hóa đơn
     private void themThuocVaoChiTietPhieuNhap(String maThuoc, String tenThuoc, int soLuong, double giaNhap) {
         try {
@@ -409,6 +415,7 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
         // Cập nhật tổng tiền vào txtTong
         txtTong.setText(String.format("%.0f", tongTien));  // Hiển thị tổng tiền, định dạng theo số nguyên
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -1181,16 +1188,14 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
             }
 
             // Kiểm tra thông tin khách hàng và tiền khách đưa
-            if (txtTenNCC.getText().trim().isEmpty() ) {
+            if (txtTenNCC.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin nhà cung cấp",
                         "Thông báo", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             double tongTien = Double.parseDouble(txtTong.getText().replace(",", ""));
-            
 
-            
             // Kiểm tra đã có mã khách hàng và nhân viên chưa
             if (maNCC == null || maNV == null) {
                 JOptionPane.showMessageDialog(this, "Vui lòng tìm kiếm nhà cung cấp và nhân viên trước khi thanh toán!", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -1215,21 +1220,34 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
             }
 
             // Lưu Phiếu nhập vào cơ sở dữ liệu
-                        boolean isAdded =PhieuNhapDAO.them(phieuNhap);
+            boolean isAdded = PhieuNhapDAO.them(phieuNhap);
 
-                        if (isAdded) {
-                                JOptionPane.showMessageDialog(this, "Thanh toán thành công", "Thông báo",
-                                                JOptionPane.INFORMATION_MESSAGE);
-                                resetForm();
+            if (isAdded) {
+                int chon = JOptionPane.showConfirmDialog(
+                        this,
+                        "Bạn có muốn in phiếu nhập không?",
+                        "In phiếu nhập",
+                        JOptionPane.YES_NO_OPTION
+                );
 
-                                // Quay lại giao diện cập nhật hóa đơn
-                                frmPhieuNhapCapNhat formCapNhat = new frmPhieuNhapCapNhat();
-                                Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
-                                parentFrame.replaceMainPanel(formCapNhat);
-                        } else {
-                                JOptionPane.showMessageDialog(this, "Không thể lưu hóa đơn", "Lỗi",
-                                                JOptionPane.ERROR_MESSAGE);
-                        }
+                if (chon == JOptionPane.YES_OPTION) {
+                    PhieuNhap phieuNhapMoi = PhieuNhapDAO.getPhieuNhapByMaPN(maPN);
+                    List<ChiTietPhieuNhap> dsCTPN = ChiTietPhieuNhapDAO.getDSChiTietPhieuNhapTheoMa(maPN);
+
+                    // Gọi hàm in phiếu nhập ra PDF (dùng WritePDF hoặc giống formChiTietPhieuNhap bạn đã có)
+                    new WritePDF().printPhieuNhap(phieuNhapMoi, dsCTPN);
+                }
+
+                resetForm();
+
+                // Quay lại giao diện cập nhật hóa đơn
+                frmPhieuNhapCapNhat formCapNhat = new frmPhieuNhapCapNhat();
+                Main parentFrame = (Main) SwingUtilities.getWindowAncestor(this);
+                parentFrame.replaceMainPanel(formCapNhat);
+            } else {
+                JOptionPane.showMessageDialog(this, "Không thể lưu hóa đơn", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+            }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi khi thanh toán: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -1252,22 +1270,22 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this,
                     "Không thể quay lại form cập nhật phiếu nhập: " + ex.getMessage(),
                     "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }                  
+        }
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnSearchNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchNVActionPerformed
         String input = txtNV.getText().trim();
 
         if (!input.isEmpty()) {
-    // Tìm nhân viên theo mã, tên hoặc số điện thoại
+            // Tìm nhân viên theo mã, tên hoặc số điện thoại
             NhanVien nv = NhanVienDAO.getNhanVienByHoTen(input);
 
-        if (nv != null) {
-        // Hiển thị tên nhân viên
-            txtNV.setText(nv.getHoTen());
+            if (nv != null) {
+                // Hiển thị tên nhân viên
+                txtNV.setText(nv.getHoTen());
 
-        // Lưu mã nhân viên để sử dụng sau khi thanh toán
-        maNV = nv.getId();
+                // Lưu mã nhân viên để sử dụng sau khi thanh toán
+                maNV = nv.getId();
             } else {
                 JOptionPane.showMessageDialog(this, "Không tìm thấy nhân viên!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             }
@@ -1325,7 +1343,6 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
     }//GEN-LAST:event_txtThuocKeyReleased
     // GEN-FIRST:event_btnTimKiemActionPerformed
     // GEN-LAST:event_btnTimKiemActionPerformed
-
 
     private void setThoiGianThuc() {
         LocalDateTime now = LocalDateTime.now();
@@ -1534,14 +1551,13 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_btnThemActionPerformed
-    
-    
+
     private void jTextField1ActionPerformed(ActionEvent evt) {
         // Thực hiện hành động khi người dùng nhấn Enter trong JTextField
         String text = txtThuoc.getText();
         System.out.println("Text field value: " + text);
     }
-    
+
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // Lấy model của bảng chi tiết hóa đơn (jTable2)
         DefaultTableModel chiTietModel = (DefaultTableModel) jTable2.getModel();
@@ -1561,7 +1577,7 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn dòng cần xóa.");
         }
     }//GEN-LAST:event_btnXoaActionPerformed
-    
+
     // Phương thức để lấy chi tiết hóa đơn từ bảng hiển thị
     private List<ChiTietPhieuNhap> layChiTietPhieuNhapTuBang(String maPN) {
         List<ChiTietPhieuNhap> chiTietList = new ArrayList<>();
@@ -1582,7 +1598,7 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
 
         return chiTietList;
     }
-    
+
     // Phương thức cập nhật số lượng tồn kho sau khi bán thuốc
     private boolean capNhatSoLuongTonKho(String maThuoc, int soLuongNhap) {
         try {
@@ -1606,7 +1622,7 @@ public class frmPhieuNhapThem extends javax.swing.JPanel {
             return false;
         }
     }
-    
+
     // Phương thức tạo mã hóa đơn mới
 // Phương thức reset form sau khi thanh toán
     private void resetForm() {
