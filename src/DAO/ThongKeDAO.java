@@ -49,6 +49,7 @@ public class ThongKeDAO {
                                                         GROUP BY CONVERT(DATE, hd.thoiGian)
                                                     ),
                                                     
+                                                    -- Chỉ lấy tổng số lượng mới trên phiếu đổi × đơn giá bán thuốc mới
                                                     DoanhThuPhieuDoi AS (
                                                         SELECT CONVERT(DATE, pd.thoiGian) AS ngay,
                                                                SUM(ctpd.soLuongMoi * t.donGia) AS doanhThu
@@ -77,17 +78,40 @@ public class ThongKeDAO {
                                                         JOIN Thuoc t ON t.maThuoc = cthd.maThuoc
                                                         WHERE YEAR(hd.thoiGian) = @nam AND MONTH(hd.thoiGian) = @thang
                                                         GROUP BY CONVERT(DATE, hd.thoiGian)
+                                                    ),
+                                                    
+                                                    -- Chỉ lấy tổng số lượng mới trên phiếu đổi × giá nhập thuốc mới
+                                                    ChiPhiPhieuDoi AS (
+                                                        SELECT CONVERT(DATE, pd.thoiGian) AS ngay,
+                                                               SUM(ctpd.soLuongMoi * t.giaNhap) AS chiPhi
+                                                        FROM PhieuDoi pd
+                                                        JOIN CTPhieuDoi ctpd ON pd.maPD = ctpd.maPD
+                                                        JOIN Thuoc t ON t.maThuoc = ctpd.maThuocMoi
+                                                        WHERE YEAR(pd.thoiGian) = @nam AND MONTH(pd.thoiGian) = @thang
+                                                        GROUP BY CONVERT(DATE, pd.thoiGian)
+                                                    ),
+                                                    
+                                                    ChiPhiPhieuTra AS (
+                                                        SELECT CONVERT(DATE, pt.thoiGian) AS ngay,
+                                                               SUM(ctpt.soLuong * t.giaNhap) AS chiPhi
+                                                        FROM PhieuTra pt
+                                                        JOIN CTPhieuTra ctpt ON pt.maPT = ctpt.maPT
+                                                        JOIN Thuoc t ON t.maThuoc = ctpt.maThuoc
+                                                        WHERE YEAR(pt.thoiGian) = @nam AND MONTH(pt.thoiGian) = @thang
+                                                        GROUP BY CONVERT(DATE, pt.thoiGian)
                                                     )
                                                     
                                                     SELECT
                                                         d.ngay,
                                                         COALESCE(dhdo.doanhThu, 0) + COALESCE(dpdoi.doanhThu, 0) - COALESCE(dptra.doanhThu, 0) AS doanhThu,
-                                                        COALESCE(chiphihd.chiPhi, 0) AS chiPhi
+                                                        COALESCE(chiphihd.chiPhi, 0) + COALESCE(chiphipd.chiPhi, 0) - COALESCE(chiphipt.chiPhi, 0) AS chiPhi
                                                     FROM dates d
                                                     LEFT JOIN DoanhThuHoaDon dhdo ON dhdo.ngay = d.ngay
                                                     LEFT JOIN DoanhThuPhieuDoi dpdoi ON dpdoi.ngay = d.ngay
                                                     LEFT JOIN DoanhThuPhieuTra dptra ON dptra.ngay = d.ngay
                                                     LEFT JOIN ChiPhiHoaDon chiphihd ON chiphihd.ngay = d.ngay
+                                                    LEFT JOIN ChiPhiPhieuDoi chiphipd ON chiphipd.ngay = d.ngay
+                                                    LEFT JOIN ChiPhiPhieuTra chiphipt ON chiphipt.ngay = d.ngay
                                                     ORDER BY d.ngay;
                                                      """;
 
@@ -143,17 +167,39 @@ public class ThongKeDAO {
                                                         JOIN CTHoaDon cthd ON hd.maHD = cthd.maHD
                                                         JOIN Thuoc t ON t.maThuoc = cthd.maThuoc
                                                         GROUP BY YEAR(hd.thoiGian)
+                                                    ),
+                                                    
+                                                    -- Chi phí phiếu đổi: tổng số lượng mới × giá nhập thuốc mới
+                                                    ChiPhiPhieuDoi AS (
+                                                        SELECT YEAR(pd.thoiGian) AS nam,
+                                                               SUM(ctpd.soLuongMoi * t.giaNhap) AS chiphi
+                                                        FROM PhieuDoi pd
+                                                        JOIN CTPhieuDoi ctpd ON pd.maPD = ctpd.maPD
+                                                        JOIN Thuoc t ON t.maThuoc = ctpd.maThuocMoi
+                                                        GROUP BY YEAR(pd.thoiGian)
+                                                    ),
+                                                    
+                                                    -- Chi phí phiếu trả: tổng số lượng × giá nhập
+                                                    ChiPhiPhieuTra AS (
+                                                        SELECT YEAR(pt.thoiGian) AS nam,
+                                                               SUM(ctpt.soLuong * t.giaNhap) AS chiphi
+                                                        FROM PhieuTra pt
+                                                        JOIN CTPhieuTra ctpt ON pt.maPT = ctpt.maPT
+                                                        JOIN Thuoc t ON t.maThuoc = ctpt.maThuoc
+                                                        GROUP BY YEAR(pt.thoiGian)
                                                     )
                                                     
                                                     SELECT
                                                         y.year AS nam,
                                                         COALESCE(dhdo.doanhthu, 0) + COALESCE(dpdoi.doanhthu, 0) - COALESCE(dptra.doanhthu, 0) AS doanhThu,
-                                                        COALESCE(chiphihd.chiphi, 0) AS chiPhi
+                                                        COALESCE(chiphihd.chiphi, 0) + COALESCE(chiphipd.chiphi, 0) - COALESCE(chiphipt.chiphi, 0) AS chiPhi
                                                     FROM years y
                                                     LEFT JOIN DoanhThuHoaDon dhdo ON dhdo.nam = y.year
                                                     LEFT JOIN DoanhThuPhieuDoi dpdoi ON dpdoi.nam = y.year
                                                     LEFT JOIN DoanhThuPhieuTra dptra ON dptra.nam = y.year
                                                     LEFT JOIN ChiPhiHoaDon chiphihd ON chiphihd.nam = y.year
+                                                    LEFT JOIN ChiPhiPhieuDoi chiphipd ON chiphipd.nam = y.year
+                                                    LEFT JOIN ChiPhiPhieuTra chiphipt ON chiphipt.nam = y.year
                                                     ORDER BY y.year
                                                     OPTION (MAXRECURSION 0);
                                                     """;
@@ -213,17 +259,41 @@ public class ThongKeDAO {
                                               JOIN Thuoc t ON t.maThuoc = cthd.maThuoc
                                               WHERE YEAR(hd.thoiGian) = @year
                                               GROUP BY MONTH(hd.thoiGian)
+                                          ),
+                                          
+                                          -- Chi phí phiếu đổi: tổng số lượng mới × giá nhập thuốc mới
+                                          ChiPhiPhieuDoi AS (
+                                              SELECT MONTH(pd.thoiGian) AS thang,
+                                                     SUM(ctpd.soLuongMoi * t.giaNhap) AS chiPhi
+                                              FROM PhieuDoi pd
+                                              JOIN CTPhieuDoi ctpd ON pd.maPD = ctpd.maPD
+                                              JOIN Thuoc t ON t.maThuoc = ctpd.maThuocMoi
+                                              WHERE YEAR(pd.thoiGian) = @year
+                                              GROUP BY MONTH(pd.thoiGian)
+                                          ),
+                                          
+                                          -- Chi phí phiếu trả: tổng số lượng × giá nhập
+                                          ChiPhiPhieuTra AS (
+                                              SELECT MONTH(pt.thoiGian) AS thang,
+                                                     SUM(ctpt.soLuong * t.giaNhap) AS chiPhi
+                                              FROM PhieuTra pt
+                                              JOIN CTPhieuTra ctpt ON pt.maPT = ctpt.maPT
+                                              JOIN Thuoc t ON t.maThuoc = ctpt.maThuoc
+                                              WHERE YEAR(pt.thoiGian) = @year
+                                              GROUP BY MONTH(pt.thoiGian)
                                           )
                                           
                                           SELECT
                                               m.thang,
                                               COALESCE(dhdo.doanhThu, 0) + COALESCE(dpdoi.doanhThu, 0) - COALESCE(dptra.doanhThu, 0) AS doanhThu,
-                                              COALESCE(chiphihd.chiPhi, 0) AS chiPhi
+                                              COALESCE(chiphihd.chiPhi, 0) + COALESCE(chiphipd.chiPhi, 0) - COALESCE(chiphipt.chiPhi, 0) AS chiPhi
                                           FROM Months m
                                           LEFT JOIN DoanhThuHoaDon dhdo ON dhdo.thang = m.thang
                                           LEFT JOIN DoanhThuPhieuDoi dpdoi ON dpdoi.thang = m.thang
                                           LEFT JOIN DoanhThuPhieuTra dptra ON dptra.thang = m.thang
                                           LEFT JOIN ChiPhiHoaDon chiphihd ON chiphihd.thang = m.thang
+                                          LEFT JOIN ChiPhiPhieuDoi chiphipd ON chiphipd.thang = m.thang
+                                          LEFT JOIN ChiPhiPhieuTra chiphipt ON chiphipt.thang = m.thang
                                           ORDER BY m.thang
                                           OPTION (MAXRECURSION 12);
                                           """;
