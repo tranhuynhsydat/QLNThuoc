@@ -1,561 +1,546 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package GUI.form;
 
+import DAO.KhachHangDAO;
+import DAO.NhanVienDAO;
+import DAO.PhieuTraDAO;
 import DAO.ThuocDAO;
 import Entity.ChiTietPhieuTra;
 import Entity.KhachHang;
 import Entity.NhanVien;
 import Entity.PhieuTra;
 import Entity.Thuoc;
-
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.text.DecimalFormat;
-import java.util.HashMap;
+import Utils.Formatter;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.util.List;
-import java.util.Map;
-
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author ADMIN
+ * @author Admin
  */
-public class formChiTietPhieuTra extends javax.swing.JPanel {
-        private PhieuTra phieuTra;
-        private List<ChiTietPhieuTra> chiTietPhieuTraList;
-        private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        private final DecimalFormat currencyFormat = new DecimalFormat("#,### VNĐ");
+public class formChiTietPhieuTra extends javax.swing.JDialog {
+    private List<ChiTietPhieuTra> listCTPT;
+    private DefaultTableModel modal;
+    /**
+     * Creates new form formChiTietPhieuTra
+     */
+    public formChiTietPhieuTra(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+    }
+    public formChiTietPhieuTra(java.awt.Frame parent, boolean modal, List<ChiTietPhieuTra> ctpt) {
+        super(parent, modal);
+        this.listCTPT = ctpt;
+        initComponents();
+        fillInput();
+        fillTable();
+        configureTable();
+        addTableSelectionListener();
+    }
+    private void fillInput() {
+        if (!listCTPT.isEmpty()) {
+            String maPT = listCTPT.get(0).getMaPT();
+            txtMaPD.setText(maPT);
+            PhieuTra phieuDoi = PhieuTraDAO.getHoaDonByMaPD(maPT);
+            if (phieuDoi != null) {
+                String maHD = phieuDoi.getMaHD();
+                txtMaHD1.setText(maHD);
+                // Lấy thông tin khách hàng
+                KhachHang kh = KhachHangDAO.getKhachHangByMaKH(phieuDoi.getMaKH());
+                if (kh != null) {
+                    txtTenKH.setText(kh.getHoTen());
+                } else {
+                    txtTenKH.setText("Không tìm thấy KH");
+                }
 
-        /**
-         * Creates new form formChiTietPhieuTra
-         */
-        public formChiTietPhieuTra(PhieuTra phieuTra, List<ChiTietPhieuTra> chiTietPhieuTraList) {
-                this.phieuTra = phieuTra;
-                this.chiTietPhieuTraList = chiTietPhieuTraList;
-                initComponents();
-                loadData();
-                loadDataToTable();
-                configureTable();
+                // Lấy thông tin nhân viên
+                NhanVien nv = NhanVienDAO.getNhanVienByMaNV(phieuDoi.getMaNV());
+                if (nv != null) {
+                    txtTenNV.setText(nv.getHoTen());
+                } else {
+                    txtTenNV.setText("Không tìm thấy NV");
+                }
+
+                txtLyDo.setText(phieuDoi.getLyDo());
+            } else {
+                txtTenKH.setText("Không tìm thấy phiếu");
+                txtTenNV.setText("");
+                txtLyDo.setText("");
+            }
+        }
+    }
+
+    private void fillTable() {
+        modal = new DefaultTableModel();
+        String[] header = new String[]{"STT", "Mã thuốc", "Tên thuốc", "Số lượng", "Đơn giá", "Thành tiền"};
+        modal.setColumnIdentifiers(header);
+        table.setModel(modal);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        table.setDefaultRenderer(Object.class, centerRenderer);
+        table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(0).setPreferredWidth(30);
+        table.getColumnModel().getColumn(1).setPreferredWidth(200);
+
+        loadTableCTHD(listCTPT);
+    }
+
+    public void loadTableCTHD(List<ChiTietPhieuTra> list) {
+        modal.setRowCount(0);
+        listCTPT = list;
+        int stt = 1;
+        double sum = 0;
+
+        for (ChiTietPhieuTra e : listCTPT) {
+            sum += e.getThanhTien();
+            Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(e.getMaThuoc());
+            String tenThuoc = thuoc != null ? thuoc.getTenThuoc() : "Không tìm thấy";
+            modal.addRow(new Object[]{
+                String.valueOf(stt),
+                e.getMaThuoc(),
+                tenThuoc,
+                e.getSoLuong(),
+                Formatter.FormatVND(e.getDonGia()),
+                Formatter.FormatVND(e.getThanhTien())
+            });
+            stt++;
+        }
+        txtTong.setText(Formatter.FormatVND(sum));
+    }
+
+    private void configureTable() {
+        // Ngăn không cho phép người dùng chỉnh sửa bảng
+        table.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
+
+        // Căn giữa cho tất cả các cell trong bảng
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Căn giữa cho từng cột
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        private void loadData() {
-                if (phieuTra == null) {
-                        System.out.println("PhieuTra is null");
-                        return;
-                }
-
-                // Update PhieuTra information
-                KhachHang kh = phieuTra.getKhachHang();
-                NhanVien nv = phieuTra.getNhanVien();
-                tenKhachHang.setText(kh != null ? kh.getHoTen() : "N/A");
-                sdtKhachHang.setText(kh != null ? kh.getSdt() : "N/A");
-                tenNhanVien.setText(nv != null ? nv.getHoTen() : "N/A");
-                thoiGianTra.setText(phieuTra.getNgayLap() != null
-                                ? phieuTra.getNgayLap().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
-                                                .format(dateFormatter)
-                                : "N/A");
-                TongTien.setText(currencyFormat.format(phieuTra.tinhTongTien()));
-                maPT.setText(phieuTra.getMaPT() != null ? phieuTra.getMaPT() : "N/A");
-                maHD.setText(phieuTra.getMaHD() != null ? phieuTra.getMaHD() : "N/A");
-                lyDo.setText(phieuTra.getLyDo() != null ? phieuTra.getLyDo() : "Không có lý do"); // Assuming PhieuTra
-                                                                                                  // has
-                                                                                                  // getLyDo()
-        }
-
-        private void loadDataToTable() {
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                model.setRowCount(0); // Xoá dữ liệu cũ
-
-                ThuocDAO thuocDAO = new ThuocDAO();
-
-                // Tạo map mã - tên thuốc
-                Map<String, String> maTenThuocMap = new HashMap<>();
-                for (Thuoc thuoc : thuocDAO.getAllThuoc()) {
-                        maTenThuocMap.put(thuoc.getId(), thuoc.getTenThuoc());
-                }
-
-                int stt = 1;
-                for (ChiTietPhieuTra ct : chiTietPhieuTraList) {
-                        String tenThuoc = maTenThuocMap.get(ct.getMaThuoc()); // Không truy vấn DB nữa
-                        int soLuong = ct.getSoLuong();
-                        double donGia = ct.getDonGia();
-                        double thanhTien = soLuong * donGia;
-
-                        model.addRow(new Object[] {
-                                        stt++,
-                                        tenThuoc,
-                                        soLuong,
-                                        donGia,
-                                        thanhTien
-                        });
-                }
-        }
-
-        private void configureTable() {
-                // Prevent table editing
-                jTable1.setDefaultEditor(Object.class, null);
-
-                // Center align all cells
-                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-                centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-
-                for (int i = 0; i < jTable1.getColumnCount(); i++) {
-                        jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-                }
-
-                // Allow single row selection only
-                jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        }
-
-        /**
-         * This method is called from within the constructor to initialize the form.
-         * WARNING: Do NOT modify this code. The content of this method is always
-         * regenerated by the Form Editor.
-         */
-        @SuppressWarnings("unchecked")
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // Code">//GEN-BEGIN:initComponents
-        private void initComponents() {
-
-                jPanel1 = new javax.swing.JPanel();
-                jPanel2 = new javax.swing.JPanel();
-                jPanel10 = new javax.swing.JPanel();
-                label1 = new java.awt.Label();
-                label2 = new java.awt.Label();
-                jPanel3 = new javax.swing.JPanel();
-                jPanel4 = new javax.swing.JPanel();
-                jPanel5 = new javax.swing.JPanel();
-                label3 = new java.awt.Label();
-                label4 = new java.awt.Label();
-                jPanel6 = new javax.swing.JPanel();
-                label5 = new java.awt.Label();
-                jPanel7 = new javax.swing.JPanel();
-                jPanel11 = new javax.swing.JPanel();
-                jPanel12 = new javax.swing.JPanel();
-                label6 = new java.awt.Label();
-                label7 = new java.awt.Label();
-                jPanel13 = new javax.swing.JPanel();
-                jPanel14 = new javax.swing.JPanel();
-                jPanel16 = new javax.swing.JPanel();
-                label8 = new java.awt.Label();
-                tenKhachHang = new java.awt.Label();
-                label11 = new java.awt.Label();
-                maPT = new java.awt.Label();
-                jPanel15 = new javax.swing.JPanel();
-                label10 = new java.awt.Label();
-                sdtKhachHang = new java.awt.Label();
-                label9 = new java.awt.Label();
-                maHD = new java.awt.Label();
-                jPanel17 = new javax.swing.JPanel();
-                label12 = new java.awt.Label();
-                thoiGianTra = new java.awt.Label();
-                jPanel22 = new javax.swing.JPanel();
-                label18 = new java.awt.Label();
-                tenNhanVien = new java.awt.Label();
-                jPanel18 = new javax.swing.JPanel();
-                jScrollPane1 = new javax.swing.JScrollPane();
-                jTable1 = new javax.swing.JTable();
-                jPanel23 = new javax.swing.JPanel();
-                label19 = new java.awt.Label();
-                label20 = new java.awt.Label();
-                lyDo = new javax.swing.JTextField();
-                jPanel20 = new javax.swing.JPanel();
-                jPanel21 = new javax.swing.JPanel();
-                label16 = new java.awt.Label();
-                label17 = new java.awt.Label();
-                TongTien = new javax.swing.JTextField();
-
-                setMaximumSize(new java.awt.Dimension(10000, 10000));
-                setMinimumSize(new java.awt.Dimension(450, 600));
-                setPreferredSize(new java.awt.Dimension(450, 600));
-
-                jPanel1.setMaximumSize(new java.awt.Dimension(10000, 10000));
-                jPanel1.setMinimumSize(new java.awt.Dimension(450, 600));
-                jPanel1.setPreferredSize(new java.awt.Dimension(450, 600));
-                jPanel1.setLayout(new java.awt.BorderLayout());
-
-                jPanel2.setMaximumSize(new java.awt.Dimension(10000, 10000));
-                jPanel2.setMinimumSize(new java.awt.Dimension(450, 50));
-                jPanel2.setPreferredSize(new java.awt.Dimension(450, 50));
-                jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 10));
-
-                jPanel10.setMaximumSize(new java.awt.Dimension(450, 30));
-                jPanel10.setMinimumSize(new java.awt.Dimension(450, 30));
-                jPanel10.setPreferredSize(new java.awt.Dimension(450, 30));
-                jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 20, -5));
-
-                label1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-                label1.setPreferredSize(new java.awt.Dimension(183, 28));
-                label1.setText("NHÀ THUỐC BA TRI");
-                jPanel10.add(label1);
-
-                label2.setAlignment(java.awt.Label.RIGHT);
-                label2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-                label2.setMinimumSize(new java.awt.Dimension(200, 36));
-                label2.setName(""); // NOI18N
-                label2.setPreferredSize(new java.awt.Dimension(200, 36));
-                label2.setText("PHIẾU TRẢ");
-                jPanel10.add(label2);
-
-                jPanel2.add(jPanel10);
-
-                jPanel3.setMaximumSize(new java.awt.Dimension(450, 50));
-                jPanel3.setMinimumSize(new java.awt.Dimension(450, 50));
-                jPanel3.setPreferredSize(new java.awt.Dimension(450, 50));
-                jPanel3.setRequestFocusEnabled(false);
-                jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, -10));
-
-                jPanel4.setMaximumSize(new java.awt.Dimension(450, 30));
-                jPanel4.setMinimumSize(new java.awt.Dimension(450, 30));
-                jPanel4.setNextFocusableComponent(label4);
-                jPanel4.setPreferredSize(new java.awt.Dimension(450, 30));
-                jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 0));
-
-                jPanel5.setMaximumSize(new java.awt.Dimension(200, 30));
-                jPanel5.setMinimumSize(new java.awt.Dimension(200, 30));
-                jPanel5.setPreferredSize(new java.awt.Dimension(200, 30));
-                jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-                label3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                label3.setText("Địa chỉ:");
-                jPanel5.add(label3);
-
-                label4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                label4.setText("Ba Tri, Bến Tre");
-                jPanel5.add(label4);
-
-                jPanel4.add(jPanel5);
-
-                jPanel6.setMaximumSize(new java.awt.Dimension(200, 30));
-                jPanel6.setMinimumSize(new java.awt.Dimension(200, 30));
-                jPanel6.setPreferredSize(new java.awt.Dimension(200, 30));
-                jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 5, 3));
-
-                label5.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-                label5.setText("Dược phẩm");
-                jPanel6.add(label5);
-
-                jPanel4.add(jPanel6);
-
-                jPanel3.add(jPanel4);
-
-                jPanel7.setMaximumSize(new java.awt.Dimension(450, 30));
-                jPanel7.setMinimumSize(new java.awt.Dimension(450, 30));
-                jPanel7.setPreferredSize(new java.awt.Dimension(450, 30));
-                jPanel7.setRequestFocusEnabled(false);
-
-                jPanel11.setMaximumSize(new java.awt.Dimension(450, 30));
-                jPanel11.setMinimumSize(new java.awt.Dimension(450, 30));
-                jPanel11.setNextFocusableComponent(label4);
-                jPanel11.setPreferredSize(new java.awt.Dimension(450, 30));
-                java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 0);
-                flowLayout1.setAlignOnBaseline(true);
-                jPanel11.setLayout(flowLayout1);
-
-                jPanel12.setMaximumSize(new java.awt.Dimension(200, 30));
-                jPanel12.setMinimumSize(new java.awt.Dimension(200, 30));
-                jPanel12.setPreferredSize(new java.awt.Dimension(200, 30));
-                jPanel12.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, -5));
-
-                label6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                label6.setText("SĐT:");
-                jPanel12.add(label6);
-
-                label7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                label7.setText("0800XXXXXX");
-                jPanel12.add(label7);
-
-                jPanel11.add(jPanel12);
-
-                jPanel13.setMaximumSize(new java.awt.Dimension(200, 40));
-                jPanel13.setMinimumSize(new java.awt.Dimension(200, 40));
-                jPanel13.setPreferredSize(new java.awt.Dimension(200, 40));
-                jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-                jPanel11.add(jPanel13);
-
-                jPanel7.add(jPanel11);
-
-                jPanel3.add(jPanel7);
-
-                jPanel2.add(jPanel3);
-
-                jPanel14.setMaximumSize(new java.awt.Dimension(450, 110));
-                jPanel14.setMinimumSize(new java.awt.Dimension(450, 110));
-                jPanel14.setPreferredSize(new java.awt.Dimension(450, 110));
-
-                jPanel16.setMaximumSize(new java.awt.Dimension(450, 24));
-                jPanel16.setMinimumSize(new java.awt.Dimension(450, 24));
-                jPanel16.setName("Tên khách hàng:"); // NOI18N
-                jPanel16.setPreferredSize(new java.awt.Dimension(450, 24));
-                jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 10, -5));
-
-                label8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                label8.setText("Khách hàng:");
-                jPanel16.add(label8);
-
-                tenKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                tenKhachHang.setMinimumSize(new java.awt.Dimension(150, 24));
-                tenKhachHang.setName(""); // NOI18N
-                tenKhachHang.setPreferredSize(new java.awt.Dimension(150, 24));
-                jPanel16.add(tenKhachHang);
-
-                label11.setAlignment(java.awt.Label.RIGHT);
-                label11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                label11.setMaximumSize(new java.awt.Dimension(90, 24));
-                label11.setMinimumSize(new java.awt.Dimension(90, 24));
-                label11.setText("Mã PT:");
-                jPanel16.add(label11);
-
-                maPT.setAlignment(java.awt.Label.RIGHT);
-                maPT.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                jPanel16.add(maPT);
-
-                jPanel14.add(jPanel16);
-
-                jPanel15.setMaximumSize(new java.awt.Dimension(450, 24));
-                jPanel15.setMinimumSize(new java.awt.Dimension(450, 24));
-                jPanel15.setPreferredSize(new java.awt.Dimension(450, 24));
-                jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, -5));
-
-                label10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                label10.setMinimumSize(new java.awt.Dimension(150, 24));
-                label10.setName(""); // NOI18N
-                label10.setText("Số điện thoại:");
-                jPanel15.add(label10);
-
-                sdtKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                sdtKhachHang.setMinimumSize(new java.awt.Dimension(140, 24));
-                sdtKhachHang.setPreferredSize(new java.awt.Dimension(140, 24));
-                jPanel15.add(sdtKhachHang);
-
-                label9.setAlignment(java.awt.Label.RIGHT);
-                label9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                label9.setText("Mã HD:");
-                jPanel15.add(label9);
-
-                maHD.setAlignment(java.awt.Label.RIGHT);
-                maHD.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                jPanel15.add(maHD);
-
-                jPanel14.add(jPanel15);
-
-                jPanel17.setMaximumSize(new java.awt.Dimension(450, 24));
-                jPanel17.setMinimumSize(new java.awt.Dimension(450, 24));
-                jPanel17.setPreferredSize(new java.awt.Dimension(450, 24));
-                jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, -5));
-
-                label12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                label12.setText("Thời gian trả:");
-                jPanel17.add(label12);
-
-                thoiGianTra.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                jPanel17.add(thoiGianTra);
-
-                jPanel14.add(jPanel17);
-
-                jPanel22.setMaximumSize(new java.awt.Dimension(450, 24));
-                jPanel22.setMinimumSize(new java.awt.Dimension(450, 24));
-                jPanel22.setPreferredSize(new java.awt.Dimension(450, 24));
-                jPanel22.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, -5));
-
-                label18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                label18.setText("Nhân viên:");
-                jPanel22.add(label18);
-
-                tenNhanVien.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                jPanel22.add(tenNhanVien);
-
-                jPanel14.add(jPanel22);
-
-                jPanel2.add(jPanel14);
-
-                jPanel18.setMaximumSize(new java.awt.Dimension(410, 220));
-                jPanel18.setMinimumSize(new java.awt.Dimension(410, 220));
-                jPanel18.setPreferredSize(new java.awt.Dimension(410, 220));
-                jPanel18.setLayout(new java.awt.BorderLayout());
-
-                jScrollPane1.setMinimumSize(new java.awt.Dimension(400, 70));
-                jScrollPane1.setPreferredSize(new java.awt.Dimension(400, 70));
-
-                jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                                new Object[][] {
-                                                { null, null, null, null, null },
-                                                { null, null, null, null, null },
-                                                { null, null, null, null, null },
-                                                { null, null, null, null, null }
-                                },
-                                new String[] {
-                                                "STT", "TÊN HÀNG", "SỐ LƯỢNG", "ĐƠN GIÁ", "THÀNH TIỀN"
-                                }));
-                jTable1.setMaximumSize(new java.awt.Dimension(410, 220));
-                jTable1.setMinimumSize(new java.awt.Dimension(410, 220));
-                jTable1.setPreferredSize(new java.awt.Dimension(410, 220));
-                jScrollPane1.setViewportView(jTable1);
-                if (jTable1.getColumnModel().getColumnCount() > 0) {
-                        jTable1.getColumnModel().getColumn(0).setMinWidth(50);
-                        jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
-                        jTable1.getColumnModel().getColumn(0).setMaxWidth(50);
-                }
-
-                jPanel18.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-                jPanel2.add(jPanel18);
-
-                jPanel23.setMaximumSize(new java.awt.Dimension(450, 30));
-                jPanel23.setMinimumSize(new java.awt.Dimension(450, 30));
-                jPanel23.setPreferredSize(new java.awt.Dimension(450, 30));
-
-                label19.setAlignment(java.awt.Label.CENTER);
-                label19.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-                label19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                label19.setMaximumSize(new java.awt.Dimension(140, 40));
-                label19.setMinimumSize(new java.awt.Dimension(140, 40));
-                label19.setText("Lý do:");
-                jPanel23.add(label19);
-
-                label20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                jPanel23.add(label20);
-
-                lyDo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                lyDo.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-                lyDo.setToolTipText("");
-                lyDo.setMaximumSize(new java.awt.Dimension(300, 24));
-                lyDo.setMinimumSize(new java.awt.Dimension(300, 24));
-                lyDo.setPreferredSize(new java.awt.Dimension(300, 24));
-                lyDo.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                lyDoActionPerformed(evt);
+        // Ngăn không cho phép chọn nhiều dòng
+        table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    private void addTableSelectionListener() {
+        // Thêm listener xử lý sự kiện khi chọn dòng trong bảng
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) { // Chỉ xử lý khi sự kiện chọn đã hoàn tất
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Lấy mã thuốc từ dòng đã chọn
+                        String maThuoc = table.getValueAt(selectedRow, 1) != null
+                                ? table.getValueAt(selectedRow, 1).toString() : "";
+
+                        // Tìm thông tin thuốc theo mã thuốc
+                        Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(maThuoc);
+
+                        if (thuoc != null) {
+
+                            // Hiển thị ảnh thuốc
+                            byte[] anhThuoc = thuoc.getHinhAnh();
+                            if (anhThuoc != null && anhThuoc.length > 0) {
+                                ImageIcon icon = new ImageIcon(anhThuoc);
+                                txtHinhAnh.setIcon(icon);  // Cập nhật ảnh vào lblAnh
+                            } else {
+                                // Nếu không có ảnh, hiển thị ảnh mặc định
+                                txtHinhAnh.setIcon(new FlatSVGIcon("./icon/image.svg"));
+                            }
                         }
+                    }
+                }
+            }
+        });
+    }
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel15 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        hoaDonPanel = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        txtMaPD = new javax.swing.JTextField();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        txtMaHD1 = new javax.swing.JTextField();
+        jPanel17 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        txtTenKH = new javax.swing.JTextField();
+        jPanel18 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        txtTenNV = new javax.swing.JTextField();
+        jPanel19 = new javax.swing.JPanel();
+        imagePanel = new javax.swing.JPanel();
+        txtHinhAnh = new javax.swing.JLabel();
+        txtLyDo = new javax.swing.JTextField();
+        tableItemPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
+        jPanel20 = new javax.swing.JPanel();
+        jPanel21 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        txtTong = new javax.swing.JTextField();
+        jPanel22 = new javax.swing.JPanel();
+        lblThuoc = new javax.swing.JLabel();
+        jPanel23 = new javax.swing.JPanel();
+        btnHuy = new javax.swing.JButton();
+        btnPrint = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1400, 672));
+
+        jPanel15.setBackground(new java.awt.Color(0, 120, 92));
+        jPanel15.setMinimumSize(new java.awt.Dimension(100, 60));
+        jPanel15.setPreferredSize(new java.awt.Dimension(500, 50));
+        jPanel15.setLayout(new java.awt.BorderLayout());
+
+        jLabel8.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("CHI TIẾT HÓA ĐON");
+        jLabel8.setPreferredSize(new java.awt.Dimension(149, 40));
+        jPanel15.add(jLabel8, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jPanel15, java.awt.BorderLayout.NORTH);
+
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel8.setLayout(new java.awt.BorderLayout());
+
+        hoaDonPanel.setBackground(new java.awt.Color(255, 255, 255));
+        hoaDonPanel.setPreferredSize(new java.awt.Dimension(1400, 80));
+        hoaDonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 20, 16));
+
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setPreferredSize(new java.awt.Dimension(240, 40));
+        jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jLabel4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jLabel4.setText("Mã phiếu đổi");
+        jLabel4.setPreferredSize(new java.awt.Dimension(120, 40));
+        jPanel9.add(jLabel4);
+
+        txtMaPD.setEditable(false);
+        txtMaPD.setFont(new java.awt.Font("Roboto Mono", 1, 14)); // NOI18N
+        txtMaPD.setText("Z2NX8CN1A");
+        txtMaPD.setFocusable(false);
+        txtMaPD.setPreferredSize(new java.awt.Dimension(100, 40));
+        jPanel9.add(txtMaPD);
+
+        hoaDonPanel.add(jPanel9);
+
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel10.setPreferredSize(new java.awt.Dimension(240, 40));
+        jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jLabel6.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jLabel6.setText("Mã hoá đơn đổi");
+        jLabel6.setPreferredSize(new java.awt.Dimension(120, 40));
+        jPanel10.add(jLabel6);
+
+        txtMaHD1.setEditable(false);
+        txtMaHD1.setFont(new java.awt.Font("Roboto Mono", 1, 14)); // NOI18N
+        txtMaHD1.setText("Z2NX8CN1A");
+        txtMaHD1.setFocusable(false);
+        txtMaHD1.setPreferredSize(new java.awt.Dimension(100, 40));
+        jPanel10.add(txtMaHD1);
+
+        hoaDonPanel.add(jPanel10);
+
+        jPanel17.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel17.setPreferredSize(new java.awt.Dimension(370, 40));
+        jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jLabel5.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jLabel5.setText("Tên khách hàng");
+        jLabel5.setPreferredSize(new java.awt.Dimension(100, 40));
+        jPanel17.add(jLabel5);
+
+        txtTenKH.setEditable(false);
+        txtTenKH.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        txtTenKH.setText("Nguyễn Văn A");
+        txtTenKH.setFocusable(false);
+        txtTenKH.setPreferredSize(new java.awt.Dimension(250, 40));
+        jPanel17.add(txtTenKH);
+
+        hoaDonPanel.add(jPanel17);
+
+        jPanel18.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel18.setMinimumSize(new java.awt.Dimension(140, 25));
+        jPanel18.setPreferredSize(new java.awt.Dimension(320, 40));
+        jPanel18.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jLabel7.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jLabel7.setText("Tên nhân viên");
+        jLabel7.setPreferredSize(new java.awt.Dimension(100, 40));
+        jPanel18.add(jLabel7);
+
+        txtTenNV.setEditable(false);
+        txtTenNV.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        txtTenNV.setText("Vũ Nương");
+        txtTenNV.setFocusable(false);
+        txtTenNV.setPreferredSize(new java.awt.Dimension(200, 40));
+        jPanel18.add(txtTenNV);
+
+        hoaDonPanel.add(jPanel18);
+
+        jPanel8.add(hoaDonPanel, java.awt.BorderLayout.PAGE_START);
+
+        jPanel19.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel19.setPreferredSize(new java.awt.Dimension(400, 100));
+        jPanel19.setLayout(new java.awt.BorderLayout());
+
+        imagePanel.setBackground(new java.awt.Color(255, 255, 255));
+        imagePanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(237, 237, 237), 2, true));
+        imagePanel.setPreferredSize(new java.awt.Dimension(300, 300));
+        imagePanel.setLayout(new java.awt.BorderLayout());
+
+        txtHinhAnh.setBackground(new java.awt.Color(255, 255, 255));
+        txtHinhAnh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtHinhAnh.setIcon(new FlatSVGIcon("./icon/image.svg"));
+        txtHinhAnh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txtHinhAnh.setPreferredSize(new java.awt.Dimension(200, 100));
+        imagePanel.add(txtHinhAnh, java.awt.BorderLayout.CENTER);
+
+        jPanel19.add(imagePanel, java.awt.BorderLayout.CENTER);
+
+        txtLyDo.setPreferredSize(new java.awt.Dimension(70, 60));
+        jPanel19.add(txtLyDo, java.awt.BorderLayout.SOUTH);
+
+        jPanel8.add(jPanel19, java.awt.BorderLayout.WEST);
+
+        tableItemPanel.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Mã thuốc", "Tên thuốc", "Số lượng", "Đơn giá", "Thành tiền"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table.setFocusable(false);
+        table.setRowHeight(40);
+        table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        table.setShowHorizontalLines(true);
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(table);
+
+        tableItemPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jPanel20.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel20.setPreferredSize(new java.awt.Dimension(800, 60));
+        jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        jPanel21.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel21.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jLabel9.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 51, 0));
+        jLabel9.setText("Tổng hóa đơn:");
+        jLabel9.setPreferredSize(new java.awt.Dimension(120, 40));
+        jPanel21.add(jLabel9);
+
+        txtTong.setEditable(false);
+        txtTong.setFont(new java.awt.Font("Roboto Mono Medium", 0, 14)); // NOI18N
+        txtTong.setForeground(new java.awt.Color(255, 51, 0));
+        txtTong.setText("1000000");
+        txtTong.setFocusable(false);
+        txtTong.setPreferredSize(new java.awt.Dimension(200, 40));
+        jPanel21.add(txtTong);
+
+        jPanel20.add(jPanel21);
+
+        tableItemPanel.add(jPanel20, java.awt.BorderLayout.PAGE_END);
+
+        jPanel22.setBackground(new java.awt.Color(0, 120, 92));
+        jPanel22.setMinimumSize(new java.awt.Dimension(100, 60));
+        jPanel22.setPreferredSize(new java.awt.Dimension(500, 30));
+        jPanel22.setLayout(new java.awt.BorderLayout());
+
+        lblThuoc.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
+        lblThuoc.setForeground(new java.awt.Color(255, 255, 255));
+        lblThuoc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblThuoc.setText("Thông tin thuốc");
+        jPanel22.add(lblThuoc, java.awt.BorderLayout.CENTER);
+
+        tableItemPanel.add(jPanel22, java.awt.BorderLayout.NORTH);
+
+        jPanel8.add(tableItemPanel, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jPanel8, java.awt.BorderLayout.CENTER);
+
+        jPanel23.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel23.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 8, 5));
+
+        btnHuy.setBackground(new java.awt.Color(255, 102, 102));
+        btnHuy.setFont(new java.awt.Font("Roboto Mono Medium", 0, 16)); // NOI18N
+        btnHuy.setForeground(new java.awt.Color(255, 255, 255));
+        btnHuy.setText("HỦY BỎ");
+        btnHuy.setBorderPainted(false);
+        btnHuy.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHuy.setFocusPainted(false);
+        btnHuy.setFocusable(false);
+        btnHuy.setPreferredSize(new java.awt.Dimension(200, 40));
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
+        jPanel23.add(btnHuy);
+
+        btnPrint.setBackground(new java.awt.Color(0, 120, 92));
+        btnPrint.setFont(new java.awt.Font("Roboto Mono Medium", 0, 16)); // NOI18N
+        btnPrint.setForeground(new java.awt.Color(255, 255, 255));
+        btnPrint.setText("In hóa đơn");
+        btnPrint.setBorderPainted(false);
+        btnPrint.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPrint.setFocusPainted(false);
+        btnPrint.setFocusable(false);
+        btnPrint.setPreferredSize(new java.awt.Dimension(200, 40));
+        btnPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintActionPerformed(evt);
+            }
+        });
+        jPanel23.add(btnPrint);
+
+        getContentPane().add(jPanel23, java.awt.BorderLayout.PAGE_END);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+
+    }//GEN-LAST:event_tableMouseClicked
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnHuyActionPerformed
+
+    private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
+//        String maPD = listCTPD.get(0).getMaPD();
+//        PhieuDoi pd = PhieuDoiDAO.getHoaDonByMaPD(maPD);
+//        new WritePDF().printPhieuDoi(pd, listCTPD);
+    }//GEN-LAST:event_btnPrintActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(formChiTietPhieuTra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(formChiTietPhieuTra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(formChiTietPhieuTra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(formChiTietPhieuTra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                formChiTietPhieuTra dialog = new formChiTietPhieuTra(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
                 });
-                jPanel23.add(lyDo);
+                dialog.setVisible(true);
+            }
+        });
+    }
 
-                jPanel2.add(jPanel23);
-
-                jPanel20.setMaximumSize(new java.awt.Dimension(450, 50));
-                jPanel20.setMinimumSize(new java.awt.Dimension(450, 50));
-                jPanel20.setPreferredSize(new java.awt.Dimension(450, 50));
-
-                jPanel21.setMaximumSize(new java.awt.Dimension(450, 50));
-                jPanel21.setMinimumSize(new java.awt.Dimension(450, 50));
-                jPanel21.setPreferredSize(new java.awt.Dimension(450, 50));
-                jPanel21.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 10));
-
-                label16.setAlignment(java.awt.Label.CENTER);
-                label16.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-                label16.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-                label16.setMaximumSize(new java.awt.Dimension(140, 40));
-                label16.setMinimumSize(new java.awt.Dimension(140, 40));
-                label16.setText("TỔNG TIỀN:");
-                jPanel21.add(label16);
-                label16.getAccessibleContext().setAccessibleName("Tổng tiền:");
-
-                label17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-                jPanel21.add(label17);
-
-                TongTien.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-                TongTien.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-                TongTien.setMaximumSize(new java.awt.Dimension(200, 40));
-                TongTien.setMinimumSize(new java.awt.Dimension(200, 40));
-                TongTien.setPreferredSize(new java.awt.Dimension(200, 40));
-                jPanel21.add(TongTien);
-
-                javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
-                jPanel20.setLayout(jPanel20Layout);
-                jPanel20Layout.setHorizontalGroup(
-                                jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(jPanel20Layout.createSequentialGroup()
-                                                                .addGap(0, 0, Short.MAX_VALUE)
-                                                                .addComponent(jPanel21,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(0, 0, Short.MAX_VALUE)));
-                jPanel20Layout.setVerticalGroup(
-                                jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(jPanel20Layout.createSequentialGroup()
-                                                                .addGap(0, 0, Short.MAX_VALUE)
-                                                                .addComponent(jPanel21,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(0, 0, Short.MAX_VALUE)));
-
-                jPanel2.add(jPanel20);
-
-                jPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
-
-                javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-                this.setLayout(layout);
-                layout.setHorizontalGroup(
-                                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-                layout.setVerticalGroup(
-                                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-        }// </editor-fold>//GEN-END:initComponents
-
-        private void lyDoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_lyDoActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_lyDoActionPerformed
-
-        // Variables declaration - do not modify//GEN-BEGIN:variables
-        private javax.swing.JTextField TongTien;
-        private javax.swing.JPanel jPanel1;
-        private javax.swing.JPanel jPanel10;
-        private javax.swing.JPanel jPanel11;
-        private javax.swing.JPanel jPanel12;
-        private javax.swing.JPanel jPanel13;
-        private javax.swing.JPanel jPanel14;
-        private javax.swing.JPanel jPanel15;
-        private javax.swing.JPanel jPanel16;
-        private javax.swing.JPanel jPanel17;
-        private javax.swing.JPanel jPanel18;
-        private javax.swing.JPanel jPanel2;
-        private javax.swing.JPanel jPanel20;
-        private javax.swing.JPanel jPanel21;
-        private javax.swing.JPanel jPanel22;
-        private javax.swing.JPanel jPanel23;
-        private javax.swing.JPanel jPanel3;
-        private javax.swing.JPanel jPanel4;
-        private javax.swing.JPanel jPanel5;
-        private javax.swing.JPanel jPanel6;
-        private javax.swing.JPanel jPanel7;
-        private javax.swing.JScrollPane jScrollPane1;
-        private javax.swing.JTable jTable1;
-        private java.awt.Label label1;
-        private java.awt.Label label10;
-        private java.awt.Label label11;
-        private java.awt.Label label12;
-        private java.awt.Label label16;
-        private java.awt.Label label17;
-        private java.awt.Label label18;
-        private java.awt.Label label19;
-        private java.awt.Label label2;
-        private java.awt.Label label20;
-        private java.awt.Label label3;
-        private java.awt.Label label4;
-        private java.awt.Label label5;
-        private java.awt.Label label6;
-        private java.awt.Label label7;
-        private java.awt.Label label8;
-        private java.awt.Label label9;
-        private javax.swing.JTextField lyDo;
-        private java.awt.Label maHD;
-        private java.awt.Label maPT;
-        private java.awt.Label sdtKhachHang;
-        private java.awt.Label tenKhachHang;
-        private java.awt.Label tenNhanVien;
-        private java.awt.Label thoiGianTra;
-        // End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnHuy;
+    private javax.swing.JButton btnPrint;
+    private javax.swing.JPanel hoaDonPanel;
+    private javax.swing.JPanel imagePanel;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblThuoc;
+    private javax.swing.JTable table;
+    private javax.swing.JPanel tableItemPanel;
+    private javax.swing.JLabel txtHinhAnh;
+    private javax.swing.JTextField txtLyDo;
+    private javax.swing.JTextField txtMaHD1;
+    private javax.swing.JTextField txtMaPD;
+    private javax.swing.JTextField txtTenKH;
+    private javax.swing.JTextField txtTenNV;
+    private javax.swing.JTextField txtTong;
+    // End of variables declaration//GEN-END:variables
 }
