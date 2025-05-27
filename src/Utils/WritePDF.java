@@ -356,7 +356,7 @@ public class WritePDF {
             document.open();
 
             // Thông tin công ty và thời gian in
-            Paragraph company = new Paragraph("Hiệu thuốc tây Pharma Store", fontBold15);
+            Paragraph company = new Paragraph("Hiệu thuốc tây Ba Tri", fontBold15);
             company.add(new Chunk(createWhiteSpace(20)));
             Date today = new Date(System.currentTimeMillis());
             company.add(new Chunk("Thời gian in phiếu: " + formatDate.format(today), fontNormal10));
