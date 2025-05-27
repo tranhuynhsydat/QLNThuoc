@@ -51,7 +51,7 @@ public class frmThongKeDoanhThuTheoThangPage extends javax.swing.JPanel {
             // Tính doanh thu
             Object valDT = table.getValueAt(i, colDoanhThu);
             if (valDT != null) {
-                String sDT = valDT.toString().trim().replaceAll("[^0-9]", "");
+                String sDT = valDT.toString().trim().replaceAll("[^0-9\\-]", "");
                 if (!sDT.isEmpty()) {
                     try {
                         tongDoanhThu += Long.parseLong(sDT);
@@ -63,7 +63,7 @@ public class frmThongKeDoanhThuTheoThangPage extends javax.swing.JPanel {
             // Tính chi phí
             Object valCP = table.getValueAt(i, colChiPhi);
             if (valCP != null) {
-                String sCP = valCP.toString().trim().replaceAll("[^0-9]", "");
+                String sCP = valCP.toString().trim().replaceAll("[^0-9\\-]", "");
                 if (!sCP.isEmpty()) {
                     try {
                         tongChiPhi += Long.parseLong(sCP);
