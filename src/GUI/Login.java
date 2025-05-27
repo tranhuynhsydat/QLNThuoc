@@ -112,7 +112,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new FlatSVGIcon("./icon/BackGround1.svg"));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/AnhMain.jpg"))); // NOI18N
         jLabel2.setAlignmentY(0.0F);
         jPanel2.add(jLabel2, java.awt.BorderLayout.CENTER);
 
