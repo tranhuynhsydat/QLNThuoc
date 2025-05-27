@@ -14,6 +14,7 @@ import Entity.NhanVien;
 import Entity.PhieuTra;
 import Entity.Thuoc;
 import Utils.Formatter;
+import Utils.WritePDF;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -462,9 +463,9 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-//        String maPD = listCTPD.get(0).getMaPD();
-//        PhieuDoi pd = PhieuDoiDAO.getHoaDonByMaPD(maPD);
-//        new WritePDF().printPhieuDoi(pd, listCTPD);
+        String maPT = listCTPT.get(0).getMaPT();
+        PhieuTra pd = PhieuTraDAO.getHoaDonByMaPD(maPT);
+        new WritePDF().printPhieuTra(pd, listCTPT);
     }//GEN-LAST:event_btnPrintActionPerformed
 
     /**

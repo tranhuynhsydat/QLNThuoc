@@ -142,7 +142,7 @@ public class PhieuTraDAO {
 
     public static List<PhieuTra> getAllPhieuTra() {
         List<PhieuTra> danhSach = new ArrayList<>();
-        String sql = "SELECT * FROM PhieuDoi";
+        String sql = "SELECT * FROM PhieuTra";
 
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql);

@@ -213,11 +213,6 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
         form.setVisible(true);
     }
 
-    private void btnPDFActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO: Implement PDF export functionality
-        JOptionPane.showMessageDialog(this, "Chức năng xuất PDF chưa được triển khai!", "Thông báo",
-                JOptionPane.INFORMATION_MESSAGE);
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
