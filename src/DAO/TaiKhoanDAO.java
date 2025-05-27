@@ -245,7 +245,7 @@ public class TaiKhoanDAO {
                         rs.getString("ChucVu")
                 );
                 nv.setGioiTinh(rs.getString("GioiTinh"));
-                
+
                 tk = new TaiKhoan(
                         rs.getString("id"),
                         rs.getString("UserName"),
@@ -261,6 +261,7 @@ public class TaiKhoanDAO {
 
         return tk;
     }
+
     public static boolean kiemTraTenTaiKhoanTonTai(String userName) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -280,13 +281,29 @@ public class TaiKhoanDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try { if (rs != null) rs.close(); } catch (Exception e) {}
-            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+            }
         }
 
         return exists;
     }
+
     public static boolean kiemTraNhanVienDaCoTaiKhoan(String maNV) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -306,24 +323,77 @@ public class TaiKhoanDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try { if (rs != null) rs.close(); } catch (Exception e) {}
-            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+            }
         }
 
         return exists;
     }
+
     public static boolean xoaTaiKhoanTheoMaNV(String maNV) {
-    try (Connection conn = DatabaseConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement("DELETE FROM TaiKhoan WHERE maNV = ?")) {
-        stmt.setString(1, maNV);
-        int rows = stmt.executeUpdate();
-        return rows > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement("DELETE FROM TaiKhoan WHERE maNV = ?")) {
+            stmt.setString(1, maNV);
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public TaiKhoan checkDangNhap(String username, String password) {
+        String sql = "SELECT * FROM TaiKhoan WHERE UserName = ? AND Password = ?";
+        try (
+                Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                // Gọi NhanVienDAO để lấy NhanVien
+                String maNV = rs.getString("MaNV");
+                NhanVienDAO nvDAO = new NhanVienDAO();
+                NhanVien nv = nvDAO.getNhanVienByMaNV(maNV);  // tên phương thức đúng từ file bạn gửi
+
+                return new TaiKhoan(
+                        rs.getString("MaTK"),
+                        rs.getString("UserName"),
+                        rs.getString("Password"),
+                        nv
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean doiMatKhau(String username, String matKhauMoi) {
+        String sql = "UPDATE TaiKhoan SET Password = ? WHERE UserName = ?";
+        try (
+                Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, matKhauMoi);
+            ps.setString(2, username);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
-}
-
-
 }

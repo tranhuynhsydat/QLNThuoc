@@ -11,15 +11,52 @@ public class PhieuTra {
     private String maKH;
     private String maHD;
     private String lyDo;
+    private double tongTien;
 
+    private double tongTienHoaDon;
     private NhanVien nhanVien;
     private KhachHang khachHang;
     private List<ChiTietPhieuTra> chiTietPhieuTra;
 
+    public PhieuTra(String maPT, Date ngayLap, String maNV, String maKH, String maHD, String lyDo) {
+        this.maPT = maPT;
+        this.ngayLap = ngayLap;
+        this.maNV = maNV;
+        this.maKH = maKH;
+        this.maHD = maHD;
+        this.lyDo = lyDo;
+        this.tongTien=0;
+        this.chiTietPhieuTra = new ArrayList<>();
+        
+    }
+
+    public PhieuTra(String maPT, Date ngayLap, String maNV, String maKH) {
+        this.maPT = maPT;
+        this.ngayLap = ngayLap;
+        this.maNV = maNV;
+        this.maKH = maKH;
+        this.tongTien=0;
+        this.chiTietPhieuTra = new ArrayList<>();
+    }
+    
+    public double getTongTien() {
+        return tongTien;
+    }
+
+    public void setTongTien(double tongTien) {
+        this.tongTien = tongTien;
+    }
     public PhieuTra() {
         chiTietPhieuTra = new ArrayList<>();
     }
 
+    public double getTongTienHoaDon() {
+        return tongTienHoaDon;
+    }
+
+    public void setTongTienHoaDon(double tongTienHoaDon) {
+        this.tongTienHoaDon = tongTienHoaDon;
+    }
     public String getMaPT() {
         return maPT;
     }

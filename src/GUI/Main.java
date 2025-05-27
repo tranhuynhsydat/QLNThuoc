@@ -5,6 +5,7 @@
 package GUI;
 
 import Entity.TaiKhoan;
+import GUI.form.formDoiMkTK;
 import GUI.page.ThongKe.frmThongKe;
 import GUI.page.frmHoaDonCapNhat;
 import GUI.page.frmSearchHoaDon;
@@ -30,10 +31,13 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -43,6 +47,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -523,6 +528,16 @@ public class Main extends javax.swing.JFrame {
             btnPhieuDoiTra.setEnabled(false);
             btnPhieuNhap.setEnabled(false);
         }
+        lblAvatar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(lblAvatar);
+                formDoiMkTK form = new formDoiMkTK(parentFrame, true, taiKhoan);
+                form.setLocationRelativeTo(parentFrame);
+                form.setVisible(true);
+
+            }
+        });
         capNhatThongTinNguoiDung();
     }
 

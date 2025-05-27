@@ -4,16 +4,20 @@
  */
 package GUI.form;
 
+import DAO.HoaDonDAO;
 import DAO.KhachHangDAO;
 import DAO.NhanVienDAO;
-import DAO.PhieuTraDAO;
+import DAO.PhieuDoiDAO;
 import DAO.ThuocDAO;
-import Entity.ChiTietPhieuTra;
+import Entity.ChiTietHoaDon;
+import Entity.ChiTietPhieuDoi;
+import Entity.HoaDon;
 import Entity.KhachHang;
 import Entity.NhanVien;
-import Entity.PhieuTra;
+import Entity.PhieuDoi;
 import Entity.Thuoc;
 import Utils.Formatter;
+import Utils.WritePDF;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -27,35 +31,39 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Admin
  */
-public class formChiTietPhieuTra extends javax.swing.JDialog {
-    private List<ChiTietPhieuTra> listCTPT;
+public class formChiTietPhieuDoi extends javax.swing.JDialog {
+
+    private List<ChiTietPhieuDoi> listCTPD;
     private DefaultTableModel modal;
+
     /**
-     * Creates new form formChiTietPhieuTra
+     * Creates new form formChiTietHoaDon
      */
-    public formChiTietPhieuTra(java.awt.Frame parent, boolean modal) {
+    public formChiTietPhieuDoi(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-    public formChiTietPhieuTra(java.awt.Frame parent, boolean modal, List<ChiTietPhieuTra> ctpt) {
+
+    public formChiTietPhieuDoi(java.awt.Frame parent, boolean modal, List<ChiTietPhieuDoi> ctpd) {
         super(parent, modal);
-        this.listCTPT = ctpt;
+        this.listCTPD = ctpd;
         initComponents();
         fillInput();
         fillTable();
         configureTable();
         addTableSelectionListener();
     }
+
     private void fillInput() {
-        if (!listCTPT.isEmpty()) {
-            String maPT = listCTPT.get(0).getMaPT();
-            txtMaPD.setText(maPT);
-            PhieuTra phieuDoi = PhieuTraDAO.getHoaDonByMaPD(maPT);
+        if (!listCTPD.isEmpty()) {
+            String maPD = listCTPD.get(0).getMaPD();
+            txtMaPD.setText(maPD);
+            PhieuDoi phieuDoi = PhieuDoiDAO.getHoaDonByMaPD(maPD);
             if (phieuDoi != null) {
                 String maHD = phieuDoi.getMaHD();
                 txtMaHD1.setText(maHD);
                 // Lấy thông tin khách hàng
-                KhachHang kh = KhachHangDAO.getKhachHangByMaKH(phieuDoi.getMaKH());
+                KhachHang kh = KhachHangDAO.getKhachHangByMaKH(phieuDoi.getIdKhachHang());
                 if (kh != null) {
                     txtTenKH.setText(kh.getHoTen());
                 } else {
@@ -63,7 +71,7 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
                 }
 
                 // Lấy thông tin nhân viên
-                NhanVien nv = NhanVienDAO.getNhanVienByMaNV(phieuDoi.getMaNV());
+                NhanVien nv = NhanVienDAO.getNhanVienByMaNV(phieuDoi.getIdNhanVien());
                 if (nv != null) {
                     txtTenNV.setText(nv.getHoTen());
                 } else {
@@ -92,25 +100,25 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
         table.getColumnModel().getColumn(0).setPreferredWidth(30);
         table.getColumnModel().getColumn(1).setPreferredWidth(200);
 
-        loadTableCTHD(listCTPT);
+        loadTableCTHD(listCTPD);
     }
 
-    public void loadTableCTHD(List<ChiTietPhieuTra> list) {
+    public void loadTableCTHD(List<ChiTietPhieuDoi> list) {
         modal.setRowCount(0);
-        listCTPT = list;
+        listCTPD = list;
         int stt = 1;
         double sum = 0;
 
-        for (ChiTietPhieuTra e : listCTPT) {
+        for (ChiTietPhieuDoi e : listCTPD) {
             sum += e.getThanhTien();
-            Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(e.getMaThuoc());
+            Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(e.getMaThuocMoi());
             String tenThuoc = thuoc != null ? thuoc.getTenThuoc() : "Không tìm thấy";
             modal.addRow(new Object[]{
                 String.valueOf(stt),
-                e.getMaThuoc(),
+                e.getMaThuocMoi(),
                 tenThuoc,
-                e.getSoLuong(),
-                Formatter.FormatVND(e.getDonGia()),
+                e.getSoLuongMoi(),
+                Formatter.FormatVND(e.getDonGiaMoi()),
                 Formatter.FormatVND(e.getThanhTien())
             });
             stt++;
@@ -167,6 +175,7 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
             }
         });
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -210,7 +219,6 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
         btnPrint = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1400, 672));
 
         jPanel15.setBackground(new java.awt.Color(0, 120, 92));
         jPanel15.setMinimumSize(new java.awt.Dimension(100, 60));
@@ -462,52 +470,52 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-//        String maPD = listCTPD.get(0).getMaPD();
-//        PhieuDoi pd = PhieuDoiDAO.getHoaDonByMaPD(maPD);
-//        new WritePDF().printPhieuDoi(pd, listCTPD);
+        String maPD = listCTPD.get(0).getMaPD();
+        PhieuDoi pd = PhieuDoiDAO.getHoaDonByMaPD(maPD);
+        new WritePDF().printPhieuDoi(pd, listCTPD);
     }//GEN-LAST:event_btnPrintActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(formChiTietPhieuTra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(formChiTietPhieuTra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(formChiTietPhieuTra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(formChiTietPhieuTra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                formChiTietPhieuTra dialog = new formChiTietPhieuTra(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(formChiTietHoaDon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(formChiTietHoaDon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(formChiTietHoaDon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(formChiTietHoaDon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the dialog */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                formChiTietHoaDon dialog = new formChiTietHoaDon(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;

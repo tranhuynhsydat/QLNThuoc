@@ -2,18 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package GUI.form;
+package GUI.page;
 
-import DAO.KhachHangDAO;
-import DAO.NhanVienDAO;
-import DAO.PhieuTraDAO;
+import DAO.HoaDonDAO;
 import DAO.ThuocDAO;
-import Entity.ChiTietPhieuTra;
-import Entity.KhachHang;
-import Entity.NhanVien;
-import Entity.PhieuTra;
+import Entity.ChiTietHoaDon;
+import Entity.HoaDon;
 import Entity.Thuoc;
 import Utils.Formatter;
+import Utils.WritePDF;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -27,19 +24,19 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Admin
  */
-public class formChiTietPhieuTra extends javax.swing.JDialog {
-    private List<ChiTietPhieuTra> listCTPT;
+public class formChiTietHoaDon extends javax.swing.JDialog {
+    private List<ChiTietHoaDon> listCTHD;
     private DefaultTableModel modal;
     /**
-     * Creates new form formChiTietPhieuTra
+     * Creates new form formChiTietHoaDon
      */
-    public formChiTietPhieuTra(java.awt.Frame parent, boolean modal) {
+    public formChiTietHoaDon(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-    public formChiTietPhieuTra(java.awt.Frame parent, boolean modal, List<ChiTietPhieuTra> ctpt) {
+    public formChiTietHoaDon(java.awt.Frame parent, boolean modal, List<ChiTietHoaDon> ctpn) {
         super(parent, modal);
-        this.listCTPT = ctpt;
+        this.listCTHD = ctpn;
         initComponents();
         fillInput();
         fillTable();
@@ -47,41 +44,23 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
         addTableSelectionListener();
     }
     private void fillInput() {
-        if (!listCTPT.isEmpty()) {
-            String maPT = listCTPT.get(0).getMaPT();
-            txtMaPD.setText(maPT);
-            PhieuTra phieuDoi = PhieuTraDAO.getHoaDonByMaPD(maPT);
-            if (phieuDoi != null) {
-                String maHD = phieuDoi.getMaHD();
-                txtMaHD1.setText(maHD);
-                // Lấy thông tin khách hàng
-                KhachHang kh = KhachHangDAO.getKhachHangByMaKH(phieuDoi.getMaKH());
-                if (kh != null) {
-                    txtTenKH.setText(kh.getHoTen());
-                } else {
-                    txtTenKH.setText("Không tìm thấy KH");
-                }
+    if (!listCTHD.isEmpty()) {
+        String maHoaDon = listCTHD.get(0).getIdHoaDon();
+        txtMaHD.setText(maHoaDon);
 
-                // Lấy thông tin nhân viên
-                NhanVien nv = NhanVienDAO.getNhanVienByMaNV(phieuDoi.getMaNV());
-                if (nv != null) {
-                    txtTenNV.setText(nv.getHoTen());
-                } else {
-                    txtTenNV.setText("Không tìm thấy NV");
-                }
-
-                txtLyDo.setText(phieuDoi.getLyDo());
-            } else {
-                txtTenKH.setText("Không tìm thấy phiếu");
-                txtTenNV.setText("");
-                txtLyDo.setText("");
-            }
+        HoaDon hoaDon = HoaDonDAO.getHoaDonByMaHD(maHoaDon);
+        if (hoaDon != null) {
+            txtTenKH.setText(hoaDon.getKhachHang().getHoTen());
+            txtTenNV.setText(hoaDon.getNhanVien().getHoTen());
+        } else {
+            txtTenKH.setText("Không tìm thấy KH");
+            txtTenNV.setText("Không tìm thấy NV");
+            }   
         }
-    }
-
+    }   
     private void fillTable() {
         modal = new DefaultTableModel();
-        String[] header = new String[]{"STT", "Mã thuốc", "Tên thuốc", "Số lượng", "Đơn giá", "Thành tiền"};
+        String[] header = new String[]{"STT","Mã thuốc", "Tên thuốc", "Số lượng", "Đơn giá", "Thành tiền"};
         modal.setColumnIdentifiers(header);
         table.setModel(modal);
 
@@ -92,23 +71,22 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
         table.getColumnModel().getColumn(0).setPreferredWidth(30);
         table.getColumnModel().getColumn(1).setPreferredWidth(200);
 
-        loadTableCTHD(listCTPT);
+        loadTableCTHD(listCTHD);
     }
 
-    public void loadTableCTHD(List<ChiTietPhieuTra> list) {
+    public void loadTableCTHD(List<ChiTietHoaDon> list) {
         modal.setRowCount(0);
-        listCTPT = list;
+        listCTHD = list;
         int stt = 1;
         double sum = 0;
 
-        for (ChiTietPhieuTra e : listCTPT) {
+        for (ChiTietHoaDon e : listCTHD) {
             sum += e.getThanhTien();
-            Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(e.getMaThuoc());
-            String tenThuoc = thuoc != null ? thuoc.getTenThuoc() : "Không tìm thấy";
+
             modal.addRow(new Object[]{
                 String.valueOf(stt),
-                e.getMaThuoc(),
-                tenThuoc,
+                e.getIdThuoc(),
+                e.getThuoc(), // Tên thuốc
                 e.getSoLuong(),
                 Formatter.FormatVND(e.getDonGia()),
                 Formatter.FormatVND(e.getThanhTien())
@@ -117,7 +95,6 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
         }
         txtTong.setText(Formatter.FormatVND(sum));
     }
-
     private void configureTable() {
         // Ngăn không cho phép người dùng chỉnh sửa bảng
         table.setDefaultEditor(Object.class, null);  // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong bảng.
@@ -134,7 +111,6 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
         // Ngăn không cho phép chọn nhiều dòng
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
     }
-
     private void addTableSelectionListener() {
         // Thêm listener xử lý sự kiện khi chọn dòng trong bảng
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -182,10 +158,7 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
         hoaDonPanel = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        txtMaPD = new javax.swing.JTextField();
-        jPanel10 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        txtMaHD1 = new javax.swing.JTextField();
+        txtMaHD = new javax.swing.JTextField();
         jPanel17 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         txtTenKH = new javax.swing.JTextField();
@@ -195,7 +168,6 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
         jPanel19 = new javax.swing.JPanel();
         imagePanel = new javax.swing.JPanel();
         txtHinhAnh = new javax.swing.JLabel();
-        txtLyDo = new javax.swing.JTextField();
         tableItemPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
@@ -231,70 +203,51 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
 
         hoaDonPanel.setBackground(new java.awt.Color(255, 255, 255));
         hoaDonPanel.setPreferredSize(new java.awt.Dimension(1400, 80));
-        hoaDonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 20, 16));
+        hoaDonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 16));
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel9.setPreferredSize(new java.awt.Dimension(240, 40));
+        jPanel9.setPreferredSize(new java.awt.Dimension(340, 40));
         jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
         jLabel4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jLabel4.setText("Mã phiếu đổi");
+        jLabel4.setText("Mã hóa đơn ");
         jLabel4.setPreferredSize(new java.awt.Dimension(120, 40));
         jPanel9.add(jLabel4);
 
-        txtMaPD.setEditable(false);
-        txtMaPD.setFont(new java.awt.Font("Roboto Mono", 1, 14)); // NOI18N
-        txtMaPD.setText("Z2NX8CN1A");
-        txtMaPD.setFocusable(false);
-        txtMaPD.setPreferredSize(new java.awt.Dimension(100, 40));
-        jPanel9.add(txtMaPD);
+        txtMaHD.setEditable(false);
+        txtMaHD.setFont(new java.awt.Font("Roboto Mono", 1, 14)); // NOI18N
+        txtMaHD.setText("Z2NX8CN1A");
+        txtMaHD.setFocusable(false);
+        txtMaHD.setPreferredSize(new java.awt.Dimension(200, 40));
+        jPanel9.add(txtMaHD);
 
         hoaDonPanel.add(jPanel9);
 
-        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel10.setPreferredSize(new java.awt.Dimension(240, 40));
-        jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        jLabel6.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jLabel6.setText("Mã hoá đơn đổi");
-        jLabel6.setPreferredSize(new java.awt.Dimension(120, 40));
-        jPanel10.add(jLabel6);
-
-        txtMaHD1.setEditable(false);
-        txtMaHD1.setFont(new java.awt.Font("Roboto Mono", 1, 14)); // NOI18N
-        txtMaHD1.setText("Z2NX8CN1A");
-        txtMaHD1.setFocusable(false);
-        txtMaHD1.setPreferredSize(new java.awt.Dimension(100, 40));
-        jPanel10.add(txtMaHD1);
-
-        hoaDonPanel.add(jPanel10);
-
         jPanel17.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel17.setPreferredSize(new java.awt.Dimension(370, 40));
+        jPanel17.setPreferredSize(new java.awt.Dimension(440, 40));
         jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
         jLabel5.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jLabel5.setText("Tên khách hàng");
-        jLabel5.setPreferredSize(new java.awt.Dimension(100, 40));
+        jLabel5.setPreferredSize(new java.awt.Dimension(120, 40));
         jPanel17.add(jLabel5);
 
         txtTenKH.setEditable(false);
         txtTenKH.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         txtTenKH.setText("Nguyễn Văn A");
         txtTenKH.setFocusable(false);
-        txtTenKH.setPreferredSize(new java.awt.Dimension(250, 40));
+        txtTenKH.setPreferredSize(new java.awt.Dimension(300, 40));
         jPanel17.add(txtTenKH);
 
         hoaDonPanel.add(jPanel17);
 
         jPanel18.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel18.setMinimumSize(new java.awt.Dimension(140, 25));
-        jPanel18.setPreferredSize(new java.awt.Dimension(320, 40));
+        jPanel18.setPreferredSize(new java.awt.Dimension(340, 40));
         jPanel18.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
         jLabel7.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jLabel7.setText("Tên nhân viên");
-        jLabel7.setPreferredSize(new java.awt.Dimension(100, 40));
+        jLabel7.setPreferredSize(new java.awt.Dimension(120, 40));
         jPanel18.add(jLabel7);
 
         txtTenNV.setEditable(false);
@@ -310,7 +263,6 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
 
         jPanel19.setBackground(new java.awt.Color(255, 255, 255));
         jPanel19.setPreferredSize(new java.awt.Dimension(400, 100));
-        jPanel19.setLayout(new java.awt.BorderLayout());
 
         imagePanel.setBackground(new java.awt.Color(255, 255, 255));
         imagePanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(237, 237, 237), 2, true));
@@ -324,10 +276,22 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
         txtHinhAnh.setPreferredSize(new java.awt.Dimension(200, 100));
         imagePanel.add(txtHinhAnh, java.awt.BorderLayout.CENTER);
 
-        jPanel19.add(imagePanel, java.awt.BorderLayout.CENTER);
-
-        txtLyDo.setPreferredSize(new java.awt.Dimension(70, 60));
-        jPanel19.add(txtLyDo, java.awt.BorderLayout.SOUTH);
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                .addContainerGap(26, Short.MAX_VALUE)
+                .addComponent(imagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(imagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(136, 136, 136))
+        );
 
         jPanel8.add(jPanel19, java.awt.BorderLayout.WEST);
 
@@ -462,9 +426,9 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-//        String maPD = listCTPD.get(0).getMaPD();
-//        PhieuDoi pd = PhieuDoiDAO.getHoaDonByMaPD(maPD);
-//        new WritePDF().printPhieuDoi(pd, listCTPD);
+        String maHD = listCTHD.get(0).getIdHoaDon();
+        HoaDon hoaDon = HoaDonDAO.getHoaDonByMaHD(maHD);
+        new WritePDF().printHoaDon(hoaDon, listCTHD);
     }//GEN-LAST:event_btnPrintActionPerformed
 
     /**
@@ -484,20 +448,20 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(formChiTietPhieuTra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formChiTietHoaDon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(formChiTietPhieuTra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formChiTietHoaDon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(formChiTietPhieuTra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formChiTietHoaDon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(formChiTietPhieuTra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formChiTietHoaDon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                formChiTietPhieuTra dialog = new formChiTietPhieuTra(new javax.swing.JFrame(), true);
+                formChiTietHoaDon dialog = new formChiTietHoaDon(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -516,11 +480,9 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
     private javax.swing.JPanel imagePanel;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
@@ -536,9 +498,7 @@ public class formChiTietPhieuTra extends javax.swing.JDialog {
     private javax.swing.JTable table;
     private javax.swing.JPanel tableItemPanel;
     private javax.swing.JLabel txtHinhAnh;
-    private javax.swing.JTextField txtLyDo;
-    private javax.swing.JTextField txtMaHD1;
-    private javax.swing.JTextField txtMaPD;
+    private javax.swing.JTextField txtMaHD;
     private javax.swing.JTextField txtTenKH;
     private javax.swing.JTextField txtTenNV;
     private javax.swing.JTextField txtTong;
