@@ -46,4 +46,28 @@ public class ChiTietPhieuTraDAO {
         }
         return ds;
     }
+    public static List<ChiTietPhieuTra> getChiTietByHoaDoiId(String maPD) {
+        List<ChiTietPhieuTra> chiTietList = new ArrayList<>();
+        String sql = "SELECT * FROM CTPhieuTra WHERE maPT = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, maPD);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ChiTietPhieuTra ct = new ChiTietPhieuTra();
+                    ct.setMaPT(rs.getString("maPT"));
+                    ct.setMaThuoc(rs.getString("maThuoc"));
+                    ct.setSoLuong(rs.getInt("soLuong"));
+                    ct.setDonGia(rs.getDouble("donGia"));
+
+                    chiTietList.add(ct);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi lấy chi tiết phiếu đổi: " + e.getMessage());
+        }
+        return chiTietList;
+    }
 }

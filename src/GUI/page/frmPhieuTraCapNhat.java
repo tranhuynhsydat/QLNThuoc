@@ -47,39 +47,54 @@ public class frmPhieuTraCapNhat extends javax.swing.JPanel {
     }
 
     private void loadDataToTable() {
-        SwingWorker<Void, Void> worker = new SwingWorker<>() {
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                List<PhieuTra> danhSachPhieuTra = PhieuTraDAO.getAllPhieuTra(); // Lấy toàn bộ phiếu trả
+                List<PhieuTra> danhSachHoaDonDoi = PhieuTraDAO.getAllPhieuTra(); // Lấy tất cả phiếu đổi
                 System.out.println("Dữ liệu nhận được từ DB: "
-                        + (danhSachPhieuTra != null ? danhSachPhieuTra.size() : 0) + " dòng");
+                        + (danhSachHoaDonDoi != null ? danhSachHoaDonDoi.size() : 0) + " dòng");
 
-                if (danhSachPhieuTra == null || danhSachPhieuTra.isEmpty()) {
+                if (danhSachHoaDonDoi == null || danhSachHoaDonDoi.isEmpty()) {
                     System.out.println("Không có dữ liệu để tải.");
                     return null;
                 }
 
                 SwingUtilities.invokeLater(() -> {
                     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                    model.setRowCount(0); // Xóa dữ liệu cũ
+                    model.setRowCount(0); // Xóa dữ liệu cũ trong bảng
 
                     int stt = 1;
-                    for (PhieuTra pt : danhSachPhieuTra) {
-                        KhachHang kh = pt.getKhachHang();
-                        NhanVien nv = pt.getNhanVien();
+                    for (PhieuTra pd : danhSachHoaDonDoi) {
+                        String maPD = pd.getMaPT();
+                        String maHD = pd.getMaHD() != null ? pd.getMaHD() : "N/A";
+                        KhachHang kh = pd.getKhachHang();
+                        String tenKH = (kh != null) ? kh.getHoTen() : "N/A";
+                        String sdtKH = (kh != null) ? kh.getSdt() : "N/A";
+                        NhanVien nv = pd.getNhanVien();
+                        String tenNV = (nv != null) ? nv.getHoTen() : "N/A";
+                        String ngayLapStr = (pd.getNgayLap() != null) ? dateFormat.format(pd.getNgayLap()) : "N/A";
+                        String lyDo = pd.getLyDo() != null ? pd.getLyDo() : "N/A";
+                        double tongTienHoaDon = pd.getTongTienHoaDon();
+                        double tongTienPhieuDoi = 0;
+                        double chenhLech = tongTienPhieuDoi - tongTienHoaDon;
 
-                        Object[] row = {
-                                stt++,
-                                pt.getMaPT(),
-                                pt.getMaHD() != null ? pt.getMaHD() : "N/A",
-                                kh != null ? kh.getHoTen() : "N/A",
-                                kh != null ? kh.getSdt() : "N/A",
-                                nv != null ? nv.getHoTen() : "N/A",
-                                pt.getNgayLap() != null ? dateFormat.format(pt.getNgayLap()) : "N/A",
-                                pt.getLyDo() != null ? pt.getLyDo() : "Không rõ",
-                                moneyFormat.format(pt.tinhTongTien())
+                        Object[] rowData = {
+                            stt++,
+                            maPD,
+                            maHD,
+                            tenKH,
+                            sdtKH,
+                            tenNV,
+                            ngayLapStr,
+                            lyDo,
+                            String.format("%,.0f VND", tongTienHoaDon),
+                            String.format("%,.0f VND", tongTienPhieuDoi),
+                            (chenhLech > 0) ? "Khách trả thêm: " + String.format("%,.0f VND", chenhLech)
+                            : (chenhLech < 0)
+                            ? "Hoàn lại khách: " + String.format("%,.0f VND", Math.abs(chenhLech))
+                            : "Không chênh lệch"
                         };
-                        model.addRow(row);
+                        model.addRow(rowData);
                     }
 
                     model.fireTableDataChanged();

@@ -1,5 +1,6 @@
 package GUI.page;
 
+import DAO.ChiTietPhieuTraDAO;
 import DAO.HoaDonDAO;
 import DAO.PhieuTraDAO;
 import Entity.ChiTietPhieuTra;
@@ -56,31 +57,49 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                phieuTraList = PhieuTraDAO.getAllPhieuTra(); // Populate phieuTraList
+                List<PhieuTra> danhSachHoaDonDoi = PhieuTraDAO.getAllPhieuTra(); // Lấy tất cả phiếu đổi
+                System.out.println("Dữ liệu nhận được từ DB: "
+                        + (danhSachHoaDonDoi != null ? danhSachHoaDonDoi.size() : 0) + " dòng");
+
+                if (danhSachHoaDonDoi == null || danhSachHoaDonDoi.isEmpty()) {
+                    System.out.println("Không có dữ liệu để tải.");
+                    return null;
+                }
 
                 SwingUtilities.invokeLater(() -> {
                     DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-                    model.setRowCount(0);
+                    model.setRowCount(0); // Xóa dữ liệu cũ trong bảng
 
                     int stt = 1;
-                    for (PhieuTra pt : phieuTraList) {
-                        KhachHang kh = pt.getKhachHang();
-                        NhanVien nv = pt.getNhanVien();
-                        String maHD = pt.getMaHD();
-                        String lyDo = pt.getLyDo();
-                        Date ngayLap = pt.getNgayLap();
-                        double tongTien = pt.tinhTongTien();
+                    for (PhieuTra pd : danhSachHoaDonDoi) {
+                        String maPD = pd.getMaPT();
+                        String maHD = pd.getMaHD() != null ? pd.getMaHD() : "N/A";
+                        KhachHang kh = pd.getKhachHang();
+                        String tenKH = (kh != null) ? kh.getHoTen() : "N/A";
+                        String sdtKH = (kh != null) ? kh.getSdt() : "N/A";
+                        NhanVien nv = pd.getNhanVien();
+                        String tenNV = (nv != null) ? nv.getHoTen() : "N/A";
+                        String ngayLapStr = (pd.getNgayLap() != null) ? dateFormat.format(pd.getNgayLap()) : "N/A";
+                        String lyDo = pd.getLyDo() != null ? pd.getLyDo() : "N/A";
+                        double tongTienHoaDon = pd.getTongTienHoaDon();
+                        double tongTienPhieuDoi = 0;
+                        double chenhLech = tongTienPhieuDoi - tongTienHoaDon;
 
                         Object[] rowData = {
-                                stt++,
-                                pt.getMaPT(),
-                                maHD != null ? maHD : "N/A",
-                                kh != null ? kh.getHoTen() : "N/A",
-                                kh != null ? kh.getSdt() : "N/A",
-                                nv != null ? nv.getHoTen() : "N/A",
-                                ngayLap != null ? dateFormat.format(ngayLap) : "N/A",
-                                lyDo != null ? lyDo : "N/A",
-                                currencyFormat.format(tongTien)
+                            stt++,
+                            maPD,
+                            maHD,
+                            tenKH,
+                            sdtKH,
+                            tenNV,
+                            ngayLapStr,
+                            lyDo,
+                            String.format("%,.0f VND", tongTienHoaDon),
+                            String.format("%,.0f VND", tongTienPhieuDoi),
+                            (chenhLech > 0) ? "Khách trả thêm: " + String.format("%,.0f VND", chenhLech)
+                            : (chenhLech < 0)
+                            ? "Hoàn lại khách: " + String.format("%,.0f VND", Math.abs(chenhLech))
+                            : "Không chênh lệch"
                         };
                         model.addRow(rowData);
                     }
@@ -89,6 +108,7 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
                     jTable2.revalidate();
                     jTable2.repaint();
                 });
+
                 return null;
             }
         };
@@ -96,44 +116,59 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
     }
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {
-        // Get input data
-        String maPT = txtMaPT.getText().trim();
+        // Lấy dữ liệu từ các trường nhập liệu
+        String maPD = txtMaPT.getText().trim();
         String maHD = txtMaHD.getText().trim();
         String tenKH = txtTenKH.getText().trim();
-        String sdt = txtSdtKH.getText().trim();
+        String sdtKH = txtSdtKH.getText().trim();
         Date ngayTra = dateNgayTra.getDate();
 
-        // Validate input
-        if (maPT.isEmpty() && maHD.isEmpty() && tenKH.isEmpty() && sdt.isEmpty() && ngayTra == null) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập ít nhất một tiêu chí tìm kiếm!", "Thông báo",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Perform asynchronous search
+        // // Kiểm tra dữ liệu đầu vào
+        // if (maPD.isEmpty() && maHD.isEmpty() && tenKH.isEmpty() && sdtKH.isEmpty() &&
+        // ngayTra == null) {
+        // JOptionPane.showMessageDialog(this, "Vui lòng nhập ít nhất một tiêu chí tìm
+        // kiếm!", "Thông báo",
+        // JOptionPane.WARNING_MESSAGE);
+        // return;
+        // }
+        // Thực hiện tìm kiếm bất đồng bộ
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                phieuTraList = PhieuTraDAO.searchPhieuTra(maPT, maHD, tenKH, sdt, ngayTra);
+                List<PhieuTra> danhSachPhieuDoi = PhieuTraDAO.searchPhieuTra(maPD, maHD, tenKH, sdtKH, ngayTra);
 
                 SwingUtilities.invokeLater(() -> {
                     DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-                    model.setRowCount(0);
+                    model.setRowCount(0); // Xóa dữ liệu cũ
 
                     int stt = 1;
-                    for (PhieuTra pt : phieuTraList) {
-                        KhachHang kh = pt.getKhachHang();
-                        NhanVien nv = pt.getNhanVien();
+                    for (PhieuTra pd : danhSachPhieuDoi) {
+                        String maPDResult = pd.getMaPT();
+                        String maHDResult = pd.getMaHD() != null ? pd.getMaHD() : "N/A";
+                        String tenKhachHang = pd.getKhachHang() != null ? pd.getKhachHang().getHoTen() : "N/A";
+                        String sdtKhachHang = pd.getKhachHang() != null ? pd.getKhachHang().getSdt() : "N/A";
+                        String tenNhanVien = pd.getNhanVien() != null ? pd.getNhanVien().getHoTen() : "N/A";
+                        String ngayLapStr = pd.getNgayLap() != null ? dateFormat.format(pd.getNgayLap()) : "N/A";
+                        String lyDo = pd.getLyDo() != null ? pd.getLyDo() : "N/A";
+                        double tongTienHoaDon = pd.getTongTienHoaDon();
+                        double tongTienPhieuDoi = 0;
+                        double chenhLech = tongTienPhieuDoi - tongTienHoaDon;
+
                         Object[] rowData = {
-                                stt++,
-                                pt.getMaPT(),
-                                pt.getMaHD(),
-                                kh != null ? kh.getHoTen() : "N/A",
-                                kh != null ? kh.getSdt() : "N/A",
-                                nv != null ? nv.getHoTen() : "N/A",
-                                pt.getNgayLap() != null ? dateFormat.format(pt.getNgayLap()) : "N/A",
-                                pt.getLyDo(),
-                                currencyFormat.format(pt.tinhTongTien())
+                            stt++,
+                            maPDResult,
+                            maHDResult,
+                            tenKhachHang,
+                            sdtKhachHang,
+                            tenNhanVien,
+                            ngayLapStr,
+                            lyDo,
+                            currencyFormat.format(tongTienHoaDon), // Đồng nhất định dạng với PhieuTra
+                            currencyFormat.format(tongTienPhieuDoi),
+                            (chenhLech > 0) ? "Khách trả thêm: " + currencyFormat.format(chenhLech)
+                            : (chenhLech < 0)
+                            ? "Hoàn lại khách: " + currencyFormat.format(Math.abs(chenhLech))
+                            : "Không chênh lệch"
                         };
                         model.addRow(rowData);
                     }
@@ -142,8 +177,9 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
                     jTable2.revalidate();
                     jTable2.repaint();
 
-                    if (phieuTraList.isEmpty()) {
-                        JOptionPane.showMessageDialog(frmSearchPhieuTra.this, "Không tìm thấy phiếu trả nào phù hợp!",
+                    // Thông báo nếu không tìm thấy kết quả
+                    if (danhSachPhieuDoi.isEmpty()) {
+                        JOptionPane.showMessageDialog(frmSearchPhieuTra.this, "Không tìm thấy phiếu đổi nào phù hợp!",
                                 "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                     }
                 });
@@ -157,22 +193,24 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {
         int selectedRow = jTable2.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn một phiếu trả để xem chi tiết!", "Thông Báo",
-                    JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một hóa đơn!");
             return;
         }
 
-        PhieuTra selectedPhieuTra = phieuTraList.get(selectedRow);
-        List<ChiTietPhieuTra> chiTietList = new ArrayList<>(); // Replace with actual DAO call
+        String maHD = jTable2.getValueAt(selectedRow, 1).toString(); // Cột 0 là mã phiếu nhập
 
-        JFrame frame = new JFrame("Chi Tiết Phiếu Trả");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        formChiTietPhieuTra detailForm = new formChiTietPhieuTra(selectedPhieuTra, chiTietList);
-        frame.add(detailForm);
-        frame.setResizable(false);
-        frame.setSize(450, 600);
-        frame.setLocationRelativeTo(this);
-        frame.setVisible(true);
+        ChiTietPhieuTraDAO ctpdDAO = new ChiTietPhieuTraDAO();
+        List<ChiTietPhieuTra> listCTPD = ctpdDAO.getChiTietByHoaDoiId(maHD);
+
+        if (listCTPD == null || listCTPD.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hóa đơn không có chi tiết!");
+            return;
+        }
+
+        // Mở form chi tiết
+        formChiTietPhieuTra form = new formChiTietPhieuTra(null, true, listCTPD);
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
     }
 
     private void btnPDFActionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,12 +228,12 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         jPanel13 = new javax.swing.JPanel();
         btnTimKiem = new javax.swing.JButton();
         btnChiTiet = new javax.swing.JButton();
-        btnPDF = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -210,22 +248,22 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
         jPanel37 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jPanel38 = new javax.swing.JPanel();
-        txtMaPT = new javax.swing.JTextField(); // Changed to JTextField
+        txtMaPT = new java.awt.TextField();
         jPanel21 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel31 = new javax.swing.JPanel();
-        txtMaHD = new javax.swing.JTextField(); // Changed to JTextField
+        txtMaHD = new java.awt.TextField();
         jPanel14 = new javax.swing.JPanel();
         jPanel26 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel27 = new javax.swing.JPanel();
-        txtTenKH = new javax.swing.JTextField(); // Changed to JTextField
+        txtTenKH = new java.awt.TextField();
         jPanel16 = new javax.swing.JPanel();
         jPanel32 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel35 = new javax.swing.JPanel();
-        txtSdtKH = new javax.swing.JTextField(); // Changed to JTextField
+        txtSdtKH = new java.awt.TextField();
         jPanel17 = new javax.swing.JPanel();
         jPanel22 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -241,28 +279,32 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 10));
 
         btnTimKiem.setBackground(new java.awt.Color(0, 120, 92));
-        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnTimKiem.setForeground(new java.awt.Color(255, 255, 255));
         btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnTimKiem.setMinimumSize(new java.awt.Dimension(85, 35));
         btnTimKiem.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnTimKiem.addActionListener(evt -> btnTimKiemActionPerformed(evt));
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
+            }
+        });
         jPanel13.add(btnTimKiem);
 
         btnChiTiet.setBackground(new java.awt.Color(0, 120, 92));
-        btnChiTiet.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        btnChiTiet.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnChiTiet.setForeground(new java.awt.Color(255, 255, 255));
         btnChiTiet.setText("Chi tiết");
+        btnChiTiet.setMaximumSize(new java.awt.Dimension(85, 35));
+        btnChiTiet.setMinimumSize(new java.awt.Dimension(85, 35));
         btnChiTiet.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnChiTiet.addActionListener(evt -> btnChiTietActionPerformed(evt));
+        btnChiTiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChiTietActionPerformed(evt);
+            }
+        });
         jPanel13.add(btnChiTiet);
-
-        btnPDF.setBackground(new java.awt.Color(0, 120, 92));
-        btnPDF.setFont(new java.awt.Font("Segoe UI", 1, 14));
-        btnPDF.setForeground(new java.awt.Color(255, 255, 255));
-        btnPDF.setText("Xuất PDF");
-        btnPDF.setPreferredSize(new java.awt.Dimension(105, 35));
-        btnPDF.addActionListener(evt -> btnPDFActionPerformed(evt)); // Added ActionListener
-        jPanel13.add(btnPDF);
 
         add(jPanel13, java.awt.BorderLayout.PAGE_END);
 
@@ -273,7 +315,7 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
         jPanel33.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel33.setLayout(new java.awt.BorderLayout());
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24));
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Danh sách phiếu trả");
@@ -284,16 +326,16 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
         jPanel34.setLayout(new java.awt.BorderLayout());
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null }
-                },
-                new String[] {
-                        "STT", "Mã phiếu trả", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày trả",
-                        "Lý do", "Tổng phiếu trả"
-                }));
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Mã phiếu trả", "Mã hóa đơn", "Tên khách hàng", "SĐT", "Tên nhân viên", "Ngày trả", "Lý do", "Tổng phiếu trả"
+            }
+        ));
         jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable2.setShowHorizontalLines(true);
         jScrollPane2.setViewportView(jTable2);
@@ -305,14 +347,16 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
         add(jPanel12, java.awt.BorderLayout.CENTER);
 
         jPanel8.setBackground(new java.awt.Color(255, 102, 102));
+        jPanel8.setMaximumSize(new java.awt.Dimension(829, 350));
         jPanel8.setPreferredSize(new java.awt.Dimension(829, 250));
         jPanel8.setLayout(new java.awt.BorderLayout());
 
         jPanel9.setBackground(new java.awt.Color(0, 120, 92));
+        jPanel9.setMinimumSize(new java.awt.Dimension(829, 50));
         jPanel9.setPreferredSize(new java.awt.Dimension(829, 50));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24));
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Nhập thông tin tìm kiếm");
@@ -320,24 +364,31 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
 
         jPanel8.add(jPanel9, java.awt.BorderLayout.PAGE_START);
 
+        jPanel10.setMinimumSize(new java.awt.Dimension(829, 300));
         jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel36.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel36.setLayout(new java.awt.BorderLayout());
 
+        jPanel37.setMinimumSize(new java.awt.Dimension(300, 38));
         jPanel37.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel37.setLayout(new java.awt.BorderLayout());
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel11.setText("Mã phiếu trả:");
+        jLabel11.setAlignmentX(20.0F);
+        jLabel11.setAlignmentY(20.0F);
         jPanel37.add(jLabel11, java.awt.BorderLayout.CENTER);
 
         jPanel36.add(jPanel37, java.awt.BorderLayout.LINE_START);
 
+        jPanel38.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel38.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel38.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
+        txtMaPT.setMaximumSize(new java.awt.Dimension(350, 32));
+        txtMaPT.setMinimumSize(new java.awt.Dimension(350, 32));
         txtMaPT.setPreferredSize(new java.awt.Dimension(350, 30));
         jPanel38.add(txtMaPT);
 
@@ -348,19 +399,25 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
         jPanel21.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel21.setLayout(new java.awt.BorderLayout());
 
+        jPanel30.setMinimumSize(new java.awt.Dimension(300, 38));
         jPanel30.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel30.setLayout(new java.awt.BorderLayout());
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel9.setText("Mã hóa đơn:");
+        jLabel9.setAlignmentX(20.0F);
+        jLabel9.setAlignmentY(20.0F);
         jPanel30.add(jLabel9, java.awt.BorderLayout.CENTER);
 
         jPanel21.add(jPanel30, java.awt.BorderLayout.LINE_START);
 
+        jPanel31.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel31.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel31.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
+        txtMaHD.setMaximumSize(new java.awt.Dimension(350, 32));
+        txtMaHD.setMinimumSize(new java.awt.Dimension(350, 32));
         txtMaHD.setPreferredSize(new java.awt.Dimension(350, 30));
         jPanel31.add(txtMaHD);
 
@@ -371,19 +428,25 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
         jPanel14.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel14.setLayout(new java.awt.BorderLayout());
 
+        jPanel26.setMinimumSize(new java.awt.Dimension(300, 38));
         jPanel26.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel26.setLayout(new java.awt.BorderLayout());
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("Tên khách hàng:");
+        jLabel8.setAlignmentX(20.0F);
+        jLabel8.setAlignmentY(20.0F);
         jPanel26.add(jLabel8, java.awt.BorderLayout.CENTER);
 
         jPanel14.add(jPanel26, java.awt.BorderLayout.LINE_START);
 
+        jPanel27.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel27.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel27.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
+        txtTenKH.setMaximumSize(new java.awt.Dimension(350, 32));
+        txtTenKH.setMinimumSize(new java.awt.Dimension(350, 32));
         txtTenKH.setPreferredSize(new java.awt.Dimension(350, 30));
         jPanel27.add(txtTenKH);
 
@@ -394,19 +457,25 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
         jPanel16.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel16.setLayout(new java.awt.BorderLayout());
 
+        jPanel32.setMinimumSize(new java.awt.Dimension(300, 38));
         jPanel32.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel32.setLayout(new java.awt.BorderLayout());
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel10.setText("Số điện thoại:");
+        jLabel10.setAlignmentX(20.0F);
+        jLabel10.setAlignmentY(20.0F);
         jPanel32.add(jLabel10, java.awt.BorderLayout.CENTER);
 
         jPanel16.add(jPanel32, java.awt.BorderLayout.LINE_START);
 
+        jPanel35.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel35.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
+        txtSdtKH.setMaximumSize(new java.awt.Dimension(350, 32));
+        txtSdtKH.setMinimumSize(new java.awt.Dimension(350, 32));
         txtSdtKH.setPreferredSize(new java.awt.Dimension(350, 30));
         jPanel35.add(txtSdtKH);
 
@@ -417,19 +486,24 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
         jPanel17.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel17.setLayout(new java.awt.BorderLayout());
 
+        jPanel22.setMinimumSize(new java.awt.Dimension(300, 38));
         jPanel22.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel22.setLayout(new java.awt.BorderLayout());
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Ngày mua:");
+        jLabel6.setAlignmentX(20.0F);
+        jLabel6.setAlignmentY(20.0F);
         jPanel22.add(jLabel6, java.awt.BorderLayout.CENTER);
 
         jPanel17.add(jPanel22, java.awt.BorderLayout.LINE_START);
 
+        jPanel23.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel23.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel23.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
 
+        dateNgayTra.setMinimumSize(new java.awt.Dimension(182, 22));
         dateNgayTra.setPreferredSize(new java.awt.Dimension(150, 30));
         jPanel23.add(dateNgayTra);
 
@@ -440,10 +514,12 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
         jPanel18.setMinimumSize(new java.awt.Dimension(829, 38));
         jPanel18.setLayout(new java.awt.BorderLayout());
 
+        jPanel19.setMinimumSize(new java.awt.Dimension(300, 38));
         jPanel19.setPreferredSize(new java.awt.Dimension(500, 38));
         jPanel19.setLayout(new java.awt.BorderLayout());
         jPanel18.add(jPanel19, java.awt.BorderLayout.LINE_START);
 
+        jPanel20.setMinimumSize(new java.awt.Dimension(669, 38));
         jPanel20.setPreferredSize(new java.awt.Dimension(669, 38));
         jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 7));
         jPanel18.add(jPanel20, java.awt.BorderLayout.CENTER);
@@ -457,7 +533,6 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChiTiet;
-    private javax.swing.JButton btnPDF;
     private javax.swing.JButton btnTimKiem;
     private com.toedter.calendar.JDateChooser dateNgayTra;
     private javax.swing.JLabel jLabel10;
@@ -494,9 +569,9 @@ public class frmSearchPhieuTra extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField txtMaHD; // Changed to JTextField
-    private javax.swing.JTextField txtMaPT; // Changed to JTextField
-    private javax.swing.JTextField txtSdtKH; // Changed to JTextField
-    private javax.swing.JTextField txtTenKH; // Changed to JTextField
+    private java.awt.TextField txtMaHD;
+    private java.awt.TextField txtMaPT;
+    private java.awt.TextField txtSdtKH;
+    private java.awt.TextField txtTenKH;
     // End of variables declaration//GEN-END:variables
 }

@@ -470,7 +470,7 @@ public class frmPhieuTraThem extends javax.swing.JPanel {
             String thoiGian = getCurrentTime(); // "dd/MM/yyyy HH:mm:ss"
             PhieuTra phieuTra = new PhieuTra();
             phieuTra.setMaPT(maPT);
-            phieuTra.setMaHD(maHD);
+            phieuTra.setMaHD(maHD.toUpperCase());
             phieuTra.setNgayLap(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(thoiGian));
             phieuTra.setMaKH(maKH);
             phieuTra.setMaNV(maNV);
