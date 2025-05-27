@@ -1371,7 +1371,7 @@ public class frmPhieuDoiThem extends javax.swing.JPanel {
 
                         PhieuDoi phieuDoi = new PhieuDoi();
                         phieuDoi.setId(maPD);
-                        phieuDoi.setMaHD(maHD);
+                        phieuDoi.setMaHD(maHD.toUpperCase());
                         phieuDoi.setNgayLap(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(thoiGian));
                         phieuDoi.setIdKhachHang(maKH);
                         phieuDoi.setIdNhanVien(maNV);

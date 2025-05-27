@@ -4,10 +4,15 @@
  */
 package GUI.page;
 
+import DAO.ChiTietHoaDonDAO;
+import DAO.ChiTietPhieuDoiDAO;
 import DAO.PhieuDoiDAO;
+import Entity.ChiTietHoaDon;
+import Entity.ChiTietPhieuDoi;
 import Entity.KhachHang;
 import Entity.NhanVien;
 import Entity.PhieuDoi;
+import GUI.form.formChiTietPhieuDoi;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -27,6 +32,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Admin
  */
 public class frmSearchPhieuDoi extends javax.swing.JPanel {
+
     private int startIndex = 0;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     private final DecimalFormat currencyFormat = new DecimalFormat("#,### VND");
@@ -43,7 +49,7 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
     private void configureTable() {
         // Ngăn không cho phép người dùng chỉnh sửa bảng
         jTable2.setDefaultEditor(Object.class, null); // Điều này vô hiệu hóa khả năng chỉnh sửa của bất kỳ ô nào trong
-                                                      // bảng.
+        // bảng.
 
         // Căn giữa cho tất cả các cell trong bảng
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -91,20 +97,20 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
                         double chenhLech = tongTienPhieuDoi - tongTienHoaDon;
 
                         Object[] rowData = {
-                                stt++,
-                                maPD,
-                                maHD,
-                                tenKH,
-                                sdtKH,
-                                tenNV,
-                                ngayLapStr,
-                                lyDo,
-                                String.format("%,.0f VND", tongTienHoaDon),
-                                String.format("%,.0f VND", tongTienPhieuDoi),
-                                (chenhLech > 0) ? "Khách trả thêm: " + String.format("%,.0f VND", chenhLech)
-                                        : (chenhLech < 0)
-                                                ? "Hoàn lại khách: " + String.format("%,.0f VND", Math.abs(chenhLech))
-                                                : "Không chênh lệch"
+                            stt++,
+                            maPD,
+                            maHD,
+                            tenKH,
+                            sdtKH,
+                            tenNV,
+                            ngayLapStr,
+                            lyDo,
+                            String.format("%,.0f VND", tongTienHoaDon),
+                            String.format("%,.0f VND", tongTienPhieuDoi),
+                            (chenhLech > 0) ? "Khách trả thêm: " + String.format("%,.0f VND", chenhLech)
+                            : (chenhLech < 0)
+                            ? "Hoàn lại khách: " + String.format("%,.0f VND", Math.abs(chenhLech))
+                            : "Không chênh lệch"
                         };
                         model.addRow(rowData);
                     }
@@ -134,7 +140,6 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         jPanel13 = new javax.swing.JPanel();
         btnTimKiem = new javax.swing.JButton();
         btnChiTiet = new javax.swing.JButton();
-        btnPDF = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -206,15 +211,6 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
             }
         });
         jPanel13.add(btnChiTiet);
-
-        btnPDF.setBackground(new java.awt.Color(0, 120, 92));
-        btnPDF.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnPDF.setForeground(new java.awt.Color(255, 255, 255));
-        btnPDF.setText("Xuất PDF");
-        btnPDF.setMaximumSize(new java.awt.Dimension(85, 35));
-        btnPDF.setMinimumSize(new java.awt.Dimension(85, 35));
-        btnPDF.setPreferredSize(new java.awt.Dimension(105, 35));
-        jPanel13.add(btnPDF);
 
         add(jPanel13, java.awt.BorderLayout.PAGE_END);
 
@@ -442,7 +438,27 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = jTable2.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một hóa đơn!");
+            return;
+        }
+
+        String maHD = jTable2.getValueAt(selectedRow, 1).toString(); // Cột 0 là mã phiếu nhập
+
+        ChiTietPhieuDoiDAO ctpdDAO = new ChiTietPhieuDoiDAO();
+        List<ChiTietPhieuDoi> listCTPD = ctpdDAO.getChiTietByHoaDoiId(maHD);
+
+        if (listCTPD == null || listCTPD.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hóa đơn không có chi tiết!");
+            return;
+        }
+
+        // Mở form chi tiết
+        formChiTietPhieuDoi form = new formChiTietPhieuDoi(null, true, listCTPD);
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
+
     }//GEN-LAST:event_btnChiTietActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {
@@ -461,7 +477,6 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
         // JOptionPane.WARNING_MESSAGE);
         // return;
         // }
-
         // Thực hiện tìm kiếm bất đồng bộ
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
@@ -487,20 +502,20 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
                         double chenhLech = tongTienPhieuDoi - tongTienHoaDon;
 
                         Object[] rowData = {
-                                stt++,
-                                maPDResult,
-                                maHDResult,
-                                tenKhachHang,
-                                sdtKhachHang,
-                                tenNhanVien,
-                                ngayLapStr,
-                                lyDo,
-                                currencyFormat.format(tongTienHoaDon), // Đồng nhất định dạng với PhieuTra
-                                currencyFormat.format(tongTienPhieuDoi),
-                                (chenhLech > 0) ? "Khách trả thêm: " + currencyFormat.format(chenhLech)
-                                        : (chenhLech < 0)
-                                                ? "Hoàn lại khách: " + currencyFormat.format(Math.abs(chenhLech))
-                                                : "Không chênh lệch"
+                            stt++,
+                            maPDResult,
+                            maHDResult,
+                            tenKhachHang,
+                            sdtKhachHang,
+                            tenNhanVien,
+                            ngayLapStr,
+                            lyDo,
+                            currencyFormat.format(tongTienHoaDon), // Đồng nhất định dạng với PhieuTra
+                            currencyFormat.format(tongTienPhieuDoi),
+                            (chenhLech > 0) ? "Khách trả thêm: " + currencyFormat.format(chenhLech)
+                            : (chenhLech < 0)
+                            ? "Hoàn lại khách: " + currencyFormat.format(Math.abs(chenhLech))
+                            : "Không chênh lệch"
                         };
                         model.addRow(rowData);
                     }
@@ -524,7 +539,6 @@ public class frmSearchPhieuDoi extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChiTiet;
-    private javax.swing.JButton btnPDF;
     private javax.swing.JButton btnTimKiem;
     private com.toedter.calendar.JDateChooser dateNgayTra;
     private javax.swing.JLabel jLabel10;

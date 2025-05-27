@@ -1,5 +1,6 @@
 package Utils;
 
+import DAO.ThuocDAO;
 import com.itextpdf.text.Chunk;
 import java.awt.Desktop;
 import java.awt.FileDialog;
@@ -27,9 +28,12 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import Entity.ChiTietHoaDon;
+import Entity.ChiTietPhieuDoi;
 import Entity.ChiTietPhieuNhap;
 import Entity.HoaDon;
+import Entity.PhieuDoi;
 import Entity.PhieuNhap;
+import Entity.Thuoc;
 import java.util.Date;
 import java.util.List;
 
@@ -155,7 +159,7 @@ public class WritePDF {
             Paragraph paragraph1 = new Paragraph("Mã phiếu: " + phieuNhap.getId(), fontNormal10);
 
             // Lấy tên nhà cung cấp từ đối tượng nhaCungCap
-            String ncc = phieuNhap.getNhaCungCap() != null ? phieuNhap.getNhaCungCap().getTenNhaCungCap(): "Chưa rõ";
+            String ncc = phieuNhap.getNhaCungCap() != null ? phieuNhap.getNhaCungCap().getTenNhaCungCap() : "Chưa rõ";
             Paragraph paragraph2 = new Paragraph("Nhà cung cấp: " + ncc, fontNormal10);
             paragraph2.add(new Chunk(createWhiteSpace(5)));
 
@@ -188,15 +192,14 @@ public class WritePDF {
                 table.addCell(cell);
             }
 
-                    //Truyen thong tin tung chi tiet vao table
-                    for (ChiTietPhieuNhap ctpn : listCTPN) {
-            // Nếu getThuoc() trả về String là mã thuốc
-            table.addCell(new PdfPCell(new Phrase(ctpn.getThuoc(), fontNormal10))); // mã thuốc   
-            table.addCell(new PdfPCell(new Phrase(formatter.format(ctpn.getDonGia()) + "đ", fontNormal10)));
-            table.addCell(new PdfPCell(new Phrase(String.valueOf(ctpn.getSoLuong()), fontNormal10)));
-            table.addCell(new PdfPCell(new Phrase(formatter.format(ctpn.getDonGia() * ctpn.getSoLuong()) + "đ", fontNormal10)));
-        }
-
+            //Truyen thong tin tung chi tiet vao table
+            for (ChiTietPhieuNhap ctpn : listCTPN) {
+                // Nếu getThuoc() trả về String là mã thuốc
+                table.addCell(new PdfPCell(new Phrase(ctpn.getThuoc(), fontNormal10))); // mã thuốc   
+                table.addCell(new PdfPCell(new Phrase(formatter.format(ctpn.getDonGia()) + "đ", fontNormal10)));
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(ctpn.getSoLuong()), fontNormal10)));
+                table.addCell(new PdfPCell(new Phrase(formatter.format(ctpn.getDonGia() * ctpn.getSoLuong()) + "đ", fontNormal10)));
+            }
 
             document.add(table);
             document.add(Chunk.NEWLINE);
@@ -262,7 +265,7 @@ public class WritePDF {
             Paragraph paragraph1 = new Paragraph("Mã hóa đơn: " + hoaDon.getId(), fontNormal10);
 
             // Lấy tên nhà cung cấp từ đối tượng nhaCungCap
-            String ncc = hoaDon.getKhachHang()!= null ? hoaDon.getKhachHang().getHoTen(): "Chưa rõ";
+            String ncc = hoaDon.getKhachHang() != null ? hoaDon.getKhachHang().getHoTen() : "Chưa rõ";
             Paragraph paragraph2 = new Paragraph("Tên khách hàng: " + ncc, fontNormal10);
             paragraph2.add(new Chunk(createWhiteSpace(5)));
 
@@ -295,15 +298,14 @@ public class WritePDF {
                 table.addCell(cell);
             }
 
-                    //Truyen thong tin tung chi tiet vao table
-                    for (ChiTietHoaDon cthd : listCTPN) {
-            // Nếu getThuoc() trả về String là mã thuốc
-            table.addCell(new PdfPCell(new Phrase(cthd.getThuoc(), fontNormal10))); // mã thuốc   
-            table.addCell(new PdfPCell(new Phrase(formatter.format(cthd.getDonGia()) + "đ", fontNormal10)));
-            table.addCell(new PdfPCell(new Phrase(String.valueOf(cthd.getSoLuong()), fontNormal10)));
-            table.addCell(new PdfPCell(new Phrase(formatter.format(cthd.getDonGia() * cthd.getSoLuong()) + "đ", fontNormal10)));
-        }
-
+            //Truyen thong tin tung chi tiet vao table
+            for (ChiTietHoaDon cthd : listCTPN) {
+                // Nếu getThuoc() trả về String là mã thuốc
+                table.addCell(new PdfPCell(new Phrase(cthd.getThuoc(), fontNormal10))); // mã thuốc   
+                table.addCell(new PdfPCell(new Phrase(formatter.format(cthd.getDonGia()) + "đ", fontNormal10)));
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(cthd.getSoLuong()), fontNormal10)));
+                table.addCell(new PdfPCell(new Phrase(formatter.format(cthd.getDonGia() * cthd.getSoLuong()) + "đ", fontNormal10)));
+            }
 
             document.add(table);
             document.add(Chunk.NEWLINE);
@@ -314,6 +316,108 @@ public class WritePDF {
             document.add(paraTongThanhToan);
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
+            Paragraph paragraph = new Paragraph();
+            paragraph.setIndentationLeft(22);
+            paragraph.add(new Chunk("Người lập hóa đơn", fontBoldItalic15));
+            paragraph.add(new Chunk(createWhiteSpace(60)));
+            paragraph.add(new Chunk("Khách hàng", fontBoldItalic15));
+
+            Paragraph sign = new Paragraph();
+            sign.setIndentationLeft(20);
+            sign.add(new Chunk(createWhiteSpace(1)));
+            sign.add(new Chunk("(Ký và ghi rõ họ tên)", fontNormal10));
+            sign.add(new Chunk(createWhiteSpace(62)));
+            sign.add(new Chunk("(Ký và ghi rõ họ tên)", fontNormal10));
+
+            document.add(paragraph);
+            document.add(sign);
+            document.close();
+            writer.close();
+            openFile(url);
+
+        } catch (DocumentException | FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Lỗi khi ghi file " + url);
+        }
+    }
+
+    public void printPhieuDoi(PhieuDoi phieuDoi, List<ChiTietPhieuDoi> listCTPD) {
+        String url = "";
+        try {
+            fd.setTitle("In phiếu đổi thuốc");
+            fd.setLocationRelativeTo(null);
+            url = getFile(phieuDoi.getId());
+            if (url.equals("nullnull")) {
+                return;
+            }
+            url = url + ".pdf";
+            file = new FileOutputStream(url);
+            document = new Document();
+            PdfWriter writer = PdfWriter.getInstance(document, file);
+            document.open();
+
+            // Thông tin công ty và thời gian in
+            Paragraph company = new Paragraph("Hiệu thuốc tây Pharma Store", fontBold15);
+            company.add(new Chunk(createWhiteSpace(20)));
+            Date today = new Date(System.currentTimeMillis());
+            company.add(new Chunk("Thời gian in phiếu: " + formatDate.format(today), fontNormal10));
+            company.setAlignment(Element.ALIGN_LEFT);
+            document.add(company);
+
+            // Tiêu đề
+            document.add(Chunk.NEWLINE);
+            Paragraph header = new Paragraph("PHIẾU ĐỔI THUỐC", fontBold25);
+            header.setAlignment(Element.ALIGN_CENTER);
+            document.add(header);
+
+            // Thông tin chung
+            Paragraph paragraph1 = new Paragraph("Mã phiếu đổi: " + phieuDoi.getId(), fontNormal10);
+            Paragraph paragraph2 = new Paragraph("Mã hoá đơn đổi: " + phieuDoi.getMaHD(), fontNormal10);
+            Paragraph paragraph3 = new Paragraph("Khách hàng: " + phieuDoi.getKhachHang().getHoTen(), fontNormal10);
+            Paragraph paragraph4 = new Paragraph("Người thực hiện: " + phieuDoi.getNhanVien().getHoTen(), fontNormal10);
+            Paragraph paragraph5 = new Paragraph("Thời gian: " + formatDate.format(phieuDoi.getNgayLap()), fontNormal10);
+            Paragraph paragraph6 = new Paragraph("Lý do đổi: " + phieuDoi.getLyDo(), fontNormal10);
+
+            document.add(paragraph1);
+            document.add(paragraph2);
+            document.add(paragraph3);
+            document.add(paragraph4);
+            document.add(paragraph5);
+            document.add(Chunk.NEWLINE);
+
+            // Bảng thuốc đổi
+            PdfPTable table = new PdfPTable(4);
+            table.setWidthPercentage(100);
+            table.setWidths(new float[]{40f, 20f, 20f, 20f});
+
+            table.addCell(new PdfPCell(new Phrase("Tên thuốc", fontBold15)));
+            table.addCell(new PdfPCell(new Phrase("Số lượng", fontBold15)));
+            table.addCell(new PdfPCell(new Phrase("Đơn giá", fontBold15)));
+            table.addCell(new PdfPCell(new Phrase("Thành tiền", fontBold15)));
+
+            double tongTien = 0;
+
+            for (ChiTietPhieuDoi ctpd : listCTPD) {
+                Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(ctpd.getMaThuocMoi()); // Đảm bảo thuocDAO hoạt động
+                double thanhTien = ctpd.getSoLuongMoi() * ctpd.getDonGiaMoi();
+                tongTien += thanhTien;
+
+                table.addCell(new PdfPCell(new Phrase(thuoc.getTenThuoc(), fontNormal10)));
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(ctpd.getSoLuongMoi()), fontNormal10)));
+                table.addCell(new PdfPCell(new Phrase(formatter.format(ctpd.getDonGiaMoi()) + "đ", fontNormal10)));
+                table.addCell(new PdfPCell(new Phrase(formatter.format(thanhTien) + "đ", fontNormal10)));
+            }
+
+            document.add(table);
+            document.add(Chunk.NEWLINE);
+
+            // Tổng tiền
+            Paragraph paraTongTien = new Paragraph(new Phrase("Tổng tiền: " + formatter.format(tongTien) + "đ", fontBold15));
+            paraTongTien.setIndentationLeft(300);
+            document.add(paraTongTien);
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+
+            // Phần ký tên
             Paragraph paragraph = new Paragraph();
             paragraph.setIndentationLeft(22);
             paragraph.add(new Chunk("Người lập hóa đơn", fontBoldItalic15));
