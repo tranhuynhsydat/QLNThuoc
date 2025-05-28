@@ -135,13 +135,21 @@ public class Login extends javax.swing.JFrame {
 
         txtUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtUser.setForeground(new java.awt.Color(51, 51, 51));
-        txtUser.setText("DiHao");
         txtUser.setSelectionColor(new java.awt.Color(0, 153, 153));
+        txtUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUserActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("Mật Khẩu");
 
-        txtPassword.setText("12345678");
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordActionPerformed(evt);
+            }
+        });
 
         btnLog.setBackground(new java.awt.Color(0, 102, 102));
         btnLog.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -249,6 +257,14 @@ public class Login extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnLogActionPerformed
+
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordActionPerformed
+
+    private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUserActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLog;
