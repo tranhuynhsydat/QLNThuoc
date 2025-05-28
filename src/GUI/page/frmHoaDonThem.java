@@ -1282,12 +1282,31 @@ public class frmHoaDonThem extends javax.swing.JPanel {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
+            //Kiểm tra HSD
+            for (int i = 0; i < chiTietModel.getRowCount(); i++) {
+                String maThuoc = chiTietModel.getValueAt(i, 1).toString(); // Cột 0 là mã thuốc
+                Thuoc thuoc = ThuocDAO.getThuocByMaThuoc(maThuoc);
+                if (thuoc == null) {
+                    JOptionPane.showMessageDialog(this,
+                            "Không tìm thấy thông tin thuốc với mã: " + maThuoc + ". Vui lòng kiểm tra lại!",
+                            "Lỗi dữ liệu", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                Date hsd = thuoc.getHsd(); // hoặc getHanSuDung(), tùy class của bạn
+                if (hsd != null && hsd.before(new Date())) {
+                    JOptionPane.showMessageDialog(this,
+                            "Thuốc '" + thuoc.getTenThuoc() + "' đã hết hạn! Không thể tạo hóa đơn.",
+                            "Cảnh báo hết hạn",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return; // Dừng lại, không cho tạo hóa đơn!
+                }
+            }
             // Lưu hóa đơn vào cơ sở dữ liệu
             boolean isAdded = HoaDonDAO.them(hoaDon);
 
             if (isAdded) {
-              
+
                 int chon = JOptionPane.showConfirmDialog(
                         this,
                         "Bạn có muốn in hóa đơn không?",

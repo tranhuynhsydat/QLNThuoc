@@ -68,6 +68,7 @@ public class Main extends javax.swing.JFrame {
 
     public Main(TaiKhoan tk) {
         this.taiKhoan = tk;
+        setTitle("Phần mềm quản lý hiệu thuốc tây Ba Tri - Bến Tre");
 
         initComponents();
         setLocationRelativeTo(null);

@@ -26,6 +26,8 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         loginLayout();
         setLocationRelativeTo(null);
+        setTitle("Phần mềm quản lý hiệu thuốc tây Ba Tri - Bến Tre");
+
     }
 
     /**
